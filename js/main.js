@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-            if(targetId === '#') return;
-            
+            if (targetId === '#') return;
+
             const targetElement = document.querySelector(targetId);
-            if(targetElement) {
+            if (targetElement) {
                 const navHeight = navbar.offsetHeight;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - navHeight;
-  
+
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            
+
             // Flip hamburger to 'X'
             const icon = menuToggle.querySelector('i');
             if (navLinks.classList.contains('active')) {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
                 const icon = menuToggle.querySelector('i');
-                if(icon) {
+                if (icon) {
                     icon.classList.remove('fa-xmark');
                     icon.classList.add('fa-bars');
                 }
@@ -86,23 +86,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Auto-scroll Mobile Carousels
     const carousels = document.querySelectorAll('.pain-grid, .programs-grid');
-    
+
     carousels.forEach(carousel => {
         let autoScrollInterval;
 
         const startAutoScroll = () => {
             if (window.innerWidth > 768) return; // Activar solo en móvil
-            
+
             clearInterval(autoScrollInterval);
             autoScrollInterval = setInterval(() => {
                 // Seleccionamos la primera tarjeta para medir el avance
                 const firstCard = carousel.querySelector('div');
-                if(!firstCard) return;
+                if (!firstCard) return;
 
                 const cardWidth = firstCard.offsetWidth;
                 const gap = 24; // 1.5rem aprox
                 const scrollAmount = cardWidth + gap;
-                
+
                 // Si llegamos al final, volver al inicio
                 if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
                     carousel.scrollTo({

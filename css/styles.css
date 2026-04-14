@@ -158,16 +158,15 @@ a {
 }
 
 .navbar-logo {
-    height: 55px; /* Altura física conservada para no estirar la barra */
+    height: 45px; /* Altura ajustada para la imagen que ahora no tiene márgenes vacíos */
     width: auto;
     display: block;
-    transform: scale(1.35); /* Escala visual para hacerlo más grande sin ocupar más espacio estructural */
-    transform-origin: left center; /* Para que al crecer se expanda hacia la derecha */
+    transform: none; /* Quitamos la escala artificial gigante */
     transition: transform var(--transition-fast);
 }
 
 .navbar-logo:hover {
-    transform: scale(1.4); /* Hover adaptado a la nueva escala */
+    transform: scale(1.05); /* Efecto de crecimiento normal */
 }
 
 .nav-links {
