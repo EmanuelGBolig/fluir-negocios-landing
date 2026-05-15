@@ -83,43 +83,88 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. Auto-scroll Mobile Carousels
-    const carousels = document.querySelectorAll('.pain-grid, .programs-grid, .testimonials-grid');
+    // 5. Carousel Navigation (Mobile & Desktop with arrows)
+    const carouselWrappers = document.querySelectorAll('.carousel-wrapper');
 
-    carousels.forEach(carousel => {
-        let autoScrollInterval;
+    carouselWrappers.forEach(wrapper => {
+        const carousel = wrapper.querySelector('.pain-grid, .programs-grid, .testimonials-grid');
+        const prevBtn = wrapper.querySelector('.carousel-nav-btn.prev');
+        const nextBtn = wrapper.querySelector('.carousel-nav-btn.next');
+        const dotsContainer = wrapper.parentElement.querySelector('.carousel-dots');
+        
+        if (!carousel) return;
 
-        const startAutoScroll = () => {
-            if (window.innerWidth > 768) return;
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = setInterval(() => {
-                const firstCard = carousel.querySelector('div');
-                if (!firstCard) return;
-                const cardWidth = firstCard.offsetWidth;
-                const gap = 24;
-                const scrollAmount = cardWidth + gap;
+        const cards = carousel.children;
+        const totalCards = cards.length;
 
-                if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
-                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                }
-            }, 3500);
+        // Create dots
+        if (dotsContainer) {
+            for (let i = 0; i < totalCards; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    const cardWidth = cards[0].offsetWidth;
+                    const gap = 24;
+                    carousel.scrollTo({ left: i * (cardWidth + gap), behavior: 'smooth' });
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        const updateDots = () => {
+            if (!dotsContainer) return;
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 24;
+            const scrollIndex = Math.round(carousel.scrollLeft / (cardWidth + gap));
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === scrollIndex);
+            });
         };
 
+        const scrollNext = () => {
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 24;
+            const scrollAmount = cardWidth + gap;
+
+            if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        };
+
+        const scrollPrev = () => {
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 24;
+            const scrollAmount = cardWidth + gap;
+
+            if (carousel.scrollLeft <= 10) {
+                carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            }
+        };
+
+        if (nextBtn) nextBtn.addEventListener('click', scrollNext);
+        if (prevBtn) prevBtn.addEventListener('click', scrollPrev);
+
+        carousel.addEventListener('scroll', updateDots);
+
+        // Auto-scroll
+        let autoScrollInterval;
+        const startAutoScroll = () => {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = setInterval(scrollNext, 5500);
+        };
         const stopAutoScroll = () => clearInterval(autoScrollInterval);
 
         startAutoScroll();
-
-        window.addEventListener('resize', () => {
-            stopAutoScroll();
-            startAutoScroll();
-        });
-
+        wrapper.addEventListener('mouseenter', stopAutoScroll);
+        wrapper.addEventListener('mouseleave', startAutoScroll);
         carousel.addEventListener('touchstart', stopAutoScroll, { passive: true });
         carousel.addEventListener('touchend', startAutoScroll, { passive: true });
-        carousel.addEventListener('mouseenter', stopAutoScroll);
-        carousel.addEventListener('mouseleave', startAutoScroll);
     });
 
     // 6. Hero Background Slider
@@ -130,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heroSlides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % heroSlides.length;
             heroSlides[currentSlide].classList.add('active');
-        }, 5000);
+        }, 7000);
     }
 
     // 7. FAQ Accordion
