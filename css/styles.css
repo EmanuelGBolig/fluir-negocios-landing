@@ -2159,6 +2159,49 @@ a {
     padding: 6rem 0;
 }
 
+/* Success Case Detail (MAR Page) */
+.mar-case-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.mar-case-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    background: #fff;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.mar-case-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.mar-case-location {
+    font-weight: 600;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.mar-case-industry {
+    color: var(--color-dark-gray);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 .mar-case-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
