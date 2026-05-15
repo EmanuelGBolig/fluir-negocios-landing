@@ -350,22 +350,22 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.4) 100%);
+    background: linear-gradient(to right, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.4) 50%, transparent 100%);
     z-index: 1;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 620px;
+    max-width: 700px;
     margin: 0;
-    padding: 2.5rem;
-    background: rgba(15, 23, 42, 0.15);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .hero-eyebrow {
@@ -385,10 +385,12 @@ a {
 }
 
 .hero-title {
-    font-size: 3.2rem;
-    line-height: 1.15;
-    margin-bottom: 1.5rem;
-    color: var(--color-light);
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: #fff;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
 }
 
 .hero-title em {
