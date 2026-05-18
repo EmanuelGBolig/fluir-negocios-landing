@@ -2547,20 +2547,20 @@ a {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background-color: #0c2340;
+    background: var(--gradient-primary);
     color: #ffffff;
+    border: none;
     padding: 1rem 1.8rem;
     border-radius: var(--radius-full);
     font-weight: 700;
     font-size: 0.95rem;
     transition: transform var(--transition-norm), background-color var(--transition-norm), box-shadow var(--transition-norm);
-    box-shadow: 0 4px 14px rgba(12, 35, 64, 0.25);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-hero-primary:hover {
-    background-color: #051020;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(12, 35, 64, 0.35);
+    box-shadow: var(--shadow-glow);
     color: #ffffff;
 }
 
