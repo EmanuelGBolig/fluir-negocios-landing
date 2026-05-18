@@ -2624,12 +2624,22 @@ a {
 }
 
 .hero-img-new {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     border-radius: 28px;
-    display: block;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+    z-index: 1;
+}
+
+.hero-img-new.active {
+    opacity: 1;
+    z-index: 2;
 }
 
 /* Floating human badge */

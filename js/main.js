@@ -167,15 +167,15 @@ document.addEventListener('DOMContentLoaded', () => {
         carousel.addEventListener('touchend', startAutoScroll, { passive: true });
     });
 
-    // 6. Hero Background Slider
-    const heroSlides = document.querySelectorAll('.hero-slide');
+    // 6. Hero Image Slider (Inside the Card)
+    const heroSlides = document.querySelectorAll('.hero-img-new');
     if (heroSlides.length > 0) {
         let currentSlide = 0;
         setInterval(() => {
             heroSlides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % heroSlides.length;
             heroSlides[currentSlide].classList.add('active');
-        }, 7000);
+        }, 5500);
     }
 
     // 7. FAQ Accordion
