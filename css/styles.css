@@ -2486,12 +2486,41 @@ a {
 .hero-new {
     position: relative;
     padding: 140px 0 80px;
-    background-color: #ffffff;
+    background-color: #f5f9fc;
     border-bottom: 1px solid var(--color-border);
     overflow: hidden;
 }
 
+/* Modern Glowing Background Blobs */
+.hero-bg-glow-1 {
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 180, 216, 0.08) 0%, rgba(0, 180, 216, 0) 70%);
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-bg-glow-2 {
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(15, 82, 186, 0.05) 0%, rgba(15, 82, 186, 0) 70%);
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+    pointer-events: none;
+}
+
 .hero-container-new {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 4rem;
