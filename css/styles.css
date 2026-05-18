@@ -1571,6 +1571,23 @@ a {
     background: var(--color-absolute-white);
 }
 
+.page-hero--cde {
+    background: linear-gradient(135deg, #20c997, #48c6ef, #0f52ba);
+    /* Verde agua a celeste a azul */
+}
+
+.page-hero--cde::before {
+    background: var(--color-absolute-white);
+}
+
+.page-hero--cde .page-hero-sub {
+    color: #fff;
+}
+
+.page-hero--cde .page-hero-desc {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .back-link {
     display: inline-flex;
     align-items: center;
