@@ -105,7 +105,7 @@
                     <h1 class="hero-title-new">Dejá de trabajar<br><span>en tu negocio.</span><br>Empezá a <span>liderar en él.</span></h1>
                     <p class="hero-desc-new">Acompañamos a dueños de negocios de 2 a 30 empleados a facturar más, delegar con criterio y construir un equipo que funcione sin que vos tengas que estar en todo.</p>
                     <div class="hero-actions-new">
-                        <a href="#diagnostico" class="btn-hero-primary">Hacer diagnóstico gratuito <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="javascript:void(0)" id="btn-open-diagnostico" class="btn-hero-primary">Hacer diagnóstico gratuito <i class="fa-solid fa-arrow-right"></i></a>
                         <a href="#programas" class="btn-hero-secondary">Ver programas</a>
                     </div>
                     <p class="hero-meta-new"><span class="bullet-green">•</span> Sin compromiso · 45 min · Hablás con un consultor real</p>
@@ -426,10 +426,11 @@
             </div>
         </section>
 
-        <!-- Diagnóstico Interactivo -->
-        <section id="diagnostico" class="section-diagnostico">
-            <div class="container">
-                <div class="diagnostico-wrapper">
+        <!-- Diagnóstico Interactivo (Modal) -->
+        <section id="diagnostico" class="section-diagnostico modal-overlay">
+            <div class="container modal-container">
+                <div class="diagnostico-wrapper modal-content">
+                    <button type="button" id="btn-close-diagnostico" class="modal-close">&times;</button>
                     <div class="diagnostico-header text-center">
                         <h2 class="section-title">Diagnóstico Gratuito</h2>
                         <p class="section-subtitle">Descubrí qué tan dependiente de vos es tu negocio y cuál es el plan exacto para solucionarlo. Completá el test y recibí los resultados por mail junto a un PDF gratuito.</p>

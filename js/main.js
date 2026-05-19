@@ -204,7 +204,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 8. Diagnostic Form Logic
+    // 8. Modal Logic for Diagnóstico
+    const btnOpenDiag = document.getElementById('btn-open-diagnostico');
+    const btnCloseDiag = document.getElementById('btn-close-diagnostico');
+    const modalDiag = document.getElementById('diagnostico');
+
+    if (btnOpenDiag && modalDiag) {
+        btnOpenDiag.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalDiag.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+    }
+
+    if (btnCloseDiag && modalDiag) {
+        btnCloseDiag.addEventListener('click', () => {
+            modalDiag.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+
+    if (modalDiag) {
+        modalDiag.addEventListener('click', (e) => {
+            if (e.target === modalDiag || e.target.classList.contains('modal-container')) {
+                modalDiag.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // 9. Diagnostic Form Logic
     const diagForm = document.getElementById('form-diagnostico');
     if (diagForm) {
         const steps = Array.from(document.querySelectorAll('.form-step'));
