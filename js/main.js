@@ -1,4 +1,4 @@
-window.addEventListener('load', () => {
+﻿window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     if (preloader) {
         setTimeout(() => {
@@ -429,3 +429,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
