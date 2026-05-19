@@ -204,4 +204,185 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 8. Diagnostic Form Logic
+    const diagForm = document.getElementById('form-diagnostico');
+    if (diagForm) {
+        const steps = Array.from(document.querySelectorAll('.form-step'));
+        const nextBtns = document.querySelectorAll('.btn-next');
+        const prevBtns = document.querySelectorAll('.btn-prev');
+        const progressFill = document.getElementById('progress-fill');
+        const stepIndicators = document.querySelectorAll('.progress-steps .step');
+        let currentStep = 0;
+
+        function updateFormState() {
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index <= currentStep);
+            });
+
+            // Update progress bar (0%, 33%, 66%, 100%)
+            const progress = (currentStep / (steps.length - 1)) * 100;
+            if (progressFill) progressFill.style.width = `${progress}%`;
+        }
+
+        function validateStep(stepIndex) {
+            const stepEl = steps[stepIndex];
+            const inputs = stepEl.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            
+            // Clear previous styles
+            stepEl.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    const name = input.name;
+                    const isChecked = stepEl.querySelector(`input[name="${name}"]:checked`);
+                    if (!isChecked) {
+                        isValid = false;
+                        const group = input.closest('.radio-group');
+                        if (group) {
+                            group.style.border = "1px solid #ef4444";
+                            group.style.borderRadius = "8px";
+                            group.style.padding = "4px";
+                            setTimeout(() => { group.style.border = "none"; group.style.padding = "0"; }, 3000);
+                        }
+                    }
+                } else if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = "#ef4444";
+                    setTimeout(() => input.style.borderColor = "", 3000);
+                } else if (input.type === 'email') {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(input.value)) {
+                        isValid = false;
+                        input.style.borderColor = "#ef4444";
+                        setTimeout(() => input.style.borderColor = "", 3000);
+                    }
+                }
+            });
+
+            return isValid;
+        }
+
+        nextBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    updateFormState();
+                }
+            });
+        });
+
+        prevBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentStep--;
+                updateFormState();
+            });
+        });
+
+        diagForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateStep(currentStep)) return;
+
+            const submitBtn = document.getElementById('btn-submit-diag');
+            const spinner = document.getElementById('form-spinner');
+            
+            submitBtn.style.display = 'none';
+            if (spinner) spinner.style.display = 'block';
+
+            // Calculate Score
+            const getVal = (name) => {
+                const checked = document.querySelector(`input[name="${name}"]:checked`);
+                return checked ? checked.value : '';
+            };
+
+            const equipo = getVal('equipo');
+            
+            // A=1, B=2, C=3
+            const scoreMap = { 'A': 1, 'B': 2, 'C': 3 };
+            let totalScore = 0;
+            ['vacaciones', 'incendios', 'onboarding', 'procesos', 'finanzas'].forEach(name => {
+                const val = getVal(name);
+                if (scoreMap[val]) totalScore += scoreMap[val];
+            });
+
+            let dependencia = 'MEDIA';
+            let depClass = 'dependencia-media';
+            if (totalScore >= 12) {
+                dependencia = 'ALTA';
+                depClass = 'dependencia-alta';
+            } else if (totalScore <= 7) {
+                dependencia = 'BAJA';
+                depClass = 'dependencia-baja';
+            }
+
+            // Recommendation Logic
+            let plan = 'P.A.C.';
+            let justificacion = 'Ideal para dueños que necesitan salir de la operación diaria, ordenar las finanzas y construir mentalidad empresarial.';
+            let planLink = './pac.html';
+
+            if (dependencia === 'ALTA' && (equipo === '4-10' || equipo === '+10')) {
+                plan = 'M·A·R';
+                justificacion = 'Tienes equipo pero falta estructura. Este programa 1 a 1 instalará tableros de control y automatizaciones para darte libertad.';
+                planLink = './mar.html';
+            } else if (dependencia === 'MEDIA' && equipo === '+10' && getVal('onboarding') !== 'A') {
+                plan = 'C·D·E';
+                justificacion = 'Tu negocio ya tracciona, pero necesitas que tus mandos medios o encargados lideren con autonomía. Este programa forma a tu equipo.';
+                planLink = './cde.html';
+            }
+
+            // Update DOM
+            const resDep = document.getElementById('results-dependencia');
+            if (resDep) {
+                resDep.textContent = dependencia;
+                resDep.className = depClass;
+            }
+            
+            const resPlan = document.getElementById('results-plan');
+            if (resPlan) resPlan.textContent = plan;
+            
+            const resJust = document.getElementById('results-justificacion');
+            if (resJust) resJust.textContent = justificacion;
+            
+            const resLink = document.getElementById('results-link-plan');
+            if (resLink) resLink.href = planLink;
+
+            // Save result to hidden input for email
+            const inputResult = document.getElementById('input-diagnostico-resultado');
+            if (inputResult) {
+                inputResult.value = `Dependencia: ${dependencia} | Recomendación: ${plan}`;
+            }
+
+            // Submit Data via Fetch
+            const formData = new FormData(diagForm);
+            
+            try {
+                const response = await fetch(diagForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    currentStep++;
+                    updateFormState();
+                } else {
+                    alert('Hubo un error al enviar el formulario. Por favor, intenta nuevamente.');
+                    submitBtn.style.display = 'inline-block';
+                    if (spinner) spinner.style.display = 'none';
+                }
+            } catch (error) {
+                console.error(error);
+                // Si falla el fetch por CORS o algo, igual mostramos el resultado para no bloquear al usuario en la demo
+                currentStep++;
+                updateFormState();
+            }
+        });
+    }
 });

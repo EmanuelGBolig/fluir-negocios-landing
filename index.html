@@ -426,6 +426,179 @@
             </div>
         </section>
 
+        <!-- Diagnóstico Interactivo -->
+        <section id="diagnostico" class="section-diagnostico">
+            <div class="container">
+                <div class="diagnostico-wrapper">
+                    <div class="diagnostico-header text-center">
+                        <h2 class="section-title">Diagnóstico Gratuito</h2>
+                        <p class="section-subtitle">Descubrí qué tan dependiente de vos es tu negocio y cuál es el plan exacto para solucionarlo. Completá el test y recibí los resultados por mail junto a un PDF gratuito.</p>
+                    </div>
+
+                    <!-- En el atributo action, deberás poner tu endpoint real, ej. https://formspree.io/f/TUID o formsubmit.co -->
+                    <form id="form-diagnostico" class="diagnostico-form" action="https://formsubmit.co/ajax/contacto@fluircoaching.com" method="POST">
+                        <!-- Campos ocultos útiles para FormSubmit -->
+                        <input type="hidden" name="_subject" value="Nuevo Diagnóstico Fluir Negocios">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+
+                        <div class="form-progress">
+                            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+                            <div class="progress-steps">
+                                <span class="step active" data-step="1">1. Perfil</span>
+                                <span class="step" data-step="2">2. Operación</span>
+                                <span class="step" data-step="3">3. Desafío</span>
+                                <span class="step" data-step="4">Resultado</span>
+                            </div>
+                        </div>
+
+                        <!-- Paso 1 -->
+                        <div class="form-step active" id="step-1">
+                            <h3 class="step-title">Paso 1: Datos Básicos</h3>
+                            
+                            <div class="form-group">
+                                <label for="diag-name">Tu Nombre</label>
+                                <input type="text" id="diag-name" name="nombre" placeholder="Ej: Juan Pérez" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="diag-email">Tu Email (A donde te enviaremos el reporte)</label>
+                                <input type="email" id="diag-email" name="email" placeholder="Ej: juan@empresa.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>¿A qué sector pertenece tu empresa?</label>
+                                <div class="radio-group">
+                                    <label class="radio-card"><input type="radio" name="sector" value="Servicios" required><span>Servicios</span></label>
+                                    <label class="radio-card"><input type="radio" name="sector" value="E-commerce/Retail"><span>E-commerce / Retail</span></label>
+                                    <label class="radio-card"><input type="radio" name="sector" value="Manufactura/Produccion"><span>Manufactura / Producción</span></label>
+                                    <label class="radio-card"><input type="radio" name="sector" value="Otro"><span>Otro</span></label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>¿Cuántas personas forman tu equipo actualmente?</label>
+                                <div class="radio-group radio-group-grid">
+                                    <label class="radio-card"><input type="radio" name="equipo" value="Solo" required><span>Solo yo ("hombre/mujer orquesta")</span></label>
+                                    <label class="radio-card"><input type="radio" name="equipo" value="1-3"><span>1 a 3 personas</span></label>
+                                    <label class="radio-card"><input type="radio" name="equipo" value="4-10"><span>4 a 10 personas</span></label>
+                                    <label class="radio-card"><input type="radio" name="equipo" value="+10"><span>Más de 10 personas</span></label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions right">
+                                <button type="button" class="btn-primary btn-next">Siguiente <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 2 -->
+                        <div class="form-step" id="step-2">
+                            <h3 class="step-title">Paso 2: El Diagnóstico Operativo</h3>
+                            
+                            <div class="form-group">
+                                <label>Si te vas de vacaciones por 30 días seguidos y sin celular, ¿qué pasa con tu negocio?</label>
+                                <div class="radio-group radio-group-vertical">
+                                    <label class="radio-card"><input type="radio" name="vacaciones" value="A" required><span>El negocio crece o se mantiene igual de bien.</span></label>
+                                    <label class="radio-card"><input type="radio" name="vacaciones" value="B"><span>Sigue funcionando, pero las ventas bajan y hay desorganización.</span></label>
+                                    <label class="radio-card"><input type="radio" name="vacaciones" value="C"><span>Se frena por completo o es un caos absoluto.</span></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>¿Cuántas horas a la semana dedicás a "apagar incendios" o resolver tareas operativas que no te corresponden?</label>
+                                <div class="radio-group radio-group-vertical">
+                                    <label class="radio-card"><input type="radio" name="incendios" value="A" required><span>Menos de 5 horas.</span></label>
+                                    <label class="radio-card"><input type="radio" name="incendios" value="B"><span>Entre 10 y 20 horas.</span></label>
+                                    <label class="radio-card"><input type="radio" name="incendios" value="C"><span>Más de 30 horas. El día a día me consume.</span></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cuando ingresa un empleado nuevo, ¿cómo lo capacitás?</label>
+                                <div class="radio-group radio-group-vertical">
+                                    <label class="radio-card"><input type="radio" name="onboarding" value="A" required><span>Tenemos procesos documentados y un onboarding automático.</span></label>
+                                    <label class="radio-card"><input type="radio" name="onboarding" value="B"><span>Le explicamos sobre la marcha o le pasamos algunos apuntes básicos.</span></label>
+                                    <label class="radio-card"><input type="radio" name="onboarding" value="C"><span>Lo capacito yo mismo en el día a día (me quita muchísimo tiempo).</span></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>¿Qué porcentaje de tus procesos críticos (ventas, atención, entrega) están escritos paso a paso?</label>
+                                <div class="radio-group radio-group-vertical">
+                                    <label class="radio-card"><input type="radio" name="procesos" value="A" required><span>Más del 80% - Trabajamos con manuales operativos.</span></label>
+                                    <label class="radio-card"><input type="radio" name="procesos" value="B"><span>10% al 40% - Tenemos algunas cosas sueltas.</span></label>
+                                    <label class="radio-card"><input type="radio" name="procesos" value="C"><span>0% - Todo está en mi cabeza o en la de mi equipo.</span></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>¿Conocés con exactitud tu margen de ganancia neto y tu CAC del mes pasado?</label>
+                                <div class="radio-group radio-group-vertical">
+                                    <label class="radio-card"><input type="radio" name="finanzas" value="A" required><span>Sí, lo mido rigurosamente.</span></label>
+                                    <label class="radio-card"><input type="radio" name="finanzas" value="B"><span>Tengo una idea aproximada.</span></label>
+                                    <label class="radio-card"><input type="radio" name="finanzas" value="C"><span>No, me guío más por lo que hay en la cuenta del banco.</span></label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions split">
+                                <button type="button" class="btn-secondary btn-prev"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+                                <button type="button" class="btn-primary btn-next">Siguiente <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 3 -->
+                        <div class="form-step" id="step-3">
+                            <h3 class="step-title">Paso 3: La Pregunta Abierta</h3>
+                            
+                            <div class="form-group">
+                                <label for="diag-desafio">En tus propias palabras: ¿Cuál sentís que es el mayor desafío que te impide facturar el doble hoy mismo sin tener que trabajar el doble de horas?</label>
+                                <textarea id="diag-desafio" name="desafio_principal" rows="5" placeholder="Escribí acá tu mayor desafío..." required></textarea>
+                            </div>
+
+                            <!-- Input oculto para guardar la recomendación y enviarla por mail -->
+                            <input type="hidden" name="diagnostico_resultado" id="input-diagnostico-resultado" value="">
+                            
+                            <div class="form-actions split">
+                                <button type="button" class="btn-secondary btn-prev"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+                                <button type="submit" class="btn-primary" id="btn-submit-diag">Ver Resultados y Finalizar <i class="fa-solid fa-check"></i></button>
+                            </div>
+                            <div id="form-spinner" class="spinner-overlay" style="display: none;">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Procesando tu diagnóstico...
+                            </div>
+                            <p class="form-disclaimer text-center mt-1" style="font-size:0.85rem; color:#64748b;">Al finalizar recibirás una copia en tu email.</p>
+                        </div>
+
+                        <!-- Paso 4 (Resultados - Oculto hasta enviar) -->
+                        <div class="form-step" id="step-results">
+                            <div class="results-card">
+                                <div class="results-icon">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </div>
+                                <h3 class="results-title">¡Diagnóstico Completado!</h3>
+                                <div class="results-dependencia-box">
+                                    Nivel de dependencia operativa:
+                                    <strong id="results-dependencia" class="dependencia-alta">ALTO</strong>
+                                </div>
+                                
+                                <div class="results-recommendation">
+                                    <p>Según tus respuestas, el programa ideal para resolver tus cuellos de botella actuales es:</p>
+                                    <div class="recommended-badge" id="results-plan">P.A.C.</div>
+                                    <p id="results-justificacion" class="results-justificacion">...</p>
+                                </div>
+
+                                <div class="results-actions mt-2">
+                                    <a href="./pac.html" id="results-link-plan" class="btn-primary btn-large mb-1" style="display:block;">Ver detalles del Programa</a>
+                                    <!-- Reemplaza el href con el enlace real al PDF -->
+                                    <a href="#" target="_blank" class="btn-secondary" style="display:block;"><i class="fa-regular fa-file-pdf"></i> Descargar Guía Gratuita</a>
+                                </div>
+                                <p class="text-center mt-1" style="font-size:0.9rem; color:#10b981;"><i class="fa-solid fa-circle-check"></i> Enviamos una copia a tu email.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <!-- Equipo -->
         <section id="quienes-somos" class="section-team" style="background-color: #f0f7fc; padding: 6rem 0;">
             <div class="container">
