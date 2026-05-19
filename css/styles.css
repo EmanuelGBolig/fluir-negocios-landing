@@ -2991,7 +2991,6 @@ a {
 
 .recommended-badge {
     display: inline-block;
-    background: var(--gradient-primary);
     color: white;
     font-size: 1.8rem;
     font-weight: 800;
@@ -2999,6 +2998,18 @@ a {
     border-radius: 8px;
     margin: 1rem 0;
     font-family: var(--font-heading);
+}
+
+.recommended-badge.badge-mar {
+    background: linear-gradient(135deg, #050b14, #0056b3);
+}
+
+.recommended-badge.badge-pac {
+    background: linear-gradient(135deg, #0056b3 0%, #2ecc71 100%);
+}
+
+.recommended-badge.badge-cde {
+    background: linear-gradient(135deg, #20c997 0%, #48c6ef 100%);
 }
 
 .results-justificacion {

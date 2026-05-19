@@ -324,15 +324,18 @@ document.addEventListener('DOMContentLoaded', () => {
             let plan = 'P.A.C.';
             let justificacion = 'Ideal para dueños que necesitan salir de la operación diaria, ordenar las finanzas y construir mentalidad empresarial.';
             let planLink = './pac.html';
+            let planClass = 'badge-pac';
 
             if (dependencia === 'ALTA' && (equipo === '4-10' || equipo === '+10')) {
                 plan = 'M·A·R';
                 justificacion = 'Tienes equipo pero falta estructura. Este programa 1 a 1 instalará tableros de control y automatizaciones para darte libertad.';
                 planLink = './mar.html';
+                planClass = 'badge-mar';
             } else if (dependencia === 'MEDIA' && equipo === '+10' && getVal('onboarding') !== 'A') {
                 plan = 'C·D·E';
                 justificacion = 'Tu negocio ya tracciona, pero necesitas que tus mandos medios o encargados lideren con autonomía. Este programa forma a tu equipo.';
                 planLink = './cde.html';
+                planClass = 'badge-cde';
             }
 
             // Update DOM
@@ -343,7 +346,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const resPlan = document.getElementById('results-plan');
-            if (resPlan) resPlan.textContent = plan;
+            if (resPlan) {
+                resPlan.textContent = plan;
+                resPlan.className = 'recommended-badge ' + planClass;
+            }
             
             const resJust = document.getElementById('results-justificacion');
             if (resJust) resJust.textContent = justificacion;
