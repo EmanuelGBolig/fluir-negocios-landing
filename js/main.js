@@ -405,6 +405,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 
                 if (response.ok) {
+                    // Trigger PDF download
+                    const link = document.createElement('a');
+                    link.href = './assets/Fluir_Negocios.pdf';
+                    link.download = 'Fluir_Negocios.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
                     currentStep++;
                     updateFormState();
                 } else {
