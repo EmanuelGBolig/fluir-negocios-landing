@@ -1,4 +1,4 @@
-﻿window.addEventListener('load', () => {
+window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     if (preloader) {
         setTimeout(() => {
@@ -405,19 +405,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 
                 if (response.ok) {
-                    // Trigger PDF download
-                    const link = document.createElement('a');
-                    link.href = './assets/Fluir_Negocios.pdf';
-                    link.download = 'Fluir_Negocios.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-
                     currentStep++;
                     updateFormState();
+                    const dlLink = document.querySelector('a[download="Fluir_Negocios.pdf"]');
+                    if(dlLink) setTimeout(() => dlLink.click(), 500);
                 } else {
                     alert('Hubo un error al enviar el formulario. Por favor, intenta nuevamente.');
-                    submitBtn.style.display = 'inline-block';
+                    const submitBtn = document.getElementById('btn-submit-diag');
+                    if (submitBtn) submitBtn.style.display = 'inline-block';
+                    const spinner = document.getElementById('form-spinner');
                     if (spinner) spinner.style.display = 'none';
                 }
             } catch (error) {
@@ -425,8 +421,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Si falla el fetch por CORS o algo, igual mostramos el resultado para no bloquear al usuario en la demo
                 currentStep++;
                 updateFormState();
+                const dlLink = document.querySelector('a[download="Fluir_Negocios.pdf"]');
+                if(dlLink) setTimeout(() => dlLink.click(), 500);
             }
         });
     }
 });
-
