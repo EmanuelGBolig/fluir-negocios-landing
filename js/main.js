@@ -436,14 +436,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let planLink = './pages/pac.html';
             let planClass = 'badge-pac';
 
-            if (dependencia === 'ALTA' && (equipo === '4-10' || equipo === '+10')) {
+            // M·A·R: negocio con equipo grande (+10), dependencia alta Y finanzas completamente descontroladas
+            if (dependencia === 'ALTA' && equipo === '+10' && getVal('finanzas') === 'C') {
                 plan = 'M·A·R';
-                justificacion = 'Tienes equipo pero falta estructura. Este programa 1 a 1 instalará tableros de control y automatizaciones para darte libertad.';
+                justificacion = 'Tienes un equipo numeroso pero la operación sigue dependiendo de vos. Este programa 1 a 1 instala sistemas, tableros y automatizaciones para que el negocio funcione sin tu presencia constante.';
                 planLink = './pages/mar.html';
                 planClass = 'badge-mar';
-            } else if (dependencia === 'MEDIA' && equipo === '+10' && getVal('onboarding') !== 'A') {
+            // C·D·E: equipo grande (+10), dependencia media/alta, onboarding caótico Y procesos sin documentar
+            } else if (equipo === '+10' && (dependencia === 'MEDIA' || dependencia === 'ALTA') && getVal('onboarding') === 'C' && getVal('procesos') === 'C') {
                 plan = 'C·D·E';
-                justificacion = 'Tu negocio ya tracciona, pero necesitas que tus mandos medios o encargados lideren con autonomía. Este programa forma a tu equipo.';
+                justificacion = 'Tu negocio tiene escala, pero necesitás que tus encargados lideren con autonomía real. Este programa desarrolla a tus mandos medios para que el equipo funcione sin depender de vos en cada decisión.';
                 planLink = './pages/cde.html';
                 planClass = 'badge-cde';
             }
