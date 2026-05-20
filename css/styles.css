@@ -3262,3 +3262,46 @@ button.btn-secondary:hover {
         gap: 0.4rem;
     }
 }
+
+/* ===================================
+   Botón Volver a realizar diagnóstico
+   =================================== */
+.btn-restart-diag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.8rem 1.8rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all var(--transition-norm);
+    margin-top: 0.4rem;
+    border: 1.5px dashed rgba(15, 82, 186, 0.25);
+    background-color: transparent;
+    color: #64748b;
+}
+
+.btn-restart-diag:hover {
+    background-color: rgba(15, 82, 186, 0.05);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-restart-diag:active {
+    transform: translateY(0);
+}
+
+.btn-restart-diag i {
+    font-size: 0.95rem;
+    transition: transform var(--transition-norm);
+}
+
+.btn-restart-diag:hover i {
+    transform: rotate(-180deg);
+}
