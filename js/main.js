@@ -407,8 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     currentStep++;
                     updateFormState();
-                    const dlLink = document.querySelector('a[download="Fluir_Negocios.pdf"]');
-                    if(dlLink) setTimeout(() => dlLink.click(), 500);
                 } else {
                     alert('Hubo un error al enviar el formulario. Por favor, intenta nuevamente.');
                     const submitBtn = document.getElementById('btn-submit-diag');
@@ -421,8 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Si falla el fetch por CORS o algo, igual mostramos el resultado para no bloquear al usuario en la demo
                 currentStep++;
                 updateFormState();
-                const dlLink = document.querySelector('a[download="Fluir_Negocios.pdf"]');
-                if(dlLink) setTimeout(() => dlLink.click(), 500);
             }
         });
     }
