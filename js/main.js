@@ -10,6 +10,24 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // UTM Parameter Capture & Storage
+    function captureUTMParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const utms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        
+        utms.forEach(utm => {
+            const val = urlParams.get(utm);
+            if (val) {
+                try {
+                    sessionStorage.setItem('fn_' + utm, val);
+                } catch (e) {
+                    console.error("sessionStorage error:", e);
+                }
+            }
+        });
+    }
+    captureUTMParameters();
+
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
 
@@ -214,6 +232,18 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             modalDiag.classList.add('active');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+            // Trigger Meta Pixel Custom Event for starting diagnostic
+            if (typeof fbq === 'function') {
+                try {
+                    const savedResult = localStorage.getItem('fn_diagnostico_resultado');
+                    if (!savedResult) {
+                        fbq('trackCustom', 'DiagnosticStart');
+                    }
+                } catch (err) {
+                    console.error("Meta Pixel Error:", err);
+                }
+            }
         });
     }
 
@@ -338,6 +368,18 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 if (validateStep(currentStep)) {
+                    // Trigger Meta Pixel Custom Events for step progress
+                    if (typeof fbq === 'function') {
+                        try {
+                            if (currentStep === 0) {
+                                fbq('trackCustom', 'DiagnosticStep1Complete');
+                            } else if (currentStep === 1) {
+                                fbq('trackCustom', 'DiagnosticStep2Complete');
+                            }
+                        } catch (err) {
+                            console.error("Meta Pixel Error:", err);
+                        }
+                    }
                     currentStep++;
                     updateFormState();
                 }
@@ -445,6 +487,48 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error("Error saving diagnostic to localStorage:", err);
             }
+
+            // Trigger Meta Pixel Conversion Event (Lead)
+            if (typeof fbq === 'function') {
+                try {
+                    const nameEl = document.getElementById('diag-name');
+                    const emailEl = document.getElementById('diag-email');
+                    const nameVal = nameEl ? nameEl.value.trim().toLowerCase() : '';
+                    const emailVal = emailEl ? emailEl.value.trim().toLowerCase() : '';
+                    
+                    fbq('track', 'Lead', {
+                        content_name: 'Diagnóstico de Dependencia Operativa',
+                        predicted_plan: plan,
+                        dependencia_level: dependencia
+                    }, {
+                        em: emailVal,
+                        fn: nameVal
+                    });
+                } catch (err) {
+                    console.error("Meta Pixel Lead Tracking Error:", err);
+                }
+            }
+
+            // Inject UTM parameters as hidden fields for Formspree / Email
+            const utms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+            utms.forEach(utm => {
+                try {
+                    const val = sessionStorage.getItem('fn_' + utm);
+                    if (val) {
+                        let input = document.getElementById('input-diag-' + utm);
+                        if (!input) {
+                            input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.id = 'input-diag-' + utm;
+                            input.name = utm;
+                            diagForm.appendChild(input);
+                        }
+                        input.value = val;
+                    }
+                } catch (err) {
+                    console.error("Error injecting UTM inputs:", err);
+                }
+            });
 
             // Submit Data via Fetch
             const formData = new FormData(diagForm);

@@ -48,8 +48,7 @@
     </script>
     -->
 
-    <!-- Meta Pixel — reemplazar XXXXXXXXXXXXXXXX con tu Pixel ID real -->
-    <!--
+    <!-- Meta Pixel — Reemplaza TU_PIXEL_ID con tu identificador numérico de Meta Ads -->
     <script>
       !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -58,10 +57,12 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window,document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', 'XXXXXXXXXXXXXXXX');
+      fbq('init', 'TU_PIXEL_ID');
       fbq('track', 'PageView');
     </script>
-    -->
+    <noscript>
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=TU_PIXEL_ID&ev=PageView&noscript=1" />
+    </noscript>
 </head>
 
 <body>
