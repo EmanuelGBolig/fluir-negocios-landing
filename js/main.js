@@ -266,7 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (resJust) resJust.textContent = data.justificacion;
                 
                 const resLink = document.getElementById('results-link-plan');
-                if (resLink) resLink.href = data.planLink;
+                if (resLink) {
+                    let planLink = data.planLink;
+                    if (planLink && planLink.startsWith('./') && !planLink.includes('/pages/')) {
+                        planLink = planLink.replace('./', './pages/');
+                    }
+                    resLink.href = planLink;
+                }
                 
                 // Set to the results step
                 currentStep = steps.length - 1;
@@ -385,18 +391,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Recommendation Logic
             let plan = 'P.A.C.';
             let justificacion = 'Ideal para dueños que necesitan salir de la operación diaria, ordenar las finanzas y construir mentalidad empresarial.';
-            let planLink = './pac.html';
+            let planLink = './pages/pac.html';
             let planClass = 'badge-pac';
 
             if (dependencia === 'ALTA' && (equipo === '4-10' || equipo === '+10')) {
                 plan = 'M·A·R';
                 justificacion = 'Tienes equipo pero falta estructura. Este programa 1 a 1 instalará tableros de control y automatizaciones para darte libertad.';
-                planLink = './mar.html';
+                planLink = './pages/mar.html';
                 planClass = 'badge-mar';
             } else if (dependencia === 'MEDIA' && equipo === '+10' && getVal('onboarding') !== 'A') {
                 plan = 'C·D·E';
                 justificacion = 'Tu negocio ya tracciona, pero necesitas que tus mandos medios o encargados lideren con autonomía. Este programa forma a tu equipo.';
-                planLink = './cde.html';
+                planLink = './pages/cde.html';
                 planClass = 'badge-cde';
             }
 
