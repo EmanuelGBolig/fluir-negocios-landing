@@ -2719,7 +2719,7 @@ button.btn-secondary:hover {
     display: flex;
     justify-content: center;
     position: relative;
-    margin-top: -15rem; /* Elevates component to align with the main title */
+    margin-top: -11rem; /* Elevates component to align with the main title but slightly lower as requested */
 }
 
 .hero-img-card {
