@@ -243,6 +243,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const stepIndicators = document.querySelectorAll('.progress-steps .step');
         let currentStep = 0;
 
+        // Check if there is a saved diagnostic result in localStorage on startup
+        const savedResult = localStorage.getItem('fn_diagnostico_resultado');
+        if (savedResult) {
+            try {
+                const data = JSON.parse(savedResult);
+                
+                // Update DOM with saved results
+                const resDep = document.getElementById('results-dependencia');
+                if (resDep) {
+                    resDep.textContent = data.dependencia;
+                    resDep.className = data.depClass;
+                }
+                
+                const resPlan = document.getElementById('results-plan');
+                if (resPlan) {
+                    resPlan.textContent = data.plan;
+                    resPlan.className = 'recommended-badge ' + data.planClass;
+                }
+                
+                const resJust = document.getElementById('results-justificacion');
+                if (resJust) resJust.textContent = data.justificacion;
+                
+                const resLink = document.getElementById('results-link-plan');
+                if (resLink) resLink.href = data.planLink;
+                
+                // Set to the results step
+                currentStep = steps.length - 1;
+            } catch (err) {
+                console.error("Error loading saved diagnosis:", err);
+                localStorage.removeItem('fn_diagnostico_resultado');
+            }
+        }
+
         function updateFormState() {
             steps.forEach((step, index) => {
                 step.classList.toggle('active', index === currentStep);
@@ -392,6 +425,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputResult.value = `Dependencia: ${dependencia} | Recomendación: ${plan}`;
             }
 
+            // Save result to localStorage for client-side persistence
+            try {
+                const resultData = {
+                    dependencia,
+                    depClass,
+                    plan,
+                    planClass,
+                    justificacion,
+                    planLink
+                };
+                localStorage.setItem('fn_diagnostico_resultado', JSON.stringify(resultData));
+            } catch (err) {
+                console.error("Error saving diagnostic to localStorage:", err);
+            }
+
             // Submit Data via Fetch
             const formData = new FormData(diagForm);
             
@@ -421,5 +469,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateFormState();
             }
         });
+
+        // Restart/Retake Diagnosis logic
+        const btnRestartDiag = document.getElementById('btn-restart-diag');
+        if (btnRestartDiag) {
+            btnRestartDiag.addEventListener('click', () => {
+                localStorage.removeItem('fn_diagnostico_resultado');
+                currentStep = 0;
+                diagForm.reset();
+                
+                // Restore submit button and spinner visibility
+                const submitBtn = document.getElementById('btn-submit-diag');
+                if (submitBtn) submitBtn.style.display = 'inline-block';
+                const spinner = document.getElementById('form-spinner');
+                if (spinner) spinner.style.display = 'none';
+                
+                updateFormState();
+            });
+        }
+
+        // Initialize form state step alignment on load
+        updateFormState();
     }
 });
