@@ -3180,6 +3180,21 @@ button.btn-secondary:hover {
     line-height: 1.6;
 }
 
+/* Resultados Actions Unified Buttons */
+.results-actions .btn-primary,
+.results-actions .btn-secondary,
+.results-actions .btn-wpp,
+.results-actions .btn-restart-diag {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    margin: 0 !important;
+}
+
 @media (max-width: 768px) {
     .modal-overlay {
         padding: 1rem 0.5rem;
