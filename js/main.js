@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     captureUTMParameters();
 
-    // 0. PAC Alert Bar — dismiss + seguir a la navbar con ResizeObserver
+    // 0. PAC Alert Bar — dismiss + seguir a la navbar
     const pacAlertBar = document.getElementById('pac-alert-bar');
     const pacAlertClose = document.getElementById('pac-alert-close');
 
@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const navbarEl = document.querySelector('.navbar');
-        let observer;
 
         // Función que ajusta el top del alert al tamaño actual de la navbar
         const syncAlertTop = () => {
@@ -48,12 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        if (navbarEl && pacAlertBar.style.display !== 'none') {
-            // Usar ResizeObserver para detectar cambios de altura al instante (incluso durante transiciones de scroll/resize)
-            observer = new ResizeObserver(() => {
-                syncAlertTop();
-            });
-            observer.observe(navbarEl);
+        // Sincronizar en scroll, resize, al cargar y al finalizar transiciones de la navbar
+        window.addEventListener('scroll', syncAlertTop, { passive: true });
+        window.addEventListener('resize', syncAlertTop, { passive: true });
+        window.addEventListener('load', syncAlertTop, { passive: true });
+        
+        if (navbarEl) {
+            navbarEl.addEventListener('transitionend', syncAlertTop);
         }
 
         // Sincronización inicial
@@ -63,8 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
             pacAlertClose.addEventListener('click', () => {
                 pacAlertBar.classList.add('hidden');
                 setTimeout(() => { pacAlertBar.style.display = 'none'; }, 380);
-                if (observer) {
-                    observer.disconnect();
+                window.removeEventListener('scroll', syncAlertTop);
+                window.removeEventListener('resize', syncAlertTop);
+                window.removeEventListener('load', syncAlertTop);
+                if (navbarEl) {
+                    navbarEl.removeEventListener('transitionend', syncAlertTop);
                 }
                 try { sessionStorage.setItem('fn_pac_alert_closed', '1'); } catch(e) {}
             });
