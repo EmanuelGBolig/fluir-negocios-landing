@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carouselWrappers = document.querySelectorAll('.carousel-wrapper');
 
     carouselWrappers.forEach(wrapper => {
-        const carousel = wrapper.querySelector('.pain-grid, .programs-grid, .testimonials-grid');
+        const carousel = wrapper.querySelector('.pain-grid, .programs-grid, .testimonials-grid, .team-grid');
         const prevBtn = wrapper.querySelector('.carousel-nav-btn.prev');
         const nextBtn = wrapper.querySelector('.carousel-nav-btn.next');
         const dotsContainer = wrapper.parentElement.querySelector('.carousel-dots');
