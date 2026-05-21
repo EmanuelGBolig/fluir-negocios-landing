@@ -876,9 +876,28 @@ button.btn-secondary:hover {
 /* Testimonials */
 .section-testimonials {
     padding: 6rem 0;
-    background: var(--color-light);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    background: linear-gradient(135deg, #081630 0%, #0d3b87 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-testimonials .section-subtitle {
+    color: #cbd5e1;
+}
+
+.clientes-action {
+    margin-top: 4.5rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.section-testimonials .carousel-dots .dot {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.section-testimonials .carousel-dots .dot.active {
+    background: var(--color-secondary);
 }
 
 .testimonials-grid {
@@ -3673,7 +3692,9 @@ button.btn-secondary:hover {
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 2.5rem;
-    display: inline-block;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 .clientes-carousel-wrapper {
