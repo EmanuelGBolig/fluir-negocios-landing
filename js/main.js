@@ -33,11 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pacAlertClose = document.getElementById('pac-alert-close');
 
     if (pacAlertBar) {
-        // Si ya lo cerró en esta sesión, ocultarlo directo
-        if (sessionStorage.getItem('fn_pac_alert_closed')) {
-            pacAlertBar.style.display = 'none';
-        }
-
         const navbarEl = document.querySelector('.navbar');
 
         // Función que ajusta el top del alert al tamaño actual de la navbar
@@ -69,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (navbarEl) {
                     navbarEl.removeEventListener('transitionend', syncAlertTop);
                 }
-                try { sessionStorage.setItem('fn_pac_alert_closed', '1'); } catch(e) {}
             });
         }
     }
