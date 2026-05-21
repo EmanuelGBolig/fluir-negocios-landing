@@ -3307,6 +3307,136 @@ button.btn-secondary:hover {
 }
 
 /* ===================================================
+   PAC ALERT BAR
+   =================================================== */
+.pac-alert-bar {
+    position: fixed;
+    top: 73px; /* justo debajo del navbar */
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background: linear-gradient(90deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    border-bottom: 2px solid #e94560;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 1.5rem;
+    gap: 1rem;
+    box-shadow: 0 4px 20px rgba(233, 69, 96, 0.25);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s ease;
+}
+
+.pac-alert-bar.hidden {
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pac-alert-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.pac-alert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #e94560;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.5); }
+    50%       { box-shadow: 0 0 0 6px rgba(233, 69, 96, 0); }
+}
+
+.pac-alert-text {
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.pac-alert-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #e94560;
+    color: #fff !important;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.pac-alert-cta:hover {
+    background: #c73652;
+    transform: scale(1.04);
+}
+
+.pac-alert-cta i {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.pac-alert-cta:hover i {
+    transform: translateX(3px);
+}
+
+.pac-alert-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.3rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+    transition: color 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+}
+
+.pac-alert-close:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+@media (max-width: 768px) {
+    .pac-alert-bar {
+        top: 66px;
+        padding: 0.5rem 1rem;
+        flex-wrap: wrap;
+    }
+
+    .pac-alert-text {
+        font-size: 0.8rem;
+        white-space: normal;
+    }
+
+    .pac-alert-badge {
+        font-size: 0.68rem;
+    }
+}
+
+
+/* ===================================================
    SECCIÓN EQUIPO
    =================================================== */
 .section-team {

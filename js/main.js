@@ -28,6 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     captureUTMParameters();
 
+    // 0. PAC Alert Bar dismiss
+    const pacAlertBar = document.getElementById('pac-alert-bar');
+    const pacAlertClose = document.getElementById('pac-alert-close');
+
+    if (pacAlertBar && pacAlertClose) {
+        // Si ya lo cerró en esta sesión, ocultarlo directo
+        if (sessionStorage.getItem('fn_pac_alert_closed')) {
+            pacAlertBar.style.display = 'none';
+        }
+        pacAlertClose.addEventListener('click', () => {
+            pacAlertBar.classList.add('hidden');
+            setTimeout(() => { pacAlertBar.style.display = 'none'; }, 380);
+            try { sessionStorage.setItem('fn_pac_alert_closed', '1'); } catch(e) {}
+        });
+    }
+
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
 
