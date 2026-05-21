@@ -3307,6 +3307,119 @@ button.btn-secondary:hover {
 }
 
 /* ===================================================
+   SECCIÓN EQUIPO
+   =================================================== */
+.section-team {
+    background-color: #f0f7fc;
+    padding: 6rem 0;
+}
+
+.section-team .section-title {
+    margin-bottom: 3rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+}
+
+.team-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    transition: transform var(--transition-norm), box-shadow var(--transition-norm);
+    display: flex;
+    flex-direction: column;
+}
+
+.team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.team-card-img-wrap {
+    width: 100%;
+    aspect-ratio: 3 / 3.5;
+    overflow: hidden;
+    background: #e8f0fb;
+}
+
+.team-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.team-card:hover .team-card-img {
+    transform: scale(1.04);
+}
+
+.team-card-body {
+    padding: 1.4rem 1.5rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.team-card-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-primary);
+    background: rgba(15, 82, 186, 0.08);
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-full);
+    display: inline-block;
+    width: fit-content;
+}
+
+.team-card-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin: 0;
+}
+
+.team-card-desc {
+    font-size: 0.9rem;
+    color: var(--color-dark-gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Mobile: carrusel horizontal */
+@media (max-width: 768px) {
+    .team-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.2rem;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .team-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .team-card {
+        min-width: 78vw;
+        max-width: 78vw;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+    }
+}
+
+
+/* ===================================================
    BANNER TICKER (Green Scrolling Strip)
    =================================================== */
 .hero-banner-divider {
