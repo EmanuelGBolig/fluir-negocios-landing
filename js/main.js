@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     captureUTMParameters();
 
-    // 0. PAC Alert Bar — dismiss + seguir a la navbar
+    // 0. PAC Alert Bar — dismiss + seguir a la navbar con ResizeObserver
     const pacAlertBar = document.getElementById('pac-alert-bar');
     const pacAlertClose = document.getElementById('pac-alert-close');
 
@@ -38,24 +38,34 @@ document.addEventListener('DOMContentLoaded', () => {
             pacAlertBar.style.display = 'none';
         }
 
+        const navbarEl = document.querySelector('.navbar');
+        let observer;
+
         // Función que ajusta el top del alert al tamaño actual de la navbar
         const syncAlertTop = () => {
-            const navbarEl = document.querySelector('.navbar');
             if (navbarEl && pacAlertBar.style.display !== 'none') {
                 pacAlertBar.style.top = navbarEl.offsetHeight + 'px';
             }
         };
 
-        // Sincronizar al cargar y en cada scroll/resize
+        if (navbarEl && pacAlertBar.style.display !== 'none') {
+            // Usar ResizeObserver para detectar cambios de altura al instante (incluso durante transiciones de scroll/resize)
+            observer = new ResizeObserver(() => {
+                syncAlertTop();
+            });
+            observer.observe(navbarEl);
+        }
+
+        // Sincronización inicial
         syncAlertTop();
-        window.addEventListener('scroll', syncAlertTop, { passive: true });
-        window.addEventListener('resize', syncAlertTop, { passive: true });
 
         if (pacAlertClose) {
             pacAlertClose.addEventListener('click', () => {
                 pacAlertBar.classList.add('hidden');
                 setTimeout(() => { pacAlertBar.style.display = 'none'; }, 380);
-                window.removeEventListener('scroll', syncAlertTop);
+                if (observer) {
+                    observer.disconnect();
+                }
                 try { sessionStorage.setItem('fn_pac_alert_closed', '1'); } catch(e) {}
             });
         }
