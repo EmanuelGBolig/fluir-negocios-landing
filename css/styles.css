@@ -3305,3 +3305,105 @@ button.btn-secondary:hover {
 .btn-restart-diag:hover i {
     transform: rotate(-180deg);
 }
+
+/* ===================================================
+   BANNER TICKER (Green Scrolling Strip)
+   =================================================== */
+.hero-banner-divider {
+    background: linear-gradient(90deg, #00a86b 0%, #00c27a 50%, #00b472 100%);
+    overflow: hidden;
+    padding: 0;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.banner-ticker-track {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.banner-ticker-inner {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: ticker-scroll 28s linear infinite;
+    will-change: transform;
+}
+
+.banner-ticker-inner:hover {
+    animation-play-state: paused;
+}
+
+.banner-ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0 1.5rem;
+    white-space: nowrap;
+}
+
+.banner-ticker-item i {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    flex-shrink: 0;
+}
+
+.banner-ticker-item strong {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.btn-banner-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    padding: 0.25rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 0.4rem;
+}
+
+.btn-banner-action:hover {
+    background: rgba(255, 255, 255, 0.32);
+    border-color: rgba(255, 255, 255, 0.85);
+    transform: scale(1.04);
+}
+
+@keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+}
+
+@media (max-width: 768px) {
+    .hero-banner-divider {
+        height: 40px;
+    }
+    .banner-ticker-item {
+        font-size: 0.8rem;
+        padding: 0 1rem;
+    }
+    .btn-banner-action {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.7rem;
+    }
+}
