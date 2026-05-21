@@ -3311,7 +3311,7 @@ button.btn-secondary:hover {
    =================================================== */
 .pac-alert-bar {
     position: fixed;
-    top: 73px; /* justo debajo del navbar */
+    top: 0; /* ajustado dinámicamente por JS según altura real de la navbar */
     left: 0;
     width: 100%;
     z-index: 999;
@@ -3421,7 +3421,6 @@ button.btn-secondary:hover {
 
 @media (max-width: 768px) {
     .pac-alert-bar {
-        top: 66px;
         padding: 0.5rem 1rem;
         flex-wrap: wrap;
     }

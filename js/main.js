@@ -28,20 +28,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     captureUTMParameters();
 
-    // 0. PAC Alert Bar dismiss
+    // 0. PAC Alert Bar — dismiss + seguir a la navbar
     const pacAlertBar = document.getElementById('pac-alert-bar');
     const pacAlertClose = document.getElementById('pac-alert-close');
 
-    if (pacAlertBar && pacAlertClose) {
+    if (pacAlertBar) {
         // Si ya lo cerró en esta sesión, ocultarlo directo
         if (sessionStorage.getItem('fn_pac_alert_closed')) {
             pacAlertBar.style.display = 'none';
         }
-        pacAlertClose.addEventListener('click', () => {
-            pacAlertBar.classList.add('hidden');
-            setTimeout(() => { pacAlertBar.style.display = 'none'; }, 380);
-            try { sessionStorage.setItem('fn_pac_alert_closed', '1'); } catch(e) {}
-        });
+
+        // Función que ajusta el top del alert al tamaño actual de la navbar
+        const syncAlertTop = () => {
+            const navbarEl = document.querySelector('.navbar');
+            if (navbarEl && pacAlertBar.style.display !== 'none') {
+                pacAlertBar.style.top = navbarEl.offsetHeight + 'px';
+            }
+        };
+
+        // Sincronizar al cargar y en cada scroll/resize
+        syncAlertTop();
+        window.addEventListener('scroll', syncAlertTop, { passive: true });
+        window.addEventListener('resize', syncAlertTop, { passive: true });
+
+        if (pacAlertClose) {
+            pacAlertClose.addEventListener('click', () => {
+                pacAlertBar.classList.add('hidden');
+                setTimeout(() => { pacAlertBar.style.display = 'none'; }, 380);
+                window.removeEventListener('scroll', syncAlertTop);
+                try { sessionStorage.setItem('fn_pac_alert_closed', '1'); } catch(e) {}
+            });
+        }
     }
 
     // 1. Navbar Scroll Effect
