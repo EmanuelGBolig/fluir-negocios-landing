@@ -3443,17 +3443,48 @@ button.btn-secondary:hover {
 
 @media (max-width: 768px) {
     .pac-alert-bar {
-        padding: 0.5rem 1rem;
-        flex-wrap: wrap;
+        padding: 0.4rem 0.6rem;
+        gap: 0.4rem;
     }
 
-    .pac-alert-text {
-        font-size: 0.8rem;
-        white-space: normal;
+    .pac-alert-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+        flex: 1;
     }
 
     .pac-alert-badge {
-        font-size: 0.68rem;
+        display: none;
+    }
+
+    .pac-alert-text {
+        font-size: 0.72rem;
+        white-space: normal;
+        line-height: 1.25;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 600;
+        flex: 1;
+        padding-right: 0.2rem;
+    }
+
+    .pac-alert-cta {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .pac-alert-close {
+        font-size: 1.1rem;
+        padding: 0.1rem 0.25rem;
+        margin-left: 0.1rem;
     }
 }
 
