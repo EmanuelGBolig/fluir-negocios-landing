@@ -2918,7 +2918,7 @@ button.btn-secondary:hover {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    padding: 3rem;
+    padding: 2.2rem 2.5rem;
     position: relative;
     border: 1px solid var(--color-border);
     animation: slideUp 0.4s ease-out forwards;
@@ -2957,11 +2957,11 @@ button.btn-secondary:hover {
 }
 
 .diagnostico-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.75rem;
 }
 
 .form-progress {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.75rem;
     position: relative;
 }
 
@@ -3006,33 +3006,33 @@ button.btn-secondary:hover {
 }
 
 .step-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #0f172a;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-family: var(--font-heading);
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.15rem;
 }
 
 .form-group label {
     display: block;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     color: #334155;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group textarea {
     width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 0.65rem 0.9rem;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: border-color var(--transition-norm);
 }
 
@@ -3064,7 +3064,7 @@ button.btn-secondary:hover {
     cursor: pointer;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.75rem 0.9rem;
     transition: all var(--transition-norm);
     background: #f8fafc;
 }
@@ -3090,7 +3090,7 @@ button.btn-secondary:hover {
 }
 
 .form-actions {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     display: flex;
     gap: 1rem;
 }
@@ -3131,11 +3131,11 @@ button.btn-secondary:hover {
 
 .results-dependencia-box {
     background: #f1f5f9;
-    padding: 1rem;
+    padding: 0.8rem 1.2rem;
     border-radius: 8px;
     display: inline-block;
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
     color: #475569;
 }
 
@@ -3147,18 +3147,18 @@ button.btn-secondary:hover {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .recommended-badge {
     display: inline-block;
     color: white;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    padding: 0.5rem 1.5rem;
+    padding: 0.4rem 1.2rem;
     border-radius: 8px;
-    margin: 1rem 0;
+    margin: 0.75rem 0;
     font-family: var(--font-heading);
 }
 
