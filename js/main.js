@@ -617,10 +617,97 @@ document.addEventListener('DOMContentLoaded', () => {
             // Submit Data via Fetch
             const formData = new FormData(diagForm);
             
+            // Map raw values (A, B, C) to descriptive texts and translate keys to clear Spanish questions for the email
+            const textMapping = {
+                vacaciones: {
+                    'A': 'A - El negocio crece o se mantiene igual de bien.',
+                    'B': 'B - Sigue funcionando, pero las ventas bajan y hay desorganización.',
+                    'C': 'C - Se frena por completo o es un caos absoluto.'
+                },
+                incendios: {
+                    'A': 'A - Menos de 5 horas.',
+                    'B': 'B - Entre 10 y 20 horas.',
+                    'C': 'C - Más de 30 horas. El día a día me consume.'
+                },
+                onboarding: {
+                    'A': 'A - Tenemos procesos documentados y un onboarding automático.',
+                    'B': 'B - Le explicamos sobre la marcha o le pasamos algunos apuntes básicos.',
+                    'C': 'C - Lo capacito yo mismo en el día a día (me quita muchísimo tiempo).'
+                },
+                procesos: {
+                    'A': 'A - Más del 80% - Trabajamos con manuales operativos.',
+                    'B': 'B - 10% al 40% - Tenemos algunas cosas sueltas.',
+                    'C': 'C - 0% - Todo está en mi cabeza o en la de mi equipo.'
+                },
+                finanzas: {
+                    'A': 'A - Sí, lo mido rigurosamente.',
+                    'B': 'B - Tengo una idea aproximada.',
+                    'C': 'C - No, me guío más por lo que hay en la cuenta del banco.'
+                },
+                equipo: {
+                    'Solo': 'Solo yo ("hombre/mujer orquesta")',
+                    '1-3': '1 a 3 personas',
+                    '4-10': '4 a 10 personas',
+                    '+10': 'Más de 10 personas'
+                }
+            };
+
+            const friendlyData = new FormData();
+            
+            // Map the subject
+            if (formData.has('_subject')) friendlyData.set('_subject', formData.get('_subject'));
+            
+            // Map basic info
+            if (formData.has('nombre')) friendlyData.set('Nombre del Dueño', formData.get('nombre'));
+            if (formData.has('email')) friendlyData.set('Email de Contacto', formData.get('email'));
+            if (formData.has('sector')) friendlyData.set('Sector de la Empresa', formData.get('sector'));
+            
+            // Map team size
+            if (formData.has('equipo')) {
+                const eqVal = formData.get('equipo');
+                const eqText = textMapping.equipo[eqVal] || eqVal;
+                friendlyData.set('Cantidad de Equipo', eqText);
+            }
+            
+            // Map diagnostic answers
+            const diagQuestions = {
+                vacaciones: 'Vacaciones sin celular (30 días)',
+                incendios: 'Horas apagando incendios operacionales',
+                onboarding: 'Capacitación de nuevos empleados',
+                procesos: 'Procesos críticos documentados (%)',
+                finanzas: 'Manejo del margen neto y CAC'
+            };
+            
+            Object.keys(diagQuestions).forEach(key => {
+                if (formData.has(key)) {
+                    const val = formData.get(key);
+                    const mappedText = (textMapping[key] && textMapping[key][val]) ? textMapping[key][val] : val;
+                    friendlyData.set(diagQuestions[key], mappedText);
+                }
+            });
+            
+            // Map open question
+            if (formData.has('desafio_principal')) {
+                friendlyData.set('Mayor desafío del negocio', formData.get('desafio_principal'));
+            }
+            
+            // Map calculated result
+            if (formData.has('diagnostico_resultado')) {
+                friendlyData.set('Resultado calculado', formData.get('diagnostico_resultado'));
+            }
+            
+            // Map UTM parameters if present
+            const utmsList = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+            utmsList.forEach(utm => {
+                if (formData.has(utm)) {
+                    friendlyData.set('UTM_' + utm.substring(4).toUpperCase(), formData.get(utm));
+                }
+            });
+            
             try {
                 const response = await fetch(diagForm.action, {
                     method: 'POST',
-                    body: formData,
+                    body: friendlyData,
                     headers: {
                         'Accept': 'application/json'
                     }
