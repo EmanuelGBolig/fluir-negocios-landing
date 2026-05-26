@@ -267,9 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseDiag = document.getElementById('btn-close-diagnostico');
     const modalDiag = document.getElementById('diagnostico');
 
-    if (btnOpenDiag && modalDiag) {
-        btnOpenDiag.addEventListener('click', (e) => {
-            e.preventDefault();
+    function openDiagnosticModal() {
+        if (modalDiag) {
             modalDiag.classList.add('active');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
@@ -284,6 +283,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error("Meta Pixel Error:", err);
                 }
             }
+        }
+    }
+
+    if (btnOpenDiag && modalDiag) {
+        btnOpenDiag.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDiagnosticModal();
         });
     }
 
@@ -302,6 +308,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Auto-open diagnostic modal for Meta Ads (Facebook/Instagram) visitors
+    function checkMetaAdsAutoOpen() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Detect fbclid (appended automatically by Facebook/Instagram click)
+        const hasFbclid = urlParams.has('fbclid');
+        
+        // Detect UTM source indicating Meta platforms
+        const utmSource = urlParams.get('utm_source') ? urlParams.get('utm_source').toLowerCase() : '';
+        const isMetaSource = ['facebook', 'instagram', 'meta', 'fb', 'ig', 'fb-ads', 'meta-ads'].includes(utmSource);
+        
+        // Detect UTM medium indicating paid social ads
+        const utmMedium = urlParams.get('utm_medium') ? urlParams.get('utm_medium').toLowerCase() : '';
+        const isAdsMedium = ['cpc', 'cpm', 'ads', 'paid', 'social-ads'].includes(utmMedium);
+        
+        // Detect query parameter to force open manually if needed (e.g. ?diagnostico=true)
+        const forceOpen = urlParams.get('diagnostico') === 'true' || urlParams.get('open') === 'diagnostico';
+
+        if (hasFbclid || isMetaSource || (isAdsMedium && utmSource.includes('fb')) || forceOpen) {
+            // Short timeout to let the page render before showing modal
+            setTimeout(() => {
+                openDiagnosticModal();
+            }, 800);
+        }
+    }
+    checkMetaAdsAutoOpen();
 
     // 9. Diagnostic Form Logic
     const diagForm = document.getElementById('form-diagnostico');
