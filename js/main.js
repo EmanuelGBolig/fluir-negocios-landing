@@ -345,6 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const progressFill = document.getElementById('progress-fill');
         const stepIndicators = document.querySelectorAll('.progress-steps .step');
         let currentStep = 0;
+        let step1Sent = false;
+        let step2Sent = false;
 
         // Check if there is a saved diagnostic result in localStorage on startup
         const savedResult = localStorage.getItem('fn_diagnostico_resultado');
@@ -444,10 +446,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Trigger Meta Pixel Custom Events for step progress
                     if (typeof fbq === 'function') {
                         try {
-                            if (currentStep === 0) {
+                            if (currentStep === 0 && !step1Sent) {
                                 fbq('trackCustom', 'DiagnosticStep1Complete');
-                            } else if (currentStep === 1) {
+                                step1Sent = true;
+                            } else if (currentStep === 1 && !step2Sent) {
                                 fbq('trackCustom', 'DiagnosticStep2Complete');
+                                step2Sent = true;
                             }
                         } catch (err) {
                             console.error("Meta Pixel Error:", err);
@@ -569,13 +573,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     const nameVal = nameEl ? nameEl.value.trim().toLowerCase() : '';
                     const emailVal = emailEl ? emailEl.value.trim().toLowerCase() : '';
                     
+                    // Extraer solo el primer nombre (nombre de pila) como indica la instrucción
+                    const firstNameVal = nameVal.split(' ')[0];
+
+                    // 1) Cargar los datos del usuario en el píxel (Advanced Matching)
+                    fbq('init', '2089699688631959', {
+                        em: emailVal,
+                        fn: firstNameVal
+                    });
+
+                    // 2) Disparar la conversión estándar Lead
                     fbq('track', 'Lead', {
                         content_name: 'Diagnóstico de Dependencia Operativa',
                         predicted_plan: plan,
                         dependencia_level: dependencia
-                    }, {
-                        em: emailVal,
-                        fn: nameVal
                     });
                 } catch (err) {
                     console.error("Meta Pixel Lead Tracking Error:", err);
@@ -639,6 +650,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnRestartDiag.addEventListener('click', () => {
                 localStorage.removeItem('fn_diagnostico_resultado');
                 currentStep = 0;
+                step1Sent = false;
+                step2Sent = false;
                 diagForm.reset();
                 
                 // Restore submit button and spinner visibility
