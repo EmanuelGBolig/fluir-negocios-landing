@@ -577,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const firstNameVal = nameVal.split(' ')[0];
 
                     // 1) Cargar los datos del usuario en el píxel (Advanced Matching)
-                    fbq('init', '2189555611836440', {
+                    fbq('init', '2089699688631959', {
                         em: emailVal,
                         fn: firstNameVal
                     });
