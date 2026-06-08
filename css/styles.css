@@ -4098,3 +4098,147 @@ button.btn-secondary:hover {
         padding-bottom: 78px;
     }
 }
+
+/* ============================================================
+   Polish visual: títulos con kicker+acento, tarjetas "para vos",
+   FAQ en tarjetas, banda de números y ritmo de fondos
+   ============================================================ */
+
+/* --- Kicker (etiqueta) + acento bajo cada título de sección --- */
+.section-kicker {
+    display: block;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    margin-bottom: 0.7rem;
+}
+
+.section-title::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin: 0.85rem auto 0;
+    border-radius: 999px;
+    background: var(--gradient-primary);
+}
+
+/* --- Ritmo de fondos: la sección de Programas como panel suave --- */
+.section-programs {
+    background: #f7faff;
+}
+
+/* --- Tarjetas "¿Esto es para vos?" más presentes --- */
+.section-paraquien .paraquien-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.95rem;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.6rem 1.5rem;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.section-paraquien .paraquien-item i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    margin-top: 0;
+    background: var(--gradient-primary);
+    color: #ffffff;
+    font-size: 1.3rem;
+    box-shadow: 0 8px 18px rgba(15, 82, 186, 0.25);
+}
+
+.section-paraquien .paraquien-item span {
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* --- FAQ en tarjetas --- */
+.section-faq .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.section-faq .faq-item {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 0 1.4rem;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.section-faq .faq-item:hover {
+    box-shadow: 0 10px 24px rgba(15, 82, 186, 0.09);
+    border-color: rgba(15, 82, 186, 0.25);
+}
+
+/* CTA de cierre del FAQ */
+.faq-cta {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.faq-cta p {
+    font-weight: 700;
+    color: var(--color-dark-gray);
+    margin-bottom: 0.9rem;
+}
+
+/* --- Banda de números (credibilidad) --- */
+.stats-band {
+    background: var(--gradient-primary);
+    padding: 2.6rem 0;
+}
+
+.stats-band-inner {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stats-band .stat-item {
+    flex: 1 1 180px;
+    max-width: 260px;
+    text-align: center;
+    color: #ffffff;
+    padding: 0.4rem 0.8rem;
+}
+
+.stats-band .stat-num {
+    display: block;
+    font-family: var(--font-heading, inherit);
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+.stats-band .stat-label {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 768px) {
+    .stats-band .stat-item {
+        flex: 1 1 42%;
+    }
+    .stats-band .stat-num {
+        font-size: 2rem;
+    }
+}
