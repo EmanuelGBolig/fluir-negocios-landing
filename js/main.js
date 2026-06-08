@@ -291,6 +291,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger global para los botones con onclick inline (Obtener Guía, Hacer diagnóstico, etc.)
     window.fnOpenDiagnostico = openDiagnosticModal;
 
+    // Evento Contact del píxel en cualquier clic a WhatsApp (estáticos + botón dinámico del resultado).
+    document.addEventListener('click', function (e) {
+        const waLink = e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"], a[href*="api.whatsapp"]');
+        if (!waLink) return;
+        if (typeof fbq === 'function') {
+            try {
+                fbq('track', 'Contact', { content_name: 'WhatsApp' });
+            } catch (err) { console.error('Meta Pixel Contact Error:', err); }
+        }
+    }, true);
+
     if (btnOpenDiag && modalDiag) {
         btnOpenDiag.addEventListener('click', (e) => {
             e.preventDefault();
