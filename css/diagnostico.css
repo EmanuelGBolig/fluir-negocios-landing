@@ -248,16 +248,15 @@
 }
 
 #fnDiag .human .av {
-    width: 30px;
-    height: 30px;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--fn-blue), var(--fn-blue2));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: 900;
-    font-size: 13px;
+    background-image: url('../assets/team/abi.webp');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 7px rgba(10, 26, 47, .18);
 }
 
 /* Campos de formulario */
