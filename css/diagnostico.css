@@ -1,0 +1,468 @@
+/* ============================================================
+   Diagnóstico Gratuito — flujo tipo quiz (rediseño)
+   Todos los selectores van scopeados bajo #fnDiag para no
+   colisionar con los estilos globales del sitio.
+   Fuente de la maqueta: Prototipo_Diagnostico_Fluir.html
+   ============================================================ */
+
+#fnDiag {
+    /* Paleta local del diagnóstico (no pisa las vars del sitio) */
+    --fn-ink: #0A1A2F;
+    --fn-blue: #0056B3;
+    --fn-blue2: #2D7DDB;
+    --fn-gold: #CDAA36;
+    --fn-green: #2FB37A;
+    --fn-amber: #E0A422;
+    --fn-red: #E5484D;
+    --fn-muted: #6A788A;
+    --fn-line: #E3EAF2;
+
+    font-family: 'Lato', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: var(--fn-ink);
+    text-align: left;
+}
+
+/* Barra de progreso — píldora redondeada dentro del card (sin flush a los bordes) */
+#fnDiag .fn-bar {
+    height: 6px;
+    background: #EAF0F7;
+    border-radius: 999px;
+    margin: 0 0 1.6rem;
+    overflow: hidden;
+}
+
+#fnDiag .fn-bar > i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--fn-blue), var(--fn-blue2));
+    transition: width .4s ease;
+}
+
+/* Tipografía */
+#fnDiag .eyebrow {
+    font-size: 12.5px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--fn-blue);
+}
+
+#fnDiag .step {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--fn-muted);
+    margin-bottom: 8px;
+}
+
+#fnDiag h1 {
+    font-size: 30px;
+    line-height: 1.12;
+    font-weight: 900;
+    margin: 6px 0 10px;
+    letter-spacing: -.4px;
+    color: var(--fn-ink);
+}
+
+#fnDiag h2 {
+    font-size: 22px;
+    line-height: 1.22;
+    font-weight: 900;
+    margin: 4px 0 18px;
+    letter-spacing: -.2px;
+    color: var(--fn-ink);
+}
+
+#fnDiag h3 {
+    color: var(--fn-ink);
+}
+
+#fnDiag p.lead {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #37475A;
+    margin: 0 0 18px;
+}
+
+/* Opciones */
+#fnDiag .opts {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin: 6px 0 4px;
+}
+
+#fnDiag .opt {
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font: inherit;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--fn-ink);
+    background: #F7FAFE;
+    border: 1.6px solid var(--fn-line);
+    border-radius: 13px;
+    padding: 15px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: .15s;
+}
+
+#fnDiag .opt:hover {
+    border-color: var(--fn-blue2);
+    background: #F0F6FF;
+    transform: translateY(-1px);
+}
+
+#fnDiag .opt .dot {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #C3D2E4;
+    transition: .15s;
+}
+
+#fnDiag .opt.sel {
+    border-color: var(--fn-blue);
+    background: #E8F1FF;
+}
+
+#fnDiag .opt.sel .dot {
+    border-color: var(--fn-blue);
+    background: var(--fn-blue);
+    box-shadow: inset 0 0 0 3px #fff;
+}
+
+#fnDiag .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    gap: 12px;
+}
+
+/* Botones (scopeados: ganan especificidad sobre los .btn globales del sitio) */
+#fnDiag .btn {
+    cursor: pointer;
+    font: inherit;
+    font-weight: 900;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 22px;
+    font-size: 16px;
+    transition: .15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    line-height: 1.2;
+}
+
+#fnDiag .btn-primary {
+    background: var(--fn-blue);
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(0, 86, 179, .32);
+}
+
+#fnDiag .btn-primary:hover {
+    background: #00468f;
+    transform: translateY(-1px);
+}
+
+#fnDiag .btn-wa {
+    background: #1FB055;
+    color: #fff;
+    box-shadow: 0 12px 26px rgba(31, 176, 85, .34);
+    width: 100%;
+    font-size: 17px;
+    padding: 17px 22px;
+}
+
+#fnDiag .btn-wa:hover {
+    background: #199449;
+    transform: translateY(-1px);
+}
+
+#fnDiag .btn-ghost {
+    background: transparent;
+    color: var(--fn-muted);
+    padding: 14px 8px;
+    box-shadow: none;
+}
+
+#fnDiag .btn-ghost:hover {
+    color: var(--fn-ink);
+}
+
+#fnDiag .btn-out {
+    background: #fff;
+    color: var(--fn-blue);
+    border: 1.6px solid var(--fn-line);
+    width: 100%;
+}
+
+#fnDiag .btn-out:hover {
+    border-color: var(--fn-blue2);
+}
+
+#fnDiag .full {
+    width: 100%;
+}
+
+#fnDiag .micro {
+    font-size: 13.5px;
+    color: var(--fn-muted);
+    margin-top: 12px;
+    line-height: 1.45;
+}
+
+#fnDiag .pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 2px 0 18px;
+}
+
+#fnDiag .pill {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--fn-blue);
+    background: #EAF2FF;
+    border-radius: 999px;
+    padding: 6px 11px;
+}
+
+#fnDiag .human {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 18px;
+    font-size: 13.5px;
+    color: #37475A;
+    font-weight: 700;
+}
+
+#fnDiag .human .av {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--fn-blue), var(--fn-blue2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 13px;
+}
+
+/* Campos de formulario */
+#fnDiag .field {
+    margin: 14px 0;
+}
+
+#fnDiag .field label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #34465B;
+}
+
+#fnDiag .field input,
+#fnDiag .field textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    padding: 14px 15px;
+    border: 1.6px solid var(--fn-line);
+    border-radius: 12px;
+    background: #F8FBFE;
+}
+
+#fnDiag .field textarea {
+    resize: vertical;
+}
+
+#fnDiag .field input:focus,
+#fnDiag .field textarea:focus {
+    outline: none;
+    border-color: var(--fn-blue2);
+    background: #fff;
+}
+
+#fnDiag .err {
+    color: var(--fn-red);
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 4px;
+    display: none;
+}
+
+#fnDiag .magnet {
+    background: #FFF8E6;
+    border: 1px solid #F0E2B6;
+    border-radius: 13px;
+    padding: 13px 15px;
+    font-size: 14px;
+    color: #5b4d22;
+    font-weight: 700;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 4px;
+}
+
+#fnDiag .spin {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 5px solid #E6EEF8;
+    border-top-color: var(--fn-blue);
+    margin: 8px auto 0;
+    animation: fnSpin 1s linear infinite;
+}
+
+@keyframes fnSpin {
+    to { transform: rotate(360deg); }
+}
+
+#fnDiag .center {
+    text-align: center;
+}
+
+/* Medidor de resultado */
+#fnDiag .gauge {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 6px auto 2px;
+}
+
+#fnDiag .gauge svg {
+    transform: rotate(-90deg);
+}
+
+#fnDiag .gauge .num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#fnDiag .gauge .num b {
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+#fnDiag .gauge .num span {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--fn-muted);
+    margin-top: 4px;
+}
+
+#fnDiag .level {
+    display: inline-block;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin: 6px 0 2px;
+}
+
+#fnDiag .prog {
+    margin: 18px 0;
+    border: 1.6px solid var(--fn-line);
+    border-radius: 16px;
+    padding: 18px;
+    background: #F8FBFE;
+    text-align: left;
+}
+
+#fnDiag .prog .code {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--fn-blue);
+}
+
+#fnDiag .prog h3 {
+    margin: 6px 0 6px;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+#fnDiag .prog p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: #42536A;
+}
+
+#fnDiag .socip {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 16px 0 2px;
+    flex-wrap: wrap;
+}
+
+#fnDiag .socip b {
+    display: block;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--fn-blue);
+}
+
+#fnDiag .socip span {
+    font-size: 11.5px;
+    color: var(--fn-muted);
+    font-weight: 700;
+}
+
+#fnDiag .quote {
+    font-size: 13.5px;
+    color: #42536A;
+    font-style: italic;
+    line-height: 1.5;
+    border-left: 3px solid var(--fn-gold);
+    padding: 4px 0 4px 14px;
+    margin: 16px 2px 0;
+    text-align: left;
+}
+
+#fnDiag .hide {
+    display: none;
+}
+
+/* Móvil: la barra debe seguir flush con el padding reducido de .modal-content (1.5rem 1rem) */
+@media (max-width: 768px) {
+    #fnDiag .fn-bar {
+        margin-bottom: 1.4rem;
+    }
+
+    #fnDiag h1 {
+        font-size: 25px;
+    }
+
+    #fnDiag h2 {
+        font-size: 20px;
+    }
+
+    #fnDiag .gauge {
+        width: 180px;
+        height: 180px;
+    }
+}

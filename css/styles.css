@@ -3911,47 +3911,58 @@ button.btn-secondary:hover {
 .clientes-carousel-wrapper {
     background-color: #ffffff;
     border-radius: var(--border-radius);
-    padding: 2.5rem 1.5rem;
-    border: 2px solid var(--color-primary);
-    box-shadow: 0 10px 30px rgba(15, 82, 186, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.03);
+    padding: 2rem 0;
+    border: 1px solid rgba(15, 82, 186, 0.12);
+    box-shadow: 0 12px 30px rgba(15, 82, 186, 0.08);
     margin-bottom: 3rem;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
 }
 
-/* Marquesina Continua */
-.clientes-marquee-row {
+/* Marquee continuo de logos — una sola fila */
+.clientes-marquee {
     width: 100%;
     overflow: hidden;
     position: relative;
     user-select: none;
+    /* Fundido en los bordes para un look más limpio */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 
 .clientes-marquee-track {
     display: flex;
+    align-items: center;
     width: max-content;
-    gap: 0;
     will-change: transform;
+    animation: marquee-ltr 38s linear infinite;
+}
+
+.clientes-marquee:hover .clientes-marquee-track {
+    animation-play-state: paused;
 }
 
 .clientes-marquee-img {
-    height: 180px; /* Tamaño ideal para que la grilla de 3 filas sea legible */
+    height: 46px;
     width: auto;
     display: block;
     object-fit: contain;
-    padding: 0 1rem;
-    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    /* margin-right uniforme (en vez de gap) para que el loop -50% sea perfectamente continuo */
+    margin-right: 3.5rem;
+    /* Monocromo elegante; recupera color al pasar el mouse */
+    filter: grayscale(100%);
+    opacity: 0.55;
+    transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* Animaciones LTR y RTL */
-.dir-ltr .clientes-marquee-track {
-    animation: marquee-ltr 45s linear infinite;
+.clientes-marquee-track:hover .clientes-marquee-img {
+    opacity: 0.4;
 }
 
-.dir-rtl .clientes-marquee-track {
-    animation: marquee-rtl 45s linear infinite;
+.clientes-marquee-img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
 }
 
 @keyframes marquee-ltr {
@@ -3959,22 +3970,22 @@ button.btn-secondary:hover {
         transform: translate3d(0, 0, 0);
     }
     100% {
-        transform: translate3d(-50%, 0, 0); /* Mueve la mitad de las imágenes duplicadas */
+        transform: translate3d(-50%, 0, 0); /* Mueve un set completo (los logos están duplicados) */
     }
 }
 
-@keyframes marquee-rtl {
-    0% {
-        transform: translate3d(-50%, 0, 0);
+@media (prefers-reduced-motion: reduce) {
+    .clientes-marquee-track {
+        animation: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: 1.75rem;
+        width: 100%;
     }
-    100% {
-        transform: translate3d(0, 0, 0);
+    .clientes-marquee {
+        -webkit-mask-image: none;
+        mask-image: none;
     }
-}
-
-/* Ralentizar al hacer hover para mejorar usabilidad interactiva */
-.clientes-marquee-row:hover .clientes-marquee-track {
-    animation-play-state: paused;
 }
 
 
@@ -3987,12 +3998,12 @@ button.btn-secondary:hover {
     }
     
     .clientes-carousel-wrapper {
-        padding: 1.5rem 1rem;
-        gap: 1rem;
+        padding: 1.5rem 0;
     }
-    
+
     .clientes-marquee-img {
-        height: 120px; /* Reduce la altura en móviles para legibilidad óptima */
+        height: 34px; /* Logos más chicos en móvil */
+        margin-right: 2.25rem;
     }
     
     .btn-golden {

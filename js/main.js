@@ -272,19 +272,24 @@ document.addEventListener('DOMContentLoaded', () => {
             modalDiag.classList.add('active');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
+            // Cada apertura arranca limpia: reset del state + pantalla de bienvenida
+            if (typeof fnStartDiagnostico === 'function') {
+                fnStartDiagnostico();
+            }
+
             // Trigger Meta Pixel Custom Event for starting diagnostic
             if (typeof fbq === 'function') {
                 try {
-                    const savedResult = localStorage.getItem('fn_diagnostico_resultado');
-                    if (!savedResult) {
-                        fbq('trackCustom', 'DiagnosticStart');
-                    }
+                    fbq('trackCustom', 'DiagnosticStart');
                 } catch (err) {
                     console.error("Meta Pixel Error:", err);
                 }
             }
         }
     }
+
+    // Trigger global para los botones con onclick inline (Obtener Guía, Hacer diagnóstico, etc.)
+    window.fnOpenDiagnostico = openDiagnosticModal;
 
     if (btnOpenDiag && modalDiag) {
         btnOpenDiag.addEventListener('click', (e) => {
@@ -336,422 +341,320 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     checkMetaAdsAutoOpen();
 
-    // 9. Diagnostic Form Logic
-    const diagForm = document.getElementById('form-diagnostico');
-    if (diagForm) {
-        const steps = Array.from(document.querySelectorAll('.form-step'));
-        const nextBtns = document.querySelectorAll('.btn-next');
-        const prevBtns = document.querySelectorAll('.btn-prev');
-        const progressFill = document.getElementById('progress-fill');
-        const stepIndicators = document.querySelectorAll('.progress-steps .step');
-        let currentStep = 0;
-        let step1Sent = false;
-        let step2Sent = false;
+    // 9. Diagnóstico — flujo tipo quiz (rediseño).
+    // Preguntas primero, mail al final. Maqueta y lógica: Prototipo_Diagnostico_Fluir.html.
+    // Estilos: css/diagnostico.css (scopeados en #fnDiag).
+    const fnStage = document.getElementById('fnStage');
+    const fnBar = document.getElementById('fnBar');
+    const fnBarWrap = document.querySelector('#fnDiag .fn-bar');
 
-        // Check if there is a saved diagnostic result in localStorage on startup
-        const savedResult = localStorage.getItem('fn_diagnostico_resultado');
-        if (savedResult) {
-            try {
-                const data = JSON.parse(savedResult);
-                
-                // Update DOM with saved results
-                const resDep = document.getElementById('results-dependencia');
-                if (resDep) {
-                    resDep.textContent = data.dependencia;
-                    resDep.className = data.depClass;
-                }
-                
-                const resPlan = document.getElementById('results-plan');
-                if (resPlan) {
-                    resPlan.textContent = data.plan;
-                    resPlan.className = 'recommended-badge ' + data.planClass;
-                }
-                
-                const resJust = document.getElementById('results-justificacion');
-                if (resJust) resJust.textContent = data.justificacion;
-                
-                const resLink = document.getElementById('results-link-plan');
-                if (resLink) {
-                    let planLink = data.planLink;
-                    if (planLink && planLink.startsWith('./') && !planLink.includes('/pages/')) {
-                        planLink = planLink.replace('./', './pages/');
-                    }
-                    resLink.href = planLink;
-                }
-                
-                // Set to the results step
-                currentStep = steps.length - 1;
-            } catch (err) {
-                console.error("Error loading saved diagnosis:", err);
-                localStorage.removeItem('fn_diagnostico_resultado');
-            }
-        }
+    // Endpoint de leads (mismo Formspree que ya usaba el sitio).
+    // DEV: reemplazar por el endpoint real del CRM/Sheets/Apps Script si se migra.
+    const FN_LEAD_ENDPOINT = 'https://formspree.io/f/mredepgv';
 
-        function updateFormState() {
-            steps.forEach((step, index) => {
-                step.classList.toggle('active', index === currentStep);
-            });
-            
-            stepIndicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index <= currentStep);
-            });
+    const FN_QUESTIONS = [
+        { key: 'vacaciones', q: 'Si te tomás 30 días de vacaciones, sin celular, ¿qué pasa con tu negocio?',
+          opts: [ { t: 'Crece o se mantiene igual de bien.', w: 0 },
+                  { t: 'Sigue, pero bajan las ventas y hay desorganización.', w: 1 },
+                  { t: 'Se frena por completo o es un caos.', w: 2 } ] },
+        { key: 'incendios', q: '¿Cuántas horas por semana dedicás a "apagar incendios" y tareas que no te corresponden?',
+          opts: [ { t: 'Menos de 5 horas.', w: 0 },
+                  { t: 'Entre 10 y 20 horas.', w: 1 },
+                  { t: 'Más de 30 horas. El día a día me consume.', w: 2 } ] },
+        { key: 'onboarding', q: 'Cuando entra alguien nuevo al equipo, ¿cómo lo capacitás?',
+          opts: [ { t: 'Con procesos documentados y un onboarding casi automático.', w: 0 },
+                  { t: 'Le explicamos sobre la marcha o con apuntes básicos.', w: 1 },
+                  { t: 'Lo capacito yo mismo, y me quita muchísimo tiempo.', w: 2 } ] },
+        { key: 'procesos', q: '¿Qué parte de tus procesos clave (ventas, atención, entrega) están escritos paso a paso?',
+          opts: [ { t: 'Más del 80% — tenemos manuales operativos.', w: 0 },
+                  { t: 'Entre 10% y 40% — algunas cosas sueltas.', w: 1 },
+                  { t: '0% — todo está en mi cabeza o en la del equipo.', w: 2 } ] },
+        { key: 'numeros', q: '¿Conocés con exactitud tu margen neto y tu costo por cliente nuevo del mes pasado?',
+          opts: [ { t: 'Sí, los mido rigurosamente.', w: 0 },
+                  { t: 'Tengo una idea aproximada.', w: 1 },
+                  { t: 'No, me guío por lo que hay en el banco.', w: 2 } ] },
+        { key: 'sector', meta: true, q: '¿A qué se dedica tu negocio?',
+          opts: [ { t: 'Servicios', w: 0 }, { t: 'E-commerce / Retail', w: 0 }, { t: 'Manufactura / Producción', w: 0 }, { t: 'Otro', w: 0 } ] },
+        { key: 'equipo', meta: true, q: '¿Cuántas personas son hoy en tu equipo?',
+          opts: [ { t: 'Solo yo', w: 0 }, { t: '1 a 3', w: 0 }, { t: '4 a 10', w: 0 }, { t: 'Más de 10', w: 0 } ] }
+    ];
 
-            // Update progress bar (0%, 33%, 66%, 100%)
-            const progress = (currentStep / (steps.length - 1)) * 100;
-            if (progressFill) progressFill.style.width = `${progress}%`;
-        }
+    const FN_PROG = {
+        PAC: { code: 'P·A·C', name: 'Programa Acelerador de Crecimiento',
+               desc: '8 semanas grupales para ordenar tu cabeza de dueño, las finanzas y la estrategia comercial. Para dejar de improvisar.',
+               link: 'https://fluirnegocios.com/pages/pac.html' },
+        MAR: { code: 'M·A·R', name: 'Método Acelerador de Resultados',
+               desc: 'Consultoría 1 a 1 para construir un negocio que funcione sin vos: tableros de KPIs, delegación y automatización.',
+               link: 'https://fluirnegocios.com/pages/mar.html' },
+        CDE: { code: 'C·D·E', name: 'Capacitación de Equipo',
+               desc: 'Formamos a tus encargados y gerentes para que lideren la operación con autonomía. Para soltar el día a día.',
+               link: 'https://fluirnegocios.com/pages/cde.html' }
+    };
 
-        function validateStep(stepIndex) {
-            const stepEl = steps[stepIndex];
-            const inputs = stepEl.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-            
-            // Clear previous styles
-            stepEl.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+    const FN_WA = 'https://wa.me/5492233444604?text=';
+    const FN_PDF = 'https://fluirnegocios.com/assets/pdf/Guia-3-Cuellos-de-Botella.pdf';
+    // Denominador de la barra: 9 pantallas con progreso (5 operativas + abierta + sector + equipo + mail) + resultado.
+    const FN_TOTAL = 10;
 
-            inputs.forEach(input => {
-                if (input.type === 'radio') {
-                    const name = input.name;
-                    const isChecked = stepEl.querySelector(`input[name="${name}"]:checked`);
-                    if (!isChecked) {
-                        isValid = false;
-                        const group = input.closest('.radio-group');
-                        if (group) {
-                            group.style.border = "1px solid #ef4444";
-                            group.style.borderRadius = "8px";
-                            group.style.padding = "4px";
-                            setTimeout(() => { group.style.border = "none"; group.style.padding = "0"; }, 3000);
-                        }
-                    }
-                } else if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = "#ef4444";
-                    setTimeout(() => input.style.borderColor = "", 3000);
-                } else if (input.type === 'email') {
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(input.value)) {
-                        isValid = false;
-                        input.style.borderColor = "#ef4444";
-                        setTimeout(() => input.style.borderColor = "", 3000);
-                    }
-                }
-            });
+    // OP_COUNT = preguntas operativas; tras ellas va la pregunta abierta y luego las de perfil (sector, equipo).
+    const FN_OP_COUNT = FN_QUESTIONS.filter(function (q) { return !q.meta; }).length;
+    let fnState = { qi: 0, answers: {}, open: '', openShown: false, lead: { nombre: '', email: '' }, leadSent: false };
 
-            return isValid;
-        }
-
-        nextBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (validateStep(currentStep)) {
-                    // Trigger Meta Pixel Custom Events for step progress
-                    if (typeof fbq === 'function') {
-                        try {
-                            if (currentStep === 0 && !step1Sent) {
-                                fbq('trackCustom', 'DiagnosticStep1Complete');
-                                step1Sent = true;
-                            } else if (currentStep === 1 && !step2Sent) {
-                                fbq('trackCustom', 'DiagnosticStep2Complete');
-                                step2Sent = true;
-                            }
-                        } catch (err) {
-                            console.error("Meta Pixel Error:", err);
-                        }
-                    }
-                    currentStep++;
-                    updateFormState();
-                }
-            });
+    function fnEl(html) { if (fnStage) fnStage.innerHTML = html; }
+    function fnSetBar(stepDone) { if (fnBar) fnBar.style.width = Math.round((stepDone / FN_TOTAL) * 100) + '%'; }
+    // La barra solo se muestra durante el avance (preguntas/abierta/mail), no en bienvenida ni resultado.
+    function fnBarShow(show) { if (fnBarWrap) fnBarWrap.style.display = show ? '' : 'none'; }
+    function fnEsc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
         });
+    }
 
-        prevBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentStep--;
-                updateFormState();
-            });
-        });
+    function fnShowWelcome() {
+        fnBarShow(false);
+        fnSetBar(0);
+        fnEl(
+            '<div class="eyebrow">Diagnóstico gratuito</div>' +
+            '<h1>¿Tu negocio puede funcionar sin vos?</h1>' +
+            '<p class="lead">Respondé 7 preguntas (te lleva 2 minutos) y te decimos qué tan dependiente de vos es tu negocio, con un plan concreto para soltarlo.</p>' +
+            '<div class="pills"><span class="pill">2 minutos</span><span class="pill">Sin compromiso</span><span class="pill">Resultado al instante</span></div>' +
+            '<button class="btn btn-primary full" data-action="start">Empezar el diagnóstico →</button>' +
+            '<div class="human"><span class="av">A</span> Te atiende un humano: <b style="margin-left:2px">Abi, nuestra asesora</b></div>'
+        );
+    }
 
-        diagForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!validateStep(currentStep)) return;
+    function fnShowQuestion(i) {
+        const q = FN_QUESTIONS[i];
+        fnBarShow(true);
+        // Las operativas ocupan los pasos 1..5; las de perfil van después de la abierta (paso 6).
+        fnSetBar((i < FN_OP_COUNT) ? i + 1 : i + 2);
+        const saved = fnState.answers[q.key];
+        const opts = q.opts.map(function (o, k) {
+            const sel = (saved && saved.t === o.t) ? ' sel' : '';
+            return '<button class="opt' + sel + '" data-opt="' + k + '"><span class="dot"></span><span>' + o.t + '</span></button>';
+        }).join('');
+        fnEl(
+            '<div class="step">Pregunta ' + (i + 1) + ' de ' + FN_QUESTIONS.length + '</div>' +
+            '<h2>' + q.q + '</h2>' +
+            '<div class="opts">' + opts + '</div>' +
+            '<div class="row">' +
+                '<button class="btn btn-ghost" data-action="back">← Atrás</button>' +
+                '<span class="micro" style="margin:0">Tocá una opción para seguir</span>' +
+            '</div>'
+        );
+    }
 
-            const submitBtn = document.getElementById('btn-submit-diag');
-            const spinner = document.getElementById('form-spinner');
-            
-            submitBtn.style.display = 'none';
-            if (spinner) spinner.style.display = 'block';
+    function fnShowOpen() {
+        fnBarShow(true);
+        fnSetBar(FN_OP_COUNT + 1);
+        fnEl(
+            '<div class="step">Última, y es la que más nos sirve</div>' +
+            '<h2>En tus palabras: ¿cuál sentís que es el mayor freno para facturar el doble sin trabajar el doble?</h2>' +
+            '<div class="field"><textarea id="fnOpenTxt" rows="4" placeholder="Escribí lo que se te venga a la cabeza...">' + fnEsc(fnState.open) + '</textarea></div>' +
+            '<button class="btn btn-primary full" data-action="afterOpen">Continuar →</button>' +
+            '<div class="row" style="justify-content:center"><button class="btn btn-ghost" data-action="afterOpen">Prefiero saltearla</button></div>'
+        );
+    }
 
-            // Calculate Score
-            const getVal = (name) => {
-                const checked = document.querySelector(`input[name="${name}"]:checked`);
-                return checked ? checked.value : '';
-            };
+    function fnShowEmail() {
+        fnBarShow(true);
+        fnSetBar(FN_QUESTIONS.length + 2);
+        fnEl(
+            '<div class="eyebrow">Casi listo</div>' +
+            '<h2>Dejanos tu mail y mirá tu resultado</h2>' +
+            '<div class="field"><label>Tu nombre</label><input id="fnInNombre" type="text" placeholder="Nombre" value="' + fnEsc(fnState.lead.nombre) + '"></div>' +
+            '<div class="field"><label>Tu email</label><input id="fnInEmail" type="email" placeholder="vos@tunegocio.com" value="' + fnEsc(fnState.lead.email) + '"><div class="err" id="fnEmailErr">Poné un email válido para ver tu resultado.</div></div>' +
+            '<div class="magnet">🎁 <span>Vas a ver tu <b>diagnóstico completo al instante</b> —tu nivel de dependencia y el plan recomendado— y te llevás gratis la guía <b>"Los 3 cuellos de botella de tu negocio"</b>.</span></div>' +
+            '<button class="btn btn-primary full" style="margin-top:16px" data-action="submitEmail">Ver mi resultado →</button>' +
+            '<div class="micro center">No te vamos a llenar de spam. Tus datos quedan con nosotros.</div>'
+        );
+    }
 
-            const equipo = getVal('equipo');
-            
-            // A=1, B=2, C=3
-            const scoreMap = { 'A': 1, 'B': 2, 'C': 3 };
-            let totalScore = 0;
-            ['vacaciones', 'incendios', 'onboarding', 'procesos', 'finanzas'].forEach(name => {
-                const val = getVal(name);
-                if (scoreMap[val]) totalScore += scoreMap[val];
-            });
+    function fnShowProcessing() {
+        fnBarShow(false);
+        fnSetBar(FN_TOTAL);
+        fnEl('<div class="center" style="padding:26px 0"><div class="spin"></div><h2 style="margin-top:22px">Analizando tus respuestas...</h2><p class="lead center" style="margin:0">Armando tu diagnóstico y tu plan.</p></div>');
+        setTimeout(fnShowResult, 1300);
+    }
 
-            let dependencia = 'MEDIA';
-            let depClass = 'dependencia-media';
-            if (totalScore >= 12) {
-                dependencia = 'ALTA';
-                depClass = 'dependencia-alta';
-            } else if (totalScore <= 7) {
-                dependencia = 'BAJA';
-                depClass = 'dependencia-baja';
-            }
+    function fnScore() {
+        const keys = ['vacaciones', 'incendios', 'onboarding', 'procesos', 'numeros'];
+        let s = 0;
+        keys.forEach(function (k) { if (fnState.answers[k]) s += fnState.answers[k].w; });
+        return Math.round((s / 10) * 100);
+    }
 
-            // Recommendation Logic
-            let plan = 'P.A.C.';
-            let justificacion = 'Ideal para dueños que necesitan salir de la operación diaria, ordenar las finanzas y construir mentalidad empresarial.';
-            let planLink = './pages/pac.html';
-            let planClass = 'badge-pac';
+    function fnBand(p) {
+        if (p >= 67) return { label: 'ALTA', color: '#E5484D', tint: '#FCE9EA', head: 'Tu negocio depende demasiado de vos.' };
+        if (p >= 34) return { label: 'MEDIA', color: '#E0A422', tint: '#FBF1DC', head: 'Tu negocio todavía depende bastante de vos.' };
+        return { label: 'BAJA', color: '#2FB37A', tint: '#E4F6EE', head: 'Vas bien: tu negocio ya casi no depende de vos.' };
+    }
 
-            if (dependencia === 'ALTA' && (equipo === '4-10' || equipo === '+10')) {
-                plan = 'M·A·R';
-                justificacion = 'Tienes equipo pero falta estructura. Este programa 1 a 1 instalará tableros de control y automatizaciones para darte libertad.';
-                planLink = './pages/mar.html';
-                planClass = 'badge-mar';
-            } else if (dependencia === 'MEDIA' && equipo === '+10' && getVal('onboarding') !== 'A') {
-                plan = 'C·D·E';
-                justificacion = 'Tu negocio ya tracciona, pero necesitas que tus mandos medios o encargados lideren con autonomía. Este programa forma a tu equipo.';
-                planLink = './pages/cde.html';
-                planClass = 'badge-cde';
-            }
+    function fnRecommend(p) {
+        const eq = fnState.answers.equipo ? fnState.answers.equipo.t : '';
+        if (p >= 67) return (eq === 'Más de 10') ? FN_PROG.MAR : FN_PROG.PAC;
+        if (p >= 34) return FN_PROG.MAR;
+        return FN_PROG.CDE;
+    }
 
-            // Update DOM
-            const resDep = document.getElementById('results-dependencia');
-            if (resDep) {
-                resDep.textContent = dependencia;
-                resDep.className = depClass;
-            }
-            
-            const resPlan = document.getElementById('results-plan');
-            if (resPlan) {
-                resPlan.textContent = plan;
-                resPlan.className = 'recommended-badge ' + planClass;
-            }
-            
-            const resJust = document.getElementById('results-justificacion');
-            if (resJust) resJust.textContent = justificacion;
-            
-            const resLink = document.getElementById('results-link-plan');
-            if (resLink) resLink.href = planLink;
+    // Envía el lead al endpoint + dispara el evento Lead del píxel. No bloquea el resultado si falla.
+    function fnSendLead() {
+        if (fnState.leadSent) return;
+        fnState.leadSent = true;
 
-            // Save result to hidden input for email
-            const inputResult = document.getElementById('input-diagnostico-resultado');
-            if (inputResult) {
-                inputResult.value = `Dependencia: ${dependencia} | Recomendación: ${plan}`;
-            }
+        const p = fnScore();
+        const b = fnBand(p);
+        const prog = fnRecommend(p);
+        const a = fnState.answers;
 
-            // Save result to localStorage for client-side persistence
+        // 1) Evento Lead del píxel de Meta (arregla el tracking que nunca disparaba).
+        if (typeof fbq === 'function') {
             try {
-                const resultData = {
-                    dependencia,
-                    depClass,
-                    plan,
-                    planClass,
-                    justificacion,
-                    planLink
-                };
-                localStorage.setItem('fn_diagnostico_resultado', JSON.stringify(resultData));
-            } catch (err) {
-                console.error("Error saving diagnostic to localStorage:", err);
-            }
-
-            // Trigger Meta Pixel Conversion Event (Lead)
-            if (typeof fbq === 'function') {
-                try {
-                    const nameEl = document.getElementById('diag-name');
-                    const emailEl = document.getElementById('diag-email');
-                    const nameVal = nameEl ? nameEl.value.trim().toLowerCase() : '';
-                    const emailVal = emailEl ? emailEl.value.trim().toLowerCase() : '';
-                    
-                    // Extraer solo el primer nombre (nombre de pila) como indica la instrucción
-                    const firstNameVal = nameVal.split(' ')[0];
-
-                    // 1) Cargar los datos del usuario en el píxel (Advanced Matching)
-                    fbq('init', '2089699688631959', {
-                        em: emailVal,
-                        fn: firstNameVal
-                    });
-
-                    // 2) Disparar la conversión estándar Lead
-                    fbq('track', 'Lead', {
-                        content_name: 'Diagnóstico de Dependencia Operativa',
-                        predicted_plan: plan,
-                        dependencia_level: dependencia
-                    });
-                } catch (err) {
-                    console.error("Meta Pixel Lead Tracking Error:", err);
-                }
-            }
-
-            // Inject UTM parameters as hidden fields for Formspree / Email
-            const utms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-            utms.forEach(utm => {
-                try {
-                    const val = sessionStorage.getItem('fn_' + utm);
-                    if (val) {
-                        let input = document.getElementById('input-diag-' + utm);
-                        if (!input) {
-                            input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.id = 'input-diag-' + utm;
-                            input.name = utm;
-                            diagForm.appendChild(input);
-                        }
-                        input.value = val;
-                    }
-                } catch (err) {
-                    console.error("Error injecting UTM inputs:", err);
-                }
-            });
-
-            // Submit Data via Fetch
-            const formData = new FormData(diagForm);
-            
-            // Map raw values (A, B, C) to descriptive texts and translate keys to clear Spanish questions for the email
-            const textMapping = {
-                vacaciones: {
-                    'A': 'A - El negocio crece o se mantiene igual de bien.',
-                    'B': 'B - Sigue funcionando, pero las ventas bajan y hay desorganización.',
-                    'C': 'C - Se frena por completo o es un caos absoluto.'
-                },
-                incendios: {
-                    'A': 'A - Menos de 5 horas.',
-                    'B': 'B - Entre 10 y 20 horas.',
-                    'C': 'C - Más de 30 horas. El día a día me consume.'
-                },
-                onboarding: {
-                    'A': 'A - Tenemos procesos documentados y un onboarding automático.',
-                    'B': 'B - Le explicamos sobre la marcha o le pasamos algunos apuntes básicos.',
-                    'C': 'C - Lo capacito yo mismo en el día a día (me quita muchísimo tiempo).'
-                },
-                procesos: {
-                    'A': 'A - Más del 80% - Trabajamos con manuales operativos.',
-                    'B': 'B - 10% al 40% - Tenemos algunas cosas sueltas.',
-                    'C': 'C - 0% - Todo está en mi cabeza o en la de mi equipo.'
-                },
-                finanzas: {
-                    'A': 'A - Sí, lo mido rigurosamente.',
-                    'B': 'B - Tengo una idea aproximada.',
-                    'C': 'C - No, me guío más por lo que hay en la cuenta del banco.'
-                },
-                equipo: {
-                    'Solo': 'Solo yo ("hombre/mujer orquesta")',
-                    '1-3': '1 a 3 personas',
-                    '4-10': '4 a 10 personas',
-                    '+10': 'Más de 10 personas'
-                }
-            };
-
-            const friendlyData = new FormData();
-            
-            // Map the subject
-            if (formData.has('_subject')) friendlyData.set('_subject', formData.get('_subject'));
-            
-            // Map basic info
-            if (formData.has('nombre')) friendlyData.set('Nombre del Dueño', formData.get('nombre'));
-            if (formData.has('email')) friendlyData.set('Email de Contacto', formData.get('email'));
-            if (formData.has('sector')) friendlyData.set('Sector de la Empresa', formData.get('sector'));
-            
-            // Map team size
-            if (formData.has('equipo')) {
-                const eqVal = formData.get('equipo');
-                const eqText = textMapping.equipo[eqVal] || eqVal;
-                friendlyData.set('Cantidad de Equipo', eqText);
-            }
-            
-            // Map diagnostic answers
-            const diagQuestions = {
-                vacaciones: 'Vacaciones sin celular (30 días)',
-                incendios: 'Horas apagando incendios operacionales',
-                onboarding: 'Capacitación de nuevos empleados',
-                procesos: 'Procesos críticos documentados (%)',
-                finanzas: 'Manejo del margen neto y CAC'
-            };
-            
-            Object.keys(diagQuestions).forEach(key => {
-                if (formData.has(key)) {
-                    const val = formData.get(key);
-                    const mappedText = (textMapping[key] && textMapping[key][val]) ? textMapping[key][val] : val;
-                    friendlyData.set(diagQuestions[key], mappedText);
-                }
-            });
-            
-            // Map open question
-            if (formData.has('desafio_principal')) {
-                friendlyData.set('Mayor desafío del negocio', formData.get('desafio_principal'));
-            }
-            
-            // Map calculated result
-            if (formData.has('diagnostico_resultado')) {
-                friendlyData.set('Resultado calculado', formData.get('diagnostico_resultado'));
-            }
-            
-            // Map UTM parameters if present
-            const utmsList = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-            utmsList.forEach(utm => {
-                if (formData.has(utm)) {
-                    friendlyData.set('UTM_' + utm.substring(4).toUpperCase(), formData.get(utm));
-                }
-            });
-            
-            try {
-                const response = await fetch(diagForm.action, {
-                    method: 'POST',
-                    body: friendlyData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                const email = (fnState.lead.email || '').trim().toLowerCase();
+                const firstName = (fnState.lead.nombre || '').trim().toLowerCase().split(' ')[0];
+                fbq('init', '2089699688631959', { em: email, fn: firstName }); // Advanced Matching
+                fbq('track', 'Lead', {
+                    value: p,
+                    currency: 'USD',
+                    content_name: 'Diagnóstico de Dependencia Operativa',
+                    predicted_plan: prog.code,
+                    dependencia_level: b.label
                 });
-                
-                if (response.ok) {
-                    currentStep++;
-                    updateFormState();
-                } else {
-                    alert('Hubo un error al enviar el formulario. Por favor, intenta nuevamente.');
-                    const submitBtn = document.getElementById('btn-submit-diag');
-                    if (submitBtn) submitBtn.style.display = 'inline-block';
-                    const spinner = document.getElementById('form-spinner');
-                    if (spinner) spinner.style.display = 'none';
-                }
-            } catch (error) {
-                console.error(error);
-                // Si falla el fetch por CORS o algo, igual mostramos el resultado para no bloquear al usuario en la demo
-                currentStep++;
-                updateFormState();
-            }
-        });
-
-        // Restart/Retake Diagnosis logic
-        const btnRestartDiag = document.getElementById('btn-restart-diag');
-        if (btnRestartDiag) {
-            btnRestartDiag.addEventListener('click', () => {
-                localStorage.removeItem('fn_diagnostico_resultado');
-                currentStep = 0;
-                step1Sent = false;
-                step2Sent = false;
-                diagForm.reset();
-                
-                // Restore submit button and spinner visibility
-                const submitBtn = document.getElementById('btn-submit-diag');
-                if (submitBtn) submitBtn.style.display = 'inline-block';
-                const spinner = document.getElementById('form-spinner');
-                if (spinner) spinner.style.display = 'none';
-                
-                updateFormState();
-            });
+            } catch (err) { console.error('Meta Pixel Lead Error:', err); }
         }
 
-        // Initialize form state step alignment on load
-        updateFormState();
+        // 2) Enviar el lead al endpoint (CRM / Sheets / mail).
+        try {
+            const fd = new FormData();
+            fd.set('_subject', 'Nuevo Diagnóstico Fluir Negocios');
+            fd.set('Nombre', fnState.lead.nombre || '');
+            fd.set('Email', fnState.lead.email || '');
+            fd.set('Sector', a.sector ? a.sector.t : '');
+            fd.set('Equipo', a.equipo ? a.equipo.t : '');
+            fd.set('Dependencia (%)', String(p));
+            fd.set('Nivel de dependencia', b.label);
+            fd.set('Programa recomendado', prog.code + ' — ' + prog.name);
+            fd.set('Mayor freno (texto libre)', fnState.open || '(sin respuesta)');
+            FN_QUESTIONS.forEach(function (q) {
+                if (!q.meta && a[q.key]) fd.set('R: ' + q.q, a[q.key].t);
+            });
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (utm) {
+                try { const v = sessionStorage.getItem('fn_' + utm); if (v) fd.set(utm, v); } catch (e) {}
+            });
+            fetch(FN_LEAD_ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+                .catch(function () { /* no bloquear el resultado si falla */ });
+        } catch (err) { console.error('Lead submit error:', err); }
+    }
+
+    function fnShowResult() {
+        const p = fnScore();
+        const b = fnBand(p);
+        const prog = fnRecommend(p);
+        const nombre = fnState.lead.nombre ? (', ' + fnEsc(fnState.lead.nombre)) : '';
+        const waText = encodeURIComponent('Hola Abi! Hice el diagnóstico: mi dependencia operativa dio ' + p + '% (' + b.label + ') y me recomendó el ' + prog.code + '. Quiero agendar la sesión de 45 minutos.');
+        const C = b.color;
+
+        fnEl(
+            '<div class="center"><div class="eyebrow">Tu diagnóstico' + nombre + '</div>' +
+            '<div class="gauge">' +
+                '<svg width="200" height="200" viewBox="0 0 200 200">' +
+                    '<circle cx="100" cy="100" r="86" fill="none" stroke="#EAF0F7" stroke-width="18"/>' +
+                    '<circle id="fnRing" cx="100" cy="100" r="86" fill="none" stroke="' + C + '" stroke-width="18" stroke-linecap="round" stroke-dasharray="540.4" stroke-dashoffset="540.4"/>' +
+                '</svg>' +
+                '<div class="num"><b id="fnPnum" style="color:' + C + '">0</b><span>de dependencia</span></div>' +
+            '</div>' +
+            '<div class="level" style="color:' + C + ';background:' + b.tint + '">Dependencia ' + b.label + '</div>' +
+            '<h2 style="margin:10px 0 4px">' + b.head + '</h2>' +
+            '<p class="lead center">Según tus respuestas, este es el camino más corto para que el negocio deje de girar alrededor tuyo:</p></div>' +
+
+            '<div class="prog"><div class="code">' + prog.code + ' · RECOMENDADO PARA VOS</div><h3>' + prog.name + '</h3><p>' + prog.desc + '</p></div>' +
+
+            '<a class="btn btn-wa" href="' + FN_WA + waText + '" target="_blank" rel="noopener">📅 Agendá tu sesión de 45 min gratis con Abi</a>' +
+            '<div class="row" style="gap:10px;margin-top:10px">' +
+                '<a class="btn btn-out" href="' + FN_PDF + '" target="_blank" rel="noopener">Descargar la guía</a>' +
+                '<a class="btn btn-out" href="' + prog.link + '" target="_blank" rel="noopener">Ver el programa</a>' +
+            '</div>' +
+
+            '<div class="socip"><div><b>+100</b><span>negocios acompañados</span></div><div><b>+10</b><span>años de trayectoria</span></div><div><b>2-30</b><span>empleados, como vos</span></div></div>' +
+            '<div class="quote">"Pasamos de que todo dependiera de nosotros a tener un encargado que decide solo. Franco hoy cierra cuentas mayoristas en vez de estar en el mostrador." — Distribuidora López y López, Mar del Plata</div>' +
+            '<div class="row" style="justify-content:center;margin-top:14px"><button class="btn btn-ghost" data-action="restart">↺ Volver a hacer el diagnóstico</button></div>'
+        );
+
+        // Animar el anillo + contador
+        const off = 540.4 - (540.4 * (p / 100));
+        requestAnimationFrame(function () {
+            const r = document.getElementById('fnRing');
+            if (r) { r.style.transition = 'stroke-dashoffset 1.1s ease'; r.style.strokeDashoffset = off; }
+        });
+        const num = document.getElementById('fnPnum');
+        let cur = 0;
+        const t = setInterval(function () {
+            cur += Math.max(1, Math.round(p / 28));
+            if (cur >= p) { cur = p; clearInterval(t); }
+            if (num) num.textContent = cur;
+        }, 32);
+    }
+
+    function fnNext() {
+        // Tras la última operativa va la pregunta abierta; después siguen las de perfil.
+        if (fnState.qi === FN_OP_COUNT - 1 && !fnState.openShown) { fnShowOpen(); return; }
+        if (fnState.qi < FN_QUESTIONS.length - 1) { fnState.qi++; fnShowQuestion(fnState.qi); }
+        else { fnShowEmail(); }
+    }
+    function fnBack() {
+        if (fnState.qi === 0) { fnShowWelcome(); return; }
+        // Volver desde la primera de perfil reabre la pregunta abierta.
+        if (fnState.qi === FN_OP_COUNT && fnState.openShown) { fnState.openShown = false; fnShowOpen(); return; }
+        fnState.qi--;
+        fnShowQuestion(fnState.qi);
+    }
+
+    // Reset + bienvenida. La llama openDiagnosticModal() en cada apertura (arranca limpio).
+    function fnStartDiagnostico() {
+        fnState = { qi: 0, answers: {}, open: '', openShown: false, lead: { nombre: '', email: '' }, leadSent: false };
+        fnShowWelcome();
+    }
+
+    if (fnStage) {
+        fnStage.addEventListener('click', function (e) {
+            const optBtn = e.target.closest('.opt');
+            const actBtn = e.target.closest('[data-action]');
+
+            if (optBtn) {
+                const q = FN_QUESTIONS[fnState.qi];
+                const k = parseInt(optBtn.getAttribute('data-opt'), 10);
+                fnState.answers[q.key] = q.opts[k];
+                const all = fnStage.querySelectorAll('.opt');
+                for (let j = 0; j < all.length; j++) all[j].classList.remove('sel');
+                optBtn.classList.add('sel');
+                setTimeout(fnNext, 280);
+                return;
+            }
+            if (!actBtn) return;
+            const action = actBtn.getAttribute('data-action');
+            if (action === 'start') { fnState.qi = 0; fnShowQuestion(0); }
+            else if (action === 'back') { fnBack(); }
+            else if (action === 'afterOpen') {
+                const tx = document.getElementById('fnOpenTxt');
+                fnState.open = tx ? tx.value : '';
+                fnState.openShown = true;
+                fnState.qi = FN_OP_COUNT; // pasar a la primera pregunta de perfil (sector)
+                fnShowQuestion(fnState.qi);
+            }
+            else if (action === 'submitEmail') {
+                const n = document.getElementById('fnInNombre');
+                const em = document.getElementById('fnInEmail');
+                const ev = document.getElementById('fnEmailErr');
+                const okEmail = em && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
+                if (!okEmail) { if (ev) ev.style.display = 'block'; if (em) em.focus(); return; }
+                fnState.lead.nombre = n ? n.value.trim() : '';
+                fnState.lead.email = em.value.trim();
+                fnSendLead();          // CRM/Formspree + evento Lead del píxel (antes de mostrar el resultado)
+                fnShowProcessing();
+            }
+            else if (action === 'restart') { fnStartDiagnostico(); }
+        });
+
+        fnShowWelcome(); // estado inicial
     }
 });
