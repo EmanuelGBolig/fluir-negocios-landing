@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<p class="lead">Respondé 7 preguntas (te lleva 2 minutos) y te decimos qué tan dependiente de vos es tu negocio, con un plan concreto para soltarlo.</p>' +
             '<div class="pills"><span class="pill">2 minutos</span><span class="pill">Sin compromiso</span><span class="pill">Resultado al instante</span></div>' +
             '<button class="btn btn-primary full" data-action="start">Empezar el diagnóstico →</button>' +
-            '<div class="human"><span class="av" role="img" aria-label="Foto de Abi"></span> Te responde <b style="margin-left:2px">Abi, nuestra asesora</b>, en persona.</div>'
+            '<div class="human"><span class="av" role="img" aria-label="Foto de Abi"></span> Te responde <b style="margin-left:2px">Abi, nuestra asesora</b>, por WhatsApp.</div>'
         );
     }
 
