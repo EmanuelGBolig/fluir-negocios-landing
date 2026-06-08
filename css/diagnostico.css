@@ -247,6 +247,11 @@
     font-weight: 700;
 }
 
+#fnDiag .human-copy {
+    flex: 1;
+    min-width: 0;
+}
+
 #fnDiag .human .av {
     flex: 0 0 38px;
     width: 38px;

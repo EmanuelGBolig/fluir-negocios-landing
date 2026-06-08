@@ -291,6 +291,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger global para los botones con onclick inline (Obtener Guía, Hacer diagnóstico, etc.)
     window.fnOpenDiagnostico = openDiagnosticModal;
 
+    // Mostrar la barra CTA fija (mobile) recién después del hero, para no tapar el pill de Abi.
+    // Se usa IntersectionObserver (robusto sin importar qué elemento sea el contenedor de scroll).
+    var fnCtaBar = document.querySelector('.mobile-cta-bar');
+    var fnHeroSec = document.getElementById('inicio');
+    if (fnCtaBar && fnHeroSec && 'IntersectionObserver' in window) {
+        var fnCtaObserver = new IntersectionObserver(function (entries) {
+            // Mostrar la barra solo cuando el hero ya no está en pantalla.
+            document.body.classList.toggle('fn-cta-visible', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        fnCtaObserver.observe(fnHeroSec);
+    } else if (fnCtaBar) {
+        document.body.classList.add('fn-cta-visible'); // fallback: siempre visible
+    }
+
     // Evento Contact del píxel en cualquier clic a WhatsApp (estáticos + botón dinámico del resultado).
     document.addEventListener('click', function (e) {
         const waLink = e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"], a[href*="api.whatsapp"]');
@@ -430,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<p class="lead">Respondé 7 preguntas (te lleva 2 minutos) y te decimos qué tan dependiente de vos es tu negocio, con un plan concreto para soltarlo.</p>' +
             '<div class="pills"><span class="pill">2 minutos</span><span class="pill">Sin compromiso</span><span class="pill">Resultado al instante</span></div>' +
             '<button class="btn btn-primary full" data-action="start">Empezar el diagnóstico →</button>' +
-            '<div class="human"><span class="av" role="img" aria-label="Foto de Abi"></span> Te responde <b style="margin-left:2px">Abi, nuestra asesora</b>, por WhatsApp.</div>'
+            '<div class="human"><span class="av" role="img" aria-label="Foto de Abi"></span><span class="human-copy">Te responde <b>Abi, nuestra asesora</b>, por WhatsApp.</span></div>'
         );
     }
 
