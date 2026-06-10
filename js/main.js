@@ -501,88 +501,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const FN_WA = 'https://wa.me/5492233444604?text=';
     const FN_PDF = 'https://fluirnegocios.com/assets/pdf/Guia-3-Cuellos-de-Botella.pdf';
-    // Denominador de la barra: 9 pantallas con progreso (5 operativas + abierta + sector + equipo + mail) + resultado.
-    const FN_TOTAL = 10;
+    // Barra: 8 pasos (7 preguntas + el reveal). Se completa al mostrar el resultado.
+    const FN_TOTAL = FN_QUESTIONS.length + 1;
 
-    // OP_COUNT = preguntas operativas; tras ellas va la pregunta abierta y luego las de perfil (sector, equipo).
-    const FN_OP_COUNT = FN_QUESTIONS.filter(function (q) { return !q.meta; }).length;
-    let fnState = { qi: 0, answers: {}, open: '', openShown: false, lead: { nombre: '', email: '' }, leadSent: false };
+    let fnState = { qi: 0, answers: {}, open: '', openSent: false, lead: { email: '' }, leadSent: false };
 
     function fnEl(html) { if (fnStage) fnStage.innerHTML = html; }
     function fnSetBar(stepDone) { if (fnBar) fnBar.style.width = Math.round((stepDone / FN_TOTAL) * 100) + '%'; }
-    // La barra solo se muestra durante el avance (preguntas/abierta/mail), no en bienvenida ni resultado.
     function fnBarShow(show) { if (fnBarWrap) fnBarWrap.style.display = show ? '' : 'none'; }
     function fnEsc(s) {
         return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
         });
     }
-
-    function fnShowWelcome() {
-        fnBarShow(false);
-        fnSetBar(0);
-        fnEl(
-            '<div class="eyebrow">Diagnóstico gratuito</div>' +
-            '<h1>¿Tu negocio puede funcionar sin vos?</h1>' +
-            '<p class="lead">Respondé 7 preguntas (te lleva 2 minutos) y te decimos qué tan dependiente de vos es tu negocio, con un plan concreto para soltarlo.</p>' +
-            '<div class="pills"><span class="pill">2 minutos</span><span class="pill">Sin compromiso</span><span class="pill">Resultado al instante</span></div>' +
-            '<button class="btn btn-primary full" data-action="start">Empezar el diagnóstico →</button>' +
-            '<div class="human"><span class="av" role="img" aria-label="Foto de Abi"></span><span class="human-copy">Te responde <b>Abi, nuestra asesora</b>, por WhatsApp.</span></div>'
-        );
+    // Evento custom del píxel para ver el embudo paso a paso (dónde se cae la gente).
+    function fnTrack(ev, params) {
+        if (typeof fbq === 'function') { try { fbq('trackCustom', ev, params || {}); } catch (e) {} }
     }
 
     function fnShowQuestion(i) {
         const q = FN_QUESTIONS[i];
         fnBarShow(true);
-        // Las operativas ocupan los pasos 1..5; las de perfil van después de la abierta (paso 6).
-        fnSetBar((i < FN_OP_COUNT) ? i + 1 : i + 2);
+        fnSetBar(i + 1);
         const saved = fnState.answers[q.key];
         const opts = q.opts.map(function (o, k) {
             const sel = (saved && saved.t === o.t) ? ' sel' : '';
             return '<button class="opt' + sel + '" data-opt="' + k + '"><span class="dot"></span><span>' + o.t + '</span></button>';
         }).join('');
+        const total = FN_QUESTIONS.length;
+        let reminder = '';
+        if (i === total - 1) {
+            reminder = '<div class="prize-reminder">🎁 Última. Al terminar ves tu <b>score</b>, el <b>plan recomendado</b> y la <b>guía gratis</b>.</div>';
+        } else if (i === total - 2) {
+            reminder = '<div class="prize-reminder">🎁 Ya casi. Al terminar desbloqueás tu score y tu plan.</div>';
+        }
+        const backBtn = (i > 0) ? '<button class="btn btn-ghost" data-action="back">← Atrás</button>' : '<span></span>';
         fnEl(
-            '<div class="step">Pregunta ' + (i + 1) + ' de ' + FN_QUESTIONS.length + '</div>' +
+            '<div class="step">Pregunta ' + (i + 1) + ' de ' + total + '</div>' +
             '<h2>' + q.q + '</h2>' +
             '<div class="opts">' + opts + '</div>' +
-            '<div class="row">' +
-                '<button class="btn btn-ghost" data-action="back">← Atrás</button>' +
-                '<span class="micro" style="margin:0">Tocá una opción para seguir</span>' +
-            '</div>'
+            reminder +
+            '<div class="row">' + backBtn + '<span class="micro" style="margin:0">Tocá una opción para seguir</span></div>'
         );
-    }
-
-    function fnShowOpen() {
-        fnBarShow(true);
-        fnSetBar(FN_OP_COUNT + 1);
-        fnEl(
-            '<div class="step">Última, y es la que más nos sirve</div>' +
-            '<h2>En tus palabras: ¿cuál sentís que es el mayor freno para facturar el doble sin trabajar el doble?</h2>' +
-            '<div class="field"><textarea id="fnOpenTxt" rows="4" placeholder="Escribí lo que se te venga a la cabeza...">' + fnEsc(fnState.open) + '</textarea></div>' +
-            '<button class="btn btn-primary full" data-action="afterOpen">Continuar →</button>' +
-            '<div class="row" style="justify-content:center"><button class="btn btn-ghost" data-action="afterOpen">Prefiero saltearla</button></div>'
-        );
-    }
-
-    function fnShowEmail() {
-        fnBarShow(true);
-        fnSetBar(FN_QUESTIONS.length + 2);
-        fnEl(
-            '<div class="eyebrow">Casi listo</div>' +
-            '<h2>Dejanos tu mail y mirá tu resultado</h2>' +
-            '<div class="field"><label>Tu nombre</label><input id="fnInNombre" type="text" placeholder="Nombre" value="' + fnEsc(fnState.lead.nombre) + '"></div>' +
-            '<div class="field"><label>Tu email</label><input id="fnInEmail" type="email" placeholder="vos@tunegocio.com" value="' + fnEsc(fnState.lead.email) + '"><div class="err" id="fnEmailErr">Poné un email válido para ver tu resultado.</div></div>' +
-            '<div class="magnet">🎁 <span>Vas a ver tu <b>diagnóstico completo al instante</b> —tu nivel de dependencia y el plan recomendado— y te llevás gratis la guía <b>"Los 3 cuellos de botella de tu negocio"</b>.</span></div>' +
-            '<button class="btn btn-primary full" style="margin-top:16px" data-action="submitEmail">Ver mi resultado →</button>' +
-            '<div class="micro center">No te vamos a llenar de spam. Tus datos quedan con nosotros.</div>'
-        );
-    }
-
-    function fnShowProcessing() {
-        fnBarShow(false);
-        fnSetBar(FN_TOTAL);
-        fnEl('<div class="center" style="padding:26px 0"><div class="spin"></div><h2 style="margin-top:22px">Analizando tus respuestas...</h2><p class="lead center" style="margin:0">Armando tu diagnóstico y tu plan.</p></div>');
-        setTimeout(fnShowResult, 1300);
     }
 
     function fnScore() {
@@ -591,13 +551,11 @@ document.addEventListener('DOMContentLoaded', () => {
         keys.forEach(function (k) { if (fnState.answers[k]) s += fnState.answers[k].w; });
         return Math.round((s / 10) * 100);
     }
-
     function fnBand(p) {
         if (p >= 67) return { label: 'ALTA', color: '#E5484D', tint: '#FCE9EA', head: 'Tu negocio depende demasiado de vos.' };
         if (p >= 34) return { label: 'MEDIA', color: '#E0A422', tint: '#FBF1DC', head: 'Tu negocio todavía depende bastante de vos.' };
         return { label: 'BAJA', color: '#2FB37A', tint: '#E4F6EE', head: 'Vas bien: tu negocio ya casi no depende de vos.' };
     }
-
     function fnRecommend(p) {
         const eq = fnState.answers.equipo ? fnState.answers.equipo.t : '';
         if (p >= 67) return (eq === 'Más de 10') ? FN_PROG.MAR : FN_PROG.PAC;
@@ -605,90 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return FN_PROG.CDE;
     }
 
-    // Envía el lead al endpoint + dispara el evento Lead del píxel. No bloquea el resultado si falla.
-    function fnSendLead() {
-        if (fnState.leadSent) return;
-        fnState.leadSent = true;
-
-        const p = fnScore();
-        const b = fnBand(p);
-        const prog = fnRecommend(p);
-        const a = fnState.answers;
-
-        // 1) Evento Lead del píxel de Meta (arregla el tracking que nunca disparaba).
-        if (typeof fbq === 'function') {
-            try {
-                const email = (fnState.lead.email || '').trim().toLowerCase();
-                const firstName = (fnState.lead.nombre || '').trim().toLowerCase().split(' ')[0];
-                fbq('init', '2089699688631959', { em: email, fn: firstName }); // Advanced Matching
-                fbq('track', 'Lead', {
-                    value: p,
-                    currency: 'USD',
-                    content_name: 'Diagnóstico de Dependencia Operativa',
-                    predicted_plan: prog.code,
-                    dependencia_level: b.label
-                });
-            } catch (err) { console.error('Meta Pixel Lead Error:', err); }
-        }
-
-        // 2) Enviar el lead al endpoint (CRM / Sheets / mail).
-        try {
-            const fd = new FormData();
-            fd.set('_subject', 'Nuevo Diagnóstico Fluir Negocios');
-            fd.set('Nombre', fnState.lead.nombre || '');
-            fd.set('Email', fnState.lead.email || '');
-            fd.set('Sector', a.sector ? a.sector.t : '');
-            fd.set('Equipo', a.equipo ? a.equipo.t : '');
-            fd.set('Dependencia (%)', String(p));
-            fd.set('Nivel de dependencia', b.label);
-            fd.set('Programa recomendado', prog.code + ' — ' + prog.name);
-            fd.set('Mayor freno (texto libre)', fnState.open || '(sin respuesta)');
-            FN_QUESTIONS.forEach(function (q) {
-                if (!q.meta && a[q.key]) fd.set('R: ' + q.q, a[q.key].t);
-            });
-            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (utm) {
-                try { const v = sessionStorage.getItem('fn_' + utm); if (v) fd.set(utm, v); } catch (e) {}
-            });
-            fetch(FN_LEAD_ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
-                .catch(function () { /* no bloquear el resultado si falla */ });
-        } catch (err) { console.error('Lead submit error:', err); }
-    }
-
-    function fnShowResult() {
-        const p = fnScore();
-        const b = fnBand(p);
-        const prog = fnRecommend(p);
-        const nombre = fnState.lead.nombre ? (', ' + fnEsc(fnState.lead.nombre)) : '';
-        const waText = encodeURIComponent('Hola Abi! Hice el diagnóstico: mi dependencia operativa dio ' + p + '% (' + b.label + ') y me recomendó el ' + prog.code + '. Quiero agendar la sesión de 45 minutos.');
-        const C = b.color;
-
-        fnEl(
-            '<div class="center"><div class="eyebrow">Tu diagnóstico' + nombre + '</div>' +
-            '<div class="gauge">' +
-                '<svg width="200" height="200" viewBox="0 0 200 200">' +
-                    '<circle cx="100" cy="100" r="86" fill="none" stroke="#EAF0F7" stroke-width="18"/>' +
-                    '<circle id="fnRing" cx="100" cy="100" r="86" fill="none" stroke="' + C + '" stroke-width="18" stroke-linecap="round" stroke-dasharray="540.4" stroke-dashoffset="540.4"/>' +
-                '</svg>' +
-                '<div class="num"><b id="fnPnum" style="color:' + C + '">0</b><span>de dependencia</span></div>' +
-            '</div>' +
-            '<div class="level" style="color:' + C + ';background:' + b.tint + '">Dependencia ' + b.label + '</div>' +
-            '<h2 style="margin:10px 0 4px">' + b.head + '</h2>' +
-            '<p class="lead center">Según tus respuestas, este es el camino más corto para que el negocio deje de girar alrededor tuyo:</p></div>' +
-
-            '<div class="prog"><div class="code">' + prog.code + ' · RECOMENDADO PARA VOS</div><h3>' + prog.name + '</h3><p>' + prog.desc + '</p></div>' +
-
-            '<a class="btn btn-wa" href="' + FN_WA + waText + '" target="_blank" rel="noopener">📅 Agendá tu sesión de 45 min gratis con Abi</a>' +
-            '<div class="row" style="gap:10px;margin-top:10px">' +
-                '<a class="btn btn-out" href="' + FN_PDF + '" target="_blank" rel="noopener">Descargar la guía</a>' +
-                '<a class="btn btn-out" href="' + prog.link + '" target="_blank" rel="noopener">Ver el programa</a>' +
-            '</div>' +
-
-            '<div class="socip"><div><b>+100</b><span>negocios acompañados</span></div><div><b>+10</b><span>años de trayectoria</span></div><div><b>2-30</b><span>empleados, como vos</span></div></div>' +
-            '<div class="quote">"Pasamos de que todo dependiera de nosotros a tener un encargado que decide solo. Franco hoy cierra cuentas mayoristas en vez de estar en el mostrador." — Distribuidora López y López, Mar del Plata</div>' +
-            '<div class="row" style="justify-content:center;margin-top:14px"><button class="btn btn-ghost" data-action="restart">↺ Volver a hacer el diagnóstico</button></div>'
-        );
-
-        // Animar el anillo + contador
+    function fnAnimateGauge(p) {
         const off = 540.4 - (540.4 * (p / 100));
         requestAnimationFrame(function () {
             const r = document.getElementById('fnRing');
@@ -703,24 +578,140 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 32);
     }
 
-    function fnNext() {
-        // Tras la última operativa va la pregunta abierta; después siguen las de perfil.
-        if (fnState.qi === FN_OP_COUNT - 1 && !fnState.openShown) { fnShowOpen(); return; }
-        if (fnState.qi < FN_QUESTIONS.length - 1) { fnState.qi++; fnShowQuestion(fnState.qi); }
-        else { fnShowEmail(); }
-    }
-    function fnBack() {
-        if (fnState.qi === 0) { fnShowWelcome(); return; }
-        // Volver desde la primera de perfil reabre la pregunta abierta.
-        if (fnState.qi === FN_OP_COUNT && fnState.openShown) { fnState.openShown = false; fnShowOpen(); return; }
-        fnState.qi--;
-        fnShowQuestion(fnState.qi);
+    function fnShowProcessing() {
+        fnBarShow(false);
+        fnSetBar(FN_TOTAL);
+        fnTrack('DiagCompleted', { score: fnScore() });
+        fnEl('<div class="center" style="padding:26px 0"><div class="spin"></div><h2 style="margin-top:22px">Analizando tus respuestas...</h2><p class="lead center" style="margin:0">Calculando tu nivel de dependencia.</p></div>');
+        setTimeout(fnShowPartialResult, 1100);
     }
 
-    // Reset + bienvenida. La llama openDiagnosticModal() en cada apertura (arranca limpio).
+    // (1) Resultado PARCIAL: muestra el score al instante (se lo ganaron), sin pedir nada todavía.
+    function fnShowPartialResult() {
+        fnBarShow(false);
+        const p = fnScore();
+        const b = fnBand(p);
+        const C = b.color;
+        fnEl(
+            '<div class="center"><div class="eyebrow">Tu diagnóstico</div>' +
+            '<div class="gauge">' +
+                '<svg width="200" height="200" viewBox="0 0 200 200">' +
+                    '<circle cx="100" cy="100" r="86" fill="none" stroke="#EAF0F7" stroke-width="18"/>' +
+                    '<circle id="fnRing" cx="100" cy="100" r="86" fill="none" stroke="' + C + '" stroke-width="18" stroke-linecap="round" stroke-dasharray="540.4" stroke-dashoffset="540.4"/>' +
+                '</svg>' +
+                '<div class="num"><b id="fnPnum" style="color:' + C + '">0</b><span>de dependencia</span></div>' +
+            '</div>' +
+            '<div class="level" style="color:' + C + ';background:' + b.tint + '">Dependencia ' + b.label + '</div>' +
+            '<h2 style="margin:10px 0 6px">' + b.head + '</h2>' +
+            '<p class="lead center">Este es tu nivel de dependencia operativa. Desbloqueá <b>el plan recomendado para tu caso</b> + la guía gratis 👇</p></div>' +
+            '<button class="btn btn-primary full" data-action="toEmail">Ver mi plan completo →</button>' +
+            '<div class="micro center">Gratis · te lleva 10 segundos</div>'
+        );
+        fnAnimateGauge(p);
+    }
+
+    // (3) Email solo (sin nombre). Desbloquea el plan + la guía.
+    function fnShowEmail() {
+        fnBarShow(false);
+        const b = fnBand(fnScore());
+        fnEl(
+            '<div class="eyebrow">Un paso y es tuyo</div>' +
+            '<h2>¿A qué email te mandamos el plan + la guía?</h2>' +
+            '<p class="lead">Desbloqueás el <b>programa recomendado</b> para tu nivel (' + b.label + ') y te llevás gratis la guía "Los 3 cuellos de botella de tu negocio".</p>' +
+            '<div class="field"><input id="fnInEmail" type="email" inputmode="email" placeholder="vos@tunegocio.com" value="' + fnEsc(fnState.lead.email) + '"><div class="err" id="fnEmailErr">Poné un email válido.</div></div>' +
+            '<button class="btn btn-primary full" style="margin-top:6px" data-action="submitEmail">Ver mi plan + la guía →</button>' +
+            '<div class="micro center">Sin spam. Tus datos quedan con nosotros.</div>'
+        );
+        const em = document.getElementById('fnInEmail');
+        if (em) em.focus();
+    }
+
+    // Manda el lead al mail + dispara el evento Lead. No bloquea el resultado si falla.
+    function fnSendLead() {
+        if (fnState.leadSent) return;
+        fnState.leadSent = true;
+        const p = fnScore(); const b = fnBand(p); const prog = fnRecommend(p); const a = fnState.answers;
+        if (typeof fbq === 'function') {
+            try {
+                fbq('init', '2089699688631959', { em: (fnState.lead.email || '').trim().toLowerCase() });
+                fbq('track', 'Lead', { value: p, currency: 'USD', content_name: 'Diagnóstico de Dependencia Operativa', predicted_plan: prog.code, dependencia_level: b.label });
+            } catch (err) { console.error('Meta Pixel Lead Error:', err); }
+        }
+        try {
+            const fd = new FormData();
+            fd.set('_subject', 'Nuevo Diagnóstico Fluir Negocios');
+            fd.set('Email', fnState.lead.email || '');
+            fd.set('Sector', a.sector ? a.sector.t : '');
+            fd.set('Equipo', a.equipo ? a.equipo.t : '');
+            fd.set('Dependencia (%)', String(p));
+            fd.set('Nivel de dependencia', b.label);
+            fd.set('Programa recomendado', prog.code + ' — ' + prog.name);
+            FN_QUESTIONS.forEach(function (q) { if (!q.meta && a[q.key]) fd.set('R: ' + q.q, a[q.key].t); });
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (utm) {
+                try { const v = sessionStorage.getItem('fn_' + utm); if (v) fd.set(utm, v); } catch (e) {}
+            });
+            fetch(FN_LEAD_ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } }).catch(function () {});
+        } catch (err) { console.error('Lead submit error:', err); }
+    }
+
+    // (4) Pregunta abierta: OPCIONAL y después del resultado (ya están enganchados).
+    function fnSendOpen() {
+        const tx = document.getElementById('fnOpenTxt');
+        fnState.open = tx ? tx.value.trim() : '';
+        const wrap = document.getElementById('fnOpenAfter');
+        if (!fnState.open) { if (tx) tx.focus(); return; }
+        if (!fnState.openSent) {
+            fnState.openSent = true;
+            try {
+                const fd = new FormData();
+                fd.set('_subject', 'Diagnóstico — mayor freno (texto libre)');
+                fd.set('Email', fnState.lead.email || '');
+                fd.set('Mayor freno', fnState.open);
+                fetch(FN_LEAD_ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } }).catch(function () {});
+            } catch (e) {}
+        }
+        if (wrap) wrap.innerHTML = '<div class="micro center" style="color:#2FB37A;font-weight:700;padding:8px 0">¡Gracias! Lo tenemos en cuenta para tu sesión.</div>';
+    }
+
+    function fnShowFullResult() {
+        const p = fnScore();
+        const b = fnBand(p);
+        const prog = fnRecommend(p);
+        const C = b.color;
+        const waText = encodeURIComponent('Hola Abi! Hice el diagnóstico: mi dependencia operativa dio ' + p + '% (' + b.label + ') y me recomendó el ' + prog.code + '. Quiero agendar la sesión de 45 minutos.');
+        fnEl(
+            '<div class="center"><span class="level" style="color:' + C + ';background:' + b.tint + '">Dependencia ' + b.label + ' · ' + p + '%</span>' +
+            '<h2 style="margin:12px 0 4px">Tu plan recomendado</h2>' +
+            '<p class="lead center">Según tus respuestas, este es el camino más corto para que el negocio deje de girar alrededor tuyo:</p></div>' +
+            '<div class="prog"><div class="code">' + prog.code + ' · RECOMENDADO PARA VOS</div><h3>' + prog.name + '</h3><p>' + prog.desc + '</p></div>' +
+            '<a class="btn btn-wa" href="' + FN_WA + waText + '" target="_blank" rel="noopener">📅 Agendá tu sesión de 45 min gratis con Abi</a>' +
+            '<div class="row" style="gap:10px;margin-top:10px">' +
+                '<a class="btn btn-out" href="' + FN_PDF + '" target="_blank" rel="noopener">Descargar la guía</a>' +
+                '<a class="btn btn-out" href="' + prog.link + '" target="_blank" rel="noopener">Ver el programa</a>' +
+            '</div>' +
+            '<div class="open-after" id="fnOpenAfter">' +
+                '<div class="step" style="margin:18px 0 6px">Una opcional que nos ayuda a prepararte mejor:</div>' +
+                '<div class="field"><textarea id="fnOpenTxt" rows="3" placeholder="¿Cuál sentís que es hoy tu mayor freno para crecer?">' + fnEsc(fnState.open) + '</textarea></div>' +
+                '<button class="btn btn-out" data-action="sendOpen">Enviar</button>' +
+            '</div>' +
+            '<div class="socip"><div><b>+100</b><span>negocios acompañados</span></div><div><b>+10</b><span>años de trayectoria</span></div><div><b>2-30</b><span>empleados como vos</span></div></div>' +
+            '<div class="quote">"Pasamos de que todo dependiera de nosotros a tener un encargado que decide solo. Franco hoy cierra cuentas mayoristas en vez de estar en el mostrador." — Distribuidora López y López, Mar del Plata</div>' +
+            '<div class="row" style="justify-content:center;margin-top:14px"><button class="btn btn-ghost" data-action="restart">↺ Volver a hacer el diagnóstico</button></div>'
+        );
+    }
+
+    function fnNext() {
+        if (fnState.qi < FN_QUESTIONS.length - 1) { fnState.qi++; fnShowQuestion(fnState.qi); }
+        else { fnShowProcessing(); }
+    }
+    function fnBack() {
+        if (fnState.qi > 0) { fnState.qi--; fnShowQuestion(fnState.qi); }
+    }
+
+    // (5) Arranca directo en la Pregunta 1 (sin pantalla intro).
     function fnStartDiagnostico() {
-        fnState = { qi: 0, answers: {}, open: '', openShown: false, lead: { nombre: '', email: '' }, leadSent: false };
-        fnShowWelcome();
+        fnState = { qi: 0, answers: {}, open: '', openSent: false, lead: { email: '' }, leadSent: false };
+        fnShowQuestion(0);
     }
 
     if (fnStage) {
@@ -732,6 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const q = FN_QUESTIONS[fnState.qi];
                 const k = parseInt(optBtn.getAttribute('data-opt'), 10);
                 fnState.answers[q.key] = q.opts[k];
+                fnTrack('DiagStep', { step: fnState.qi + 1, key: q.key });
                 const all = fnStage.querySelectorAll('.opt');
                 for (let j = 0; j < all.length; j++) all[j].classList.remove('sel');
                 optBtn.classList.add('sel');
@@ -740,29 +732,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (!actBtn) return;
             const action = actBtn.getAttribute('data-action');
-            if (action === 'start') { fnState.qi = 0; fnShowQuestion(0); }
-            else if (action === 'back') { fnBack(); }
-            else if (action === 'afterOpen') {
-                const tx = document.getElementById('fnOpenTxt');
-                fnState.open = tx ? tx.value : '';
-                fnState.openShown = true;
-                fnState.qi = FN_OP_COUNT; // pasar a la primera pregunta de perfil (sector)
-                fnShowQuestion(fnState.qi);
-            }
+            if (action === 'back') { fnBack(); }
+            else if (action === 'toEmail') { fnShowEmail(); }
             else if (action === 'submitEmail') {
-                const n = document.getElementById('fnInNombre');
                 const em = document.getElementById('fnInEmail');
                 const ev = document.getElementById('fnEmailErr');
                 const okEmail = em && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
                 if (!okEmail) { if (ev) ev.style.display = 'block'; if (em) em.focus(); return; }
-                fnState.lead.nombre = n ? n.value.trim() : '';
                 fnState.lead.email = em.value.trim();
-                fnSendLead();          // CRM/Formspree + evento Lead del píxel (antes de mostrar el resultado)
-                fnShowProcessing();
+                fnSendLead();
+                fnShowFullResult();
             }
+            else if (action === 'sendOpen') { fnSendOpen(); }
             else if (action === 'restart') { fnStartDiagnostico(); }
         });
 
-        fnShowWelcome(); // estado inicial
+        fnShowQuestion(0); // estado inicial: arranca en la pregunta 1
     }
 });
