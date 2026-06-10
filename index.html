@@ -259,20 +259,25 @@
             <div class="container">
                 <span class="section-kicker">Lo que está en juego</span>
                 <h2 class="text-center section-title">Lo que te está costando seguir así</h2>
-                <div class="stakes-grid">
-                    <div class="pain-card scale-up stagger-1">
-                        <i class="fa-solid fa-clock text-blue"></i>
-                        <p><strong>Tiempo.</strong> Cada semana que pasa son horas tuyas apagando incendios que no vuelven.</p>
+                <div class="carousel-wrapper">
+                    <button class="carousel-nav-btn prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="pain-grid">
+                        <div class="pain-card scale-up stagger-1">
+                            <i class="fa-solid fa-clock text-blue"></i>
+                            <p><strong>Tiempo.</strong> Cada semana que pasa son horas tuyas apagando incendios que no vuelven.</p>
+                        </div>
+                        <div class="pain-card scale-up stagger-2">
+                            <i class="fa-solid fa-coins text-blue"></i>
+                            <p><strong>Plata.</strong> Sin números claros, hay margen que se te escapa todos los meses sin que lo veas.</p>
+                        </div>
+                        <div class="pain-card scale-up stagger-3">
+                            <i class="fa-solid fa-lock text-blue"></i>
+                            <p><strong>Libertad.</strong> Si no podés soltar, el negocio te tiene a vos — no vos a él.</p>
+                        </div>
                     </div>
-                    <div class="pain-card scale-up stagger-2">
-                        <i class="fa-solid fa-coins text-blue"></i>
-                        <p><strong>Plata.</strong> Sin números claros, hay margen que se te escapa todos los meses sin que lo veas.</p>
-                    </div>
-                    <div class="pain-card scale-up stagger-3">
-                        <i class="fa-solid fa-lock text-blue"></i>
-                        <p><strong>Libertad.</strong> Si no podés soltar, el negocio te tiene a vos — no vos a él.</p>
-                    </div>
+                    <button class="carousel-nav-btn next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
+                <div class="carousel-dots" data-target="stakes-grid"></div>
                 <p class="stakes-transition text-center">La buena noticia: esto no es falta de esfuerzo. Son cuellos de botella concretos, y se resuelven.</p>
             </div>
         </section>
