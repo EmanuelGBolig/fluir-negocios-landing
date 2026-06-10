@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/styles.css?v=2.0">
+    <link rel="stylesheet" href="./css/styles.css?v=2.1">
     <!-- Diagnóstico (flujo tipo quiz, estilos scopeados en #fnDiag) -->
     <link rel="stylesheet" href="./css/diagnostico.css?v=1.1">
 
@@ -125,15 +125,15 @@
                 <div class="hero-left-col">
                     <span class="hero-badge-top">FN – CONSULTORÍA PARA DUEÑOS DE NEGOCIOS • ARGENTINA</span>
                     <h1 class="hero-title-new">Dejá de trabajar<br><span>dentro de tu negocio.</span><br>Empezá a <span>liderarlo.</span></h1>
-                    <p class="hero-desc-new">Acompañamos a dueños de negocios de 2 a 30 empleados a facturar más, delegar con criterio y construir un equipo que funcione sin que vos tengas que estar en todo.</p>
+                    <p class="hero-desc-new">Trabajás de sol a sol, todo pasa por vos y a fin de mes la plata no alcanza. Te ayudamos a ordenar los números, delegar con criterio y construir un equipo que funcione sin que tengas que estar en todo.</p>
                     <div class="hero-actions-new">
-                        <a href="javascript:void(0)" id="btn-open-diagnostico" class="btn-hero-primary">Hacer diagnóstico gratuito <i class="fa-solid fa-arrow-right"></i></a>
-                        <a href="#programas" class="btn-hero-secondary">Ver programas</a>
+                        <a href="javascript:void(0)" id="btn-open-diagnostico" class="btn-hero-primary">Hacé el diagnóstico gratis (45 min) <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#programas" class="hero-link-secondary">Ver programas <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
 
                     <div class="hero-trust">
                         <span class="hero-trust-stars" aria-hidden="true"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                        <span class="hero-trust-text"><strong>+100 negocios</strong> acompañados · <strong>+10 años</strong> de trayectoria</span>
+                        <span class="hero-trust-text"><strong>+100 negocios</strong> acompañados · <strong>+10 años</strong> de trayectoria · resultados desde la semana 2</span>
                     </div>
 
                 </div>
@@ -230,21 +230,18 @@
                     <div class="pain-grid">
                         <div class="pain-card scale-up stagger-1">
                             <i class="fa-solid fa-arrow-trend-down text-blue"></i>
-                            <p>Tu facturación no crece aunque trabajes más horas. <strong>Dependés de referidos</strong>
-                                y
-                                no tenés un sistema predecible para conseguir clientes nuevos.</p>
+                            <p>Tu facturación no crece aunque trabajes más horas, y <strong>a fin de mes la plata no
+                                alcanza</strong>. No tenés números claros de cuánto ganás de verdad.</p>
                         </div>
                         <div class="pain-card scale-up stagger-2">
                             <i class="fa-solid fa-users-slash text-blue"></i>
-                            <p>Tus empleados <strong>necesitan que estés en todo</strong>. Si te vas un día, algo falla.
-                                La
-                                empresa no funciona sin vos.</p>
+                            <p>Tus empleados <strong>necesitan que estés en todo</strong>. Si te vas un día, algo falla:
+                                la empresa no funciona sin vos.</p>
                         </div>
                         <div class="pain-card scale-up stagger-3">
                             <i class="fa-solid fa-business-time text-blue"></i>
-                            <p>Manejás el negocio <strong>a ojo y por sensación</strong>. No tenés números claros y
-                                tomás
-                                decisiones importantes sin información real.</p>
+                            <p>Manejás el negocio <strong>a ojo y por sensación</strong>. Tomás decisiones importantes
+                                sin información real.</p>
                         </div>
                     </div>
                     <button class="carousel-nav-btn next" aria-label="Siguiente"><i
@@ -252,8 +249,31 @@
                 </div>
                 <div class="carousel-dots" data-target="pain-grid"></div>
                 <div class="text-center mt-2">
-                    <a href="https://wa.me/5492233444604?text=Hola!%20Mi%20negocio%20depende%20demasiado%20de%20m%C3%AD.%20Quiero%20resolverlo." target="_blank" class="btn-primary">Sí, quiero resolverlo</a>
+                    <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-primary">Hacé el diagnóstico gratis</a>
                 </div>
+            </div>
+        </section>
+
+        <!-- Stakes: lo que te está costando seguir así (SB7 #6) -->
+        <section class="section-stakes">
+            <div class="container">
+                <span class="section-kicker">Lo que está en juego</span>
+                <h2 class="text-center section-title">Lo que te está costando seguir así</h2>
+                <div class="stakes-grid">
+                    <div class="pain-card scale-up stagger-1">
+                        <i class="fa-solid fa-clock text-blue"></i>
+                        <p><strong>Tiempo.</strong> Cada semana que pasa son horas tuyas apagando incendios que no vuelven.</p>
+                    </div>
+                    <div class="pain-card scale-up stagger-2">
+                        <i class="fa-solid fa-coins text-blue"></i>
+                        <p><strong>Plata.</strong> Sin números claros, hay margen que se te escapa todos los meses sin que lo veas.</p>
+                    </div>
+                    <div class="pain-card scale-up stagger-3">
+                        <i class="fa-solid fa-lock text-blue"></i>
+                        <p><strong>Libertad.</strong> Si no podés soltar, el negocio te tiene a vos — no vos a él.</p>
+                    </div>
+                </div>
+                <p class="stakes-transition text-center">La buena noticia: esto no es falta de esfuerzo. Son cuellos de botella concretos, y se resuelven.</p>
             </div>
         </section>
 
@@ -297,95 +317,12 @@
                     </div>
                 </div>
                 <div class="text-center mt-2">
-                    <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-primary">Hacer diagnóstico <i
+                    <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-primary">Hacé el diagnóstico gratis <i
                             class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
         </section>
 
-        <!-- Programs / Services -->
-        <section id="programas" class="section-programs">
-            <div class="container">
-                <span class="section-kicker">Soluciones</span>
-                <h2 class="section-title text-center">Nuestros Programas</h2>
-                <p class="section-subtitle text-center">Soluciones diseñadas para que tu negocio deje de depender de
-                    vos.</p>
-                <div class="carousel-wrapper">
-                    <button class="carousel-nav-btn prev" aria-label="Anterior"><i
-                            class="fa-solid fa-chevron-left"></i></button>
-                    <div class="programs-grid">
-                        <a href="./pages/mar.html" class="program-card-link slide-up stagger-1">
-                            <div class="program-card-hero">
-                                <span class="program-badge">Consultoría 1 a 1</span>
-                                <h3 class="program-card-hero-title">M·A·R</h3>
-                                <p class="program-card-hero-sub">Método Acelerador de Resultados</p>
-                            </div>
-                            <div class="program-card-body">
-                                <p>Arquitectura para empresas autónomas. Plan personalizado con tres niveles de
-                                    evolución:
-                                    Tracción, Impulso y Exponencial.</p>
-                                <ul class="program-card-highlights">
-                                    <li><i class="fa-solid fa-chart-line text-blue"></i> Tableros de KPIs y control
-                                        financiero</li>
-                                    <li><i class="fa-solid fa-people-group text-blue"></i> Delegación y manualización
-                                    </li>
-                                    <li><i class="fa-solid fa-robot text-blue"></i> Automatización con IA y n8n
-                                        (automatización inteligente)</li>
-                                </ul>
-                                <span class="program-card-cta">Ver programa completo <i
-                                        class="fa-solid fa-arrow-right"></i></span>
-                            </div>
-                        </a>
-                        <a href="./pages/pac.html" class="program-card-link slide-up stagger-2">
-                            <div class="program-card-hero program-card-hero--pac">
-                                <span class="program-badge program-badge--hot"><i class="fa-solid fa-fire"></i>
-                                    Nuevo</span>
-                                <h3 class="program-card-hero-title">P·A·C</h3>
-                                <p class="program-card-hero-sub">Programa Acelerador de Crecimiento</p>
-                            </div>
-                            <div class="program-card-body">
-                                <p>8 semanas de transformación grupal presencial. Consultoría real para dueños reales
-                                    que
-                                    quieren dejar de improvisar.</p>
-                                <ul class="program-card-highlights">
-                                    <li><i class="fa-solid fa-bolt text-blue"></i> Mentalidad de dueño y liderazgo</li>
-                                    <li><i class="fa-solid fa-coins text-blue"></i> Orden financiero inteligente</li>
-                                    <li><i class="fa-solid fa-rocket text-blue"></i> Estrategia comercial ganadora</li>
-                                </ul>
-                                <span class="program-card-cta">Ver programa completo <i
-                                        class="fa-solid fa-arrow-right"></i></span>
-                            </div>
-                        </a>
-                        <a href="./pages/cde.html"
-                            class="program-card-link slide-up stagger-3">
-                            <div class="program-card-hero program-card-hero--team">
-                                <span class="program-badge program-badge--hot"><i
-                                        class="fa-solid fa-graduation-cap"></i> Capacitación</span>
-                                <h3 class="program-card-hero-title">C·D·E</h3>
-                                <p class="program-card-hero-sub">(Capacitación de Equipo)</p>
-                            </div>
-                            <div class="program-card-body">
-                                <p>Formamos a tus gerentes y encargados para que puedan liderar la operación con
-                                    autonomía, comunicación efectiva y resultados.</p>
-                                <ul class="program-card-highlights">
-                                    <li><i class="fa-solid fa-comments text-blue"></i> Comunicación y Feedback</li>
-                                    <li><i class="fa-solid fa-users-gear text-blue"></i> Gestión de Equipos de Alto
-                                        Rendimiento</li>
-                                    <li><i class="fa-solid fa-chess-knight text-blue"></i> Liderazgo y Toma de
-                                        Decisiones</li>
-                                </ul>
-                                <span class="program-card-cta">Ver programa completo <i
-                                        class="fa-solid fa-arrow-right"></i></span>
-                            </div>
-                        </a>
-                    </div>
-                    <button class="carousel-nav-btn next" aria-label="Siguiente"><i
-                            class="fa-solid fa-chevron-right"></i></button>
-                </div>
-                <div class="carousel-dots" data-target="programs-grid"></div>
-
-            </div>
-        </section>
 
 
         
@@ -573,6 +510,105 @@
 
 
 
+        <!-- Éxito: cómo se ve tu negocio cuando fluye (SB7 #7) -->
+        <section class="section-success">
+            <div class="container">
+                <span class="section-kicker">El otro lado</span>
+                <h2 class="text-center section-title">Cómo se ve tu negocio cuando fluye</h2>
+                <ul class="success-list">
+                    <li><i class="fa-solid fa-circle-check"></i><span>Tu equipo ejecuta con tu estándar sin necesitarte en cada paso.</span></li>
+                    <li><i class="fa-solid fa-circle-check"></i><span>Te tomás vacaciones y el negocio sigue facturando.</span></li>
+                    <li><i class="fa-solid fa-circle-check"></i><span>Tenés un tablero con los 5 números que importan: decidís con datos, no con corazonadas.</span></li>
+                    <li><i class="fa-solid fa-circle-check"></i><span>Tu tiempo se destina a crecer, no a apagar incendios.</span></li>
+                </ul>
+                <div class="text-center mt-2">
+                    <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-primary">Hacé el diagnóstico gratis</a>
+                </div>
+            </div>
+        </section>
+        <!-- Programs / Services -->
+        <section id="programas" class="section-programs">
+            <div class="container">
+                <span class="section-kicker">Soluciones</span>
+                <h2 class="section-title text-center">Nuestros Programas</h2>
+                <p class="section-subtitle text-center">Soluciones diseñadas para que tu negocio deje de depender de
+                    vos.</p>
+                <div class="carousel-wrapper">
+                    <button class="carousel-nav-btn prev" aria-label="Anterior"><i
+                            class="fa-solid fa-chevron-left"></i></button>
+                    <div class="programs-grid">
+                        <a href="./pages/mar.html" class="program-card-link slide-up stagger-1">
+                            <div class="program-card-hero">
+                                <span class="program-badge">Consultoría 1 a 1</span>
+                                <h3 class="program-card-hero-title">M·A·R</h3>
+                                <p class="program-card-hero-sub">Método Acelerador de Resultados</p>
+                            </div>
+                            <div class="program-card-body">
+                                <p>Arquitectura para empresas autónomas. Plan personalizado con tres niveles de
+                                    evolución:
+                                    Tracción, Impulso y Exponencial.</p>
+                                <ul class="program-card-highlights">
+                                    <li><i class="fa-solid fa-chart-line text-blue"></i> Tableros de KPIs y control
+                                        financiero</li>
+                                    <li><i class="fa-solid fa-people-group text-blue"></i> Delegación y manualización
+                                    </li>
+                                    <li><i class="fa-solid fa-robot text-blue"></i> Automatización con IA y n8n
+                                        (automatización inteligente)</li>
+                                </ul>
+                                <span class="program-card-cta">Ver programa completo <i
+                                        class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="./pages/pac.html" class="program-card-link slide-up stagger-2">
+                            <div class="program-card-hero program-card-hero--pac">
+                                <span class="program-badge program-badge--hot"><i class="fa-solid fa-fire"></i>
+                                    Nuevo</span>
+                                <h3 class="program-card-hero-title">P·A·C</h3>
+                                <p class="program-card-hero-sub">Programa Acelerador de Crecimiento</p>
+                            </div>
+                            <div class="program-card-body">
+                                <p>8 semanas de transformación grupal presencial. Consultoría real para dueños reales
+                                    que
+                                    quieren dejar de improvisar.</p>
+                                <ul class="program-card-highlights">
+                                    <li><i class="fa-solid fa-bolt text-blue"></i> Mentalidad de dueño y liderazgo</li>
+                                    <li><i class="fa-solid fa-coins text-blue"></i> Orden financiero inteligente</li>
+                                    <li><i class="fa-solid fa-rocket text-blue"></i> Estrategia comercial ganadora</li>
+                                </ul>
+                                <span class="program-card-cta">Ver programa completo <i
+                                        class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="./pages/cde.html"
+                            class="program-card-link slide-up stagger-3">
+                            <div class="program-card-hero program-card-hero--team">
+                                <span class="program-badge program-badge--hot"><i
+                                        class="fa-solid fa-graduation-cap"></i> Capacitación</span>
+                                <h3 class="program-card-hero-title">C·D·E</h3>
+                                <p class="program-card-hero-sub">(Capacitación de Equipo)</p>
+                            </div>
+                            <div class="program-card-body">
+                                <p>Formamos a tus gerentes y encargados para que puedan liderar la operación con
+                                    autonomía, comunicación efectiva y resultados.</p>
+                                <ul class="program-card-highlights">
+                                    <li><i class="fa-solid fa-comments text-blue"></i> Comunicación y Feedback</li>
+                                    <li><i class="fa-solid fa-users-gear text-blue"></i> Gestión de Equipos de Alto
+                                        Rendimiento</li>
+                                    <li><i class="fa-solid fa-chess-knight text-blue"></i> Liderazgo y Toma de
+                                        Decisiones</li>
+                                </ul>
+                                <span class="program-card-cta">Ver programa completo <i
+                                        class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
+                    <button class="carousel-nav-btn next" aria-label="Siguiente"><i
+                            class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="carousel-dots" data-target="programs-grid"></div>
+
+            </div>
+        </section>
         <!-- FAQ -->
         <section id="faq" class="section-faq bg-light">
             <div class="container">
@@ -686,6 +722,16 @@
             </div>
         </section>
 
+        <!-- CTA final antes del footer -->
+        <section class="section-cta-final">
+            <div class="container">
+                <span class="section-kicker">El primer paso</span>
+                <h2>¿Listo para que tu negocio funcione sin vos?</h2>
+                <p>Empezá por el diagnóstico gratis de 45 minutos. Sin compromiso: salís con tu nivel de dependencia y un plan concreto.</p>
+                <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-primary btn-large">Hacé el diagnóstico gratis</a>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer Corporativo -->
@@ -732,7 +778,7 @@
     </div>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/5492233444604?text=Hola!%20Quiero%20asesoramiento%20para%20mi%20negocio." class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
+    <a href="https://wa.me/5492233444604?text=Hola%20Abi!%20Quiero%20hacer%20el%20diagn%C3%B3stico%20gratuito%20de%20mi%20negocio." class="whatsapp-float" target="_blank" aria-label="Hablar con Abi por WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 

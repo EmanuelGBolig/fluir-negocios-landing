@@ -4267,3 +4267,122 @@ button.btn-secondary:hover {
         font-size: 2rem;
     }
 }
+
+/* ============================================================
+   Home SB7: link secundario del hero, Stakes, Éxito, CTA final
+   ============================================================ */
+
+/* "Ver programas" como link de texto (no botón primario) */
+.hero-link-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0.7rem 0.4rem;
+    transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.hero-link-secondary:hover {
+    color: var(--color-secondary);
+    gap: 0.65rem;
+}
+
+/* Stakes — "Lo que te está costando seguir así" */
+.section-stakes {
+    padding: 5rem 0;
+    background: #f7faff;
+}
+
+.stakes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.stakes-transition {
+    max-width: 680px;
+    margin: 2.5rem auto 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.5;
+}
+
+/* Éxito — "Cómo se ve tu negocio cuando fluye" */
+.section-success {
+    padding: 5rem 0;
+}
+
+.success-list {
+    max-width: 720px;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.success-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.success-list li i {
+    color: #2FB37A;
+    font-size: 1.3rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.success-list li span {
+    font-size: 1.08rem;
+    line-height: 1.5;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+/* CTA final antes del footer */
+.section-cta-final {
+    background: var(--gradient-primary);
+    padding: 4.5rem 1rem;
+    text-align: center;
+    color: #fff;
+}
+
+.section-cta-final .section-kicker {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.section-cta-final h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.section-cta-final p {
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.section-cta-final .btn-primary {
+    background: #fff;
+    color: var(--color-primary);
+}
+
+.section-cta-final .btn-primary:hover {
+    background: #eef2ff;
+    color: var(--color-primary);
+}
