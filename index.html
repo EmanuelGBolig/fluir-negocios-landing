@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/styles.css?v=2.1">
+    <link rel="stylesheet" href="./css/styles.css?v=2.2">
     <!-- Diagnóstico (flujo tipo quiz, estilos scopeados en #fnDiag) -->
     <link rel="stylesheet" href="./css/diagnostico.css?v=1.1">
 
@@ -169,21 +169,21 @@
                         <i class="fa-solid fa-file-circle-check"></i>
                         Hacé nuestro diagnóstico gratis y descargá la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
                         &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
+                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                     <span class="banner-ticker-item">
                         <i class="fa-solid fa-file-circle-check"></i>
                         Hacé nuestro diagnóstico gratis y descargá la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
                         &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
+                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                     <span class="banner-ticker-item">
                         <i class="fa-solid fa-file-circle-check"></i>
                         Hacé nuestro diagnóstico gratis y descargá la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
                         &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
+                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                 </div>
@@ -457,6 +457,39 @@
             </div>
         </section>
 
+        <!-- Guía gratis (Modal de captura: nombre + email -> lead al mail + descarga) -->
+        <section id="modal-guia" class="section-diagnostico modal-overlay">
+            <div class="container modal-container">
+                <div class="modal-content guia-modal">
+                    <button type="button" id="btn-close-guia" class="modal-close">&times;</button>
+                    <div id="guia-form-state">
+                        <div class="guia-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                        <span class="section-kicker">Guía gratis</span>
+                        <h2 class="guia-title">Los 3 cuellos de botella de tu negocio</h2>
+                        <p class="guia-sub">Dejanos tu nombre y tu email, y descargá la guía al instante. Sin vueltas.</p>
+                        <div class="guia-field">
+                            <label for="guia-nombre">Tu nombre</label>
+                            <input type="text" id="guia-nombre" placeholder="Nombre">
+                        </div>
+                        <div class="guia-field">
+                            <label for="guia-email">Tu email</label>
+                            <input type="email" id="guia-email" placeholder="vos@tunegocio.com">
+                            <div class="guia-err" id="guia-err">Poné un email válido para enviarte la guía.</div>
+                        </div>
+                        <button type="button" id="btn-guia-submit" class="guia-submit"><i class="fa-solid fa-download"></i> Descargar la guía</button>
+                        <p class="guia-micro">No te vamos a llenar de spam. Tus datos quedan con nosotros.</p>
+                    </div>
+                    <div id="guia-success-state" style="display:none;">
+                        <div class="guia-icon guia-icon-ok"><i class="fa-solid fa-circle-check"></i></div>
+                        <h2 class="guia-title">¡Listo! Tu guía se está descargando</h2>
+                        <p class="guia-sub">Si la descarga no arrancó sola, tocá el botón de abajo.</p>
+                        <a id="guia-download-link" href="./assets/pdf/Guia-3-Cuellos-de-Botella.pdf" download="Guia-3-Cuellos-de-Botella.pdf" target="_blank" rel="noopener" class="guia-submit"><i class="fa-solid fa-download"></i> Descargar de nuevo</a>
+                        <p class="guia-micro">¿Querés que veamos tu caso en concreto? <a href="javascript:void(0)" onclick="document.getElementById('btn-close-guia').click(); window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="guia-bridge">Hacé el diagnóstico gratis →</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Equipo -->
         <section id="quienes-somos" class="section-team">
             <div class="container">
@@ -609,6 +642,22 @@
 
             </div>
         </section>
+        <!-- Lead magnet: banda de descarga de la guía -->
+        <section class="section-guia-cta">
+            <div class="container">
+                <div class="guia-cta-inner">
+                    <div class="guia-cta-text">
+                        <span class="section-kicker">Recurso gratis</span>
+                        <h2>Descargá gratis la guía<br><span>"Los 3 cuellos de botella de tu negocio"</span></h2>
+                        <p>Los 3 frenos más comunes que hacen que todo dependa de vos — y cómo empezar a resolverlos.</p>
+                    </div>
+                    <div class="guia-cta-action">
+                        <button type="button" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="guia-cta-btn"><i class="fa-solid fa-file-pdf"></i> Descargar la guía gratis</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ -->
         <section id="faq" class="section-faq bg-light">
             <div class="container">
@@ -701,21 +750,21 @@
                         <i class="fa-solid fa-file-circle-check"></i>
                         Hacé nuestro diagnóstico gratis y descargá la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
                         &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
+                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                     <span class="banner-ticker-item">
                         <i class="fa-solid fa-file-circle-check"></i>
                         Hacé nuestro diagnóstico gratis y descargá la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
                         &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
+                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                     <span class="banner-ticker-item">
                         <i class="fa-solid fa-file-circle-check"></i>
                         Hacé nuestro diagnóstico gratis y descargá la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
                         &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenDiagnostico && window.fnOpenDiagnostico(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
+                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                 </div>
@@ -865,7 +914,7 @@
     }
     </script>
 
-    <script src="./js/main.js?v=2.0"></script>
+    <script src="./js/main.js?v=2.1"></script>
 </body>
 
 </html>

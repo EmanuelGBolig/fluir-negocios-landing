@@ -366,6 +366,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     checkMetaAdsAutoOpen();
 
+    // 8b. Modal de Guía gratis — captura nombre + email, manda el lead al mail y descarga el PDF.
+    const modalGuia = document.getElementById('modal-guia');
+    function openGuiaModal() {
+        if (!modalGuia) return;
+        const fs = document.getElementById('guia-form-state');
+        const ss = document.getElementById('guia-success-state');
+        if (fs) fs.style.display = '';
+        if (ss) ss.style.display = 'none';
+        const err = document.getElementById('guia-err');
+        if (err) err.style.display = 'none';
+        modalGuia.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeGuiaModal() {
+        if (!modalGuia) return;
+        modalGuia.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    window.fnOpenGuia = openGuiaModal;
+
+    if (modalGuia) {
+        const btnCloseGuia = document.getElementById('btn-close-guia');
+        if (btnCloseGuia) btnCloseGuia.addEventListener('click', closeGuiaModal);
+        modalGuia.addEventListener('click', function (e) {
+            if (e.target === modalGuia || e.target.classList.contains('modal-container')) closeGuiaModal();
+        });
+
+        const btnGuiaSubmit = document.getElementById('btn-guia-submit');
+        if (btnGuiaSubmit) {
+            btnGuiaSubmit.addEventListener('click', function () {
+                const em = document.getElementById('guia-email');
+                const n = document.getElementById('guia-nombre');
+                const err = document.getElementById('guia-err');
+                const email = em ? em.value.trim() : '';
+                const nombre = n ? n.value.trim() : '';
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    if (err) err.style.display = 'block';
+                    if (em) em.focus();
+                    return;
+                }
+
+                // 1) Evento Lead del píxel (con Advanced Matching)
+                if (typeof fbq === 'function') {
+                    try {
+                        fbq('init', '2089699688631959', { em: email.toLowerCase(), fn: nombre.toLowerCase().split(' ')[0] });
+                        fbq('track', 'Lead', { content_name: 'Guía 3 Cuellos de Botella' });
+                    } catch (e) { console.error('Pixel guía:', e); }
+                }
+
+                // 2) Mandar el lead al mail (Formspree, mismo endpoint del diagnóstico)
+                try {
+                    const fd = new FormData();
+                    fd.set('_subject', 'Nueva descarga de guía — Fluir Negocios');
+                    fd.set('Nombre', nombre);
+                    fd.set('Email', email);
+                    fd.set('Origen', 'Descarga guía "Los 3 cuellos de botella"');
+                    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (u) {
+                        try { const v = sessionStorage.getItem('fn_' + u); if (v) fd.set(u, v); } catch (e) {}
+                    });
+                    fetch('https://formspree.io/f/mredepgv', { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } }).catch(function () {});
+                } catch (e) { console.error('Lead guía:', e); }
+
+                // 3) Disparar la descarga del PDF
+                try {
+                    const a = document.createElement('a');
+                    a.href = './assets/pdf/Guia-3-Cuellos-de-Botella.pdf';
+                    a.download = 'Guia-3-Cuellos-de-Botella.pdf';
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } catch (e) { console.error('Descarga guía:', e); }
+
+                // 4) Mostrar estado de éxito
+                const fs = document.getElementById('guia-form-state');
+                const ss = document.getElementById('guia-success-state');
+                if (fs) fs.style.display = 'none';
+                if (ss) ss.style.display = '';
+            });
+        }
+    }
+
     // 9. Diagnóstico — flujo tipo quiz (rediseño).
     // Preguntas primero, mail al final. Maqueta y lógica: Prototipo_Diagnostico_Fluir.html.
     // Estilos: css/diagnostico.css (scopeados en #fnDiag).

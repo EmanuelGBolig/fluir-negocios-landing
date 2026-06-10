@@ -4386,3 +4386,207 @@ button.btn-secondary:hover {
     background: #eef2ff;
     color: var(--color-primary);
 }
+
+/* ============================================================
+   Guía gratis: modal de captura (nombre + email) + banda CTA
+   ============================================================ */
+.guia-modal {
+    max-width: 460px;
+    text-align: center;
+}
+
+.guia-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    border-radius: 16px;
+    background: var(--gradient-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.guia-icon-ok {
+    background: #2FB37A;
+}
+
+.guia-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0.4rem 0 0.6rem;
+    line-height: 1.2;
+}
+
+.guia-sub {
+    color: #475569;
+    margin-bottom: 1.4rem;
+    line-height: 1.5;
+}
+
+.guia-field {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.guia-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: #34465B;
+}
+
+.guia-field input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1.6px solid var(--color-border);
+    border-radius: 12px;
+    background: #f8fbfe;
+}
+
+.guia-field input:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    background: #fff;
+}
+
+.guia-err {
+    color: #E5484D;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-top: 0.35rem;
+    display: none;
+}
+
+.guia-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.4rem;
+    cursor: pointer;
+    background: var(--gradient-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(15, 82, 186, 0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guia-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(15, 82, 186, 0.36);
+    color: #fff;
+}
+
+.guia-micro {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-top: 0.9rem;
+}
+
+.guia-bridge {
+    color: var(--color-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.guia-bridge:hover {
+    text-decoration: underline;
+}
+
+/* Banda CTA de la guía (lead magnet) */
+.section-guia-cta {
+    padding: 4rem 0;
+}
+
+.guia-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: #FFF8E6;
+    border: 1px solid #F0E2B6;
+    border-radius: 22px;
+    padding: 2.4rem 2.6rem;
+}
+
+.guia-cta-text {
+    flex: 1 1 340px;
+}
+
+.guia-cta-text .section-kicker {
+    text-align: left;
+    color: #b8860b;
+}
+
+.guia-cta-text h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0.3rem 0 0.6rem;
+    line-height: 1.25;
+    color: #1e293b;
+}
+
+.guia-cta-text h2 span {
+    color: var(--color-primary);
+}
+
+.guia-cta-text p {
+    color: #5b4d22;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.guia-cta-action {
+    flex: 0 0 auto;
+}
+
+.guia-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #E0A422, #CDAA36);
+    color: #1a1205;
+    font-weight: 800;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 14px;
+    padding: 1.05rem 1.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(205, 170, 54, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guia-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(205, 170, 54, 0.45);
+}
+
+@media (max-width: 768px) {
+    .guia-cta-inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.4rem;
+    }
+    .guia-cta-text {
+        flex-basis: auto;
+    }
+    .guia-cta-text .section-kicker {
+        text-align: center;
+    }
+    .guia-cta-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
