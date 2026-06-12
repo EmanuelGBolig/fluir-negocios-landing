@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autodiagnóstico gratis — ¿Tu negocio funciona sin vos? | Fluir Negocios</title>
+    <meta name="description" content="Respondé 10 preguntas y descubrí al instante qué tan dependiente de vos es tu negocio, con los 3 frenos principales que te impiden crecer. Gratis.">
+    <!-- Landing de campañas (Meta Ads): noindex para no competir con la home en Google -->
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://fluirnegocios.com/pages/diagnostico.html">
+    <link rel="icon" href="../assets/logos/favicon.png" type="image/png">
+
+    <!-- ============================================================
+         CONFIGURACIÓN — completar estas 3 constantes:
+         · META_PIXEL_ID: Events Manager (business.facebook.com/events_manager)
+           → Orígenes de datos → tu píxel → el número largo del ID.
+         · LEAD_WEBHOOK_URL: endpoint que recibe el lead en JSON.
+           Conectar acá n8n / Make / Apps Script → Google Sheets.
+           Para probar: crear un endpoint en https://webhook.site y pegarlo.
+           Si queda vacío (''), el lead solo viaja por el píxel (no se pierde el flujo).
+         · CALENDAR_URL: URL pública de Calendly o Cal.com (ej:
+           https://calendly.com/fluirnegocios/diagnostico-45min).
+           Si queda vacío (''), se muestra el botón de WhatsApp con Abi como fallback.
+         ============================================================ -->
+    <script>
+        var META_PIXEL_ID = '2089699688631959';
+        var LEAD_WEBHOOK_URL = '';
+        var CALENDAR_URL = '';
+    </script>
+
+    <!-- Meta Pixel (las campañas deben optimizarse por el evento Lead, no por tráfico ni mensajes) -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', META_PIXEL_ID);
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
+
+    <!-- CSS crítico inline: sin hojas externas ni fuentes web (performance mobile) -->
+    <style>
+        :root {
+            --blue: #0F52BA; --blue2: #2D7DDB; --cyan: #00B4D8; --ink: #0A1A2F;
+            --muted: #6A788A; --line: #E3EAF2; --bg: #EEF3F8;
+            --red: #E5484D; --amber: #E0A422; --green: #2FB37A;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--ink);
+            background: linear-gradient(180deg, #F6FAFF 0%, var(--bg) 100%);
+            line-height: 1.5;
+        }
+        .wrap { max-width: 640px; margin: 0 auto; padding: 0 18px; }
+        .topbar { padding: 16px 0 4px; text-align: center; }
+        .topbar img { height: 44px; width: auto; }
+
+        /* Hero compacto: CTA visible sin scroll a 390px */
+        .hero { text-align: center; padding: 14px 0 18px; }
+        .hero h1 { font-size: clamp(26px, 7vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; }
+        .hero h1 span { color: var(--blue); }
+        .hero .sub { color: #37475A; font-size: 16px; margin: 10px auto 16px; max-width: 480px; }
+        .hero .sub b { color: var(--ink); }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            font: inherit; font-weight: 800; font-size: 17px; cursor: pointer;
+            border: 0; border-radius: 13px; padding: 16px 22px; text-decoration: none;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .btn-cta {
+            width: 100%; max-width: 420px; color: #fff;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            box-shadow: 0 12px 26px rgba(15, 82, 186, .32);
+        }
+        .btn-cta:hover { transform: translateY(-2px); }
+        .micro { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+        /* Card del quiz */
+        .card {
+            background: #fff; border: 1px solid var(--line); border-radius: 20px;
+            box-shadow: 0 18px 50px rgba(10, 26, 47, .10);
+            padding: 24px 20px; margin: 14px 0 26px;
+        }
+        .qbar { height: 6px; background: #EAF0F7; border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+        .qbar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--blue), var(--blue2)); transition: width .35s ease; }
+        .qstep { font-size: 12.5px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+        .card h2 { font-size: 20px; line-height: 1.25; font-weight: 800; margin-bottom: 14px; }
+        .opts { display: flex; flex-direction: column; gap: 10px; }
+        .opt {
+            text-align: left; width: 100%; cursor: pointer; font: inherit; font-size: 15.5px; font-weight: 600;
+            color: var(--ink); background: #F7FAFE; border: 1.6px solid var(--line); border-radius: 12px;
+            padding: 14px 15px; display: flex; align-items: center; gap: 11px; transition: .15s;
+        }
+        .opt:hover { border-color: var(--blue2); background: #F0F6FF; }
+        .opt .dot { flex: 0 0 17px; width: 17px; height: 17px; border-radius: 50%; border: 2px solid #C3D2E4; }
+        .opt.sel { border-color: var(--blue); background: #E8F1FF; }
+        .opt.sel .dot { border-color: var(--blue); background: var(--blue); box-shadow: inset 0 0 0 3px #fff; }
+        .qfoot { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+        .ghost { background: none; border: 0; font: inherit; font-size: 14px; font-weight: 700; color: var(--muted); cursor: pointer; padding: 8px 4px; }
+        .ghost:hover { color: var(--ink); }
+        .hintmicro { font-size: 12.5px; color: var(--muted); }
+
+        /* Form del lead */
+        .field { margin-bottom: 12px; text-align: left; }
+        .field label { display: block; font-size: 13px; font-weight: 800; color: #34465B; margin-bottom: 5px; }
+        .field input {
+            width: 100%; font: inherit; font-size: 16px; padding: 13px 14px;
+            border: 1.6px solid var(--line); border-radius: 11px; background: #F8FBFE;
+        }
+        .field input:focus { outline: none; border-color: var(--blue2); background: #fff; }
+        .err { display: none; color: var(--red); font-size: 12.5px; font-weight: 700; margin-top: 4px; }
+
+        /* Resultado */
+        .level-band { display: inline-block; font-weight: 800; font-size: 13px; letter-spacing: .8px; text-transform: uppercase; padding: 7px 16px; border-radius: 99px; }
+        .freno { display: flex; gap: 10px; text-align: left; background: #F8FBFE; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-top: 10px; font-size: 14.5px; }
+        .freno b { display: block; }
+        .freno .n { flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+        .agenda { margin-top: 18px; }
+        .agenda iframe { width: 100%; height: 640px; border: 0; border-radius: 14px; }
+        .btn-wa { width: 100%; color: #fff; background: #1FB055; box-shadow: 0 12px 26px rgba(31, 176, 85, .32); }
+
+        /* Prueba social */
+        .proof { text-align: center; padding: 6px 0 10px; }
+        .proof .nums { font-weight: 800; color: var(--blue); font-size: 15px; }
+        .testi { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-top: 12px; text-align: left; font-size: 14.5px; color: #37475A; }
+        .testi i { display: block; font-style: italic; }
+        .testi b { display: block; margin-top: 8px; color: var(--ink); font-style: normal; font-size: 13.5px; }
+        .final { text-align: center; padding: 10px 0 50px; }
+        .foot { text-align: center; font-size: 12px; color: #90A0B3; padding: 0 0 28px; }
+        .hide { display: none; }
+        @media (min-width: 480px) { .topbar img { height: 50px; } .card { padding: 28px 26px; } }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <!-- Solo logo, sin navegación (landing de campaña: un solo objetivo) -->
+        <header class="topbar"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132"></header>
+
+        <section class="hero">
+            <h1>¿Tu negocio funciona <span>sin vos</span>?<br>Descubrilo en 2 minutos</h1>
+            <p class="sub">Respondé 10 preguntas y al instante te decimos tu <b>nivel de dependencia</b> y los <b>3 frenos principales</b> de tu negocio. Gratis.</p>
+            <a href="#quiz" class="btn btn-cta" data-cta="hero">Hacer el autodiagnóstico gratis →</a>
+            <div class="micro">2 minutos · sin compromiso · resultado al instante</div>
+        </section>
+
+        <!-- QUIZ -->
+        <section id="quiz">
+            <div class="card">
+                <div class="qbar"><i id="qbarFill"></i></div>
+                <div id="qStage"><!-- pantallas del quiz --></div>
+            </div>
+        </section>
+
+        <!-- Prueba social compacta -->
+        <section class="proof">
+            <div class="nums">+100 negocios acompañados · +10 años de trayectoria</div>
+            <div class="testi"><i>"Pasamos de que todo dependiera de nosotros a tener un encargado que decide solo. Franco hoy cierra cuentas mayoristas en vez de estar en el mostrador."</i><b>Franco y Claudia — Distribuidora López y López, Mar del Plata</b></div>
+            <div class="testi"><i>"Antes gestionaba el taller por intuición y el dinero se me escapaba. Hoy tengo un sueldo fijo y sé que mi punto de equilibrio son 27 servicios."</i><b>Mauro Marin — Mauro Marin Tapas de Cilindros · Rectificadora</b></div>
+        </section>
+
+        <section class="final">
+            <a href="#quiz" class="btn btn-cta" data-cta="footer">Hacer el autodiagnóstico gratis →</a>
+            <div class="micro">Te lleva 2 minutos y te vas con tu diagnóstico bajo el brazo.</div>
+        </section>
+
+        <div class="foot">Fluir Negocios · Mar del Plata, Argentina · <a href="https://fluirnegocios.com/" style="color:#6A788A">fluirnegocios.com</a></div>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        /* ---------- Preguntas y puntaje (mayor puntaje = más dependencia) ---------- */
+        var QUESTIONS = [
+            { key: 'empleados', q: '¿Cuántos empleados tiene tu negocio?', meta: true,
+              opts: [{ t: 'Solo yo', w: 0 }, { t: '2 a 5', w: 0 }, { t: '6 a 15', w: 0 }, { t: '16 a 30', w: 0 }, { t: 'Más de 30', w: 0 }] },
+            { key: 'vacaciones', q: 'Si te tomás una semana de vacaciones, ¿qué pasa con el negocio?', cat: 'dependencia',
+              opts: [{ t: 'Funciona igual o mejor', w: 0 }, { t: 'Funciona, pero me llaman todos los días', w: 1 }, { t: 'Se complica: las ventas y el orden caen', w: 2 }, { t: 'Imposible: no me puedo ir ni una semana', w: 3 }] },
+            { key: 'ganancia', q: '¿Sabés cuánto ganás de verdad cada mes?', cat: 'numeros',
+              opts: [{ t: 'Sí, con números claros', w: 0 }, { t: 'Aproximado, más o menos', w: 1 }, { t: 'Ni idea, veo lo que queda en el banco', w: 2 }] },
+            { key: 'equilibrio', q: '¿Conocés tu punto de equilibrio (cuánto necesitás vender para no perder plata)?', cat: 'numeros',
+              opts: [{ t: 'Sí, lo tengo calculado', w: 0 }, { t: 'Más o menos', w: 1 }, { t: 'No sé qué es', w: 2 }] },
+            { key: 'decisiones', q: '¿Quién toma las decisiones del día a día?', cat: 'dependencia',
+              opts: [{ t: 'El equipo, con criterios claros', w: 0 }, { t: 'Yo y alguien más', w: 1 }, { t: 'Solo yo: todo pasa por mí', w: 2 }] },
+            { key: 'horas', q: '¿Cuántas horas por semana trabajás EN la operación (no en estrategia)?', cat: 'tiempo',
+              opts: [{ t: 'Menos de 10', w: 0 }, { t: 'Entre 10 y 25', w: 1 }, { t: 'Entre 25 y 40', w: 2 }, { t: 'Más de 40: vivo adentro', w: 3 }] },
+            { key: 'roles', q: '¿Tenés roles y funciones por escrito?', cat: 'equipo',
+              opts: [{ t: 'Sí, cada uno sabe qué hace', w: 0 }, { t: 'Parcialmente', w: 1 }, { t: 'No, cada uno hace lo que puede', w: 2 }] },
+            { key: 'compras', q: '¿Cómo decidís compras e inversiones?', cat: 'numeros',
+              opts: [{ t: 'Con datos y números', w: 0 }, { t: 'Por intuición', w: 1 }, { t: 'Como se puede, cuando se puede', w: 2 }] },
+            { key: 'facturacion', q: '¿Tu facturación creció el último año?', cat: 'ventas',
+              opts: [{ t: 'Sí, creció', w: 0 }, { t: 'Quedó igual', w: 1 }, { t: 'Bajó', w: 2 }] },
+            { key: 'freno', q: '¿Qué es lo que más te frena hoy?', meta: true,
+              opts: [{ t: 'La plata: los números no cierran', w: 0, tag: 'numeros' }, { t: 'El equipo: no puedo delegar', w: 0, tag: 'equipo' }, { t: 'El tiempo: vivo apagando incendios', w: 0, tag: 'tiempo' }, { t: 'No sé, por eso estoy acá', w: 0 }] }
+        ];
+        var MAX_SCORE = 18; // suma de los máximos de las 8 preguntas que puntúan
+
+        var LEVELS = {
+            rojo:     { label: 'NIVEL ROJO',     head: 'Tu negocio depende 100% de vos',  color: '#E5484D', tint: '#FCE9EA',
+                        sub: 'Si vos parás, el negocio para. La buena noticia: son frenos concretos y se resuelven con sistema.' },
+            amarillo: { label: 'NIVEL AMARILLO', head: 'Estás a mitad de camino',          color: '#E0A422', tint: '#FBF1DC',
+                        sub: 'Hay cosas que funcionan, pero todavía cargás demasiado. Con estructura, el salto es rápido.' },
+            verde:    { label: 'NIVEL VERDE',    head: 'Tenés base, te falta sistema',     color: '#2FB37A', tint: '#E4F6EE',
+                        sub: 'Vas mejor que la mayoría. El próximo paso es ordenar lo que ya tenés para escalar sin romperte.' }
+        };
+
+        var FRENOS = {
+            numeros:     { max: 6, title: 'Números a ciegas', desc: 'Sin margen real ni punto de equilibrio, hay plata que se te escapa todos los meses sin que la veas.' },
+            dependencia: { max: 5, title: 'Todo pasa por vos', desc: 'El negocio no tiene quién decida cuando no estás. Tu presencia es el cuello de botella.' },
+            tiempo:      { max: 3, title: 'Tu semana se va en la operación', desc: 'Apagás incendios en vez de hacer crecer el negocio. Esas horas no vuelven.' },
+            equipo:      { max: 2, title: 'Equipo sin estructura', desc: 'Sin roles ni procesos escritos, cada uno hace lo que puede y vos corregís todo.' },
+            ventas:      { max: 2, title: 'Facturación estancada', desc: 'Sin sistema comercial, dependés de que los clientes "aparezcan" en vez de salir a buscarlos.' }
+        };
+
+        var WA_PHONE = '5492233444604'; // WhatsApp de Abi (asesora)
+
+        /* ---------- Estado (en memoria; sin localStorage para datos del lead) ---------- */
+        var state = { qi: 0, answers: {}, lead: { nombre: '', email: '', whatsapp: '' }, started: false, leadSent: false, scheduled: false };
+
+        var stage = document.getElementById('qStage');
+        var barFill = document.getElementById('qbarFill');
+        var TOTAL_STEPS = QUESTIONS.length + 1; // 10 preguntas + pantalla de contacto
+
+        /* UTMs de la URL (para atribución de campañas) */
+        var UTM = {};
+        try {
+            var sp = new URLSearchParams(location.search);
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+                if (sp.get(k)) UTM[k] = sp.get(k);
+            });
+        } catch (e) {}
+
+        function track(ev, params, custom) {
+            if (typeof fbq !== 'function') return;
+            try { fbq(custom ? 'trackCustom' : 'track', ev, params || {}); } catch (e) {}
+        }
+        function el(html) { stage.innerHTML = html; }
+        function setBar(n) { barFill.style.width = Math.round((n / TOTAL_STEPS) * 100) + '%'; }
+        function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+        /* ---------- Pantallas ---------- */
+        function showQuestion(i) {
+            var q = QUESTIONS[i];
+            setBar(i);
+            var saved = state.answers[q.key];
+            var opts = q.opts.map(function (o, k) {
+                var sel = (saved && saved.t === o.t) ? ' sel' : '';
+                return '<button class="opt' + sel + '" data-opt="' + k + '"><span class="dot"></span><span>' + o.t + '</span></button>';
+            }).join('');
+            var hint = (i === QUESTIONS.length - 1)
+                ? '<div class="hintmicro" style="margin-top:10px">🎁 Última: al terminar ves tu nivel y tus frenos.</div>' : '';
+            el(
+                '<div class="qstep">Pregunta ' + (i + 1) + ' de ' + QUESTIONS.length + '</div>' +
+                '<h2>' + q.q + '</h2>' +
+                '<div class="opts">' + opts + '</div>' + hint +
+                '<div class="qfoot">' + (i > 0 ? '<button class="ghost" data-action="back">← Atrás</button>' : '<span></span>') +
+                '<span class="hintmicro">Tocá una opción para seguir</span></div>'
+            );
+        }
+
+        /* Captura del lead ANTES de mostrar el resultado */
+        function showContact() {
+            setBar(QUESTIONS.length);
+            el(
+                '<div class="qstep">¡Listo! Tus respuestas ya están analizadas</div>' +
+                '<h2>¿A dónde te mandamos tu resultado?</h2>' +
+                '<div class="field"><label for="ldNombre">Tu nombre</label><input id="ldNombre" type="text" autocomplete="name" placeholder="Nombre" value="' + esc(state.lead.nombre) + '"><div class="err" id="errNombre">Decinos tu nombre.</div></div>' +
+                '<div class="field"><label for="ldEmail">Tu email</label><input id="ldEmail" type="email" inputmode="email" autocomplete="email" placeholder="vos@tunegocio.com" value="' + esc(state.lead.email) + '"><div class="err" id="errEmail">Poné un email válido.</div></div>' +
+                '<div class="field"><label for="ldWsp">Tu WhatsApp</label><input id="ldWsp" type="tel" inputmode="tel" autocomplete="tel" placeholder="223 555 0000" value="' + esc(state.lead.whatsapp) + '"><div class="err" id="errWsp">Poné un número válido (con código de área).</div></div>' +
+                '<button class="btn btn-cta" style="max-width:none" data-action="submitLead">Ver mi resultado →</button>' +
+                '<div class="micro" style="text-align:center">No te vamos a llenar de spam. Tus datos quedan con nosotros.</div>'
+            );
+        }
+
+        /* ---------- Scoring ---------- */
+        function score() {
+            var s = 0;
+            QUESTIONS.forEach(function (q) { if (!q.meta && state.answers[q.key]) s += state.answers[q.key].w; });
+            return s;
+        }
+        function level(s) {
+            if (s >= 12) return 'rojo';
+            if (s >= 6) return 'amarillo';
+            return 'verde';
+        }
+        function frenosDetectados() {
+            var sums = { numeros: 0, dependencia: 0, tiempo: 0, equipo: 0, ventas: 0 };
+            QUESTIONS.forEach(function (q) {
+                if (q.cat && state.answers[q.key]) sums[q.cat] += state.answers[q.key].w;
+            });
+            var declared = state.answers.freno && state.answers.freno.tag;
+            var list = Object.keys(sums).map(function (k) {
+                var ratio = sums[k] / FRENOS[k].max;
+                if (declared === k) ratio += 0.15; // lo que la persona declara pesa más
+                return { key: k, ratio: ratio };
+            }).sort(function (a, b) { return b.ratio - a.ratio; });
+            var out = list.filter(function (f) { return f.ratio >= 0.5; }).slice(0, 3);
+            if (out.length < 2) out = list.slice(0, 2);
+            return out.map(function (f) { return FRENOS[f.key]; });
+        }
+
+        /* ---------- Lead: webhook + pixel ---------- */
+        function sendLead() {
+            if (state.leadSent) return;
+            state.leadSent = true;
+            var s = score();
+            var lv = level(s);
+
+            // Evento de conversión: Lead (optimizar las campañas de Meta por ESTE evento)
+            if (typeof fbq === 'function') {
+                try {
+                    fbq('init', META_PIXEL_ID, { em: state.lead.email.toLowerCase(), ph: state.lead.whatsapp.replace(/\D/g, ''), fn: state.lead.nombre.toLowerCase().split(' ')[0] });
+                    fbq('track', 'Lead', { content_name: 'Autodiagnóstico Fluir', nivel: lv, score: s });
+                } catch (e) {}
+            }
+
+            // POST al webhook (n8n / Make / Apps Script → Google Sheets se conecta acá)
+            if (LEAD_WEBHOOK_URL) {
+                var respuestas = {};
+                QUESTIONS.forEach(function (q) { if (state.answers[q.key]) respuestas[q.key] = state.answers[q.key].t; });
+                var payload = {
+                    nombre: state.lead.nombre,
+                    email: state.lead.email,
+                    whatsapp: state.lead.whatsapp,
+                    score: s,
+                    score_max: MAX_SCORE,
+                    nivel: lv,
+                    respuestas: respuestas,
+                    utm_source: UTM.utm_source || '',
+                    utm_medium: UTM.utm_medium || '',
+                    utm_campaign: UTM.utm_campaign || '',
+                    utm_content: UTM.utm_content || '',
+                    timestamp: new Date().toISOString(),
+                    pagina: location.href
+                };
+                try {
+                    fetch(LEAD_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }).catch(function () { /* no bloquear el resultado si falla */ });
+                } catch (e) {}
+            }
+        }
+
+        /* ---------- Resultado + agenda ---------- */
+        function showResult() {
+            setBar(TOTAL_STEPS);
+            var s = score();
+            var lv = LEVELS[level(s)];
+            var fr = frenosDetectados();
+            var frHtml = fr.map(function (f, i) {
+                return '<div class="freno"><span class="n">' + (i + 1) + '</span><span><b>' + f.title + '</b>' + f.desc + '</span></div>';
+            }).join('');
+
+            var agendaHtml;
+            if (CALENDAR_URL) {
+                // Calendly: el evento calendly.event_scheduled llega por postMessage (se escucha abajo)
+                agendaHtml = '<iframe src="' + CALENDAR_URL + '" title="Agendar llamada"></iframe>';
+            } else {
+                var waText = encodeURIComponent('Hola! Hice el autodiagnóstico y me dio nivel ' + lv.label.replace('NIVEL ', '') + '. Quiero agendar la llamada de diagnóstico de 45 min.');
+                agendaHtml = '<a class="btn btn-wa" id="waSchedule" href="https://wa.me/' + WA_PHONE + '?text=' + waText + '" target="_blank" rel="noopener">📅 Agendar por WhatsApp con Abi</a>';
+            }
+
+            el(
+                '<div style="text-align:center">' +
+                '<span class="level-band" style="color:' + lv.color + ';background:' + lv.tint + '">' + lv.label + '</span>' +
+                '<h2 style="margin:12px 0 6px">' + lv.head + '</h2>' +
+                '<p style="color:#37475A;font-size:15px">' + lv.sub + '</p></div>' +
+                '<div style="margin-top:14px"><b style="font-size:14px;color:#34465B">Tus frenos detectados:</b>' + frHtml + '</div>' +
+                '<div style="text-align:center;margin-top:20px"><h2 style="font-size:18px">Agendá tu llamada de diagnóstico gratis (45 min)</h2>' +
+                '<p style="color:#6A788A;font-size:13.5px;margin:4px 0 12px">Revisamos tu resultado juntos y te llevás un plan concreto. Sin compromiso.</p></div>' +
+                '<div class="agenda" id="agendaBox">' + agendaHtml + '</div>'
+            );
+
+            var wa = document.getElementById('waSchedule');
+            if (wa) wa.addEventListener('click', function () {
+                if (!state.scheduled) { state.scheduled = true; track('Schedule', { method: 'whatsapp', nivel: lv.label }); }
+            });
+        }
+
+        // Calendly avisa la reserva via postMessage → evento Schedule
+        window.addEventListener('message', function (e) {
+            if (e.data && e.data.event === 'calendly.event_scheduled' && !state.scheduled) {
+                state.scheduled = true;
+                track('Schedule', { method: 'calendly' });
+            }
+        });
+
+        /* ---------- Navegación ---------- */
+        stage.addEventListener('click', function (e) {
+            var opt = e.target.closest('.opt');
+            var act = e.target.closest('[data-action]');
+
+            if (opt) {
+                var q = QUESTIONS[state.qi];
+                state.answers[q.key] = q.opts[parseInt(opt.getAttribute('data-opt'), 10)];
+                if (!state.started) { state.started = true; track('ViewContent', { content_name: 'Autodiagnóstico Fluir' }); }
+                track('DiagStep', { step: state.qi + 1, key: q.key }, true);
+                var all = stage.querySelectorAll('.opt');
+                for (var j = 0; j < all.length; j++) all[j].classList.remove('sel');
+                opt.classList.add('sel');
+                setTimeout(function () {
+                    if (state.qi < QUESTIONS.length - 1) { state.qi++; showQuestion(state.qi); }
+                    else { showContact(); }
+                }, 260);
+                return;
+            }
+            if (!act) return;
+            var a = act.getAttribute('data-action');
+            if (a === 'back') { if (state.qi > 0) { state.qi--; showQuestion(state.qi); } }
+            else if (a === 'submitLead') {
+                var n = document.getElementById('ldNombre'), em = document.getElementById('ldEmail'), w = document.getElementById('ldWsp');
+                var okN = n.value.trim().length >= 2;
+                var okE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
+                var digits = w.value.replace(/\D/g, '');
+                var okW = digits.length >= 8 && digits.length <= 15;
+                document.getElementById('errNombre').style.display = okN ? 'none' : 'block';
+                document.getElementById('errEmail').style.display = okE ? 'none' : 'block';
+                document.getElementById('errWsp').style.display = okW ? 'none' : 'block';
+                if (!okN) { n.focus(); return; }
+                if (!okE) { em.focus(); return; }
+                if (!okW) { w.focus(); return; }
+                state.lead.nombre = n.value.trim();
+                state.lead.email = em.value.trim();
+                state.lead.whatsapp = w.value.trim();
+                sendLead();
+                showResult();
+            }
+        });
+
+        // Los CTAs del hero/footer solo scrollean al quiz (ya renderizado)
+        document.querySelectorAll('[data-cta]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                setTimeout(function () {
+                    var first = stage.querySelector('.opt, input');
+                    if (first && first.classList && first.classList.contains('opt')) first.focus();
+                }, 450);
+            });
+        });
+
+        showQuestion(0);
+    })();
+    </script>
+</body>
+
+</html>
