@@ -16,7 +16,8 @@
          · META_PIXEL_ID: Events Manager (business.facebook.com/events_manager)
            → Orígenes de datos → tu píxel → el número largo del ID.
          · LEAD_WEBHOOK_URL: endpoint que recibe el lead en JSON.
-           Conectar acá n8n / Make / Apps Script → Google Sheets.
+           Recomendado: Google Apps Script → Google Sheets + aviso por mail.
+           El código del script y el paso a paso están en webhook/LEEME.md.
            Para probar: crear un endpoint en https://webhook.site y pegarlo.
            Si queda vacío (''), el lead solo viaja por el píxel (no se pierde el flujo).
          · CALENDAR_URL: URL pública de Calendly o Cal.com (ej:
@@ -25,7 +26,7 @@
          ============================================================ -->
     <script>
         var META_PIXEL_ID = '2089699688631959';
-        var LEAD_WEBHOOK_URL = '';
+        var LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby8QesaPI4A8oo121lZuLn8yLoOmKPcqcZDbZVAWfZnbMLcBIIXzMBRM5Iumki1kAY/exec';
         var CALENDAR_URL = '';
     </script>
 
@@ -272,7 +273,7 @@
             setBar(QUESTIONS.length);
             el(
                 '<div class="qstep">¡Listo! Tus respuestas ya están analizadas</div>' +
-                '<h2>¿A dónde te mandamos tu resultado?</h2>' +
+                '<h2>Completá tus datos y mirá tu resultado al instante</h2>' +
                 '<div class="field"><label for="ldNombre">Tu nombre</label><input id="ldNombre" type="text" autocomplete="name" placeholder="Nombre" value="' + esc(state.lead.nombre) + '"><div class="err" id="errNombre">Decinos tu nombre.</div></div>' +
                 '<div class="field"><label for="ldEmail">Tu email</label><input id="ldEmail" type="email" inputmode="email" autocomplete="email" placeholder="vos@tunegocio.com" value="' + esc(state.lead.email) + '"><div class="err" id="errEmail">Poné un email válido.</div></div>' +
                 '<div class="field"><label for="ldWsp">Tu WhatsApp</label><input id="ldWsp" type="tel" inputmode="tel" autocomplete="tel" placeholder="223 555 0000" value="' + esc(state.lead.whatsapp) + '"><div class="err" id="errWsp">Poné un número válido (con código de área).</div></div>' +
@@ -343,9 +344,10 @@
                     pagina: location.href
                 };
                 try {
+                    // text/plain evita el preflight CORS que Apps Script no responde; el script lee el JSON igual
                     fetch(LEAD_WEBHOOK_URL, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(payload)
                     }).catch(function () { /* no bloquear el resultado si falla */ });
                 } catch (e) {}

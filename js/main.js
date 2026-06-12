@@ -616,7 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const b = fnBand(fnScore());
         fnEl(
             '<div class="eyebrow">Un paso y es tuyo</div>' +
-            '<h2>¿A qué email te mandamos el plan + la guía?</h2>' +
+            '<h2>Dejá tu email y desbloqueá tu plan + la guía</h2>' +
             '<p class="lead">Desbloqueás el <b>programa recomendado</b> para tu nivel (' + b.label + ') y te llevás gratis la guía "Los 3 cuellos de botella de tu negocio".</p>' +
             '<div class="field"><input id="fnInEmail" type="email" inputmode="email" placeholder="vos@tunegocio.com" value="' + fnEsc(fnState.lead.email) + '"><div class="err" id="fnEmailErr">Poné un email válido.</div></div>' +
             '<button class="btn btn-primary full" style="margin-top:6px" data-action="submitEmail">Ver mi plan + la guía →</button>' +
