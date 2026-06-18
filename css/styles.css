@@ -874,6 +874,44 @@ button.btn-secondary:hover {
 }
 
 /* Testimonials */
+/* Testimonios en video (vertical, click-to-play) */
+.video-testis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    justify-content: center;
+    margin: 2.6rem 0 0.5rem;
+}
+
+.video-testi-item {
+    width: 100%;
+    max-width: 300px;
+}
+
+.video-testi {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    display: block;
+    border-radius: 18px;
+    background: #000;
+    object-fit: cover;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.video-testi-cap {
+    text-align: center;
+    margin-top: 0.8rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.video-testi-cap b {
+    color: #fff;
+    font-weight: 700;
+}
+
 .section-testimonials {
     padding: 6rem 0;
     background: linear-gradient(135deg, #081630 0%, #0d3b87 100%);

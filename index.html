@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/styles.css?v=2.2">
+    <link rel="stylesheet" href="./css/styles.css?v=2.3">
     <!-- Diagnóstico (flujo tipo quiz, estilos scopeados en #fnDiag) -->
     <link rel="stylesheet" href="./css/diagnostico.css?v=1.2">
 
@@ -372,6 +372,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- Testimonios en video (click-to-play: preload=none, no descarga hasta que lo tocan) -->
+        <div class="video-testis">
+            <div class="video-testi-item">
+                <video class="video-testi" controls preload="none" playsinline
+                    poster="./assets/video/testimonio-mauro-marin.jpg">
+                    <source src="./assets/video/testimonio-mauro-marin.mp4" type="video/mp4">
+                    Tu navegador no puede reproducir el video.
+                </video>
+                <div class="video-testi-cap"><b>Mauro Marin</b> · Tapas de Cilindros — Rectificadora, Mar del Plata</div>
+            </div>
+        </div>
+
                 <div class="carousel-wrapper">
                     <button class="carousel-nav-btn prev" aria-label="Anterior"><i
                             class="fa-solid fa-chevron-left"></i></button>
