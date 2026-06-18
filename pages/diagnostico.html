@@ -22,7 +22,7 @@
            Si queda vacío (''), el lead solo viaja por el píxel (no se pierde el flujo).
          · CALENDAR_URL: URL pública de Calendly o Cal.com (ej:
            https://calendly.com/fluirnegocios/diagnostico-45min).
-           Si queda vacío (''), se muestra el botón de WhatsApp con Abi como fallback.
+           Si queda vacío (''), se muestra el botón de WhatsApp como fallback.
          ============================================================ -->
     <script>
         var META_PIXEL_ID = '2089699688631959';
@@ -222,7 +222,7 @@
             ventas:      { max: 2, title: 'Facturación estancada', desc: 'Sin sistema comercial, dependés de que los clientes "aparezcan" en vez de salir a buscarlos.' }
         };
 
-        var WA_PHONE = '5492235295052'; // WhatsApp de Abi (asesora)
+        var WA_PHONE = '5492235295052'; // WhatsApp de atención de Fluir Negocios
 
         /* ---------- Estado (en memoria; sin localStorage para datos del lead) ---------- */
         var state = { qi: 0, answers: {}, lead: { nombre: '', email: '', whatsapp: '' }, started: false, leadSent: false, scheduled: false };
@@ -370,7 +370,7 @@
                 agendaHtml = '<iframe src="' + CALENDAR_URL + '" title="Agendar llamada"></iframe>';
             } else {
                 var waText = encodeURIComponent('Hola! Hice el autodiagnóstico y me dio nivel ' + lv.label.replace('NIVEL ', '') + '. Quiero agendar la llamada de diagnóstico de 45 min.');
-                agendaHtml = '<a class="btn btn-wa" id="waSchedule" href="https://wa.me/' + WA_PHONE + '?text=' + waText + '" target="_blank" rel="noopener">📅 Agendar por WhatsApp con Abi</a>';
+                agendaHtml = '<a class="btn btn-wa" id="waSchedule" href="https://wa.me/' + WA_PHONE + '?text=' + waText + '" target="_blank" rel="noopener">📅 Agendar por WhatsApp</a>';
             }
 
             el(

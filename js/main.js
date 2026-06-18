@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger global para los botones con onclick inline (Obtener Guía, Hacer diagnóstico, etc.)
     window.fnOpenDiagnostico = openDiagnosticModal;
 
-    // Mostrar la barra CTA fija (mobile) recién después del hero, para no tapar el pill de Abi.
+    // Mostrar la barra CTA fija (mobile) recién después del hero, para no tapar el pill del hero.
     // Se usa IntersectionObserver (robusto sin importar qué elemento sea el contenedor de scroll).
     var fnCtaBar = document.querySelector('.mobile-cta-bar');
     var fnHeroSec = document.getElementById('inicio');
@@ -678,13 +678,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const b = fnBand(p);
         const prog = fnRecommend(p);
         const C = b.color;
-        const waText = encodeURIComponent('Hola Abi! Hice el diagnóstico: mi dependencia operativa dio ' + p + '% (' + b.label + ') y me recomendó el ' + prog.code + '. Quiero agendar la sesión de 45 minutos.');
+        const waText = encodeURIComponent('Hola! Hice el diagnóstico: mi dependencia operativa dio ' + p + '% (' + b.label + ') y me recomendó el ' + prog.code + '. Quiero agendar la sesión de 45 minutos.');
         fnEl(
             '<div class="center"><span class="level" style="color:' + C + ';background:' + b.tint + '">Dependencia ' + b.label + ' · ' + p + '%</span>' +
             '<h2 style="margin:12px 0 4px">Tu plan recomendado</h2>' +
             '<p class="lead center">Según tus respuestas, este es el camino más corto para que el negocio deje de girar alrededor tuyo:</p></div>' +
             '<div class="prog"><div class="code">' + prog.code + ' · RECOMENDADO PARA VOS</div><h3>' + prog.name + '</h3><p>' + prog.desc + '</p></div>' +
-            '<a class="btn btn-wa" href="' + FN_WA + waText + '" target="_blank" rel="noopener">📅 Agendá tu sesión de 45 min gratis con Abi</a>' +
+            '<a class="btn btn-wa" href="' + FN_WA + waText + '" target="_blank" rel="noopener">📅 Agendá tu sesión de 45 min gratis</a>' +
             '<div class="row" style="gap:10px;margin-top:10px">' +
                 '<a class="btn btn-out" href="' + FN_PDF + '" target="_blank" rel="noopener">Descargar la guía</a>' +
                 '<a class="btn btn-out" href="' + prog.link + '" target="_blank" rel="noopener">Ver el programa</a>' +

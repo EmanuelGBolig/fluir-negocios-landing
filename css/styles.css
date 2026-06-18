@@ -2874,7 +2874,7 @@ button.btn-secondary:hover {
 .human-avatar-circle:nth-child(2) { z-index: 2; }
 .human-avatar-circle:nth-child(3) { z-index: 1; }
 
-/* Avatar único (foto de Abi) — sin el solapamiento del stack */
+/* Avatar único — sin el solapamiento del stack */
 .human-avatar-solo {
     width: 44px;
     height: 44px;
