@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
                link: 'https://fluirnegocios.com/pages/cde.html' }
     };
 
-    const FN_WA = 'https://wa.me/5492233444604?text=';
+    const FN_WA = 'https://wa.me/5492235295052?text=';
     const FN_PDF = 'https://fluirnegocios.com/assets/pdf/Guia-3-Cuellos-de-Botella.pdf';
     // Barra: 8 pasos (7 preguntas + el reveal). Se completa al mostrar el resultado.
     const FN_TOTAL = FN_QUESTIONS.length + 1;
