@@ -276,15 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof fnStartDiagnostico === 'function') {
                 fnStartDiagnostico();
             }
-
-            // Trigger Meta Pixel Custom Event for starting diagnostic
-            if (typeof fbq === 'function') {
-                try {
-                    fbq('trackCustom', 'DiagnosticStart');
-                } catch (err) {
-                    console.error("Meta Pixel Error:", err);
-                }
-            }
+            // OJO: DiagnosticStart NO se dispara acá. Abrir el modal es casi un PageView
+            // (infla la métrica). Se dispara cuando la persona responde la 1ª pregunta.
         }
     }
 
@@ -710,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // (5) Arranca directo en la Pregunta 1 (sin pantalla intro).
     function fnStartDiagnostico() {
-        fnState = { qi: 0, answers: {}, open: '', openSent: false, lead: { email: '' }, leadSent: false };
+        fnState = { qi: 0, answers: {}, open: '', openSent: false, lead: { email: '' }, leadSent: false, started: false };
         fnShowQuestion(0);
     }
 
@@ -723,6 +716,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const q = FN_QUESTIONS[fnState.qi];
                 const k = parseInt(optBtn.getAttribute('data-opt'), 10);
                 fnState.answers[q.key] = q.opts[k];
+                // Arranque real del diagnóstico: la 1ª respuesta, no la apertura del modal.
+                if (!fnState.started) { fnState.started = true; fnTrack('DiagnosticStart'); }
                 fnTrack('DiagStep', { step: fnState.qi + 1, key: q.key });
                 const all = fnStage.querySelectorAll('.opt');
                 for (let j = 0; j < all.length; j++) all[j].classList.remove('sel');
