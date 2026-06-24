@@ -1574,6 +1574,16 @@ button.btn-secondary:hover {
     color: #fff !important;
 }
 
+.program-card-hero--sistemas {
+    background: linear-gradient(135deg, #00B4D8 0%, #0056b3 100%);
+    /* Celeste a Azul Fluir — la línea tech */
+    border-bottom: 3px solid #fff;
+}
+
+.program-card-hero--sistemas .program-card-hero-sub {
+    color: #fff;
+}
+
 .program-badge {
     display: inline-block;
     background: rgba(212, 175, 55, 0.15);
