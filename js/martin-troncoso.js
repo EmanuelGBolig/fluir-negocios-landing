@@ -470,4 +470,28 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     requestAnimationFrame(magnetTick);
   }
+
+  // 17. CTA sticky mobile: visible tras el hero, oculto cuando Contacto está
+  //     en vista. Basado 100% en IntersectionObserver (no en eventos scroll):
+  //     es compatible con Lenis y con cualquier mecanismo de scroll.
+  const stickyCta = document.querySelector('.sticky-mobile-cta');
+  const heroSec = document.getElementById('inicio');
+  const contactSec = document.getElementById('contacto');
+  if (stickyCta && heroSec && contactSec && 'IntersectionObserver' in window) {
+    let pastHero = false;
+    let contactVisible = false;
+    const updateSticky = () => {
+      stickyCta.classList.toggle('visible', pastHero && !contactVisible);
+    };
+    new IntersectionObserver((entries) => {
+      // "Pasamos el hero" solo cuando salió por ARRIBA del viewport
+      pastHero = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      updateSticky();
+    }, { threshold: 0 }).observe(heroSec);
+    new IntersectionObserver((entries) => {
+      contactVisible = entries[0].isIntersecting;
+      updateSticky();
+    }, { threshold: 0.05 }).observe(contactSec);
+    updateSticky();
+  }
 });

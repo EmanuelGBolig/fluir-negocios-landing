@@ -2625,3 +2625,69 @@ html.js .rotating-seal {
     transform: scaleX(1);
   }
 }
+
+/* --------------------------------------------------------------------------
+   23. MATERIAL (Fase 3) + CTA STICKY MOBILE (Fase 4)
+   - Escala de radios consistente: 8px inputs / 12px botones / 16px tarjetas
+   - Textura noise sutil sobre toda la página (mata el "plástico liso")
+   - Focus ring moderno en inputs (outline offset, adiós glow)
+   - CTA sticky abajo en mobile (se oculta al llegar a Contacto)
+   -------------------------------------------------------------------------- */
+:root {
+  --radius-md: 16px;
+}
+
+/* Noise texture: SVG inline con feTurbulence, ~4.5% de opacidad */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Focus ring moderno en formularios */
+.form-input:focus,
+.form-textarea:focus {
+  box-shadow: none;
+  outline: 2px solid var(--dorado);
+  outline-offset: 2px;
+}
+
+/* CTA sticky mobile */
+.sticky-mobile-cta {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sticky-mobile-cta {
+    display: inline-flex;
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 997;
+    justify-content: center;
+    transform: translateY(calc(100% + 2.5rem));
+    transition: transform 0.45s var(--ease-out-expo);
+    box-shadow: 0 8px 24px rgba(6, 15, 32, 0.55);
+  }
+
+  .sticky-mobile-cta.visible {
+    transform: translateY(0);
+  }
+
+  /* El botón de scroll-to-top sube para no chocar con el CTA */
+  .scroll-top-btn {
+    bottom: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-mobile-cta {
+    transition: none;
+  }
+}
