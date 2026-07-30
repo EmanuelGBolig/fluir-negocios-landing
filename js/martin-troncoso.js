@@ -397,11 +397,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (methodTimeline && !REDUCED_MOTION) {
     methodTimeline.classList.add('tl-active');
     const methodSteps = Array.from(methodTimeline.querySelectorAll('.method-step'));
-    // Ratio vertical de cada nodo dentro del timeline (cacheado; se recalcula en resize)
+    // Ratio de cada nodo dentro del timeline (cacheado; se recalcula en resize).
+    // Desktop (>=993px): stepper horizontal → eje X. Mobile/tablet: vertical → eje Y.
     let nodeRatios = [];
     const cacheNodeRatios = () => {
-      const total = methodTimeline.offsetHeight || 1;
-      nodeRatios = methodSteps.map(step => (step.offsetTop + 42) / total);
+      const horizontal = window.matchMedia('(min-width: 993px)').matches;
+      if (horizontal) {
+        const total = methodTimeline.offsetWidth || 1;
+        nodeRatios = methodSteps.map(step => (step.offsetLeft + step.offsetWidth / 2) / total);
+      } else {
+        const total = methodTimeline.offsetHeight || 1;
+        nodeRatios = methodSteps.map(step => (step.offsetTop + 42) / total);
+      }
     };
     cacheNodeRatios();
     window.addEventListener('resize', cacheNodeRatios, { passive: true });

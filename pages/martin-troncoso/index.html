@@ -37,7 +37,7 @@
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
   <!-- Custom Brand Stylesheet for Martín Troncoso -->
-  <link rel="stylesheet" href="../../css/martin-troncoso.css?v=3.1">
+  <link rel="stylesheet" href="../../css/martin-troncoso.css?v=3.3">
 
   <!-- Schema.org JSON-LD (Person & ProfessionalService) -->
   <script type="application/ld+json">
@@ -205,8 +205,11 @@
 
         <div class="hero-image-wrapper">
           <div class="hero-image-card double-gold-frame">
-            <img src="../../assets/team/martin.png" alt="Martín Troncoso — Consultor de Liderazgo" width="453" height="680"
-              loading="eager" fetchpriority="high">
+            <picture>
+              <source srcset="../../assets/team/martin.webp" type="image/webp">
+              <img src="../../assets/team/martin.png" alt="Martín Troncoso — Consultor de Liderazgo" width="453" height="680"
+                loading="eager" fetchpriority="high">
+            </picture>
           </div>
         </div>
       </div>
@@ -323,9 +326,6 @@
       </div>
     </section>
 
-    <!-- Divisor Degradé Dorado -->
-    <hr class="gold-divider">
-
     <!-- ==========================================================================
          4. SOBRE MÍ (EL CORAZÓN DEL HUB)
          ========================================================================== -->
@@ -334,8 +334,11 @@
         <div class="about-grid">
           <div class="about-photo-wrapper reveal reveal--left">
             <div class="about-photo-frame double-gold-frame">
-              <img src="../../assets/team/martin.png" alt="Martín Troncoso — Sobre Mí" width="453" height="680"
-                loading="lazy">
+              <picture>
+                <source srcset="../../assets/team/martin.webp" type="image/webp">
+                <img src="../../assets/team/martin.png" alt="Martín Troncoso — Sobre Mí" width="453" height="680"
+                  loading="lazy">
+              </picture>
             </div>
           </div>
 
@@ -370,63 +373,107 @@
       </div>
     </section>
 
-    <!-- Divisor Degradé Dorado -->
-    <hr class="gold-divider">
-
     <!-- ==========================================================================
-         5. PARA QUIÉN ES / QUÉ TE ESTÁ PASANDO (DOLOR DEL BUYER PERSONA)
+         5. DOLOR → SOLUCIÓN (DOS COLUMNAS: ¿TE PASA ESTO? / QUÉ HAGO)
          ========================================================================== -->
-    <section class="section-padding section-resalte-bg">
+    <section class="section-padding section-resalte-bg" id="que-hago">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow">¿TE PASA ESTO?</span>
-          <h2 class="section-title">
-            Tu negocio ya funciona, pero sentís que lo cargás al <span class="accent-gold-italic">hombro</span>.
-          </h2>
-        </div>
-
-        <div class="pains-grid reveal-stagger">
-          <!-- Tarjeta 1 -->
-          <div class="brand-card pain-card">
-            <div class="pain-icon-box">
-              <i data-lucide="users" class="gold-icon" style="width: 26px; height: 26px;"></i>
+        <div class="duo-grid">
+          <!-- Columna izquierda: el dolor del buyer persona -->
+          <div class="duo-col">
+            <div class="section-header section-header--left reveal">
+              <span class="eyebrow">¿TE PASA ESTO?</span>
+              <h2 class="section-title">
+                Tu negocio ya funciona, pero sentís que lo cargás al <span class="accent-gold-italic">hombro</span>.
+              </h2>
             </div>
-            <div>
-              <h3 class="pain-title">Sentís que el problema son tus empleados</h3>
-              <p class="pain-desc">No lográs que el equipo rinda ni que asuman responsabilidades de forma autónoma.</p>
+
+            <div class="pains-list reveal-stagger">
+              <!-- Tarjeta 1 -->
+              <div class="brand-card pain-card">
+                <div class="pain-icon-box">
+                  <i data-lucide="users" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="pain-title">Sentís que el problema son tus empleados</h3>
+                  <p class="pain-desc">No lográs que el equipo rinda ni que asuman responsabilidades de forma autónoma.</p>
+                </div>
+              </div>
+
+              <!-- Tarjeta 2 -->
+              <div class="brand-card pain-card">
+                <div class="pain-icon-box">
+                  <i data-lucide="message-square-off" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="pain-title">Te cuesta comunicar con claridad</h3>
+                  <p class="pain-desc">Te resulta difícil lograr que las personas hagan lo que tienen que hacer sin tener que repetir todo mil veces.</p>
+                </div>
+              </div>
+
+              <!-- Tarjeta 3 -->
+              <div class="brand-card pain-card">
+                <div class="pain-icon-box">
+                  <i data-lucide="brain-circuit" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="pain-title">Pensás en el futuro con preocupación y estrés</h3>
+                  <p class="pain-desc">La carga operativa constante te impide pensar estratégicamente a mediano y largo plazo.</p>
+                </div>
+              </div>
+
+              <!-- Tarjeta 4 -->
+              <div class="brand-card pain-card">
+                <div class="pain-icon-box">
+                  <i data-lucide="frown" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="pain-title">Dejaste de disfrutar</h3>
+                  <p class="pain-desc">Perdiste el entusiasmo inicial por tu trabajo y sentís que tu negocio se convirtió en tu propia trampa.</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Tarjeta 2 -->
-          <div class="brand-card pain-card">
-            <div class="pain-icon-box">
-              <i data-lucide="message-square-off" class="gold-icon" style="width: 26px; height: 26px;"></i>
+          <!-- Columna derecha: la solución -->
+          <div class="duo-col">
+            <div class="section-header section-header--left reveal">
+              <span class="eyebrow">QUÉ HAGO</span>
+              <h2 class="section-title">
+                Martín es el que te ayuda a…
+              </h2>
             </div>
-            <div>
-              <h3 class="pain-title">Te cuesta comunicar con claridad</h3>
-              <p class="pain-desc">Te resulta difícil lograr que las personas hagan lo que tienen que hacer sin tener que repetir todo mil veces.</p>
-            </div>
-          </div>
 
-          <!-- Tarjeta 3 -->
-          <div class="brand-card pain-card">
-            <div class="pain-icon-box">
-              <i data-lucide="brain-circuit" class="gold-icon" style="width: 26px; height: 26px;"></i>
-            </div>
-            <div>
-              <h3 class="pain-title">Pensás en el futuro con preocupación y estrés</h3>
-              <p class="pain-desc">La carga operativa constante te impide pensar estratégicamente a mediano y largo plazo.</p>
-            </div>
-          </div>
+            <div class="value-list reveal-stagger">
+              <div class="brand-card value-card">
+                <div class="value-card-icon">
+                  <i data-lucide="compass" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="value-card-title">Más claridad</h3>
+                  <p class="pain-desc">Orden para ver la realidad del negocio sin confusión y estructurar cada área de forma efectiva.</p>
+                </div>
+              </div>
 
-          <!-- Tarjeta 4 -->
-          <div class="brand-card pain-card">
-            <div class="pain-icon-box">
-              <i data-lucide="frown" class="gold-icon" style="width: 26px; height: 26px;"></i>
-            </div>
-            <div>
-              <h3 class="pain-title">Dejaste de disfrutar</h3>
-              <p class="pain-desc">Perdiste el entusiasmo inicial por tu trabajo y sentís que tu negocio se convirtió en tu propia trampa.</p>
+              <div class="brand-card value-card">
+                <div class="value-card-icon">
+                  <i data-lucide="check-circle" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="value-card-title">Mejores decisiones</h3>
+                  <p class="pain-desc">Criterio firme y marcos de análisis sobre la estructura y el manejo de tu empresa.</p>
+                </div>
+              </div>
+
+              <div class="brand-card value-card">
+                <div class="value-card-icon">
+                  <i data-lucide="trending-up" class="gold-icon" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div>
+                  <h3 class="value-card-title">Liderar efectivamente</h3>
+                  <p class="pain-desc">Inspirar y guiar a tu equipo para lograr autonomía real sin depender de tu presencia continua.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -435,6 +482,10 @@
           <p class="pains-closing-text">
             Si te sentís identificado, no te falta esfuerzo. Te falta pasar de <span
               class="accent-gold-italic">dueño</span> a <span class="accent-gold-italic">líder</span>.
+          </p>
+          <p class="pains-closing-sub">
+            Trabajando conmigo vas a liderar tu equipo con más efectividad, tomar mejores decisiones sobre la
+            estructura y el manejo de tu negocio, y volver a sentirte bien con tu trabajo.
           </p>
           <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20ordenar%20mi%20negocio"
             target="_blank" rel="noopener" class="btn-pill btn-primary btn-large">
@@ -449,62 +500,7 @@
     <hr class="gold-divider">
 
     <!-- ==========================================================================
-         6. QUÉ HAGO / CÓMO TE AYUDO
-         ========================================================================== -->
-    <section class="section-padding" id="que-hago">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow">QUÉ HAGO</span>
-          <h2 class="section-title">
-            Martín es el que te ayuda a…
-          </h2>
-        </div>
-
-        <div class="value-grid reveal-stagger">
-          <div class="brand-card value-card">
-            <div class="value-card-icon">
-              <i data-lucide="compass" class="gold-icon" style="width: 30px; height: 30px;"></i>
-            </div>
-            <h3 class="value-card-title">Más claridad</h3>
-            <p class="pain-desc">Orden para ver la realidad del negocio sin confusión y estructurar cada área de forma efectiva.</p>
-          </div>
-
-          <div class="brand-card value-card">
-            <div class="value-card-icon">
-              <i data-lucide="check-circle" class="gold-icon" style="width: 30px; height: 30px;"></i>
-            </div>
-            <h3 class="value-card-title">Mejores decisiones</h3>
-            <p class="pain-desc">Criterio firme y marcos de análisis sobre la estructura y el manejo de tu empresa.</p>
-          </div>
-
-          <div class="brand-card value-card">
-            <div class="value-card-icon">
-              <i data-lucide="trending-up" class="gold-icon" style="width: 30px; height: 30px;"></i>
-            </div>
-            <h3 class="value-card-title">Liderar efectivamente</h3>
-            <p class="pain-desc">Inspirar y guiar a tu equipo para lograr autonomía real sin depender de tu presencia continua.</p>
-          </div>
-        </div>
-
-        <div class="value-prop-box reveal">
-          <p class="value-prop-text" style="margin-bottom: 1.5rem;">
-            Trabajando conmigo vas a liderar tu equipo con más efectividad, tomar mejores decisiones sobre la
-            estructura y el manejo de tu negocio, y volver a sentirte bien con tu trabajo.
-          </p>
-          <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20consultar%20por%20el%20acompa%C3%B1amiento"
-            target="_blank" rel="noopener" class="btn-pill btn-primary">
-            <span>Consultá por el acompañamiento</span>
-            <i data-lucide="arrow-right" style="width: 18px; height: 18px; color: var(--noche);"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Divisor Degradé Dorado -->
-    <hr class="gold-divider">
-
-    <!-- ==========================================================================
-         7. MÉTODO / POR QUÉ DISTINTO
+         6. MÉTODO / POR QUÉ DISTINTO
          ========================================================================== -->
     <section class="section-padding section--crema" id="metodo">
       <div class="container">
@@ -574,11 +570,8 @@
       </div>
     </section>
 
-    <!-- Divisor Degradé Dorado -->
-    <hr class="gold-divider">
-
     <!-- ==========================================================================
-         8. SERVICIOS / PROYECTOS (ECOSISTEMA)
+         7. SERVICIOS / PROYECTOS (ECOSISTEMA)
          ========================================================================== -->
     <section class="section-padding section-resalte-bg">
       <div class="container">
@@ -648,11 +641,8 @@
       </div>
     </section>
 
-    <!-- Divisor Degradé Dorado -->
-    <hr class="gold-divider">
-
     <!-- ==========================================================================
-         9. CASOS REALES (PRUEBA SOCIAL DE ALTO IMPACTO)
+         8. CASOS REALES (PRUEBA SOCIAL DE ALTO IMPACTO)
          ========================================================================== -->
     <section class="section-padding" id="casos">
       <div class="container">
@@ -710,25 +700,27 @@
           </div>
         </div>
 
-        <!-- Reproductor de Testimonio en Video Real (Mauro Marín) -->
-        <div class="case-video-card double-gold-frame reveal reveal--scale">
-          <video class="case-video-player" controls preload="none" poster="../../assets/video/testimonio-mauro-marin.jpg">
-            <source src="../../assets/video/testimonio-mauro-marin.mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de video.
-          </video>
-          <div class="case-video-caption">
-            <strong>Mauro Marín</strong> · Tapas de Cilindros — Rectificadora, Mar del Plata
+        <!-- Reproductor de testimonio + CTA en una misma fila (desktop) -->
+        <div class="cases-bottom">
+          <div class="case-video-card double-gold-frame reveal reveal--scale">
+            <video class="case-video-player" controls preload="none" poster="../../assets/video/testimonio-mauro-marin.jpg">
+              <source src="../../assets/video/testimonio-mauro-marin.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video.
+            </video>
+            <div class="case-video-caption">
+              <strong>Mauro Marín</strong> · Tapas de Cilindros — Rectificadora, Mar del Plata
+            </div>
           </div>
-        </div>
 
-        <!-- CTA post-prueba social -->
-        <div class="cases-cta reveal">
-          <p class="cases-cta-text">¿Querés ser el próximo caso?</p>
-          <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20agendar%20mi%20charla%20de%20diagn%C3%B3stico"
-            target="_blank" rel="noopener" class="btn-pill btn-primary btn-large">
-            <span>Agendá tu charla de diagnóstico</span>
-            <i data-lucide="arrow-right" style="width: 18px; height: 18px; color: var(--noche);"></i>
-          </a>
+          <!-- CTA post-prueba social -->
+          <div class="cases-cta reveal">
+            <p class="cases-cta-text">¿Querés ser el próximo caso?</p>
+            <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20agendar%20mi%20charla%20de%20diagn%C3%B3stico"
+              target="_blank" rel="noopener" class="btn-pill btn-primary btn-large">
+              <span>Agendá tu charla de diagnóstico</span>
+              <i data-lucide="arrow-right" style="width: 18px; height: 18px; color: var(--noche);"></i>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -737,7 +729,7 @@
     <hr class="gold-divider">
 
     <!-- ==========================================================================
-         10. CITA / FRASE DE CIERRE (FULL-WIDTH)
+         9. CITA / FRASE DE CIERRE (FULL-WIDTH)
          ========================================================================== -->
     <section class="quote-banner-section">
       <div class="container">
@@ -752,95 +744,7 @@
     <hr class="gold-divider">
 
     <!-- ==========================================================================
-         11. FAQ (ACORDEÓN ACCESIBLE)
-         ========================================================================== -->
-    <section class="section-padding">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow">PREGUNTAS FRECUENTES</span>
-          <h2 class="section-title">
-            Todo lo que necesitas <span class="accent-gold-italic">saber</span>.
-          </h2>
-        </div>
-
-        <div class="faq-container reveal-stagger">
-          <!-- Pregunta 1 -->
-          <div class="faq-item">
-            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1">
-              <span>¿Para quién es esto?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </button>
-            <div class="faq-content" id="faq-ans-1">
-              <p class="faq-answer">
-                Para dueños de negocios y emprendedores cuyo negocio ya funciona pero está estancado u ordenado en torno al
-                propio dueño, y que quieren liderar mejor a su equipo y hacer crecer su empresa con salud y claridad.
-              </p>
-            </div>
-          </div>
-
-          <!-- Pregunta 2 -->
-          <div class="faq-item">
-            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2">
-              <span>¿Cómo trabajás?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </button>
-            <div class="faq-content" id="faq-ans-2">
-              <p class="faq-answer">
-                Desde la práctica directa, con herramientas concretas de coaching ontológico y transformacional aplicadas a
-                la trinchera de tu negocio real, sin rodeos ni teorías abstractas.
-              </p>
-            </div>
-          </div>
-
-          <!-- Pregunta 3 -->
-          <div class="faq-item">
-            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3">
-              <span>¿Es online o presencial?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </button>
-            <div class="faq-content" id="faq-ans-3">
-              <p class="faq-answer">
-                Modalidad flexible: Encuentros presenciales en Mar del Plata y acompañamientos online 1 a 1 para emprendedores y empresas en toda Argentina y Latinoamérica.
-              </p>
-            </div>
-          </div>
-
-          <!-- Pregunta 4 -->
-          <div class="faq-item">
-            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4">
-              <span>¿Tengo que tener un equipo grande?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </button>
-            <div class="faq-content" id="faq-ans-4">
-              <p class="faq-answer">
-                No. Trabajamos con tu realidad actual; lo verdaderamente importante es que tengas la determinación de
-                liderar, ordenar tu estructura y hacer crecer tu negocio.
-              </p>
-            </div>
-          </div>
-
-          <!-- Pregunta 5 -->
-          <div class="faq-item">
-            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-5">
-              <span>¿Cómo empiezo?</span>
-              <i data-lucide="chevron-down" class="faq-icon"></i>
-            </button>
-            <div class="faq-content" id="faq-ans-5">
-              <p class="faq-answer">
-                Escribime por WhatsApp o dejá tus datos en el formulario de contacto para coordinar una primera charla de
-                diagnóstico sin compromiso.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Divisor Degradé Dorado -->
-    <hr class="gold-divider">
-
-    <!-- ==========================================================================
-         12. CONTACTO (WHATSAPP + FORMULARIO)
+         10. CONTACTO + FAQ (DOS COLUMNAS)
          ========================================================================== -->
     <section class="section-padding" id="contacto">
       <div class="container">
@@ -854,22 +758,97 @@
           </p>
         </div>
 
-        <div class="contact-grid reveal-stagger">
-          <!-- Columna WhatsApp -->
-          <div class="brand-card contact-card double-gold-frame">
-            <div class="contact-wa-box">
-              <div class="wa-big-icon">
-                <i data-lucide="message-circle" style="width: 40px; height: 40px;"></i>
+        <!-- Franja WhatsApp horizontal -->
+        <div class="brand-card contact-wa-strip double-gold-frame reveal">
+          <div class="wa-big-icon">
+            <i data-lucide="message-circle" style="width: 32px; height: 32px;"></i>
+          </div>
+          <div class="wa-strip-text">
+            <h3 class="wa-strip-title">Contacto directo</h3>
+            <p class="pain-desc" style="margin: 0;">
+              Si preferís una atención inmediata y fluida, mandame un mensaje directamente a mi WhatsApp.
+            </p>
+          </div>
+          <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20agendar%20la%20primera%20charla"
+            target="_blank" rel="noopener" class="btn-pill btn-primary btn-large">
+            <span>Agendemos la primera charla</span>
+            <i data-lucide="send" style="width: 18px; height: 18px; color: var(--noche);"></i>
+          </a>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Columna FAQ -->
+          <div class="faq-col">
+            <span class="eyebrow">PREGUNTAS FRECUENTES</span>
+            <div class="faq-container reveal-stagger">
+              <!-- Pregunta 1 -->
+              <div class="faq-item">
+                <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1">
+                  <span>¿Para quién es esto?</span>
+                  <i data-lucide="chevron-down" class="faq-icon"></i>
+                </button>
+                <div class="faq-content" id="faq-ans-1">
+                  <p class="faq-answer">
+                    Para dueños de negocios y emprendedores cuyo negocio ya funciona pero está estancado u ordenado en torno al
+                    propio dueño, y que quieren liderar mejor a su equipo y hacer crecer su empresa con salud y claridad.
+                  </p>
+                </div>
               </div>
-              <h3 class="section-title" style="font-size: 1.6rem; margin-bottom: 0;">Contacto directo</h3>
-              <p class="pain-desc">
-                Si preferís una atención inmediata y fluida, mandame un mensaje directamente a mi WhatsApp.
-              </p>
-              <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20agendar%20la%20primera%20charla"
-                target="_blank" rel="noopener" class="btn-pill btn-primary btn-large" style="width: 100%;">
-                <span>Agendemos la primera charla</span>
-                <i data-lucide="send" style="width: 18px; height: 18px; color: var(--noche);"></i>
-              </a>
+
+              <!-- Pregunta 2 -->
+              <div class="faq-item">
+                <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2">
+                  <span>¿Cómo trabajás?</span>
+                  <i data-lucide="chevron-down" class="faq-icon"></i>
+                </button>
+                <div class="faq-content" id="faq-ans-2">
+                  <p class="faq-answer">
+                    Desde la práctica directa, con herramientas concretas de coaching ontológico y transformacional aplicadas a
+                    la trinchera de tu negocio real, sin rodeos ni teorías abstractas.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Pregunta 3 -->
+              <div class="faq-item">
+                <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3">
+                  <span>¿Es online o presencial?</span>
+                  <i data-lucide="chevron-down" class="faq-icon"></i>
+                </button>
+                <div class="faq-content" id="faq-ans-3">
+                  <p class="faq-answer">
+                    Modalidad flexible: Encuentros presenciales en Mar del Plata y acompañamientos online 1 a 1 para emprendedores y empresas en toda Argentina y Latinoamérica.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Pregunta 4 -->
+              <div class="faq-item">
+                <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4">
+                  <span>¿Tengo que tener un equipo grande?</span>
+                  <i data-lucide="chevron-down" class="faq-icon"></i>
+                </button>
+                <div class="faq-content" id="faq-ans-4">
+                  <p class="faq-answer">
+                    No. Trabajamos con tu realidad actual; lo verdaderamente importante es que tengas la determinación de
+                    liderar, ordenar tu estructura y hacer crecer tu negocio.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Pregunta 5 -->
+              <div class="faq-item">
+                <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-5">
+                  <span>¿Cómo empiezo?</span>
+                  <i data-lucide="chevron-down" class="faq-icon"></i>
+                </button>
+                <div class="faq-content" id="faq-ans-5">
+                  <p class="faq-answer">
+                    Escribime por WhatsApp o dejá tus datos en el formulario de contacto para coordinar una primera charla de
+                    diagnóstico sin compromiso.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -920,7 +899,7 @@
   </main>
 
   <!-- ==========================================================================
-       13. FOOTER
+       11. FOOTER
        ========================================================================== -->
   <footer class="site-footer">
     <div class="container">
@@ -1007,7 +986,7 @@
   </button>
 
   <!-- Script interactivo de Martín Troncoso -->
-  <script src="../../js/martin-troncoso.js?v=3.1"></script>
+  <script src="../../js/martin-troncoso.js?v=3.2"></script>
 </body>
 
 </html>

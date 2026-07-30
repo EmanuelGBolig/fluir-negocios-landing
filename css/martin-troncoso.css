@@ -2013,6 +2013,54 @@ html.js .underline-draw path {
   }
 }
 
+/* Timeline horizontal en desktop: 4 pasos en fila (menos scroll vertical),
+   la línea dorada se dibuja de izquierda a derecha con el scroll */
+@media (min-width: 993px) {
+  .method-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.75rem;
+    max-width: none;
+  }
+
+  .method-timeline::before,
+  .method-line {
+    top: 7px;
+    bottom: auto;
+    left: 12.5%;
+    right: 12.5%;
+    width: auto;
+    height: 2px;
+    margin-left: 0;
+  }
+
+  .method-line {
+    background: linear-gradient(90deg, var(--dorado2), var(--dorado));
+    transform: scaleX(var(--tl-progress, 1));
+    transform-origin: left;
+  }
+
+  .method-step {
+    width: auto;
+    margin: 0;
+    padding-top: 2.25rem;
+  }
+
+  .method-step--left,
+  .method-step--right {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .method-step--left .method-node,
+  .method-step--right .method-node {
+    left: 50%;
+    right: auto;
+    top: 0;
+    transform: translateX(-50%);
+  }
+}
+
 /* --- 19.5 Sello circular rotatorio ("De dueño a líder · Negocios Exitosos") --- */
 .rotating-seal {
   position: absolute;
@@ -2089,5 +2137,323 @@ html.js .rotating-seal {
   .method-timeline.tl-active .method-node {
     background: var(--dorado) !important;
     box-shadow: 0 0 16px var(--dorado-glow) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   20. RITMO VERTICAL COMPACTO + CASOS EN FILA
+   Reduce el alto total de la página (~25%) sin tocar contenido:
+   paddings de sección, headers, tarjetas, hero, footer.
+   Las reglas acá van al final del archivo para ganar por orden de cascada.
+   -------------------------------------------------------------------------- */
+.section-padding {
+  padding-top: 3.9rem;
+  padding-bottom: 3.9rem;
+}
+
+.section-header {
+  margin-bottom: 2.25rem;
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 4.5vw, 2.3rem);
+}
+
+.brand-card {
+  padding: 1.8rem;
+}
+
+/* Hero: menos alto de viewport, foto más baja */
+.hero-section {
+  min-height: 80vh;
+  padding-top: 8.5rem;
+  padding-bottom: 4rem;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+}
+
+.hero-ctas {
+  margin-bottom: 0;
+}
+
+.hero-image-card img {
+  height: 430px;
+}
+
+/* Marquee de clientes más compacto */
+.clients-marquee-section {
+  padding: 1.75rem 0 2.25rem;
+}
+
+.clients-marquee {
+  margin-top: 1.25rem;
+}
+
+/* Barra de prueba social */
+.social-proof-section {
+  padding: 2.25rem 0;
+}
+
+.stat-number {
+  font-size: 2.6rem;
+}
+
+/* Sobre mí: foto más baja */
+.about-photo-frame img {
+  height: 470px;
+}
+
+/* Dolores: grilla y banner de cierre más compactos */
+.pains-grid {
+  margin-bottom: 2rem;
+}
+
+.pains-closing-banner {
+  padding: 2rem;
+}
+
+.pains-closing-text {
+  font-size: 1.3rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Qué hago */
+.value-grid {
+  margin-bottom: 2rem;
+}
+
+.value-card {
+  padding: 1.9rem 1.5rem;
+}
+
+.value-prop-box {
+  padding: 1.5rem 2rem;
+}
+
+/* Ecosistema */
+.ecosystem-top {
+  margin-bottom: 1rem;
+}
+
+/* Casos: grilla sin margen extra; video + CTA pasan a una fila */
+.cases-grid {
+  margin-bottom: 0;
+}
+
+.cases-bottom {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.cases-bottom .case-video-card {
+  max-width: none;
+  margin: 0;
+}
+
+.cases-bottom .cases-cta {
+  margin-top: 0;
+}
+
+/* Cita de cierre más baja */
+.quote-banner-section {
+  padding: 3.5rem 0;
+}
+
+.quote-banner-text {
+  font-size: 2.4rem;
+}
+
+/* FAQ más compacto */
+.faq-container {
+  gap: 0.9rem;
+}
+
+.faq-trigger {
+  padding: 1.1rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* Contacto */
+.contact-wa-box {
+  padding: 2rem 1.75rem;
+  gap: 1.1rem;
+}
+
+.form-textarea {
+  min-height: 96px;
+}
+
+/* Footer */
+.site-footer {
+  padding: 3.25rem 0 1.75rem 0;
+}
+
+.footer-grid {
+  margin-bottom: 2.25rem;
+}
+
+@media (max-width: 992px) {
+  .cases-bottom {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cases-bottom .case-video-card {
+    margin: 0 auto;
+    max-width: 850px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 3.25rem;
+    padding-bottom: 3.25rem;
+  }
+
+  .quote-banner-section {
+    padding: 2.75rem 0;
+  }
+
+  .quote-banner-text {
+    font-size: 1.85rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   21. FUSIONES DE SECCIONES (DOLOR→SOLUCIÓN y CONTACTO+FAQ)
+   Layouts a dos columnas para reducir el alto total de la página.
+   -------------------------------------------------------------------------- */
+
+/* Dolor → Solución: dos columnas en desktop */
+.duo-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.section-header--left {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 1.75rem;
+  max-width: none;
+}
+
+.pains-list,
+.value-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pains-list .pain-card {
+  padding: 1.4rem 1.6rem;
+  gap: 1.1rem;
+}
+
+/* Tarjetas de valor en formato fila: ícono a la izquierda, título dorado */
+.value-list .value-card {
+  text-align: left;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.4rem 1.6rem;
+}
+
+.value-list .value-card-icon {
+  margin: 0;
+  width: 54px;
+  height: 54px;
+  background: var(--resalte);
+  flex-shrink: 0;
+}
+
+.value-list .value-card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.pains-closing-sub {
+  max-width: 760px;
+  margin: 0 auto 1.5rem auto;
+  color: var(--niebla);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+/* Video testimonial: altura acotada (es vertical) */
+.case-video-player {
+  max-height: 380px;
+}
+
+/* Franja WhatsApp horizontal dentro de Contacto */
+.contact-wa-strip {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 1.4rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact-wa-strip .wa-big-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.wa-strip-text {
+  flex: 1;
+  text-align: left;
+}
+
+.wa-strip-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--marfil);
+  margin-bottom: 0.25rem;
+}
+
+.contact-wa-strip .btn-pill {
+  flex-shrink: 0;
+}
+
+/* FAQ como columna dentro de Contacto */
+.faq-col .faq-container {
+  max-width: none;
+  margin: 0;
+}
+
+.faq-col > .eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 992px) {
+  .duo-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-wa-strip {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.1rem;
+  }
+
+  .wa-strip-text {
+    text-align: center;
+  }
+
+  .contact-wa-strip .btn-pill {
+    width: 100%;
   }
 }
