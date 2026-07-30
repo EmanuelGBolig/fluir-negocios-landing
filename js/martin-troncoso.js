@@ -326,4 +326,106 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // 12. Quote banner: reveal palabra por palabra ligado al scroll (scrub)
+  // Divide la cita en spans .qword y cada una pasa de opacidad 0.15 a 1
+  // progresivamente según la posición de la sección en el viewport.
+  const quoteEl = document.querySelector('.quote-banner-text');
+  const quoteSection = document.querySelector('.quote-banner-section');
+  if (quoteEl && quoteSection && !REDUCED_MOTION) {
+    const words = quoteEl.textContent.trim().split(/\s+/);
+    quoteEl.textContent = '';
+    const wordSpans = words.map(word => {
+      const span = document.createElement('span');
+      span.className = 'qword';
+      span.textContent = word;
+      quoteEl.appendChild(span);
+      quoteEl.appendChild(document.createTextNode(' '));
+      return span;
+    });
+    const wordCount = wordSpans.length;
+
+    let quoteTicking = false;
+    const updateQuote = () => {
+      quoteTicking = false;
+      const rect = quoteSection.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 cuando la sección entra por abajo; 1 cuando su top llega al 30% del viewport
+      const progress = Math.min(Math.max((vh * 0.85 - rect.top) / (vh * 0.55), 0), 1);
+      wordSpans.forEach((span, i) => {
+        const wordProgress = Math.min(Math.max(progress * (wordCount + 2) - i, 0), 1);
+        span.style.opacity = (0.15 + 0.85 * wordProgress).toFixed(3);
+        span.style.filter = wordProgress >= 1 ? 'none' : `blur(${(4 * (1 - wordProgress)).toFixed(1)}px)`;
+      });
+    };
+    const onQuoteScroll = () => {
+      if (!quoteTicking) {
+        quoteTicking = true;
+        requestAnimationFrame(updateQuote);
+      }
+    };
+    window.addEventListener('scroll', onQuoteScroll, { passive: true });
+    updateQuote(); // estado inicial (p. ej. si se carga con la sección ya visible)
+  }
+
+  // 13. Sobre mí: foto de grayscale a color + parallax sutil (metáfora "de dueño a líder")
+  const aboutSection = document.getElementById('sobre-mi');
+  const aboutImg = aboutSection ? aboutSection.querySelector('.about-photo-frame img') : null;
+  if (aboutSection && aboutImg && !REDUCED_MOTION) {
+    let aboutTicking = false;
+    const updateAbout = () => {
+      aboutTicking = false;
+      const rect = aboutSection.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 con la sección entrando por abajo; 1 cuando su top llega al 20% del viewport
+      const progress = Math.min(Math.max((vh * 0.85 - rect.top) / (vh * 0.65), 0), 1);
+      aboutImg.style.setProperty('--gray', (1 - progress).toFixed(3));
+      aboutImg.style.transform = `translateY(${((progress - 0.5) * 28).toFixed(1)}px)`;
+    };
+    const onAboutScroll = () => {
+      if (!aboutTicking) {
+        aboutTicking = true;
+        requestAnimationFrame(updateAbout);
+      }
+    };
+    window.addEventListener('scroll', onAboutScroll, { passive: true });
+    updateAbout();
+  }
+
+  // 14. Método: línea de tiempo vertical que se dibuja con el scroll + nodos que se iluminan
+  const methodTimeline = document.querySelector('.method-timeline');
+  if (methodTimeline && !REDUCED_MOTION) {
+    methodTimeline.classList.add('tl-active');
+    const methodSteps = Array.from(methodTimeline.querySelectorAll('.method-step'));
+    // Ratio vertical de cada nodo dentro del timeline (cacheado; se recalcula en resize)
+    let nodeRatios = [];
+    const cacheNodeRatios = () => {
+      const total = methodTimeline.offsetHeight || 1;
+      nodeRatios = methodSteps.map(step => (step.offsetTop + 42) / total);
+    };
+    cacheNodeRatios();
+    window.addEventListener('resize', cacheNodeRatios, { passive: true });
+    window.addEventListener('load', cacheNodeRatios);
+
+    let tlTicking = false;
+    const updateTimeline = () => {
+      tlTicking = false;
+      const rect = methodTimeline.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // La línea se dibuja mientras el timeline atraviesa el viewport
+      const progress = Math.min(Math.max((vh * 0.75 - rect.top) / rect.height, 0), 1);
+      methodTimeline.style.setProperty('--tl-progress', progress.toFixed(4));
+      methodSteps.forEach((step, i) => {
+        step.classList.toggle('lit', progress >= nodeRatios[i]);
+      });
+    };
+    const onTimelineScroll = () => {
+      if (!tlTicking) {
+        tlTicking = true;
+        requestAnimationFrame(updateTimeline);
+      }
+    };
+    window.addEventListener('scroll', onTimelineScroll, { passive: true });
+    updateTimeline();
+  }
 });

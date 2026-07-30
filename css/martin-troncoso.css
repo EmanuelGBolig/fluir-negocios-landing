@@ -22,6 +22,13 @@
   --niebla: #b8c4d6;
   --claro: #dde5ef;
 
+  /* Crema editorial (secciones claras alternadas) */
+  --crema: #fbf8f2;
+  --crema-card: #fffdf8;
+  --crema-borde: #e7ddc6;
+  --carbon: #2e3030;
+  --carbon-suave: #57534a;
+
   /* Typography */
   --font-serif: 'Lora', Georgia, serif;
   --font-sans: 'Lato', system-ui, -apple-system, sans-serif;
@@ -1822,5 +1829,265 @@ html.js .underline-draw path {
   /* Marquee detenido */
   .marquee-track {
     animation: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   19. SECCIONES CREMA (RITMO OSCURO → CREMA) + MOTION AVANZADO v3.1
+   -------------------------------------------------------------------------- */
+
+/* --- 19.1 Sección con fondo crema editorial (.section--crema) --- */
+.section--crema {
+  background: var(--crema);
+  border-top: 1px solid rgba(201, 162, 75, 0.3);
+  border-bottom: 1px solid rgba(201, 162, 75, 0.3);
+  color: var(--carbon);
+}
+
+/* Tipografía: Lora oscura, cuerpo carbón suave, dorado intacto para acentos */
+.section--crema .section-title,
+.section--crema .method-title,
+.section--crema h2,
+.section--crema h3 {
+  color: var(--carbon);
+}
+
+.section--crema p,
+.section--crema .pain-desc,
+.section--crema .about-text {
+  color: var(--carbon-suave);
+}
+
+/* Tarjetas en versión clara (spotlight dorado se mantiene, opacidad ajustada) */
+.section--crema .brand-card {
+  background: var(--crema-card);
+  border: 1px solid var(--crema-borde);
+  backdrop-filter: none;
+  box-shadow: 0 10px 30px rgba(120, 100, 60, 0.08);
+}
+
+.section--crema .brand-card::before {
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(201, 162, 75, 0.18), transparent 65%);
+}
+
+.section--crema .brand-card:hover {
+  border-color: rgba(201, 162, 75, 0.6);
+  box-shadow: 0 16px 38px rgba(120, 100, 60, 0.16), 0 0 18px rgba(201, 162, 75, 0.15);
+}
+
+/* Highlight box de Sobre mí en versión papel */
+.section--crema .about-highlight-box {
+  background: #fffdf7;
+  border-left: 3px solid var(--dorado);
+  box-shadow: 0 10px 30px rgba(120, 100, 60, 0.1);
+}
+
+.section--crema .about-highlight-phrase {
+  color: var(--carbon);
+}
+
+/* Marco de la foto: sombra cálida en vez de sombra noche */
+.section--crema .about-photo-frame {
+  box-shadow: 0 20px 45px rgba(120, 100, 60, 0.18);
+}
+
+/* --- 19.2 Sobre mí: foto de grayscale a color + parallax (JS scrub) --- */
+/* Default color (sin JS / reduced-motion). JS setea --gray por frame. */
+.about-photo-frame img {
+  filter: grayscale(var(--gray, 0));
+  will-change: filter, transform;
+}
+
+/* --- 19.3 Quote banner: reveal palabra por palabra (spans .qword vía JS) --- */
+.quote-banner-text .qword {
+  display: inline-block;
+  will-change: opacity, filter;
+}
+
+/* --- 19.4 Método: timeline vertical que se dibuja con el scroll --- */
+.method-timeline {
+  position: relative;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+/* Riel de fondo (siempre visible, dorado tenue) */
+.method-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(201, 162, 75, 0.18);
+}
+
+/* Línea dorada que se dibuja: scaleY(0→1) con --tl-progress (default 1 sin JS) */
+.method-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(180deg, var(--dorado2), var(--dorado));
+  transform: scaleY(var(--tl-progress, 1));
+  transform-origin: top;
+}
+
+.method-step {
+  position: relative;
+  width: calc(50% - 3rem);
+  margin-bottom: 3rem;
+}
+
+.method-step--left {
+  margin-right: auto;
+}
+
+.method-step--right {
+  margin-left: auto;
+}
+
+.method-step:last-child {
+  margin-bottom: 0;
+}
+
+/* Nodo dorado sobre la línea (iluminado por defecto = estado final sin JS) */
+.method-node {
+  position: absolute;
+  top: 2.6rem;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--dorado);
+  border: 2px solid var(--dorado);
+  box-shadow: 0 0 16px var(--dorado-glow);
+  z-index: 2;
+  transition: background-color 0.4s, box-shadow 0.4s;
+}
+
+.method-step--left .method-node {
+  right: -3rem;
+  transform: translateX(50%);
+}
+
+.method-step--right .method-node {
+  left: -3rem;
+  transform: translateX(-50%);
+}
+
+/* Con JS activo (tl-active): nodos apagados hasta que la línea los alcanza */
+.method-timeline.tl-active .method-node {
+  background: var(--crema);
+  box-shadow: none;
+}
+
+.method-timeline.tl-active .method-step.lit .method-node {
+  background: var(--dorado);
+  box-shadow: 0 0 18px var(--dorado-glow);
+}
+
+/* Timeline en mobile: línea a la izquierda, tarjetas a ancho completo */
+@media (max-width: 768px) {
+  .method-timeline::before,
+  .method-line {
+    left: 7px;
+    margin-left: 0;
+  }
+
+  .method-step {
+    width: 100%;
+    margin-bottom: 2rem;
+    padding-left: 2.5rem;
+  }
+
+  .method-step--left .method-node,
+  .method-step--right .method-node {
+    left: 0;
+    right: auto;
+    transform: none;
+    top: 2.2rem;
+  }
+}
+
+/* --- 19.5 Sello circular rotatorio ("De dueño a líder · Negocios Exitosos") --- */
+.rotating-seal {
+  position: absolute;
+  right: 2.75rem;
+  bottom: 2.75rem;
+  width: 120px;
+  height: 120px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.rotating-seal-text {
+  display: block;
+  animation: seal-spin 26s linear infinite;
+}
+
+.rotating-seal-ring {
+  fill: none;
+  stroke: rgba(201, 162, 75, 0.35);
+  stroke-width: 1;
+}
+
+.rotating-seal-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  fill: var(--dorado);
+}
+
+.rotating-seal-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--dorado);
+}
+
+/* Entrada coreografiada junto al hero */
+html.js .rotating-seal {
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+@keyframes seal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Solo desktop amplio: evita colisiones con la grilla del hero */
+@media (max-width: 1100px) {
+  .rotating-seal {
+    display: none;
+  }
+}
+
+/* --- 19.6 Reduced motion: estados finales estáticos para el motion nuevo --- */
+@media (prefers-reduced-motion: reduce) {
+  .rotating-seal-text {
+    animation: none !important;
+  }
+
+  /* Línea del timeline dibujada completa y nodos iluminados */
+  .method-line {
+    transform: none !important;
+  }
+
+  .method-timeline.tl-active .method-node {
+    background: var(--dorado) !important;
+    box-shadow: 0 0 16px var(--dorado-glow) !important;
   }
 }

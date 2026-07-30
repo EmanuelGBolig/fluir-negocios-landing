@@ -37,7 +37,7 @@
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
   <!-- Custom Brand Stylesheet for Martín Troncoso -->
-  <link rel="stylesheet" href="../css/martin-troncoso.css?v=3.0">
+  <link rel="stylesheet" href="../css/martin-troncoso.css?v=3.1">
 
   <!-- Schema.org JSON-LD (Person & ProfessionalService) -->
   <script type="application/ld+json">
@@ -210,6 +210,20 @@
           </div>
         </div>
       </div>
+
+      <!-- Sello circular rotatorio (ornamento premium, solo desktop) -->
+      <div class="rotating-seal" aria-hidden="true">
+        <svg class="rotating-seal-text" viewBox="0 0 120 120" width="120" height="120" focusable="false">
+          <defs>
+            <path id="seal-text-circle" d="M 60 60 m -47 0 a 47 47 0 1 1 94 0 a 47 47 0 1 1 -94 0" fill="none" />
+          </defs>
+          <circle class="rotating-seal-ring" cx="60" cy="60" r="30" />
+          <text class="rotating-seal-label">
+            <textPath href="#seal-text-circle">DE DUEÑO A LÍDER • NEGOCIOS EXITOSOS •</textPath>
+          </text>
+        </svg>
+        <span class="rotating-seal-center">MT</span>
+      </div>
     </section>
 
     <!-- ==========================================================================
@@ -315,7 +329,7 @@
     <!-- ==========================================================================
          4. SOBRE MÍ (EL CORAZÓN DEL HUB)
          ========================================================================== -->
-    <section class="section-padding" id="sobre-mi">
+    <section class="section-padding section--crema" id="sobre-mi">
       <div class="container">
         <div class="about-grid">
           <div class="about-photo-wrapper reveal reveal--left">
@@ -492,7 +506,7 @@
     <!-- ==========================================================================
          7. MÉTODO / POR QUÉ DISTINTO
          ========================================================================== -->
-    <section class="section-padding" id="metodo">
+    <section class="section-padding section--crema" id="metodo">
       <div class="container">
         <div class="section-header reveal">
           <span class="eyebrow">MI FORMA DE TRABAJAR</span>
@@ -501,45 +515,60 @@
           </h2>
         </div>
 
-        <div class="method-grid reveal-stagger">
-          <div class="brand-card method-card">
-            <div class="method-header">
-              <div class="method-icon">
-                <i data-lucide="zap" class="gold-icon" style="width: 24px; height: 24px;"></i>
+        <div class="method-timeline">
+          <!-- Línea dorada que se dibuja con el scroll (progreso vía --tl-progress en JS) -->
+          <div class="method-line" aria-hidden="true"></div>
+
+          <div class="method-step method-step--left reveal">
+            <span class="method-node" aria-hidden="true"></span>
+            <div class="brand-card method-card">
+              <div class="method-header">
+                <div class="method-icon">
+                  <i data-lucide="zap" class="gold-icon" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 class="method-title">Práctica real</h3>
               </div>
-              <h3 class="method-title">Práctica real</h3>
+              <p class="pain-desc">Soy un fanático de la práctica. Todo lo que aprendo lo llevo a la acción al instante en situaciones reales.</p>
             </div>
-            <p class="pain-desc">Soy un fanático de la práctica. Todo lo que aprendo lo llevo a la acción al instante en situaciones reales.</p>
           </div>
 
-          <div class="brand-card method-card">
-            <div class="method-header">
-              <div class="method-icon">
-                <i data-lucide="shield-check" class="gold-icon" style="width: 24px; height: 24px;"></i>
+          <div class="method-step method-step--right reveal">
+            <span class="method-node" aria-hidden="true"></span>
+            <div class="brand-card method-card">
+              <div class="method-header">
+                <div class="method-icon">
+                  <i data-lucide="shield-check" class="gold-icon" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 class="method-title">De dueño a líder</h3>
               </div>
-              <h3 class="method-title">De dueño a líder</h3>
+              <p class="pain-desc">Claridad para ordenar, estructurar y darle identidad y misión propia a tu negocio.</p>
             </div>
-            <p class="pain-desc">Claridad para ordenar, estructurar y darle identidad y misión propia a tu negocio.</p>
           </div>
 
-          <div class="brand-card method-card">
-            <div class="method-header">
-              <div class="method-icon">
-                <i data-lucide="target" class="gold-icon" style="width: 24px; height: 24px;"></i>
+          <div class="method-step method-step--left reveal">
+            <span class="method-node" aria-hidden="true"></span>
+            <div class="brand-card method-card">
+              <div class="method-header">
+                <div class="method-icon">
+                  <i data-lucide="target" class="gold-icon" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 class="method-title">Liderar es hacer que suceda</h3>
               </div>
-              <h3 class="method-title">Liderar es hacer que suceda</h3>
+              <p class="pain-desc">Dejar de ser el "tapón" o cuello de botella del equipo y construir un formato de trabajo fluido.</p>
             </div>
-            <p class="pain-desc">Dejar de ser el "tapón" o cuello de botella del equipo y construir un formato de trabajo fluido.</p>
           </div>
 
-          <div class="brand-card method-card">
-            <div class="method-header">
-              <div class="method-icon">
-                <i data-lucide="heart-handshake" class="gold-icon" style="width: 24px; height: 24px;"></i>
+          <div class="method-step method-step--right reveal">
+            <span class="method-node" aria-hidden="true"></span>
+            <div class="brand-card method-card">
+              <div class="method-header">
+                <div class="method-icon">
+                  <i data-lucide="heart-handshake" class="gold-icon" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 class="method-title">Exitoso pero humano</h3>
               </div>
-              <h3 class="method-title">Exitoso pero humano</h3>
+              <p class="pain-desc">Integramos también lo que no funciona, sin maquillar nada, construyendo desde la autenticidad.</p>
             </div>
-            <p class="pain-desc">Integramos también lo que no funciona, sin maquillar nada, construyendo desde la autenticidad.</p>
           </div>
         </div>
       </div>
@@ -978,7 +1007,7 @@
   </button>
 
   <!-- Script interactivo de Martín Troncoso -->
-  <script src="../js/martin-troncoso.js?v=3.0"></script>
+  <script src="../js/martin-troncoso.js?v=3.1"></script>
 </body>
 
 </html>
