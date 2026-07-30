@@ -91,6 +91,19 @@ a {
   text-decoration: none;
 }
 
+/* Anclas bajo la navbar fija */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
+/* Foco visible accesible en links y botones */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--dorado2);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* Container */
 .container {
   width: 100%;
@@ -220,11 +233,29 @@ a {
   padding: 2.25rem;
   transition: var(--transition-smooth);
   position: relative;
+  overflow: hidden;
+}
+
+/* Spotlight dorado que sigue al cursor (custom properties seteadas por JS) */
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(201, 162, 75, 0.14), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.brand-card:hover::before {
+  opacity: 1;
 }
 
 .brand-card:hover {
   border-color: rgba(201, 162, 75, 0.5);
-  transform: translateY(-4px);
+  transform: perspective(900px) translateY(-4px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   box-shadow: 0 12px 30px rgba(6, 15, 32, 0.6), 0 0 15px rgba(201, 162, 75, 0.15);
 }
 
@@ -545,6 +576,7 @@ a {
 
 .hero-image-wrapper {
   position: relative;
+  perspective: 1200px;
 }
 
 .hero-image-card {
@@ -553,6 +585,8 @@ a {
   overflow: hidden;
   background: linear-gradient(135deg, var(--resalte), var(--marino));
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+  transform-style: preserve-3d;
 }
 
 .hero-image-card img {
@@ -1567,6 +1601,203 @@ a {
   }
 }
 
+/* --------------------------------------------------------------------------
+   18. MOTION SYSTEM (SCROLL REVEAL, HERO ENTRANCE, MARQUEE, 3D)
+   Todo gated detrás de html.js para no ocultar contenido si falla el JS.
+   -------------------------------------------------------------------------- */
+
+/* --- 18.1 Scroll Reveal genérico (IntersectionObserver en martin-troncoso.js) --- */
+html.js .reveal,
+html.js .reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.js .reveal--left {
+  transform: translateX(-32px);
+}
+
+html.js .reveal--right {
+  transform: translateX(32px);
+}
+
+html.js .reveal--scale {
+  transform: scale(0.94);
+}
+
+html.js .reveal.reveal-visible,
+html.js .reveal-stagger.reveal-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal[data-delay="1"] {
+  transition-delay: 0.12s;
+}
+
+html.js .reveal[data-delay="2"] {
+  transition-delay: 0.2s;
+}
+
+/* --- 18.2 Hero: entrada coreografiada escalonada --- */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html.js .hero-content > * {
+  animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.js .hero-content > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+html.js .hero-content > *:nth-child(2) {
+  animation-delay: 0.13s;
+}
+
+html.js .hero-content > *:nth-child(3) {
+  animation-delay: 0.21s;
+}
+
+html.js .hero-content > *:nth-child(4) {
+  animation-delay: 0.31s;
+}
+
+html.js .hero-content > *:nth-child(5) {
+  animation-delay: 0.41s;
+}
+
+html.js .hero-image-wrapper {
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+/* --- 18.3 Subrayado SVG dorado que se dibuja bajo "líder" --- */
+.word-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-draw {
+  position: absolute;
+  left: -4%;
+  bottom: -0.22em;
+  width: 108%;
+  height: 0.35em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+html.js .underline-draw path {
+  stroke-dasharray: 230;
+  stroke-dashoffset: 230;
+  animation: draw-underline 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+@keyframes draw-underline {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* --- 18.4 Marquee infinito de logos de clientes --- */
+.clients-marquee-section {
+  padding: 2.5rem 0 3rem;
+}
+
+.clients-marquee-title {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--gris);
+}
+
+.clients-marquee {
+  overflow: hidden;
+  margin-top: 2rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 45s linear infinite;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+  flex-shrink: 0;
+}
+
+.marquee-logo {
+  height: 40px;
+  width: auto;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.marquee-logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.clients-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .marquee-group {
+    gap: 2.25rem;
+    padding-right: 2.25rem;
+  }
+
+  .marquee-logo {
+    height: 32px;
+  }
+}
+
+/* --- 18.5 CTA posterior a Casos reales --- */
+.cases-cta {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.cases-cta-text {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--marfil);
+  margin-bottom: 1.25rem;
+}
+
+/* --- 18.6 Avatar de monograma (testimonios sin foto real) --- */
+.case-avatar--monogram {
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.2), rgba(201, 162, 75, 0.06));
+  border: 1px solid var(--dorado);
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
 /* Reduced Motion Respect */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -1574,5 +1805,22 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Reveals visibles sin animación */
+  html.js .reveal,
+  html.js .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Subrayado dibujado visible de inmediato */
+  html.js .underline-draw path {
+    stroke-dashoffset: 0 !important;
+  }
+
+  /* Marquee detenido */
+  .marquee-track {
+    animation: none !important;
   }
 }

@@ -3,7 +3,14 @@
  * Interactive Features & Accessibility JavaScript
  */
 
+// Marca temprana: habilita estilos que dependen de JS (reveals, entrada del hero).
+// Si el JS no carga, el contenido se muestra completo sin animaciones.
+document.documentElement.classList.add('js');
+
 document.addEventListener('DOMContentLoaded', () => {
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
+
   // 1. Initialize Lucide icons
   if (typeof lucide !== 'undefined') {
     lucide.createIcons({
@@ -11,6 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
         'stroke-width': 2.3
       }
     });
+  }
+
+  // 1b. Lenis Smooth Scroll (solo sin prefers-reduced-motion)
+  let lenis = null;
+  if (!REDUCED_MOTION && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    // Lenis maneja el suavizado: desactivar el smooth nativo para evitar doble easing
+    document.documentElement.style.scrollBehavior = 'auto';
+
+    const lenisRaf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(lenisRaf);
+    };
+    requestAnimationFrame(lenisRaf);
   }
 
   // 2. Sticky Header Compaction on Scroll
@@ -104,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const endpoint = contactForm.getAttribute('action') || '{{FORM_ENDPOINT}}';
+      const endpoint = contactForm.getAttribute('action');
       const submitBtn = contactForm.querySelector('button[type="submit"]');
 
       try {
@@ -113,38 +134,32 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.textContent = 'Enviando...';
         }
 
-        // Check if endpoint is still placeholder or valid Formspree / endpoint
-        if (endpoint.includes('{{FORM_ENDPOINT}}') || endpoint === '#') {
-          // Simulated success response for development / demo mode
-          await new Promise(resolve => setTimeout(resolve, 800));
-          showFormStatus('¡Mensaje enviado con éxito! Martín te responderá por WhatsApp o email a la brevedad.', 'success');
+        if (!endpoint || endpoint === '#') {
+          // Endpoint no configurado: no simular éxito, informar y ofrecer WhatsApp
+          showFormStatus('No pudimos enviar tu mensaje por esta vía. Escribinos directo por WhatsApp: +54 9 223 529-5052.', 'error');
+          return;
+        }
+
+        // Envío real a Formspree: éxito SOLO con response.ok
+        const formData = new FormData(contactForm);
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          showFormStatus('¡Mensaje recibido con éxito! Martín te responderá a la brevedad.', 'success');
           contactForm.reset();
         } else {
-        // Real fetch POST with graceful fallback
-        const formData = new FormData(contactForm);
-        try {
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          });
-
-          if (response.ok) {
-            showFormStatus('¡Mensaje recibido con éxito! Martín te responderá a la brevedad.', 'success');
-            contactForm.reset();
-          } else {
-            throw new Error('Endpoint error');
-          }
-        } catch (fetchErr) {
-          // Graceful fallback: Notify success and clear form
-          showFormStatus('¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.', 'success');
-          contactForm.reset();
-        }
+          // Error del servidor (422, 429, 500...): NO borrar el formulario
+          showFormStatus('No pudimos enviar tu mensaje. Tus datos siguen acá: probá de nuevo o escribinos por WhatsApp: +54 9 223 529-5052.', 'error');
         }
       } catch (err) {
-        showFormStatus('Ocurrió un error al enviar el mensaje. Por favor, intentá escribirnos directamente por WhatsApp.', 'error');
+        // Falla de red u otro error: NO borrar el formulario, NO fingir éxito
+        showFormStatus('No pudimos enviar tu mensaje (revisá tu conexión). Tus datos siguen acá: probá de nuevo o escribinos por WhatsApp: +54 9 223 529-5052.', 'error');
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -171,16 +186,144 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. Scroll to top button functionality
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      if (lenis) {
+        lenis.scrollTo(0);
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: REDUCED_MOTION ? 'auto' : 'smooth'
+        });
+      }
     });
   }
+
+  // 6b. Anclajes internos integrados con Lenis (nav, footer, CTAs locales)
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const hash = anchor.getAttribute('href');
+      if (!hash || hash.length <= 1) return;
+      const target = document.querySelector(hash);
+      if (!target) return;
+      e.preventDefault();
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -90 });
+      } else {
+        target.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+      }
+    });
+  });
 
   // 7. Dynamic Year in Footer
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
+  }
+
+  // 8. Scroll Reveal System (IntersectionObserver local, patrón portado del proyecto)
+  const revealObserver = ('IntersectionObserver' in window && !REDUCED_MOTION)
+    ? new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+
+        // Stagger por hijos: delay incremental y limpieza posterior
+        if (el.classList.contains('reveal-stagger')) {
+          const children = Array.from(el.children);
+          children.forEach((child, i) => {
+            child.style.transitionDelay = `${i * 0.09}s`;
+          });
+          const maxDelay = children.length * 90 + 750;
+          setTimeout(() => {
+            children.forEach(child => { child.style.transitionDelay = ''; });
+          }, maxDelay);
+        }
+
+        el.classList.add('reveal-visible');
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
+    : null;
+
+  if (revealObserver) {
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => revealObserver.observe(el));
+  } else {
+    // Fallback: mostrar todo sin animación (sin IO o reduced-motion)
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => el.classList.add('reveal-visible'));
+  }
+
+  // 9. Contadores animados de stats (+10, +100) con easing ease-out
+  const statNumbers = document.querySelectorAll('.stat-number[data-count-target]');
+  if (statNumbers.length && 'IntersectionObserver' in window && !REDUCED_MOTION) {
+    const countObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        const el = entry.target;
+        const target = parseFloat(el.dataset.countTarget);
+        const prefix = el.dataset.countPrefix || '';
+        const suffix = el.dataset.countSuffix || '';
+        const duration = 1400;
+        const start = performance.now();
+
+        const step = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+          el.textContent = prefix + Math.round(target * eased) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    statNumbers.forEach(el => countObserver.observe(el));
+  }
+
+  // 10. Tilt 3D de la foto del hero siguiendo el mouse (rAF + lerp, solo desktop)
+  const heroSection = document.querySelector('.hero-section');
+  const heroCard = document.querySelector('.hero-image-card');
+  if (heroSection && heroCard && FINE_POINTER && !REDUCED_MOTION) {
+    const MAX_TILT = 5; // grados máximos (±5°)
+    let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+
+    heroSection.addEventListener('pointermove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * MAX_TILT * 2;   // rotateY
+      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * -MAX_TILT * 2;  // rotateX
+    });
+    heroSection.addEventListener('pointerleave', () => {
+      targetX = 0;
+      targetY = 0;
+    });
+
+    const tiltTick = () => {
+      currentX += (targetX - currentX) * 0.08; // lerp = suavidad
+      currentY += (targetY - currentY) * 0.08;
+      heroCard.style.transform = `rotateY(${currentX.toFixed(2)}deg) rotateX(${currentY.toFixed(2)}deg) translateZ(0)`;
+      requestAnimationFrame(tiltTick);
+    };
+    requestAnimationFrame(tiltTick);
+  }
+
+  // 11. Spotlight dorado + tilt magnético en .brand-card (custom properties, solo desktop)
+  if (FINE_POINTER && !REDUCED_MOTION) {
+    const MAX_CARD_TILT = 3; // grados máximos (±3°)
+    document.querySelectorAll('.brand-card').forEach(card => {
+      card.addEventListener('pointermove', (e) => {
+        // No competir con el reveal de entrada
+        const staggerParent = card.closest('.reveal-stagger');
+        if (staggerParent && !staggerParent.classList.contains('reveal-visible')) return;
+
+        const rect = card.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width;
+        const relY = (e.clientY - rect.top) / rect.height;
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+        card.style.setProperty('--ry', `${((relX - 0.5) * MAX_CARD_TILT * 2).toFixed(2)}deg`);
+        card.style.setProperty('--rx', `${((relY - 0.5) * -MAX_CARD_TILT * 2).toFixed(2)}deg`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      });
+    });
   }
 });

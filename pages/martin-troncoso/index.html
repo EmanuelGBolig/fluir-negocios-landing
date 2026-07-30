@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Martín Troncoso — De dueño a líder | Coaching y consultoría para negocios y emprendedores</title>
+  <meta name="theme-color" content="#060f20">
+  <title>Martín Troncoso — De dueño a líder | Coaching de negocios</title>
   <meta name="description"
     content="Ayudo a dueños de negocios y emprendedores a liderar su equipo, decidir mejor y volver a disfrutar su negocio. De dueño a líder.">
 
@@ -29,17 +30,14 @@
     href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap"
     rel="stylesheet">
 
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons (versión fija para evitar degradación por releases futuros) -->
+  <script src="https://unpkg.com/lucide@0.469.0"></script>
 
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lenis Smooth Scroll (inicializado solo sin prefers-reduced-motion) -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
   <!-- Custom Brand Stylesheet for Martín Troncoso -->
-  <link rel="stylesheet" href="../../css/martin-troncoso.css?v=2.0">
+  <link rel="stylesheet" href="../../css/martin-troncoso.css?v=3.0">
 
   <!-- Schema.org JSON-LD (Person & ProfessionalService) -->
   <script type="application/ld+json">
@@ -72,6 +70,56 @@
           "addressLocality": "Mar del Plata",
           "addressRegion": "Buenos Aires",
           "addressCountry": "AR"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org JSON-LD (FAQPage) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Para quién es esto?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para dueños de negocios y emprendedores cuyo negocio ya funciona pero está estancado u ordenado en torno al propio dueño, y que quieren liderar mejor a su equipo y hacer crecer su empresa con salud y claridad."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo trabajás?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Desde la práctica directa, con herramientas concretas de coaching ontológico y transformacional aplicadas a la trinchera de tu negocio real, sin rodeos ni teorías abstractas."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Es online o presencial?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Modalidad flexible: Encuentros presenciales en Mar del Plata y acompañamientos online 1 a 1 para emprendedores y empresas en toda Argentina y Latinoamérica."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Tengo que tener un equipo grande?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Trabajamos con tu realidad actual; lo verdaderamente importante es que tengas la determinación de liderar, ordenar tu estructura y hacer crecer tu negocio."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo empiezo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Escribime por WhatsApp o dejá tus datos en el formulario de contacto para coordinar una primera charla de diagnóstico sin compromiso."
         }
       }
     ]
@@ -131,7 +179,11 @@
           <span class="eyebrow">MARTÍN TRONCOSO · NEGOCIOS EXITOSOS</span>
 
           <h1 class="hero-title">
-            De dueño a <span class="accent-gold-italic">líder</span>.
+            De dueño a <span class="accent-gold-italic word-underline">líder<svg class="underline-draw" viewBox="0 0 200 14"
+                preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path d="M3 10 Q 100 -2 197 8" fill="none" stroke="var(--dorado)" stroke-width="3.5"
+                  stroke-linecap="round" />
+              </svg></span>.
           </h1>
 
           <p class="hero-subtitle">
@@ -153,7 +205,74 @@
 
         <div class="hero-image-wrapper">
           <div class="hero-image-card double-gold-frame">
-            <img src="../../assets/team/martin.png" alt="Martín Troncoso — Consultor de Liderazgo" loading="eager">
+            <img src="../../assets/team/martin.png" alt="Martín Troncoso — Consultor de Liderazgo" width="453" height="680"
+              loading="eager" fetchpriority="high">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         2B. MARQUEE DE LOGOS DE CLIENTES
+         ========================================================================== -->
+    <section class="clients-marquee-section" aria-label="Negocios que confiaron en este proceso">
+      <div class="container">
+        <p class="clients-marquee-title reveal">Negocios que ya confiaron en este <span
+            class="accent-gold-italic">proceso</span></p>
+      </div>
+      <div class="clients-marquee reveal">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <img class="marquee-logo" src="../../assets/clients/logo-grido.webp" alt="Grido" width="267" height="182"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-sheraton.webp" alt="Sheraton" width="227" height="190"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-patagonian-fruits.webp" alt="Patagonian Fruits"
+              width="228" height="93" loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-musso.webp" alt="Musso" width="247" height="135"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-elecsur.webp" alt="Elecsur" width="297" height="113"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-quavo.webp" alt="Quavo" width="226" height="78"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-fj.webp" alt="FJ" width="196" height="106"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-crea.webp" alt="CREA" width="161" height="125"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-contegma.webp" alt="Contegma" width="270" height="65"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-lola-hunkeler.webp" alt="Lola Hunkeler" width="186"
+              height="112" loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-zummacro.webp" alt="Zummacro" width="234" height="88"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/checars-logo.png" alt="Checars" width="225" height="225"
+              loading="lazy">
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <img class="marquee-logo" src="../../assets/clients/logo-grido.webp" alt="" width="267" height="182"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-sheraton.webp" alt="" width="227" height="190"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-patagonian-fruits.webp" alt="" width="228" height="93"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-musso.webp" alt="" width="247" height="135"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-elecsur.webp" alt="" width="297" height="113"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-quavo.webp" alt="" width="226" height="78"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-fj.webp" alt="" width="196" height="106"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-crea.webp" alt="" width="161" height="125"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-contegma.webp" alt="" width="270" height="65"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-lola-hunkeler.webp" alt="" width="186" height="112"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/logo-zummacro.webp" alt="" width="234" height="88"
+              loading="lazy">
+            <img class="marquee-logo" src="../../assets/clients/checars-logo.png" alt="" width="225" height="225"
+              loading="lazy">
           </div>
         </div>
       </div>
@@ -167,13 +286,13 @@
          ========================================================================== -->
     <section class="social-proof-section">
       <div class="container">
-        <div class="stats-grid">
+        <div class="stats-grid reveal-stagger">
           <div class="stat-item">
-            <div class="stat-number">+10 años</div>
+            <div class="stat-number" data-count-target="10" data-count-prefix="+" data-count-suffix=" años">+10 años</div>
             <div class="stat-label">Trayectoria formando líderes</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">+100</div>
+            <div class="stat-number" data-count-target="100" data-count-prefix="+" data-count-suffix="">+100</div>
             <div class="stat-label">Líderes y dueños acompañados</div>
           </div>
           <div class="stat-item">
@@ -199,13 +318,14 @@
     <section class="section-padding" id="sobre-mi">
       <div class="container">
         <div class="about-grid">
-          <div class="about-photo-wrapper">
+          <div class="about-photo-wrapper reveal reveal--left">
             <div class="about-photo-frame double-gold-frame">
-              <img src="../../assets/team/martin.png" alt="Martín Troncoso — Sobre Mí" loading="lazy">
+              <img src="../../assets/team/martin.png" alt="Martín Troncoso — Sobre Mí" width="453" height="680"
+                loading="lazy">
             </div>
           </div>
 
-          <div class="about-content">
+          <div class="about-content reveal reveal--right">
             <div>
               <span class="eyebrow">SOBRE MÍ</span>
               <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">
@@ -244,14 +364,14 @@
          ========================================================================== -->
     <section class="section-padding section-resalte-bg">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">¿TE PASA ESTO?</span>
           <h2 class="section-title">
             Tu negocio ya funciona, pero sentís que lo cargás al <span class="accent-gold-italic">hombro</span>.
           </h2>
         </div>
 
-        <div class="pains-grid">
+        <div class="pains-grid reveal-stagger">
           <!-- Tarjeta 1 -->
           <div class="brand-card pain-card">
             <div class="pain-icon-box">
@@ -297,7 +417,7 @@
           </div>
         </div>
 
-        <div class="pains-closing-banner double-gold-frame">
+        <div class="pains-closing-banner double-gold-frame reveal">
           <p class="pains-closing-text">
             Si te sentís identificado, no te falta esfuerzo. Te falta pasar de <span
               class="accent-gold-italic">dueño</span> a <span class="accent-gold-italic">líder</span>.
@@ -319,14 +439,14 @@
          ========================================================================== -->
     <section class="section-padding" id="que-hago">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">QUÉ HAGO</span>
           <h2 class="section-title">
             Martín es el que te ayuda a…
           </h2>
         </div>
 
-        <div class="value-grid">
+        <div class="value-grid reveal-stagger">
           <div class="brand-card value-card">
             <div class="value-card-icon">
               <i data-lucide="compass" class="gold-icon" style="width: 30px; height: 30px;"></i>
@@ -352,7 +472,7 @@
           </div>
         </div>
 
-        <div class="value-prop-box">
+        <div class="value-prop-box reveal">
           <p class="value-prop-text" style="margin-bottom: 1.5rem;">
             Trabajando conmigo vas a liderar tu equipo con más efectividad, tomar mejores decisiones sobre la
             estructura y el manejo de tu negocio, y volver a sentirte bien con tu trabajo.
@@ -374,14 +494,14 @@
          ========================================================================== -->
     <section class="section-padding" id="metodo">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">MI FORMA DE TRABAJAR</span>
           <h2 class="section-title">
             Práctica por encima de la teoría. <span class="accent-gold-italic">Integridad</span> por encima de la imagen.
           </h2>
         </div>
 
-        <div class="method-grid">
+        <div class="method-grid reveal-stagger">
           <div class="brand-card method-card">
             <div class="method-header">
               <div class="method-icon">
@@ -433,14 +553,14 @@
          ========================================================================== -->
     <section class="section-padding section-resalte-bg">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">EN QUÉ ANDO</span>
           <h2 class="section-title">
             Un ecosistema de proyectos con una misma <span class="accent-gold-italic">filosofía</span>.
           </h2>
         </div>
 
-        <div class="ecosystem-grid">
+        <div class="ecosystem-grid reveal-stagger">
           <!-- Proyecto 1 -->
           <div class="brand-card ecosystem-card">
             <div class="ecosystem-top">
@@ -507,19 +627,20 @@
          ========================================================================== -->
     <section class="section-padding" id="casos">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">CASOS REALES</span>
           <h2 class="section-title">
             Dueños que hicieron el <span class="accent-gold-italic">salto</span>.
           </h2>
         </div>
 
-        <div class="cases-grid">
+        <div class="cases-grid reveal-stagger">
           <!-- Caso 1 -->
           <div class="brand-card case-card">
             <div class="case-user">
               <div class="case-avatar">
-                <img src="../../assets/carousel/Fluir_foto-490.webp" alt="Mauro Marín" loading="lazy">
+                <img src="../../assets/carousel/Fluir_foto-490-avatar.webp" alt="Mauro Marín" width="112" height="112"
+                  loading="lazy">
               </div>
               <div class="case-meta">
                 <span class="case-name">Mauro Marín</span>
@@ -534,9 +655,7 @@
           <!-- Caso 2 -->
           <div class="brand-card case-card">
             <div class="case-user">
-              <div class="case-avatar">
-                <img src="../../assets/team/antonela.png" alt="Franco — Distribuidora" loading="lazy">
-              </div>
+              <div class="case-avatar case-avatar--monogram" aria-hidden="true">F</div>
               <div class="case-meta">
                 <span class="case-name">Franco</span>
                 <span class="case-sub">25 años · Dueño de distribuidora, Buenos Aires</span>
@@ -550,9 +669,7 @@
           <!-- Caso 3 -->
           <div class="brand-card case-card">
             <div class="case-user">
-              <div class="case-avatar">
-                <img src="../../assets/team/vanesa.png" alt="Lu — Emprendedora Textil" loading="lazy">
-              </div>
+              <div class="case-avatar case-avatar--monogram" aria-hidden="true">L</div>
               <div class="case-meta">
                 <span class="case-name">Lu</span>
                 <span class="case-sub">24 años · Emprendedora textil, Mar del Plata</span>
@@ -565,14 +682,24 @@
         </div>
 
         <!-- Reproductor de Testimonio en Video Real (Mauro Marín) -->
-        <div class="case-video-card double-gold-frame">
-          <video class="case-video-player" controls preload="none" poster="../../assets/video/testimonio-mauro-marin.jpg">
+        <div class="case-video-card double-gold-frame reveal reveal--scale">
+          <video class="case-video-player" controls preload="none" poster="../assets/video/testimonio-mauro-marin.jpg">
             <source src="../../assets/video/testimonio-mauro-marin.mp4" type="video/mp4">
             Tu navegador no soporta la reproducción de video.
           </video>
           <div class="case-video-caption">
             <strong>Mauro Marín</strong> · Tapas de Cilindros — Rectificadora, Mar del Plata
           </div>
+        </div>
+
+        <!-- CTA post-prueba social -->
+        <div class="cases-cta reveal">
+          <p class="cases-cta-text">¿Querés ser el próximo caso?</p>
+          <a href="https://wa.me/5492235295052?text=Hola%20Mart%C3%ADn%2C%20quiero%20agendar%20mi%20charla%20de%20diagn%C3%B3stico"
+            target="_blank" rel="noopener" class="btn-pill btn-primary btn-large">
+            <span>Agendá tu charla de diagnóstico</span>
+            <i data-lucide="arrow-right" style="width: 18px; height: 18px; color: var(--noche);"></i>
+          </a>
         </div>
       </div>
     </section>
@@ -585,10 +712,10 @@
          ========================================================================== -->
     <section class="quote-banner-section">
       <div class="container">
-        <blockquote class="quote-banner-text">
+        <blockquote class="quote-banner-text reveal">
           "Liderar es hacer que suceda."
         </blockquote>
-        <div class="quote-banner-author">Martín Troncoso · Negocios Exitosos</div>
+        <div class="quote-banner-author reveal" data-delay="1">Martín Troncoso · Negocios Exitosos</div>
       </div>
     </section>
 
@@ -600,14 +727,14 @@
          ========================================================================== -->
     <section class="section-padding">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">PREGUNTAS FRECUENTES</span>
           <h2 class="section-title">
             Todo lo que necesitas <span class="accent-gold-italic">saber</span>.
           </h2>
         </div>
 
-        <div class="faq-container">
+        <div class="faq-container reveal-stagger">
           <!-- Pregunta 1 -->
           <div class="faq-item">
             <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1">
@@ -688,7 +815,7 @@
          ========================================================================== -->
     <section class="section-padding" id="contacto">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="eyebrow">HABLEMOS</span>
           <h2 class="section-title">
             ¿Listo para pasar de dueño a <span class="accent-gold-italic">líder</span>?
@@ -698,7 +825,7 @@
           </p>
         </div>
 
-        <div class="contact-grid">
+        <div class="contact-grid reveal-stagger">
           <!-- Columna WhatsApp -->
           <div class="brand-card contact-card double-gold-frame">
             <div class="contact-wa-box">
@@ -814,15 +941,24 @@
           <div class="social-links">
             <a href="https://instagram.com/martintroncoso.arg" target="_blank" rel="noopener" class="social-icon-btn"
               aria-label="Instagram de Martín Troncoso">
-              <i class="fa-brands fa-instagram"></i>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
             </a>
             <a href="https://linkedin.com/in/martintroncosoarg" target="_blank" rel="noopener" class="social-icon-btn"
               aria-label="LinkedIn de Martín Troncoso">
-              <i class="fa-brands fa-linkedin-in"></i>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
             </a>
             <a href="https://wa.me/5492235295052" target="_blank" rel="noopener" class="social-icon-btn"
               aria-label="WhatsApp de Martín Troncoso">
-              <i class="fa-brands fa-whatsapp"></i>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>
             </a>
           </div>
         </div>
@@ -842,7 +978,7 @@
   </button>
 
   <!-- Script interactivo de Martín Troncoso -->
-  <script src="../../js/martin-troncoso.js?v=2.0"></script>
+  <script src="../../js/martin-troncoso.js?v=3.0"></script>
 </body>
 
 </html>
