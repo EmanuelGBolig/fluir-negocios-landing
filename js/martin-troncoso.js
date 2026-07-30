@@ -435,4 +435,39 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onTimelineScroll, { passive: true });
     updateTimeline();
   }
+
+  // 15. Botones: data-text para el text-swap hover (se genera desde el span,
+  //     así no hace falta tocar el HTML de cada botón)
+  document.querySelectorAll('.btn-pill').forEach(btn => {
+    const label = btn.querySelector('span');
+    if (label && !btn.dataset.text) {
+      btn.dataset.text = label.textContent.trim();
+    }
+  });
+
+  // 16. Botón magnético: el CTA principal del hero se acerca sutilmente al cursor
+  //     (mismo patrón lerp/rAF que el tilt 3D, solo desktop con puntero fino)
+  const heroPrimaryBtn = document.querySelector('.hero-ctas .btn-primary');
+  if (heroPrimaryBtn && FINE_POINTER && !REDUCED_MOTION) {
+    const MAGNET_RANGE = 8; // px máximos de desplazamiento
+    let mTargetX = 0, mTargetY = 0, mCurX = 0, mCurY = 0;
+
+    heroPrimaryBtn.addEventListener('pointermove', (e) => {
+      const rect = heroPrimaryBtn.getBoundingClientRect();
+      mTargetX = ((e.clientX - rect.left) / rect.width - 0.5) * MAGNET_RANGE * 2;
+      mTargetY = ((e.clientY - rect.top) / rect.height - 0.5) * MAGNET_RANGE * 1.4;
+    });
+    heroPrimaryBtn.addEventListener('pointerleave', () => {
+      mTargetX = 0;
+      mTargetY = 0;
+    });
+
+    const magnetTick = () => {
+      mCurX += (mTargetX - mCurX) * 0.15;
+      mCurY += (mTargetY - mCurY) * 0.15;
+      heroPrimaryBtn.style.transform = `translate(${mCurX.toFixed(2)}px, ${mCurY.toFixed(2)}px)`;
+      requestAnimationFrame(magnetTick);
+    };
+    requestAnimationFrame(magnetTick);
+  }
 });
