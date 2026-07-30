@@ -278,29 +278,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 10. Tilt 3D de la foto del hero siguiendo el mouse (rAF + lerp, solo desktop)
+  //     Perf: el loop rAF corre SOLO mientras hay interacción o asentamiento;
+  //     antes giraba 60fps de forma permanente aunque nadie tocara la página.
   const heroSection = document.querySelector('.hero-section');
   const heroCard = document.querySelector('.hero-image-card');
   if (heroSection && heroCard && FINE_POINTER && !REDUCED_MOTION) {
     const MAX_TILT = 5; // grados máximos (±5°)
     let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-
-    heroSection.addEventListener('pointermove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * MAX_TILT * 2;   // rotateY
-      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * -MAX_TILT * 2;  // rotateX
-    });
-    heroSection.addEventListener('pointerleave', () => {
-      targetX = 0;
-      targetY = 0;
-    });
+    let tiltRaf = null;
 
     const tiltTick = () => {
       currentX += (targetX - currentX) * 0.08; // lerp = suavidad
       currentY += (targetY - currentY) * 0.08;
       heroCard.style.transform = `rotateY(${currentX.toFixed(2)}deg) rotateX(${currentY.toFixed(2)}deg) translateZ(0)`;
-      requestAnimationFrame(tiltTick);
+      // Seguir solo hasta asentarse; luego dormir hasta la próxima interacción
+      if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+        tiltRaf = requestAnimationFrame(tiltTick);
+      } else {
+        tiltRaf = null;
+      }
     };
-    requestAnimationFrame(tiltTick);
+    const wakeTilt = () => {
+      if (tiltRaf === null) tiltRaf = requestAnimationFrame(tiltTick);
+    };
+
+    heroSection.addEventListener('pointermove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * MAX_TILT * 2;   // rotateY
+      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * -MAX_TILT * 2;  // rotateX
+      wakeTilt();
+    });
+    heroSection.addEventListener('pointerleave', () => {
+      targetX = 0;
+      targetY = 0;
+      wakeTilt(); // animar la vuelta a 0 y luego dormir
+    });
   }
 
   // 11. Spotlight dorado + tilt magnético en .brand-card (custom properties, solo desktop)
@@ -451,24 +463,34 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroPrimaryBtn && FINE_POINTER && !REDUCED_MOTION) {
     const MAGNET_RANGE = 8; // px máximos de desplazamiento
     let mTargetX = 0, mTargetY = 0, mCurX = 0, mCurY = 0;
-
-    heroPrimaryBtn.addEventListener('pointermove', (e) => {
-      const rect = heroPrimaryBtn.getBoundingClientRect();
-      mTargetX = ((e.clientX - rect.left) / rect.width - 0.5) * MAGNET_RANGE * 2;
-      mTargetY = ((e.clientY - rect.top) / rect.height - 0.5) * MAGNET_RANGE * 1.4;
-    });
-    heroPrimaryBtn.addEventListener('pointerleave', () => {
-      mTargetX = 0;
-      mTargetY = 0;
-    });
+    let magnetRaf = null;
 
     const magnetTick = () => {
       mCurX += (mTargetX - mCurX) * 0.15;
       mCurY += (mTargetY - mCurY) * 0.15;
       heroPrimaryBtn.style.transform = `translate(${mCurX.toFixed(2)}px, ${mCurY.toFixed(2)}px)`;
-      requestAnimationFrame(magnetTick);
+      // Dormir cuando ya se asentó (antes giraba 60fps en permanencia)
+      if (Math.abs(mTargetX - mCurX) > 0.05 || Math.abs(mTargetY - mCurY) > 0.05) {
+        magnetRaf = requestAnimationFrame(magnetTick);
+      } else {
+        magnetRaf = null;
+      }
     };
-    requestAnimationFrame(magnetTick);
+    const wakeMagnet = () => {
+      if (magnetRaf === null) magnetRaf = requestAnimationFrame(magnetTick);
+    };
+
+    heroPrimaryBtn.addEventListener('pointermove', (e) => {
+      const rect = heroPrimaryBtn.getBoundingClientRect();
+      mTargetX = ((e.clientX - rect.left) / rect.width - 0.5) * MAGNET_RANGE * 2;
+      mTargetY = ((e.clientY - rect.top) / rect.height - 0.5) * MAGNET_RANGE * 1.4;
+      wakeMagnet();
+    });
+    heroPrimaryBtn.addEventListener('pointerleave', () => {
+      mTargetX = 0;
+      mTargetY = 0;
+      wakeMagnet(); // animar la vuelta al centro y luego dormir
+    });
   }
 
   // 17. CTA sticky mobile: visible tras el hero, oculto cuando Contacto está
