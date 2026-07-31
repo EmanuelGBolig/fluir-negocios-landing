@@ -1238,7 +1238,7 @@ button:focus-visible {
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: 480px;
+  max-height: 520px;
   margin: 0 auto;
   border-radius: var(--radius-sm);
   display: block;
@@ -2269,8 +2269,9 @@ html.js .rotating-seal {
 }
 
 .cases-videos .case-video-card {
-  max-width: none;
-  margin: 0;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .cases-bottom .cases-cta {
