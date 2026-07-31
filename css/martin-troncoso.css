@@ -1235,10 +1235,12 @@ button:focus-visible {
 }
 
 .case-video-player {
-  width: 100%;
-  max-height: 440px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 480px;
+  margin: 0 auto;
   border-radius: var(--radius-sm);
-  background: #000;
   display: block;
 }
 
@@ -2204,6 +2206,14 @@ html.js .rotating-seal {
 /* Sobre mí: foto más baja */
 .about-photo-frame img {
   height: 470px;
+}
+
+/* Sobre mí: foto wide (charla en vivo) — se ve completa, sin recorte vertical */
+.about-photo-frame img.about-photo-wide {
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Dolores: grilla y banner de cierre más compactos */
