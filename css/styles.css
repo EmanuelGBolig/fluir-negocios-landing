@@ -41,6 +41,15 @@
     box-sizing: border-box;
 }
 
+/* Los controles de formulario no heredan la tipografía por defecto:
+   sin esto, botones e inputs caen en Arial y rompen la consistencia. */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
 html {
     scroll-behavior: smooth;
     font-size: 16px;
@@ -214,55 +223,10 @@ button.btn-secondary:hover {
     border-color: #94a3b8;
 }
 
-.btn-wpp {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.8rem;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    font-size: 1rem;
-    font-family: var(--font-heading);
-    text-decoration: none;
-    transition: all var(--transition-norm);
-    cursor: pointer;
-    border: none;
-    background-color: #25d366;
-    color: #ffffff;
-}
 
-.btn-wpp:hover {
-    background-color: #128c7e;
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
 
-.btn-wpp:active {
-    transform: translateY(0);
-}
 
-.btn-soft {
-    display: inline-block;
-    padding: 0.6rem 1.4rem;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    font-family: var(--font-heading);
-    transition: all var(--transition-norm);
-    cursor: pointer;
-    border: none;
-    text-align: center;
-    background-color: rgba(15, 82, 186, 0.08);
-    color: var(--color-primary);
-}
 
-.btn-soft:hover {
-    background-color: var(--color-primary);
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
 
 .btn-large {
     padding: 1rem 2.5rem;
@@ -363,7 +327,7 @@ button.btn-secondary:hover {
     left: 0;
     background-color: var(--color-primary);
     transition: width 0.3s ease-in-out;
-    border-radius: 2px;
+    border-radius: 8px;
 }
 
 .nav-links li a:hover {
@@ -569,8 +533,80 @@ button.btn-secondary:hover {
 }
 
 /* Pain Grid */
-.section-pain {
-    padding: 6rem 0;
+/* Sección "El problema": fusiona perfil + síntomas + lo que cuesta */
+.section-problema {
+    padding: 5rem 0;
+}
+
+/* El costo va dentro de la tarjeta del síntoma, separado por una línea */
+.pain-costo {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    text-align: left;
+    color: var(--color-dark-gray);
+}
+
+.pain-costo i {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+}
+
+.pain-costo strong {
+    color: var(--color-primary);
+}
+
+/* Perfil de a quién le hablamos: pastillas compactas, no tarjetas */
+.problema-perfil {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem;
+    margin: 2rem auto 0;
+    padding: 0;
+    list-style: none;
+    max-width: 900px;
+}
+
+.problema-perfil li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-dark-gray);
+    background: var(--color-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+}
+
+.problema-perfil li i {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .section-problema {
+        padding: 3.5rem 0;
+    }
+
+    .problema-perfil {
+        gap: 0.5rem;
+    }
+
+    .problema-perfil li {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.82rem;
+    }
 }
 
 .pain-grid {
@@ -602,6 +638,11 @@ button.btn-secondary:hover {
 
 .pain-card p {
     font-size: 1.05rem;
+}
+
+/* El costo es secundario respecto del síntoma: gana a .pain-card p */
+.pain-card p.pain-costo {
+    font-size: 0.92rem;
 }
 
 /* Proceso */
@@ -892,7 +933,7 @@ button.btn-secondary:hover {
     width: 100%;
     aspect-ratio: 9 / 16;
     display: block;
-    border-radius: 18px;
+    border-radius: 16px;
     background: #000;
     object-fit: cover;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
@@ -2752,26 +2793,7 @@ button.btn-secondary:hover {
     color: #ffffff;
 }
 
-.btn-hero-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff;
-    color: #0f172a;
-    padding: 1rem 1.8rem;
-    border-radius: var(--radius-full);
-    font-weight: 700;
-    font-size: 0.95rem;
-    border: 1.5px solid #d1d5db;
-    transition: transform var(--transition-norm), border-color var(--transition-norm), background-color var(--transition-norm);
-}
 
-.btn-hero-secondary:hover {
-    border-color: #9ca3af;
-    background-color: #f9fafb;
-    transform: translateY(-2px);
-    color: #0f172a;
-}
 
 .hero-meta-new {
     font-size: 0.85rem;
@@ -2801,7 +2823,7 @@ button.btn-secondary:hover {
     width: 100%;
     max-width: 460px;
     aspect-ratio: 1 / 1;
-    border-radius: 28px;
+    border-radius: 24px;
     overflow: visible;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     background-color: #f1f5f9;
@@ -2818,7 +2840,7 @@ button.btn-secondary:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 28px;
+    border-radius: 24px;
     overflow: hidden;
     z-index: 1;
 }
@@ -2831,7 +2853,7 @@ button.btn-secondary:hover {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    border-radius: 28px;
+    border-radius: 24px;
     opacity: 0;
     transition: opacity 1.2s ease-in-out;
     z-index: 1;
@@ -2856,7 +2878,7 @@ button.btn-secondary:hover {
     width: calc(100% - 48px);
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 0.8rem 1.2rem;
     display: flex;
     align-items: center;
@@ -2959,7 +2981,7 @@ button.btn-secondary:hover {
         gap: 0.75rem;
     }
     
-    .btn-hero-primary, .btn-hero-secondary {
+    .btn-hero-primary {
         width: 100%;
     }
 }
@@ -2995,7 +3017,7 @@ button.btn-secondary:hover {
 
 .modal-content {
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 24px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     padding: 2.2rem 2.5rem;
     position: relative;
@@ -3048,7 +3070,7 @@ button.btn-secondary:hover {
     width: 100%;
     height: 6px;
     background: #e2e8f0;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 1rem;
     overflow: hidden;
 }
@@ -3190,45 +3212,14 @@ button.btn-secondary:hover {
 }
 
 /* Resultados Card */
-.results-card {
-    text-align: center;
-    padding: 1rem;
-}
 
-.results-icon {
-    font-size: 4rem;
-    color: var(--color-primary);
-    margin-bottom: 1.5rem;
-}
 
-.results-title {
-    font-size: 2rem;
-    color: #0f172a;
-    font-family: var(--font-heading);
-    margin-bottom: 0.5rem;
-}
 
-.results-dependencia-box {
-    background: #f1f5f9;
-    padding: 0.8rem 1.2rem;
-    border-radius: 8px;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    color: #475569;
-}
 
 .dependencia-alta { color: #ef4444; }
 .dependencia-media { color: #f59e0b; }
 .dependencia-baja { color: #10b981; }
 
-.results-recommendation {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
 
 .recommended-badge {
     display: inline-block;
@@ -3253,26 +3244,8 @@ button.btn-secondary:hover {
     background: linear-gradient(135deg, #20c997 0%, #48c6ef 100%);
 }
 
-.results-justificacion {
-    color: #475569;
-    font-size: 0.95rem;
-    line-height: 1.6;
-}
 
 /* Resultados Actions Unified Buttons */
-.results-actions .btn-primary,
-.results-actions .btn-secondary,
-.results-actions .btn-wpp,
-.results-actions .btn-restart-diag {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    text-align: center !important;
-    margin: 0 !important;
-}
 
 @media (max-width: 768px) {
     .modal-overlay {
@@ -3354,7 +3327,7 @@ button.btn-secondary:hover {
     .form-group textarea {
         padding: 0.6rem 0.8rem;
         font-size: 0.9rem;
-        border-radius: 6px;
+        border-radius: 8px;
     }
 
     .radio-group {
@@ -3367,7 +3340,7 @@ button.btn-secondary:hover {
 
     .radio-card {
         padding: 0.65rem 0.8rem;
-        border-radius: 6px;
+        border-radius: 8px;
     }
 
     .radio-card span {
@@ -3386,29 +3359,10 @@ button.btn-secondary:hover {
         font-size: 0.9rem;
     }
     
-    .results-card {
-        padding: 0.5rem 0;
-    }
     
-    .results-title {
-        font-size: 1.3rem !important;
-        margin-bottom: 0.5rem;
-    }
     
-    .results-dependencia-box {
-        font-size: 0.9rem !important;
-        padding: 0.6rem 1rem !important;
-        margin-bottom: 1.25rem !important;
-    }
     
-    .results-recommendation {
-        padding: 1rem !important;
-        margin-bottom: 1.25rem !important;
-    }
     
-    .results-recommendation p {
-        font-size: 0.85rem !important;
-    }
     
     .recommended-badge {
         font-size: 1.1rem !important;
@@ -3416,23 +3370,8 @@ button.btn-secondary:hover {
         margin: 0.75rem 0 !important;
     }
     
-    .results-justificacion {
-        font-size: 0.85rem !important;
-        line-height: 1.4 !important;
-    }
     
-    .results-actions {
-        margin-top: 1.25rem !important;
-        gap: 0.6rem !important;
-    }
     
-    .results-actions .btn-primary,
-    .results-actions .btn-secondary,
-    .results-actions .btn-wpp,
-    .results-actions .btn-restart-diag {
-        padding: 0.65rem 1.2rem !important;
-        font-size: 0.88rem !important;
-    }
 }
 
 /* ===================================
@@ -3528,45 +3467,10 @@ button.btn-secondary:hover {
 /* ===================================
    Botón Volver a realizar diagnóstico
    =================================== */
-.btn-restart-diag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    width: 100%;
-    padding: 0.8rem 1.8rem;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all var(--transition-norm);
-    margin-top: 0.4rem;
-    border: 1.5px dashed rgba(15, 82, 186, 0.25);
-    background-color: transparent;
-    color: #64748b;
-}
 
-.btn-restart-diag:hover {
-    background-color: rgba(15, 82, 186, 0.05);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
 
-.btn-restart-diag:active {
-    transform: translateY(0);
-}
 
-.btn-restart-diag i {
-    font-size: 0.95rem;
-    transition: transform var(--transition-norm);
-}
 
-.btn-restart-diag:hover i {
-    transform: rotate(-180deg);
-}
 
 /* ===================================================
    PAC ALERT BAR
@@ -3674,7 +3578,7 @@ button.btn-secondary:hover {
     cursor: pointer;
     line-height: 1;
     padding: 0.15rem 0.35rem;
-    border-radius: 4px;
+    border-radius: 8px;
     transition: color 0.2s ease, background 0.2s ease;
     flex-shrink: 0;
 }
@@ -4230,7 +4134,7 @@ button.btn-secondary:hover {
     justify-content: center;
     width: 50px;
     height: 50px;
-    border-radius: 14px;
+    border-radius: 12px;
     margin-top: 0;
     background: var(--gradient-primary);
     color: #ffffff;
@@ -4253,7 +4157,7 @@ button.btn-secondary:hover {
 .section-faq .faq-item {
     background: #ffffff;
     border: 1px solid var(--color-border);
-    border-radius: 14px;
+    border-radius: 12px;
     padding: 0 1.4rem;
     box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
@@ -4573,7 +4477,7 @@ button.btn-secondary:hover {
     flex-wrap: wrap;
     background: #FFF8E6;
     border: 1px solid #F0E2B6;
-    border-radius: 22px;
+    border-radius: 24px;
     padding: 2.4rem 2.6rem;
 }
 
@@ -4617,7 +4521,7 @@ button.btn-secondary:hover {
     font-weight: 800;
     font-size: 1.05rem;
     border: none;
-    border-radius: 14px;
+    border-radius: 12px;
     padding: 1.05rem 1.9rem;
     cursor: pointer;
     white-space: nowrap;

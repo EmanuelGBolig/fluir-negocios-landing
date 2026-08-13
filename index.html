@@ -37,14 +37,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/styles.css?v=2.6">
+    <link rel="stylesheet" href="./css/styles.css?v=2.7">
     <!-- Los 5 Pilares + Rueda del Negocio -->
     <link rel="stylesheet" href="./css/pilares.css?v=1.1">
 
@@ -195,39 +195,14 @@
         </section>
 
         <!-- Para quién es -->
-        <section id="para-quien" class="section-paraquien">
-            <div class="container">
-                <div class="paraquien-inner slide-up">
-                    <p class="paraquien-label">¿Esto es para vos?</p>
-                    <h2 class="paraquien-title">Trabajamos con dueños de negocios de 2 a 30 empleados cuyas empresas
-                        dependen demasiado de ellos para todo — y que están listos para que deje de ser así.</h2>
-                    <div class="paraquien-grid">
-                        <div class="paraquien-item">
-                            <i class="fa-solid fa-store text-blue"></i>
-                            <span>Comercios, distribuidoras y empresas de servicios</span>
-                        </div>
-                        <div class="paraquien-item">
-                            <i class="fa-solid fa-arrows-spin text-blue"></i>
-                            <span>Negocios que funcionan pero dependen del dueño para todo</span>
-                        </div>
-                        <div class="paraquien-item">
-                            <i class="fa-solid fa-person-running text-blue"></i>
-                            <span>Dueños que quieren dejar de operar y empezar a liderar</span>
-                        </div>
-                        <div class="paraquien-item">
-                            <i class="fa-solid fa-map-location-dot text-blue"></i>
-                            <span>Empresas en Mar del Plata y todo el país — presencial y online</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pain Section -->
-        <section class="section-pain">
+        <!-- El problema: perfil + síntomas + lo que cuesta, en una sola sección -->
+        <section id="para-quien" class="section-problema">
             <div class="container">
                 <span class="section-kicker">El problema</span>
-                <h2 class="text-center section-title">¿Te suena conocido?</h2>
+                <h2 class="section-title text-center">¿Te suena conocido?</h2>
+                <p class="section-subtitle text-center">Trabajamos con dueños de negocios de 2 a 30 empleados cuyas
+                    empresas dependen demasiado de ellos para todo — y que están listos para que deje de ser así.</p>
+
                 <div class="carousel-wrapper">
                     <button class="carousel-nav-btn prev" aria-label="Anterior"><i
                             class="fa-solid fa-chevron-left"></i></button>
@@ -236,53 +211,42 @@
                             <i class="fa-solid fa-arrow-trend-down text-blue"></i>
                             <p>Tu facturación no crece aunque trabajes más horas, y <strong>a fin de mes la plata no
                                 alcanza</strong>. No tenés números claros de cuánto ganás de verdad.</p>
+                            <p class="pain-costo"><i class="fa-solid fa-coins" aria-hidden="true"></i> <span>Te cuesta
+                                <strong>plata</strong>: hay margen que se te escapa todos los meses sin que lo veas.</span></p>
                         </div>
                         <div class="pain-card scale-up stagger-2">
                             <i class="fa-solid fa-users-slash text-blue"></i>
                             <p>Tus empleados <strong>necesitan que estés en todo</strong>. Si te vas un día, algo falla:
                                 la empresa no funciona sin vos.</p>
+                            <p class="pain-costo"><i class="fa-solid fa-lock" aria-hidden="true"></i> <span>Te cuesta
+                                <strong>libertad</strong>: si no podés soltar, el negocio te tiene a vos — no vos a él.</span></p>
                         </div>
                         <div class="pain-card scale-up stagger-3">
                             <i class="fa-solid fa-business-time text-blue"></i>
                             <p>Manejás el negocio <strong>a ojo y por sensación</strong>. Tomás decisiones importantes
                                 sin información real.</p>
+                            <p class="pain-costo"><i class="fa-solid fa-clock" aria-hidden="true"></i> <span>Te cuesta
+                                <strong>tiempo</strong>: cada semana son horas tuyas apagando incendios que no vuelven.</span></p>
                         </div>
                     </div>
                     <button class="carousel-nav-btn next" aria-label="Siguiente"><i
                             class="fa-solid fa-chevron-right"></i></button>
                 </div>
                 <div class="carousel-dots" data-target="pain-grid"></div>
+
+                <p class="stakes-transition text-center">La buena noticia: esto no es falta de esfuerzo. Son cuellos de
+                    botella concretos, y se resuelven.</p>
+
+                <ul class="problema-perfil">
+                    <li><i class="fa-solid fa-store" aria-hidden="true"></i> Comercios, distribuidoras y servicios</li>
+                    <li><i class="fa-solid fa-arrows-spin" aria-hidden="true"></i> Negocios que dependen del dueño</li>
+                    <li><i class="fa-solid fa-person-running" aria-hidden="true"></i> Dueños que quieren liderar, no operar</li>
+                    <li><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Mar del Plata y todo el país</li>
+                </ul>
+
                 <div class="text-center mt-2">
                     <a href="#rueda" class="btn-primary">Hacé la Rueda de tu Negocio</a>
                 </div>
-            </div>
-        </section>
-
-        <!-- Stakes: lo que te está costando seguir así (SB7 #6) -->
-        <section class="section-stakes">
-            <div class="container">
-                <span class="section-kicker">Lo que está en juego</span>
-                <h2 class="text-center section-title">Lo que te está costando seguir así</h2>
-                <div class="carousel-wrapper">
-                    <button class="carousel-nav-btn prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
-                    <div class="pain-grid">
-                        <div class="pain-card scale-up stagger-1">
-                            <i class="fa-solid fa-clock text-blue"></i>
-                            <p><strong>Tiempo.</strong> Cada semana que pasa son horas tuyas apagando incendios que no vuelven.</p>
-                        </div>
-                        <div class="pain-card scale-up stagger-2">
-                            <i class="fa-solid fa-coins text-blue"></i>
-                            <p><strong>Plata.</strong> Sin números claros, hay margen que se te escapa todos los meses sin que lo veas.</p>
-                        </div>
-                        <div class="pain-card scale-up stagger-3">
-                            <i class="fa-solid fa-lock text-blue"></i>
-                            <p><strong>Libertad.</strong> Si no podés soltar, el negocio te tiene a vos — no vos a él.</p>
-                        </div>
-                    </div>
-                    <button class="carousel-nav-btn next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-                <div class="carousel-dots" data-target="stakes-grid"></div>
-                <p class="stakes-transition text-center">La buena noticia: esto no es falta de esfuerzo. Son cuellos de botella concretos, y se resuelven.</p>
             </div>
         </section>
 
@@ -335,6 +299,37 @@
 
 
         
+
+        <!-- Los 5 Pilares del negocio -->
+        <section id="pilares" class="section-pilares">
+            <div class="container">
+                <span class="section-kicker">El marco Fluir</span>
+                <h2 class="section-title text-center">Los 5 pilares de un negocio que se sostiene solo</h2>
+                <p class="section-subtitle text-center">No hay un pilar más importante que otro: hay uno que hoy está más flojo que el resto y es el que define tu techo. Cada pilar tiene en Fluir un referente que lo trabaja con vos.</p>
+                <div class="pilares-layout slide-up">
+                    <div class="pilares-diagrama" id="pilaresDiagrama"></div>
+                    <div class="pilares-panel">
+                        <div class="pilares-tabs" id="pilaresTabs" role="tablist" aria-label="Los 5 pilares del negocio"></div>
+                        <div class="pilar-detalle" id="pilarDetalle"></div>
+                    </div>
+                </div>
+                <div class="pilares-guia slide-up">
+                    <div class="pilares-guia-txt">
+                        <span class="pilares-guia-kicker"><i class="fa-solid fa-file-pdf"></i> Guía gratuita en PDF</span>
+                        <h3>Los 5 pilares, explicados en detalle</h3>
+                        <p>Cómo se conectan entre sí, por qué ninguno funciona aislado y un chequeo rápido por pilar para saber cuál está frenando tu negocio.</p>
+                    </div>
+                    <button type="button" class="pilares-guia-btn" onclick="window.fnOpenGuia &amp;&amp; window.fnOpenGuia('pilares'); return false;">
+                        <i class="fa-solid fa-download"></i> Descargar la guía gratis
+                    </button>
+                </div>
+
+                <div class="pilares-pie slide-up">
+                    <p>¿Querés saber cuál de los cinco está frenando hoy tu negocio?</p>
+                    <a href="#rueda" class="btn-primary">Hacer la Rueda de mi Negocio <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
 
         <!-- Testimonials / Casos -->
 <section id="casos" class="section-testimonials">
@@ -499,37 +494,6 @@
                 </div>
             </div>
         </section>
-        <!-- Los 5 Pilares del negocio -->
-        <section id="pilares" class="section-pilares">
-            <div class="container">
-                <span class="section-kicker">El marco Fluir</span>
-                <h2 class="section-title text-center">Los 5 pilares de un negocio que se sostiene solo</h2>
-                <p class="section-subtitle text-center">No hay un pilar más importante que otro: hay uno que hoy está más flojo que el resto y es el que define tu techo. Cada pilar tiene en Fluir un referente que lo trabaja con vos.</p>
-                <div class="pilares-layout slide-up">
-                    <div class="pilares-diagrama" id="pilaresDiagrama"></div>
-                    <div class="pilares-panel">
-                        <div class="pilares-tabs" id="pilaresTabs" role="tablist" aria-label="Los 5 pilares del negocio"></div>
-                        <div class="pilar-detalle" id="pilarDetalle"></div>
-                    </div>
-                </div>
-                <div class="pilares-guia slide-up">
-                    <div class="pilares-guia-txt">
-                        <span class="pilares-guia-kicker"><i class="fa-solid fa-file-pdf"></i> Guía gratuita en PDF</span>
-                        <h3>Los 5 pilares, explicados en detalle</h3>
-                        <p>Cómo se conectan entre sí, por qué ninguno funciona aislado y un chequeo rápido por pilar para saber cuál está frenando tu negocio.</p>
-                    </div>
-                    <button type="button" class="pilares-guia-btn" onclick="window.fnOpenGuia &amp;&amp; window.fnOpenGuia('pilares'); return false;">
-                        <i class="fa-solid fa-download"></i> Descargar la guía gratis
-                    </button>
-                </div>
-
-                <div class="pilares-pie slide-up">
-                    <p>¿Querés saber cuál de los cinco está frenando hoy tu negocio?</p>
-                    <a href="#rueda" class="btn-primary">Hacer la Rueda de mi Negocio <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </section>
-
         <!-- La Rueda del Negocio (autodiagnóstico interactivo) -->
         <section id="rueda" class="section-rueda">
             <div class="container">
