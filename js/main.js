@@ -360,9 +360,38 @@ document.addEventListener('DOMContentLoaded', () => {
     checkMetaAdsAutoOpen();
 
     // 8b. Modal de Guía gratis — captura nombre + email, manda el lead al mail y descarga el PDF.
+    // Sirve para las dos guías: se elige con window.fnOpenGuia('cuellos' | 'pilares').
+    const GUIAS = {
+        cuellos: {
+            titulo: 'Los 3 cuellos de botella de tu negocio',
+            bajada: 'Dejanos tu nombre y tu email, y descargá la guía al instante. Sin vueltas.',
+            archivo: 'Guia-3-Cuellos-de-Botella.pdf',
+            evento: 'Guía 3 Cuellos de Botella',
+            origen: 'Descarga guía "Los 3 cuellos de botella"'
+        },
+        pilares: {
+            titulo: 'Los 5 pilares de un negocio que se sostiene solo',
+            bajada: 'Cómo se conectan entre sí, por qué ninguno funciona aislado y cuál define hoy tu techo. Dejanos tu nombre y tu email y la descargás al instante.',
+            archivo: 'Guia-5-Pilares-Fluir-Negocios.pdf',
+            evento: 'Guía 5 Pilares',
+            origen: 'Descarga guía "Los 5 pilares"'
+        }
+    };
+    let guiaActual = GUIAS.cuellos;
+
     const modalGuia = document.getElementById('modal-guia');
-    function openGuiaModal() {
+    function openGuiaModal(clave) {
         if (!modalGuia) return;
+        guiaActual = GUIAS[clave] || GUIAS.cuellos;
+        const t = document.getElementById('guia-titulo');
+        if (t) t.textContent = guiaActual.titulo;
+        const b = document.getElementById('guia-bajada');
+        if (b) b.textContent = guiaActual.bajada;
+        const dl = document.getElementById('guia-download-link');
+        if (dl) {
+            dl.href = './assets/pdf/' + guiaActual.archivo;
+            dl.setAttribute('download', guiaActual.archivo);
+        }
         const fs = document.getElementById('guia-form-state');
         const ss = document.getElementById('guia-success-state');
         if (fs) fs.style.display = '';
@@ -404,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof fbq === 'function') {
                     try {
                         fbq('init', '2089699688631959', { em: email.toLowerCase(), fn: nombre.toLowerCase().split(' ')[0] });
-                        fbq('track', 'Lead', { content_name: 'Guía 3 Cuellos de Botella' });
+                        fbq('track', 'Lead', { content_name: guiaActual.evento });
                     } catch (e) { console.error('Pixel guía:', e); }
                 }
 
@@ -414,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fd.set('_subject', 'Nueva descarga de guía — Fluir Negocios');
                     fd.set('Nombre', nombre);
                     fd.set('Email', email);
-                    fd.set('Origen', 'Descarga guía "Los 3 cuellos de botella"');
+                    fd.set('Origen', guiaActual.origen);
                     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (u) {
                         try { const v = sessionStorage.getItem('fn_' + u); if (v) fd.set(u, v); } catch (e) {}
                     });
@@ -424,8 +453,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 3) Disparar la descarga del PDF
                 try {
                     const a = document.createElement('a');
-                    a.href = './assets/pdf/Guia-3-Cuellos-de-Botella.pdf';
-                    a.download = 'Guia-3-Cuellos-de-Botella.pdf';
+                    a.href = './assets/pdf/' + guiaActual.archivo;
+                    a.download = guiaActual.archivo;
                     a.target = '_blank';
                     a.rel = 'noopener';
                     document.body.appendChild(a);

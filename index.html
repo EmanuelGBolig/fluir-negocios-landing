@@ -48,7 +48,7 @@
     <!-- Diagnóstico (flujo tipo quiz, estilos scopeados en #fnDiag) -->
     <link rel="stylesheet" href="./css/diagnostico.css?v=1.2">
     <!-- Los 5 Pilares + Rueda del Negocio -->
-    <link rel="stylesheet" href="./css/pilares.css?v=1.0">
+    <link rel="stylesheet" href="./css/pilares.css?v=1.1">
 
     <!-- Google Analytics 4 — reemplazar G-XXXXXXXXXX con tu ID real -->
     <!--
@@ -421,8 +421,8 @@
                     <div id="guia-form-state">
                         <div class="guia-icon"><i class="fa-solid fa-file-pdf"></i></div>
                         <span class="section-kicker">Guía gratis</span>
-                        <h2 class="guia-title">Los 3 cuellos de botella de tu negocio</h2>
-                        <p class="guia-sub">Dejanos tu nombre y tu email, y descargá la guía al instante. Sin vueltas.</p>
+                        <h2 class="guia-title" id="guia-titulo">Los 3 cuellos de botella de tu negocio</h2>
+                        <p class="guia-sub" id="guia-bajada">Dejanos tu nombre y tu email, y descargá la guía al instante. Sin vueltas.</p>
                         <div class="guia-field">
                             <label for="guia-nombre">Tu nombre</label>
                             <input type="text" id="guia-nombre" placeholder="Nombre">
@@ -528,6 +528,17 @@
                         <div class="pilar-detalle" id="pilarDetalle"></div>
                     </div>
                 </div>
+                <div class="pilares-guia slide-up">
+                    <div class="pilares-guia-txt">
+                        <span class="pilares-guia-kicker"><i class="fa-solid fa-file-pdf"></i> Guía gratuita en PDF</span>
+                        <h3>Los 5 pilares, explicados en detalle</h3>
+                        <p>Cómo se conectan entre sí, por qué ninguno funciona aislado y un chequeo rápido por pilar para saber cuál está frenando tu negocio.</p>
+                    </div>
+                    <button type="button" class="pilares-guia-btn" onclick="window.fnOpenGuia &amp;&amp; window.fnOpenGuia('pilares'); return false;">
+                        <i class="fa-solid fa-download"></i> Descargar la guía gratis
+                    </button>
+                </div>
+
                 <div class="pilares-pie slide-up">
                     <p>¿Querés saber cuál de los cinco está frenando hoy tu negocio?</p>
                     <a href="#rueda" class="btn-primary">Hacer la Rueda de mi Negocio <i class="fa-solid fa-arrow-right"></i></a>
@@ -821,7 +832,7 @@
     }
     </script>
 
-    <script src="./js/main.js?v=2.5"></script>
+    <script src="./js/main.js?v=2.6"></script>
     <!-- Los 5 Pilares + Rueda del Negocio -->
     <script src="./js/rueda.js?v=1.0"></script>
 </body>
