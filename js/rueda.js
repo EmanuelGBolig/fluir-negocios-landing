@@ -251,10 +251,12 @@
     var pasoActual = 0;                 // 0..4 pilares, 5 = resultado
     var respuestas = [];                // respuestas[p][q] = 1..5
     var autos = [];                     // autos[p] = 0 (sin tocar) o 1..10
+    var vistas = [];                    // vistas[p] = 0..3 preguntas, 4 = autopuntaje
 
     function estadoLimpio() {
         respuestas = PILARES.map(function () { return [null, null, null, null]; });
         autos = PILARES.map(function () { return 0; });
+        vistas = PILARES.map(function () { return 0; });
         pasoActual = 0;
     }
 
@@ -263,7 +265,12 @@
         var html = '';
         for (var i = 0; i < PILARES.length + 1; i++) {
             var cls = i < pasoActual ? ' es-hecho' : (i === pasoActual ? ' es-activo' : '');
-            html += '<span class="rueda-seg' + cls + '"></span>';
+            // Dentro del pilar en curso, el segmento se llena según la pregunta contestada.
+            var pct = 0;
+            if (i < pasoActual) pct = 100;
+            else if (i === pasoActual && i < PILARES.length) pct = Math.round((vistas[i] / VISTAS_POR_PILAR) * 100);
+            else if (i === pasoActual) pct = 100;
+            html += '<span class="rueda-seg' + cls + '"><i style="width:' + pct + '%"></i></span>';
         }
         elProgreso.innerHTML = html;
     }
@@ -272,27 +279,32 @@
         return respuestas[i].every(function (r) { return r !== null; }) && autos[i] > 0;
     }
 
+    /* Una pregunta por pantalla: cada pilar tiene 5 vistas (4 preguntas + el autopuntaje).
+       Reduce la carga visual de 20 botones a 5 y da sensación de avance permanente. */
+    var VISTAS_POR_PILAR = 5;
+
     function pintarPasos() {
         elPasos.innerHTML = PILARES.map(function (p, i) {
-            var preguntas = p.preguntas.map(function (pr, j) {
+            var vistas = p.preguntas.map(function (pr, j) {
                 var opts = ESCALA.map(function (o) {
                     var sel = respuestas[i][j] === o.v ? ' es-elegida' : '';
-                    return '<button type="button" class="rueda-opcion' + sel + '" data-p="' + i + '" data-q="' + j + '" data-v="' + o.v + '">' +
-                        '<b>' + o.v + '</b><span>' + o.t + '</span></button>';
+                    var barras = '';
+                    for (var b = 1; b <= 5; b++) {
+                        barras += '<i class="rueda-nivel-b' + (b <= o.v ? ' es-on' : '') + '"></i>';
+                    }
+                    return '<button type="button" class="rueda-opcion' + sel + '" data-p="' + i + '" data-q="' + j + '" data-v="' + o.v + '" style="--pc:' + p.claro + '">' +
+                        '<span class="rueda-opcion-t">' + o.t + '</span>' +
+                        '<span class="rueda-nivel" aria-hidden="true">' + barras + '</span></button>';
                 }).join('');
-                return '<div class="rueda-pregunta"><p class="rueda-pregunta-txt"><span class="rueda-pregunta-n">' + (i + 1) + '.' + (j + 1) + '</span> ' + esc(pr.q) + '</p>' +
-                    '<div class="rueda-escala">' + opts + '</div></div>';
+                return '<div class="rueda-vista" data-vista="' + j + '">' +
+                    '<p class="rueda-pregunta-txt">' + esc(pr.q) + '</p>' +
+                    '<div class="rueda-escala">' + opts + '</div>' +
+                    '<p class="rueda-tip">Elegí una opción para seguir</p>' +
+                    '</div>';
             }).join('');
 
             var a = autos[i];
-            return '<div class="rueda-paso" data-paso="' + i + '">' +
-                '<div class="rueda-paso-top">' +
-                '<span class="rueda-paso-kicker" style="color:' + p.claro + '"><i class="' + p.icono + '" aria-hidden="true"></i> Pilar ' + p.num + ' · ' + esc(p.corto) + '</span>' +
-                '<span class="rueda-paso-contador">Paso ' + (i + 1) + ' de 5</span>' +
-                '</div>' +
-                '<h3 class="rueda-paso-titulo">' + esc(p.nombre) + '</h3>' +
-                '<p class="rueda-paso-bajada">' + esc(p.lema) + ' Respondé con lo que pasa hoy en tu negocio, no con lo que te gustaría que pase.</p>' +
-                preguntas +
+            var vistaAuto = '<div class="rueda-vista" data-vista="' + (VISTAS_POR_PILAR - 1) + '">' +
                 '<div class="rueda-auto">' +
                 '<p class="rueda-auto-txt">Ahora puntuate vos: del 1 al 10, ¿cómo está este pilar en tu negocio?</p>' +
                 '<div class="rueda-auto-fila">' +
@@ -302,9 +314,21 @@
                 '<div class="rueda-auto-refs"><span>1 · Es un desastre</span><span>10 · Funciona solo</span></div>' +
                 '</div>' +
                 '<div class="rueda-nav">' +
-                (i > 0 ? '<button type="button" class="btn-rueda-ghost" data-accion="atras">Volver</button>' : '<span></span>') +
+                '<button type="button" class="btn-rueda-ghost" data-accion="atras">Volver</button>' +
                 '<button type="button" class="btn-rueda" data-accion="siguiente" data-p="' + i + '"' + (pasoCompleto(i) ? '' : ' disabled') + '>' +
                 (i === PILARES.length - 1 ? 'Ver mi resultado' : 'Siguiente pilar') + ' <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>' +
+                '</div>' +
+                '</div>';
+
+            return '<div class="rueda-paso" data-paso="' + i + '">' +
+                '<div class="rueda-paso-top">' +
+                '<span class="rueda-paso-kicker" style="color:' + p.claro + '"><i class="' + p.icono + '" aria-hidden="true"></i> Pilar ' + p.num + ' · ' + esc(p.corto) + '</span>' +
+                '<span class="rueda-paso-contador" data-contador="' + i + '">Pregunta 1 de 4</span>' +
+                '</div>' +
+                '<h3 class="rueda-paso-titulo">' + esc(p.nombre) + '</h3>' +
+                vistas + vistaAuto +
+                '<div class="rueda-volver-fila">' +
+                '<button type="button" class="btn-rueda-ghost" data-accion="atras">Volver</button>' +
                 '</div>' +
                 '</div>';
         }).join('');
@@ -314,7 +338,17 @@
     function mostrarPaso() {
         var pasos = elPasos.querySelectorAll('.rueda-paso');
         for (var i = 0; i < pasos.length; i++) {
-            pasos[i].classList.toggle('is-activo', i === pasoActual);
+            var act = i === pasoActual;
+            pasos[i].classList.toggle('is-activo', act);
+            var vs = pasos[i].querySelectorAll('.rueda-vista');
+            for (var j = 0; j < vs.length; j++) {
+                vs[j].classList.toggle('is-activo', j === vistas[i]);
+            }
+            // El "Volver" general sólo aparece en las preguntas; la vista del slider trae el suyo.
+            var vf = pasos[i].querySelector('.rueda-volver-fila');
+            if (vf) vf.style.display = (vistas[i] < VISTAS_POR_PILAR - 1 && (i > 0 || vistas[i] > 0)) ? '' : 'none';
+            var ct = pasos[i].querySelector('[data-contador="' + i + '"]');
+            if (ct) ct.textContent = vistas[i] < 4 ? ('Pregunta ' + (vistas[i] + 1) + ' de 4') : 'Tu autopuntaje';
         }
         elResultado.classList.toggle('is-activo', pasoActual === PILARES.length);
         pintarProgreso();
@@ -335,12 +369,21 @@
             for (var k = 0; k < hermanos.length; k++) hermanos[k].classList.remove('es-elegida');
             op.classList.add('es-elegida');
             refrescarBoton(p);
+            // Auto-avance a la siguiente pregunta del pilar (o al autopuntaje).
+            if (vistas[p] < VISTAS_POR_PILAR - 1) {
+                setTimeout(function () {
+                    if (vistas[p] < VISTAS_POR_PILAR - 1) { vistas[p]++; mostrarPaso(); }
+                }, 260);
+            }
             return;
         }
         var acc = e.target.closest('[data-accion]');
         if (!acc) return;
         var a = acc.getAttribute('data-accion');
-        if (a === 'atras') { if (pasoActual > 0) { pasoActual--; mostrarPaso(); irAlTope(); } }
+        if (a === 'atras') {
+            if (vistas[pasoActual] > 0) { vistas[pasoActual]--; mostrarPaso(); }
+            else if (pasoActual > 0) { pasoActual--; vistas[pasoActual] = VISTAS_POR_PILAR - 1; mostrarPaso(); irAlTope(); }
+        }
         else if (a === 'siguiente') {
             var idx = +acc.getAttribute('data-p');
             if (!pasoCompleto(idx)) return;

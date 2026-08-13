@@ -427,15 +427,22 @@
     height: 5px;
     border-radius: var(--radius-full);
     background: rgba(255, 255, 255, 0.18);
+    overflow: hidden;
     transition: background var(--transition-norm);
 }
 
-#rueda .rueda-seg.es-hecho {
-    background: #20C997;
+/* Relleno proporcional: el segmento del pilar en curso avanza pregunta a pregunta */
+#rueda .rueda-seg > i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-secondary);
+    transition: width var(--transition-norm);
 }
 
-#rueda .rueda-seg.es-activo {
-    background: var(--color-secondary);
+#rueda .rueda-seg.es-hecho > i {
+    background: #20C997;
 }
 
 /* --- Pasos --- */
@@ -510,44 +517,73 @@
     margin-right: 0.35rem;
 }
 
+/* Una sola pregunta a la vez: opciones apiladas, sin números que abrumen */
+#rueda .rueda-vista {
+    display: none;
+}
+
+#rueda .rueda-vista.is-activo {
+    display: block;
+    animation: ruedaEntra 0.28s ease both;
+}
+
 #rueda .rueda-escala {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
 }
 
 #rueda .rueda-opcion {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.15rem;
-    padding: 0.6rem 0.3rem;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.95rem 1.15rem;
     font: inherit;
-    color: rgba(255, 255, 255, 0.85);
+    text-align: left;
+    color: rgba(255, 255, 255, 0.9);
     background: rgba(255, 255, 255, 0.06);
     border: 1.5px solid rgba(255, 255, 255, 0.16);
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: transform var(--transition-norm), background var(--transition-norm), border-color var(--transition-norm);
+    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
 }
 
-#rueda .rueda-opcion b {
-    font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 800;
+#rueda .rueda-opcion-t {
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-#rueda .rueda-opcion span {
-    font-size: 0.68rem;
-    line-height: 1.2;
-    text-align: center;
-    opacity: 0.85;
+/* Indicador de intensidad: reemplaza al número */
+#rueda .rueda-nivel {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 3px;
+    flex-shrink: 0;
+}
+
+#rueda .rueda-nivel-b {
+    width: 4px;
+    height: 8px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background var(--transition-fast);
+}
+
+#rueda .rueda-nivel-b:nth-child(2) { height: 11px; }
+#rueda .rueda-nivel-b:nth-child(3) { height: 14px; }
+#rueda .rueda-nivel-b:nth-child(4) { height: 17px; }
+#rueda .rueda-nivel-b:nth-child(5) { height: 20px; }
+
+#rueda .rueda-nivel-b.es-on {
+    background: var(--pc, var(--color-secondary));
 }
 
 #rueda .rueda-opcion:hover {
-    transform: translateY(-2px) scale(1.02);
+    transform: translateX(3px);
     background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.35);
+    border-color: var(--pc, rgba(255, 255, 255, 0.35));
 }
 
 #rueda .rueda-opcion.es-elegida {
@@ -555,6 +591,29 @@
     background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     border-color: transparent;
     box-shadow: 0 8px 18px rgba(0, 180, 216, 0.3);
+}
+
+#rueda .rueda-opcion.es-elegida .rueda-nivel-b {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+#rueda .rueda-opcion.es-elegida .rueda-nivel-b.es-on {
+    background: var(--color-absolute-white);
+}
+
+#rueda .rueda-tip {
+    margin-top: 0.85rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+}
+
+#rueda .rueda-volver-fila {
+    margin-top: 1.2rem;
+}
+
+#rueda .rueda-pregunta-txt {
+    min-height: 2.9em;
 }
 
 /* --- Autopuntaje --- */
@@ -1084,8 +1143,12 @@
         padding: 1.2rem;
     }
 
-    #rueda .rueda-escala {
-        grid-template-columns: repeat(3, 1fr);
+    #rueda .rueda-opcion {
+        padding: 0.85rem 1rem;
+    }
+
+    #rueda .rueda-opcion-t {
+        font-size: 0.95rem;
     }
 
     #rueda .rueda-form {
