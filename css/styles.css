@@ -2338,6 +2338,13 @@ button.btn-secondary:hover {
     margin: 0;
 }
 
+.team-card-btn {
+    margin-top: 1.4rem;
+    align-self: flex-start;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.5rem;
+}
+
 
 
 /* ===================================

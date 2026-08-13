@@ -22,6 +22,13 @@
   --niebla: #b8c4d6;
   --claro: #dde5ef;
 
+  /* Crema editorial (secciones claras alternadas) */
+  --crema: #fbf8f2;
+  --crema-card: #fffdf8;
+  --crema-borde: #e7ddc6;
+  --carbon: #2e3030;
+  --carbon-suave: #57534a;
+
   /* Typography */
   --font-serif: 'Lora', Georgia, serif;
   --font-sans: 'Lato', system-ui, -apple-system, sans-serif;
@@ -89,6 +96,19 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Anclas bajo la navbar fija */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
+/* Foco visible accesible en links y botones */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--dorado2);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* Container */
@@ -220,11 +240,29 @@ a {
   padding: 2.25rem;
   transition: var(--transition-smooth);
   position: relative;
+  overflow: hidden;
+}
+
+/* Spotlight dorado que sigue al cursor (custom properties seteadas por JS) */
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(201, 162, 75, 0.14), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.brand-card:hover::before {
+  opacity: 1;
 }
 
 .brand-card:hover {
   border-color: rgba(201, 162, 75, 0.5);
-  transform: translateY(-4px);
+  transform: perspective(900px) translateY(-4px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   box-shadow: 0 12px 30px rgba(6, 15, 32, 0.6), 0 0 15px rgba(201, 162, 75, 0.15);
 }
 
@@ -545,6 +583,7 @@ a {
 
 .hero-image-wrapper {
   position: relative;
+  perspective: 1200px;
 }
 
 .hero-image-card {
@@ -553,6 +592,8 @@ a {
   overflow: hidden;
   background: linear-gradient(135deg, var(--resalte), var(--marino));
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+  transform-style: preserve-3d;
 }
 
 .hero-image-card img {
@@ -1194,10 +1235,12 @@ a {
 }
 
 .case-video-player {
-  width: 100%;
-  max-height: 440px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 520px;
+  margin: 0 auto;
   border-radius: var(--radius-sm);
-  background: #000;
   display: block;
 }
 
@@ -1567,6 +1610,204 @@ a {
   }
 }
 
+/* --------------------------------------------------------------------------
+   18. MOTION SYSTEM (SCROLL REVEAL, HERO ENTRANCE, MARQUEE, 3D)
+   Todo gated detrás de html.js para no ocultar contenido si falla el JS.
+   -------------------------------------------------------------------------- */
+
+/* --- 18.1 Scroll Reveal genérico (IntersectionObserver en martin-troncoso.js) --- */
+html.js .reveal,
+html.js .reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.js .reveal--left {
+  transform: translateX(-32px);
+}
+
+html.js .reveal--right {
+  transform: translateX(32px);
+}
+
+html.js .reveal--scale {
+  transform: scale(0.94);
+}
+
+html.js .reveal.reveal-visible,
+html.js .reveal-stagger.reveal-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal[data-delay="1"] {
+  transition-delay: 0.12s;
+}
+
+html.js .reveal[data-delay="2"] {
+  transition-delay: 0.2s;
+}
+
+/* --- 18.2 Hero: entrada coreografiada escalonada --- */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html.js .hero-content > * {
+  animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.js .hero-content > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+html.js .hero-content > *:nth-child(2) {
+  animation-delay: 0.13s;
+}
+
+html.js .hero-content > *:nth-child(3) {
+  animation-delay: 0.21s;
+}
+
+html.js .hero-content > *:nth-child(4) {
+  animation-delay: 0.31s;
+}
+
+html.js .hero-content > *:nth-child(5) {
+  animation-delay: 0.41s;
+}
+
+html.js .hero-image-wrapper {
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+/* --- 18.3 Subrayado SVG dorado que se dibuja bajo "líder" --- */
+.word-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-draw {
+  position: absolute;
+  left: -4%;
+  bottom: -0.22em;
+  width: 108%;
+  height: 0.35em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+html.js .underline-draw path {
+  stroke-dasharray: 230;
+  stroke-dashoffset: 230;
+  animation: draw-underline 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+@keyframes draw-underline {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* --- 18.4 Marquee infinito de logos de clientes --- */
+.clients-marquee-section {
+  padding: 2.5rem 0 3rem;
+}
+
+.clients-marquee-title {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--gris);
+}
+
+.clients-marquee {
+  overflow: hidden;
+  margin-top: 2rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 45s linear infinite;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+  flex-shrink: 0;
+}
+
+.marquee-logo {
+  height: 44px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  opacity: 0.75;
+  transition: var(--transition-fast);
+}
+
+.marquee-logo:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(201, 162, 75, 0.35));
+}
+
+.clients-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .marquee-group {
+    gap: 2.25rem;
+    padding-right: 2.25rem;
+  }
+
+  .marquee-logo {
+    height: 32px;
+  }
+}
+
+/* --- 18.5 CTA posterior a Casos reales --- */
+.cases-cta {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.cases-cta-text {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--marfil);
+  margin-bottom: 1.25rem;
+}
+
+/* --- 18.6 Avatar de monograma (testimonios sin foto real) --- */
+.case-avatar--monogram {
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.2), rgba(201, 162, 75, 0.06));
+  border: 1px solid var(--dorado);
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
 /* Reduced Motion Respect */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -1574,5 +1815,927 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Reveals visibles sin animación */
+  html.js .reveal,
+  html.js .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Subrayado dibujado visible de inmediato */
+  html.js .underline-draw path {
+    stroke-dashoffset: 0 !important;
+  }
+
+  /* Marquee detenido */
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   19. SECCIONES CREMA (RITMO OSCURO → CREMA) + MOTION AVANZADO v3.1
+   -------------------------------------------------------------------------- */
+
+/* --- 19.1 Sección con fondo crema editorial (.section--crema) --- */
+.section--crema {
+  background: var(--crema);
+  border-top: 1px solid rgba(201, 162, 75, 0.3);
+  border-bottom: 1px solid rgba(201, 162, 75, 0.3);
+  color: var(--carbon);
+}
+
+/* Tipografía: Lora oscura, cuerpo carbón suave, dorado intacto para acentos */
+.section--crema .section-title,
+.section--crema .method-title,
+.section--crema h2,
+.section--crema h3 {
+  color: var(--carbon);
+}
+
+.section--crema p,
+.section--crema .pain-desc,
+.section--crema .about-text {
+  color: var(--carbon-suave);
+}
+
+/* Tarjetas en versión clara (spotlight dorado se mantiene, opacidad ajustada) */
+.section--crema .brand-card {
+  background: var(--crema-card);
+  border: 1px solid var(--crema-borde);
+  backdrop-filter: none;
+  box-shadow: 0 10px 30px rgba(120, 100, 60, 0.08);
+}
+
+.section--crema .brand-card::before {
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(201, 162, 75, 0.18), transparent 65%);
+}
+
+.section--crema .brand-card:hover {
+  border-color: rgba(201, 162, 75, 0.6);
+  box-shadow: 0 16px 38px rgba(120, 100, 60, 0.16), 0 0 18px rgba(201, 162, 75, 0.15);
+}
+
+/* Highlight box de Sobre mí en versión papel */
+.section--crema .about-highlight-box {
+  background: #fffdf7;
+  border-left: 3px solid var(--dorado);
+  box-shadow: 0 10px 30px rgba(120, 100, 60, 0.1);
+}
+
+.section--crema .about-highlight-phrase {
+  color: var(--carbon);
+}
+
+/* Marco de la foto: sombra cálida en vez de sombra noche */
+.section--crema .about-photo-frame {
+  box-shadow: 0 20px 45px rgba(120, 100, 60, 0.18);
+}
+
+/* --- 19.2 Sobre mí: foto de grayscale a color + parallax (JS scrub) --- */
+/* Default color (sin JS / reduced-motion). JS setea --gray por frame. */
+.about-photo-frame img {
+  filter: grayscale(var(--gray, 0));
+  will-change: filter, transform;
+}
+
+/* --- 19.3 Quote banner: reveal palabra por palabra (spans .qword vía JS) --- */
+.quote-banner-text .qword {
+  display: inline-block;
+  will-change: opacity, filter;
+}
+
+/* --- 19.4 Método: timeline vertical que se dibuja con el scroll --- */
+.method-timeline {
+  position: relative;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+/* Riel de fondo (siempre visible, dorado tenue) */
+.method-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(201, 162, 75, 0.18);
+}
+
+/* Línea dorada que se dibuja: scaleY(0→1) con --tl-progress (default 1 sin JS) */
+.method-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(180deg, var(--dorado2), var(--dorado));
+  transform: scaleY(var(--tl-progress, 1));
+  transform-origin: top;
+}
+
+.method-step {
+  position: relative;
+  width: calc(50% - 3rem);
+  margin-bottom: 3rem;
+}
+
+.method-step--left {
+  margin-right: auto;
+}
+
+.method-step--right {
+  margin-left: auto;
+}
+
+.method-step:last-child {
+  margin-bottom: 0;
+}
+
+/* Nodo dorado sobre la línea (iluminado por defecto = estado final sin JS) */
+.method-node {
+  position: absolute;
+  top: 2.6rem;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--dorado);
+  border: 2px solid var(--dorado);
+  box-shadow: 0 0 16px var(--dorado-glow);
+  z-index: 2;
+  transition: background-color 0.4s, box-shadow 0.4s;
+}
+
+.method-step--left .method-node {
+  right: -3rem;
+  transform: translateX(50%);
+}
+
+.method-step--right .method-node {
+  left: -3rem;
+  transform: translateX(-50%);
+}
+
+/* Con JS activo (tl-active): nodos apagados hasta que la línea los alcanza */
+.method-timeline.tl-active .method-node {
+  background: var(--crema);
+  box-shadow: none;
+}
+
+.method-timeline.tl-active .method-step.lit .method-node {
+  background: var(--dorado);
+  box-shadow: 0 0 18px var(--dorado-glow);
+}
+
+/* Timeline en mobile: línea a la izquierda, tarjetas a ancho completo */
+@media (max-width: 768px) {
+  .method-timeline::before,
+  .method-line {
+    left: 7px;
+    margin-left: 0;
+  }
+
+  .method-step {
+    width: 100%;
+    margin-bottom: 2rem;
+    padding-left: 2.5rem;
+  }
+
+  .method-step--left .method-node,
+  .method-step--right .method-node {
+    left: 0;
+    right: auto;
+    transform: none;
+    top: 2.2rem;
+  }
+}
+
+/* Timeline horizontal en desktop: 4 pasos en fila (menos scroll vertical),
+   la línea dorada se dibuja de izquierda a derecha con el scroll */
+@media (min-width: 993px) {
+  .method-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.75rem;
+    max-width: none;
+  }
+
+  .method-timeline::before,
+  .method-line {
+    top: 7px;
+    bottom: auto;
+    left: 12.5%;
+    right: 12.5%;
+    width: auto;
+    height: 2px;
+    margin-left: 0;
+  }
+
+  .method-line {
+    background: linear-gradient(90deg, var(--dorado2), var(--dorado));
+    transform: scaleX(var(--tl-progress, 1));
+    transform-origin: left;
+  }
+
+  .method-step {
+    width: auto;
+    margin: 0;
+    padding-top: 2.25rem;
+  }
+
+  .method-step--left,
+  .method-step--right {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .method-step--left .method-node,
+  .method-step--right .method-node {
+    left: 50%;
+    right: auto;
+    top: 0;
+    transform: translateX(-50%);
+  }
+}
+
+/* --- 19.5 Sello circular rotatorio ("De dueño a líder · Negocios Exitosos") --- */
+.rotating-seal {
+  position: absolute;
+  right: 2.75rem;
+  bottom: 2.75rem;
+  width: 120px;
+  height: 120px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.rotating-seal-text {
+  display: block;
+  animation: seal-spin 26s linear infinite;
+}
+
+.rotating-seal-ring {
+  fill: none;
+  stroke: rgba(201, 162, 75, 0.35);
+  stroke-width: 1;
+}
+
+.rotating-seal-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  fill: var(--dorado);
+}
+
+.rotating-seal-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--dorado);
+}
+
+/* Entrada coreografiada junto al hero */
+html.js .rotating-seal {
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+@keyframes seal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Solo desktop amplio: evita colisiones con la grilla del hero */
+@media (max-width: 1100px) {
+  .rotating-seal {
+    display: none;
+  }
+}
+
+/* --- 19.6 Reduced motion: estados finales estáticos para el motion nuevo --- */
+@media (prefers-reduced-motion: reduce) {
+  .rotating-seal-text {
+    animation: none !important;
+  }
+
+  /* Línea del timeline dibujada completa y nodos iluminados */
+  .method-line {
+    transform: none !important;
+  }
+
+  .method-timeline.tl-active .method-node {
+    background: var(--dorado) !important;
+    box-shadow: 0 0 16px var(--dorado-glow) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   20. RITMO VERTICAL COMPACTO + CASOS EN FILA
+   Reduce el alto total de la página (~25%) sin tocar contenido:
+   paddings de sección, headers, tarjetas, hero, footer.
+   Las reglas acá van al final del archivo para ganar por orden de cascada.
+   -------------------------------------------------------------------------- */
+.section-padding {
+  padding-top: 3.9rem;
+  padding-bottom: 3.9rem;
+}
+
+.section-header {
+  margin-bottom: 2.25rem;
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 4.5vw, 2.3rem);
+}
+
+.brand-card {
+  padding: 1.8rem;
+}
+
+/* Hero: menos alto de viewport, foto más baja */
+.hero-section {
+  min-height: 80vh;
+  padding-top: 8.5rem;
+  padding-bottom: 4rem;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+}
+
+.hero-ctas {
+  margin-bottom: 0;
+}
+
+.hero-image-card img {
+  height: 430px;
+}
+
+/* Marquee de clientes más compacto */
+.clients-marquee-section {
+  padding: 1.75rem 0 2.25rem;
+}
+
+.clients-marquee {
+  margin-top: 1.25rem;
+}
+
+/* Barra de prueba social */
+.social-proof-section {
+  padding: 2.25rem 0;
+}
+
+.stat-number {
+  font-size: 2.6rem;
+}
+
+/* Sobre mí: foto más baja */
+.about-photo-frame img {
+  height: 470px;
+}
+
+/* Sobre mí: foto wide (charla en vivo) — se ve completa, sin recorte vertical */
+.about-photo-frame img.about-photo-wide {
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Dolores: grilla y banner de cierre más compactos */
+.pains-grid {
+  margin-bottom: 2rem;
+}
+
+.pains-closing-banner {
+  padding: 2rem;
+}
+
+.pains-closing-text {
+  font-size: 1.3rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Qué hago */
+.value-grid {
+  margin-bottom: 2rem;
+}
+
+.value-card {
+  padding: 1.9rem 1.5rem;
+}
+
+.value-prop-box {
+  padding: 1.5rem 2rem;
+}
+
+/* Ecosistema */
+.ecosystem-top {
+  margin-bottom: 1rem;
+}
+
+/* Casos: grilla sin margen extra; video + CTA pasan a una fila */
+.cases-grid {
+  margin-bottom: 0;
+}
+
+.cases-bottom {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.cases-videos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.cases-videos .case-video-card {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.cases-bottom .cases-cta {
+  margin-top: 0;
+}
+
+/* Cita de cierre más baja */
+.quote-banner-section {
+  padding: 3.5rem 0;
+}
+
+.quote-banner-text {
+  font-size: 2.4rem;
+}
+
+/* FAQ más compacto */
+.faq-container {
+  gap: 0.9rem;
+}
+
+.faq-trigger {
+  padding: 1.1rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* Contacto */
+.contact-wa-box {
+  padding: 2rem 1.75rem;
+  gap: 1.1rem;
+}
+
+.form-textarea {
+  min-height: 96px;
+}
+
+/* Footer */
+.site-footer {
+  padding: 3.25rem 0 1.75rem 0;
+}
+
+.footer-grid {
+  margin-bottom: 2.25rem;
+}
+
+@media (max-width: 992px) {
+  .cases-bottom {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cases-videos {
+    grid-template-columns: 1fr;
+  }
+
+  .cases-videos .case-video-card {
+    margin: 0 auto;
+    max-width: 850px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 3.25rem;
+    padding-bottom: 3.25rem;
+  }
+
+  .quote-banner-section {
+    padding: 2.75rem 0;
+  }
+
+  .quote-banner-text {
+    font-size: 1.85rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   21. FUSIONES DE SECCIONES (DOLOR→SOLUCIÓN y CONTACTO+FAQ)
+   Layouts a dos columnas para reducir el alto total de la página.
+   -------------------------------------------------------------------------- */
+
+/* Dolor → Solución: dos columnas en desktop */
+.duo-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.section-header--left {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 1.75rem;
+  max-width: none;
+}
+
+.pains-list,
+.value-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pains-list .pain-card {
+  padding: 1.4rem 1.6rem;
+  gap: 1.1rem;
+}
+
+/* Tarjetas de valor en formato fila: ícono a la izquierda, título dorado */
+.value-list .value-card {
+  text-align: left;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.4rem 1.6rem;
+}
+
+.value-list .value-card-icon {
+  margin: 0;
+  width: 54px;
+  height: 54px;
+  background: var(--resalte);
+  flex-shrink: 0;
+}
+
+.value-list .value-card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.pains-closing-sub {
+  max-width: 760px;
+  margin: 0 auto 1.5rem auto;
+  color: var(--niebla);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+/* Video testimonial: altura acotada (es vertical) */
+.case-video-player {
+  max-height: 380px;
+}
+
+/* Franja WhatsApp horizontal dentro de Contacto */
+.contact-wa-strip {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 1.4rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact-wa-strip .wa-big-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.wa-strip-text {
+  flex: 1;
+  text-align: left;
+}
+
+.wa-strip-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--marfil);
+  margin-bottom: 0.25rem;
+}
+
+.contact-wa-strip .btn-pill {
+  flex-shrink: 0;
+}
+
+/* FAQ como columna dentro de Contacto */
+.faq-col .faq-container {
+  max-width: none;
+  margin: 0;
+}
+
+.faq-col > .eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 992px) {
+  .duo-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-wa-strip {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.1rem;
+  }
+
+  .wa-strip-text {
+    text-align: center;
+  }
+
+  .contact-wa-strip .btn-pill {
+    width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   22. NUEVO SISTEMA DE BOTONES (Fase 1 modernización)
+   Simpleza estática, riqueza en movimiento:
+   - Radius intermedio 12px (adiós pill completo)
+   - Sentence case, sin tracking forzado
+   - Dorado sólido (adiós degradé + sombra pesada)
+   - Hover: text-swap (el texto rola) + shimmer + flecha viva
+   - Secundario -> link con subrayado animado
+   data-text lo setea JS desde el span; sin JS los botones se ven normales.
+   -------------------------------------------------------------------------- */
+:root {
+  --btn-radius: 12px;
+  --ease-swap: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Base: nueva anatomía */
+.btn-pill {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--btn-radius);
+  padding: 0.95rem 1.9rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.btn-large {
+  padding: 1.05rem 2.1rem;
+  font-size: 1rem;
+}
+
+/* Capa de texto que rola en hover (text-swap) */
+.btn-pill>span {
+  display: inline-block;
+  transition: transform 0.45s var(--ease-swap);
+}
+
+.btn-pill::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 1.9rem;
+  top: 50%;
+  transform: translateY(160%);
+  transition: transform 0.45s var(--ease-swap);
+  font: inherit;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.btn-large::after {
+  left: 2.1rem;
+}
+
+.btn-pill:hover>span {
+  transform: translateY(-160%);
+}
+
+.btn-pill:hover::after {
+  transform: translateY(-50%);
+}
+
+/* Flecha viva: el ícono se desplaza en hover */
+.btn-pill svg {
+  transition: transform 0.18s ease-out;
+}
+
+.btn-pill:hover svg {
+  transform: translateX(4px);
+}
+
+/* Primary: dorado sólido + barrido de luz (shimmer) */
+.btn-primary {
+  background: var(--dorado);
+  border-color: transparent;
+  box-shadow: 0 2px 10px rgba(201, 162, 75, 0.18);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -80%;
+  width: 50%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  background: var(--dorado2);
+  border-color: transparent;
+  color: var(--noche);
+  transform: none;
+  box-shadow: 0 4px 16px rgba(201, 162, 75, 0.28);
+}
+
+.btn-primary:hover::before {
+  left: 130%;
+}
+
+/* Secondary: deja de ser botón -> link con subrayado animado */
+.btn-secondary {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0.35rem 0;
+  color: var(--dorado);
+}
+
+.btn-secondary::after {
+  content: '';
+  left: 0;
+  top: auto;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--dorado);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+.btn-secondary:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--dorado2);
+  transform: none;
+}
+
+.btn-secondary:hover>span {
+  transform: none;
+}
+
+.btn-secondary:hover::after {
+  transform: scaleX(1);
+}
+
+/* Focus visible accesible */
+.btn-pill:focus-visible {
+  outline: 2px solid var(--dorado2);
+  outline-offset: 3px;
+}
+
+/* Reduced motion: estados estáticos, sin swap ni shimmer */
+@media (prefers-reduced-motion: reduce) {
+  .btn-pill::after {
+    display: none;
+  }
+
+  .btn-pill:hover>span {
+    transform: none;
+  }
+
+  .btn-primary::before {
+    display: none;
+  }
+
+  .btn-secondary::after {
+    display: block;
+    transform: scaleX(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   23. MATERIAL (Fase 3) + CTA STICKY MOBILE (Fase 4)
+   - Escala de radios consistente: 8px inputs / 12px botones / 16px tarjetas
+   - Textura noise sutil sobre toda la página (mata el "plástico liso")
+   - Focus ring moderno en inputs (outline offset, adiós glow)
+   - CTA sticky abajo en mobile (se oculta al llegar a Contacto)
+   -------------------------------------------------------------------------- */
+:root {
+  --radius-md: 16px;
+}
+
+/* Noise texture: SVG inline con feTurbulence, ~4.5% de opacidad */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Focus ring moderno en formularios */
+.form-input:focus,
+.form-textarea:focus {
+  box-shadow: none;
+  outline: 2px solid var(--dorado);
+  outline-offset: 2px;
+}
+
+/* CTA sticky mobile */
+.sticky-mobile-cta {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sticky-mobile-cta {
+    display: inline-flex;
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 997;
+    justify-content: center;
+    transform: translateY(calc(100% + 2.5rem));
+    transition: transform 0.45s var(--ease-out-expo);
+    box-shadow: 0 8px 24px rgba(6, 15, 32, 0.55);
+  }
+
+  .sticky-mobile-cta.visible {
+    transform: translateY(0);
+  }
+
+  /* El botón de scroll-to-top sube para no chocar con el CTA */
+  .scroll-top-btn {
+    bottom: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-mobile-cta {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   24. PERFORMANCE (mobile): eliminar trabajo de composición por frame
+   - body::after noise fijo: obliga a re-mezclar toda la pantalla cada frame
+     → en mobile se desactiva (en desktop el costo es despreciable)
+   - backdrop-filter blur en navbar y brand-cards: repinta el fondo difuminado
+     en cada frame de scroll → en mobile se reemplaza por fondos sólidos
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  body::after {
+    display: none;
+  }
+
+  .navbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(6, 15, 32, 0.88);
+  }
+
+  .brand-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(135deg, rgba(27, 51, 88, 0.94) 0%, rgba(10, 24, 48, 0.96) 100%);
   }
 }
