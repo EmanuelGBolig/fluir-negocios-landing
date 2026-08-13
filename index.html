@@ -45,8 +45,6 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./css/styles.css?v=2.6">
-    <!-- Diagnóstico (flujo tipo quiz, estilos scopeados en #fnDiag) -->
-    <link rel="stylesheet" href="./css/diagnostico.css?v=1.2">
     <!-- Los 5 Pilares + Rueda del Negocio -->
     <link rel="stylesheet" href="./css/pilares.css?v=1.1">
 
@@ -255,7 +253,7 @@
                 </div>
                 <div class="carousel-dots" data-target="pain-grid"></div>
                 <div class="text-center mt-2">
-                    <a href="./pages/diagnostico.html" class="btn-primary">Hacé el diagnóstico gratis</a>
+                    <a href="#rueda" class="btn-primary">Hacé la Rueda de tu Negocio</a>
                 </div>
             </div>
         </section>
@@ -328,7 +326,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-2">
-                    <a href="./pages/diagnostico.html" class="btn-primary">Hacé el diagnóstico gratis <i
+                    <a href="#rueda" class="btn-primary">Hacé la Rueda de tu Negocio <i
                             class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
@@ -397,21 +395,6 @@
             </div>
         </section>
 
-        <!-- Diagnóstico Interactivo (Modal) -->
-        <section id="diagnostico" class="section-diagnostico modal-overlay">
-            <div class="container modal-container">
-                <div class="diagnostico-wrapper modal-content">
-                    <button type="button" id="btn-close-diagnostico" class="modal-close">&times;</button>
-
-                    <!-- Flujo tipo quiz: preguntas primero, mail al final. -->
-                    <!-- Maqueta + lógica: Prototipo_Diagnostico_Fluir.html. Estilos en css/diagnostico.css (scopeados en #fnDiag). -->
-                    <div id="fnDiag">
-                        <div class="fn-bar"><i id="fnBar"></i></div>
-                        <div class="fn-stage" id="fnStage"><!-- las pantallas se renderizan acá --></div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Guía gratis (Modal de captura: nombre + email -> lead al mail + descarga) -->
         <section id="modal-guia" class="section-diagnostico modal-overlay">
@@ -440,7 +423,7 @@
                         <h2 class="guia-title">¡Listo! Tu guía se está descargando</h2>
                         <p class="guia-sub">Si la descarga no arrancó sola, tocá el botón de abajo.</p>
                         <a id="guia-download-link" href="./assets/pdf/Guia-3-Cuellos-de-Botella.pdf" download="Guia-3-Cuellos-de-Botella.pdf" target="_blank" rel="noopener" class="guia-submit"><i class="fa-solid fa-download"></i> Descargar de nuevo</a>
-                        <p class="guia-micro">¿Querés saber qué tan dependiente de vos es tu negocio? <a href="./pages/diagnostico.html" class="guia-bridge">Hacé el autodiagnóstico gratis →</a></p>
+                        <p class="guia-micro">¿Querés saber qué tan dependiente de vos es tu negocio? <a href="#rueda" class="guia-bridge">Hacé la Rueda de tu Negocio →</a></p>
                     </div>
                 </div>
             </div>
@@ -512,7 +495,7 @@
                     <li><i class="fa-solid fa-circle-check"></i><span>Tu tiempo se destina a crecer, no a apagar incendios.</span></li>
                 </ul>
                 <div class="text-center mt-2">
-                    <a href="./pages/diagnostico.html" class="btn-primary">Hacé el diagnóstico gratis</a>
+                    <a href="#rueda" class="btn-primary">Hacé la Rueda de tu Negocio</a>
                 </div>
             </div>
         </section>
@@ -695,7 +678,7 @@
                 <span class="section-kicker">El primer paso</span>
                 <h2>¿Listo para que tu negocio funcione sin vos?</h2>
                 <p>Empezá por el diagnóstico gratis de 45 minutos: salís con tu nivel de dependencia y un plan concreto.</p>
-                <a href="./pages/diagnostico.html" class="btn-primary btn-large">Hacé el diagnóstico gratis</a>
+                <a href="#rueda" class="btn-primary btn-large">Hacé la Rueda de tu Negocio</a>
             </div>
         </section>
 
@@ -722,8 +705,7 @@
             <div class="footer-col">
                 <h3>Contacto</h3>
                 <ul class="contact-list">
-                    <li><i class="fa-solid fa-arrow-right"></i> <a href="./pages/diagnostico.html">Hacer
-                            diagnóstico</a>
+                    <li><i class="fa-solid fa-arrow-right"></i> <a href="#rueda">Rueda del negocio</a>
                     </li>
                     <li><i class="fa-solid fa-globe"></i> <a href="https://www.fluircoaching.com"
                             target="_blank">www.fluircoaching.com</a></li>
@@ -833,7 +815,7 @@
     }
     </script>
 
-    <script src="./js/main.js?v=2.6"></script>
+    <script src="./js/main.js?v=2.7"></script>
     <!-- Los 5 Pilares + Rueda del Negocio -->
     <script src="./js/rueda.js?v=1.1"></script>
 </body>
