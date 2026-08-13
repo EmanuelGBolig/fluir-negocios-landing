@@ -1,0 +1,1047 @@
+/* ============================================================
+   Fluir Negocios — Los 5 Pilares + La Rueda del Negocio
+   Todo scopeado a #pilares y #rueda. No modifica styles.css.
+   Usa los tokens ya definidos en :root de css/styles.css.
+   ============================================================ */
+
+/* ============================================================
+   1) LOS 5 PILARES
+   ============================================================ */
+#pilares {
+    padding: 5rem 0;
+    background: var(--color-light-gray);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+#pilares .pilares-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 420px) 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+/* --- Diagrama (pentágono SVG) --- */
+#pilares .pilares-diagrama {
+    width: 100%;
+}
+
+#pilares .pd-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+}
+
+#pilares .pd-anillo {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 1;
+}
+
+#pilares .pd-anillo-ext {
+    stroke: #cbd8e8;
+    stroke-width: 1.6;
+}
+
+#pilares .pd-eje {
+    stroke: var(--color-border);
+    stroke-width: 1;
+}
+
+#pilares .pd-relleno {
+    fill: rgba(15, 82, 186, 0.07);
+    stroke-width: 2;
+    transition: stroke var(--transition-norm);
+}
+
+#pilares .pd-nodo {
+    cursor: pointer;
+    transform-origin: var(--po) var(--pl);
+    transition: transform var(--transition-norm);
+    outline: none;
+}
+
+#pilares .pd-nodo:hover,
+#pilares .pd-nodo:focus-visible {
+    transform: scale(1.08);
+}
+
+#pilares .pd-nodo:focus-visible .pd-nodo-circ {
+    stroke: var(--color-primary);
+    stroke-width: 3;
+}
+
+#pilares .pd-nodo.es-activo {
+    transform: scale(1.12);
+}
+
+#pilares .pd-nodo-circ {
+    fill: var(--color-light);
+    stroke: var(--color-border);
+    stroke-width: 2;
+    transition: stroke var(--transition-norm), fill var(--transition-norm);
+}
+
+#pilares .pd-nodo.es-activo .pd-nodo-circ {
+    stroke: var(--pc);
+    stroke-width: 3;
+}
+
+#pilares .pd-nodo-num {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 800;
+    fill: var(--color-dark-gray);
+    pointer-events: none;
+}
+
+#pilares .pd-nodo.es-activo .pd-nodo-num {
+    fill: var(--pc);
+}
+
+#pilares .pd-nodo-lbl {
+    font-family: var(--font-text);
+    font-size: 12.5px;
+    font-weight: 700;
+    fill: var(--color-dark-gray);
+    pointer-events: none;
+}
+
+#pilares .pd-nodo.es-activo .pd-nodo-lbl {
+    fill: var(--pc);
+}
+
+/* --- Tabs --- */
+#pilares .pilares-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+#pilares .pilar-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.7rem 0.4rem;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-dark-gray);
+    background: var(--color-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: transform var(--transition-norm), box-shadow var(--transition-norm), color var(--transition-norm);
+}
+
+#pilares .pilar-tab i {
+    font-size: 1rem;
+}
+
+#pilares .pilar-tab:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-md);
+    color: var(--color-primary);
+}
+
+#pilares .pilar-tab.es-activo {
+    color: var(--color-absolute-white);
+    background: linear-gradient(135deg, var(--pc1), var(--pc2));
+    border-color: transparent;
+    box-shadow: var(--shadow-md);
+}
+
+/* --- Panel de detalle --- */
+#pilares .pilar-detalle {
+    background: var(--color-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+#pilares .pilar-franja {
+    height: 5px;
+}
+
+#pilares .pilar-cuerpo {
+    padding: 1.6rem;
+}
+
+#pilares .pilar-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+}
+
+#pilares .pilar-icono {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-absolute-white);
+    font-size: 1.3rem;
+    box-shadow: var(--shadow-md);
+}
+
+#pilares .pilar-kicker {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+}
+
+#pilares .pilar-titulo {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--color-dark);
+    line-height: 1.2;
+}
+
+#pilares .pilar-desc {
+    color: var(--color-dark-gray);
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+}
+
+#pilares .pilar-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 1rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.3rem;
+}
+
+#pilares .pilar-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.92rem;
+    color: var(--color-dark-gray);
+}
+
+/* --- Tarjeta del referente --- */
+#pilares .pilar-referente {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem;
+    background: var(--color-light-gray);
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--border-radius);
+}
+
+#pilares .pilar-badge {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.8rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--color-dark-gray);
+    background: var(--color-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 0.15rem 0.6rem;
+}
+
+/* Acepta background-image para poner la foto real sin tocar el CSS */
+#pilares .pilar-ref-foto {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--color-absolute-white);
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--shadow-md);
+}
+
+#pilares .pilar-ref-rol {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+}
+
+#pilares .pilar-ref-nombre {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--color-dark);
+    margin: 0.1rem 0 0.3rem;
+}
+
+#pilares .pilar-ref-desc {
+    font-size: 0.87rem;
+    line-height: 1.5;
+    color: var(--color-dark-gray);
+    margin: 0;
+}
+
+/* --- Pie --- */
+#pilares .pilares-pie {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+#pilares .pilares-pie p {
+    font-weight: 700;
+    color: var(--color-dark-gray);
+    margin-bottom: 0.9rem;
+}
+
+/* ============================================================
+   2) LA RUEDA DEL NEGOCIO (fondo oscuro)
+   ============================================================ */
+#rueda {
+    position: relative;
+    padding: 5rem 0;
+    background:
+        radial-gradient(900px 420px at 12% 8%, rgba(0, 180, 216, 0.18), transparent 60%),
+        radial-gradient(800px 400px at 88% 92%, rgba(32, 201, 151, 0.16), transparent 60%),
+        linear-gradient(135deg, #081630 0%, #0d3b87 100%);
+    overflow: hidden;
+}
+
+#rueda .section-title,
+#rueda .section-title::after {
+    color: var(--color-absolute-white);
+}
+
+#rueda .section-subtitle {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+#rueda .section-kicker {
+    color: #6FD4F5;
+}
+
+#rueda .rueda-caja {
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* --- Barra de progreso --- */
+#rueda .rueda-progreso {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    margin-bottom: 1.5rem;
+}
+
+#rueda .rueda-seg {
+    height: 5px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.18);
+    transition: background var(--transition-norm);
+}
+
+#rueda .rueda-seg.es-hecho {
+    background: #20C997;
+}
+
+#rueda .rueda-seg.es-activo {
+    background: var(--color-secondary);
+}
+
+/* --- Pasos --- */
+#rueda .rueda-paso {
+    display: none;
+}
+
+#rueda .rueda-paso.is-activo {
+    display: block;
+    animation: ruedaEntra 0.35s ease both;
+}
+
+@keyframes ruedaEntra {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#rueda .rueda-paso-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+#rueda .rueda-paso-kicker {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+#rueda .rueda-paso-contador {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#rueda .rueda-paso-titulo {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--color-absolute-white);
+    margin: 0.4rem 0 0.4rem;
+    line-height: 1.2;
+}
+
+#rueda .rueda-paso-bajada {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Preguntas --- */
+#rueda .rueda-pregunta {
+    margin-bottom: 1.2rem;
+}
+
+#rueda .rueda-pregunta-txt {
+    color: var(--color-absolute-white);
+    font-weight: 600;
+    font-size: 0.98rem;
+    line-height: 1.45;
+    margin-bottom: 0.55rem;
+}
+
+#rueda .rueda-pregunta-n {
+    display: inline-block;
+    font-weight: 800;
+    color: #6FD4F5;
+    margin-right: 0.35rem;
+}
+
+#rueda .rueda-escala {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+
+#rueda .rueda-opcion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.6rem 0.3rem;
+    font: inherit;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform var(--transition-norm), background var(--transition-norm), border-color var(--transition-norm);
+}
+
+#rueda .rueda-opcion b {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+#rueda .rueda-opcion span {
+    font-size: 0.68rem;
+    line-height: 1.2;
+    text-align: center;
+    opacity: 0.85;
+}
+
+#rueda .rueda-opcion:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+#rueda .rueda-opcion.es-elegida {
+    color: var(--color-absolute-white);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-color: transparent;
+    box-shadow: 0 8px 18px rgba(0, 180, 216, 0.3);
+}
+
+/* --- Autopuntaje --- */
+#rueda .rueda-auto {
+    margin: 1.6rem 0 1.2rem;
+    padding: 1.1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--border-radius);
+}
+
+#rueda .rueda-auto-txt {
+    color: var(--color-absolute-white);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+}
+
+#rueda .rueda-auto-fila {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#rueda .rueda-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.22);
+    outline: none;
+}
+
+#rueda .rueda-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    border: 3px solid #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#rueda .rueda-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    border: 3px solid #fff;
+    cursor: pointer;
+}
+
+#rueda .rueda-slider.sin-tocar::-webkit-slider-thumb {
+    background: #94a3b8;
+}
+
+#rueda .rueda-slider.sin-tocar::-moz-range-thumb {
+    background: #94a3b8;
+}
+
+#rueda .rueda-auto-valor {
+    flex: 0 0 46px;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-absolute-white);
+}
+
+#rueda .rueda-auto-refs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* --- Botones --- */
+#rueda .rueda-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+#rueda .btn-rueda {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.6rem;
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-absolute-white);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0, 180, 216, 0.28);
+    transition: transform var(--transition-norm), box-shadow var(--transition-norm), opacity var(--transition-norm);
+}
+
+#rueda .btn-rueda:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 30px rgba(0, 180, 216, 0.38);
+}
+
+#rueda .btn-rueda:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+#rueda .btn-rueda-ghost {
+    padding: 0.9rem 1.4rem;
+    font: inherit;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.75);
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: color var(--transition-norm), border-color var(--transition-norm);
+}
+
+#rueda .btn-rueda-ghost:hover {
+    color: var(--color-absolute-white);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+#rueda .btn-rueda-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.6rem;
+    font-weight: 700;
+    color: var(--color-absolute-white);
+    background: #1FB055;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(31, 176, 85, 0.32);
+    transition: transform var(--transition-norm), background var(--transition-norm);
+}
+
+#rueda .btn-rueda-wa:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: #199449;
+    color: var(--color-absolute-white);
+}
+
+/* --- Resultado --- */
+#rueda .rueda-res-cabecera {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+#rueda .rueda-res-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 340px) 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+#rueda .rueda-res-izq {
+    position: sticky;
+    top: 100px;
+    text-align: center;
+}
+
+#rueda .rueda-radar-caja {
+    display: flex;
+    justify-content: center;
+}
+
+#rueda .rueda-radar-caja canvas {
+    max-width: 100%;
+}
+
+#rueda .rueda-leyenda {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 0.6rem 0 1rem;
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+#rueda .rueda-leyenda span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+#rueda .rueda-ll {
+    width: 16px;
+    height: 0;
+    border-top: 2px solid;
+    display: inline-block;
+}
+
+#rueda .rueda-ll-calc {
+    border-color: var(--color-secondary);
+}
+
+#rueda .rueda-ll-auto {
+    border-top-style: dashed;
+    border-color: #20C997;
+}
+
+#rueda .rueda-marcador {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--border-radius);
+    padding: 1.1rem;
+}
+
+#rueda .rueda-marcador-num {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-absolute-white);
+}
+
+#rueda .rueda-marcador-num small {
+    font-size: 1.1rem;
+    opacity: 0.6;
+}
+
+#rueda .rueda-etapa {
+    display: inline-block;
+    margin: 0.6rem 0 0.5rem;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+}
+
+#rueda .rueda-etapa-txt {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+#rueda .rueda-bloque {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--border-radius);
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+#rueda .rueda-bloque h4 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--color-absolute-white);
+    margin-bottom: 0.7rem;
+}
+
+#rueda .rueda-bloque p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: 0.6rem;
+}
+
+#rueda .rueda-bloque p:last-child {
+    margin-bottom: 0;
+}
+
+#rueda .rueda-bloque b {
+    color: var(--color-absolute-white);
+}
+
+#rueda .rueda-destacado {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+#rueda .rueda-rank {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#rueda .rueda-rank li {
+    margin-bottom: 0.7rem;
+}
+
+#rueda .rueda-rank-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.25rem;
+}
+
+#rueda .rueda-barra {
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+}
+
+#rueda .rueda-barra i {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 0.8s ease;
+}
+
+#rueda .rueda-acciones {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#rueda .rueda-acciones li {
+    display: flex;
+    gap: 0.7rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0.8rem;
+}
+
+#rueda .rueda-acciones li:last-child {
+    margin-bottom: 0;
+}
+
+#rueda .rueda-acc-n {
+    flex: 0 0 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    color: var(--color-absolute-white);
+    font-size: 0.76rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#rueda .rueda-acc-pilar {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.15rem;
+}
+
+/* --- Captación del lead --- */
+#rueda .rueda-lead {
+    margin-top: 1.8rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--border-radius);
+}
+
+#rueda .rueda-lead h4 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-absolute-white);
+    margin-bottom: 0.5rem;
+}
+
+#rueda .rueda-lead > p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.1rem;
+}
+
+#rueda .rueda-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+    margin-bottom: 1.1rem;
+}
+
+#rueda .rueda-campo label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.3rem;
+}
+
+#rueda .rueda-campo input {
+    width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    padding: 0.8rem 0.9rem;
+    color: var(--color-absolute-white);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+}
+
+#rueda .rueda-campo input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+#rueda .rueda-campo input:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    background: rgba(255, 255, 255, 0.13);
+}
+
+#rueda .rueda-error {
+    display: none;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #FF8A65;
+    margin-top: 0.25rem;
+}
+
+#rueda .rueda-legal {
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 0.7rem;
+}
+
+#rueda .rueda-exito {
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+#rueda .rueda-exito i {
+    font-size: 2.2rem;
+    color: #20C997;
+    margin-bottom: 0.6rem;
+}
+
+#rueda .rueda-exito h4 {
+    margin-bottom: 0.4rem;
+}
+
+#rueda .rueda-exito p {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1rem;
+}
+
+#rueda .rueda-res-pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 992px) {
+    #pilares .pilares-layout {
+        grid-template-columns: 1fr;
+    }
+
+    #pilares .pilares-diagrama {
+        max-width: 380px;
+        margin: 0 auto;
+    }
+
+    #rueda .rueda-res-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #rueda .rueda-res-izq {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    #pilares,
+    #rueda {
+        padding: 3.5rem 0;
+    }
+
+    /* En mobile el diagrama se oculta: mandan las pastillas */
+    #pilares .pilares-diagrama {
+        display: none;
+    }
+
+    #pilares .pilares-tabs {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #pilares .pilar-items {
+        grid-template-columns: 1fr;
+    }
+
+    #pilares .pilar-cuerpo {
+        padding: 1.2rem;
+    }
+
+    #rueda .rueda-caja {
+        padding: 1.2rem;
+    }
+
+    #rueda .rueda-escala {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #rueda .rueda-form {
+        grid-template-columns: 1fr;
+    }
+
+    #rueda .rueda-nav,
+    #rueda .rueda-res-pie {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    #rueda .btn-rueda,
+    #rueda .btn-rueda-ghost,
+    #rueda .btn-rueda-wa {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    #rueda .rueda-marcador-num {
+        font-size: 2.4rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #pilares .pd-nodo,
+    #pilares .pilar-tab,
+    #rueda .rueda-opcion,
+    #rueda .btn-rueda,
+    #rueda .btn-rueda-wa,
+    #rueda .rueda-barra i {
+        transition: none;
+    }
+
+    #rueda .rueda-paso.is-activo {
+        animation: none;
+    }
+}
