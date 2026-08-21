@@ -237,6 +237,7 @@ button.btn-secondary:hover {
 .btn-nav-cta {
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
     gap: 0.4rem;
     background: var(--gradient-primary);
     color: #fff !important;
@@ -315,6 +316,8 @@ button.btn-secondary:hover {
     font-size: 0.9rem;
     position: relative;
     padding-bottom: 0.3rem;
+    /* Los items del navbar van siempre en un solo renglon */
+    white-space: nowrap;
     transition: color var(--transition-fast);
 }
 
@@ -1365,41 +1368,6 @@ button.btn-secondary:hover {
 }
 
 @media (max-width: 768px) {
-    .nav-links {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        padding: 0;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease, padding 0.4s ease;
-    }
-
-    .nav-links.active {
-        max-height: 500px;
-        padding: 1.5rem 0;
-    }
-
-    .nav-links li {
-        margin: 0.6rem 0;
-        text-align: center;
-        width: 100%;
-    }
-
-    .btn-nav-cta {
-        margin: 0.5rem auto;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
     .hero {
         padding: 130px 0 60px;
         text-align: center;
@@ -4663,4 +4631,49 @@ button.btn-secondary:hover {
         width: 100%;
         justify-content: center;
     }
+}
+
+/* ===================================================
+   NAVBAR: pasar al menu hamburguesa antes de que los items
+   se apilen. Con 7 items el navbar horizontal necesita ~1000px;
+   abajo de eso se desbordaba a la derecha.
+   =================================================== */
+@media (max-width: 1024px) {
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .nav-links.active {
+        /* Tiene que superar el alto real del menu abierto (533px en 375px de
+           ancho con 7 items); si no, el ultimo item queda cortado. */
+        max-height: 640px;
+        padding: 1.5rem 0;
+    }
+
+    .nav-links li {
+        margin: 0.6rem 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn-nav-cta {
+        margin: 0.5rem auto;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
 }
