@@ -44,9 +44,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/styles.css?v=2.7">
+    <link rel="stylesheet" href="./css/styles.css?v=2.8">
     <!-- Los 5 Pilares + Rueda del Negocio -->
-    <link rel="stylesheet" href="./css/pilares.css?v=1.1">
+    <link rel="stylesheet" href="./css/pilares.css?v=1.2">
 
     <!-- Google Analytics 4 — reemplazar G-XXXXXXXXXX con tu ID real -->
     <!--
@@ -96,10 +96,11 @@
                     <li><a href="#pilares">Los 5 pilares</a></li>
                     <li><a href="#rueda">Rueda del negocio</a></li>
                     <li><a href="#casos">Casos de éxito</a></li>
+                    <li><a href="#pac">Programa P·A·C</a></li>
                     <li><a href="#quienes-somos">¿Quiénes somos?</a></li>
                     <li><a href="#faq">FAQ</a></li>
-                    <li><a href="https://wa.me/5492235295052?text=Hola!%20Quiero%20asesoramiento%20para%20mi%20negocio." target="_blank" class="btn-nav-cta">Quiero asesoramiento
-                            <i class="fa-brands fa-whatsapp"></i></a></li>
+                    <li><a href="#rueda" class="btn-nav-cta">Hacé la Rueda de tu Negocio
+                            <i class="fa-solid fa-arrow-right"></i></a></li>
                 </ul>
             </nav>
             <div class="menu-toggle">
@@ -108,15 +109,6 @@
         </div>
     </header>
 
-    <!-- Alert Bar: Próximo PAC -->
-    <div class="pac-alert-bar" id="pac-alert-bar">
-        <div class="pac-alert-inner">
-            <span class="pac-alert-badge"><i class="fa-solid fa-fire"></i> PRÓXIMO P·A·C</span>
-            <p class="pac-alert-text">Inscripción abierta — Sumate a la lista de espera del próximo grupo.</p>
-            <a href="./pages/pac.html#proximo-programa" class="pac-alert-cta">Anotarme <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <button class="pac-alert-close" id="pac-alert-close" aria-label="Cerrar">&times;</button>
-    </div>
 
     <main>
         <!-- Hero Section -->
@@ -164,35 +156,6 @@
             </div>
         </section>
 
-        <!-- Banner Ticker (Corte Verde de Ancho Completo) -->
-        <section class="hero-banner-divider">
-            <div class="banner-ticker-track">
-                <div class="banner-ticker-inner">
-                    <!-- Item repetido varias veces para loop continuo -->
-                    <span class="banner-ticker-item">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                        Descargá gratis la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
-                        &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                    <span class="banner-ticker-item">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                        Descargá gratis la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
-                        &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                    <span class="banner-ticker-item">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                        Descargá gratis la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
-                        &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                </div>
-            </div>
-        </section>
 
         <!-- Para quién es -->
         <!-- El problema: perfil + síntomas + lo que cuesta, en una sola sección -->
@@ -260,6 +223,39 @@
             </div>
         </section>
 
+        <!-- La Rueda del Negocio (autodiagnóstico interactivo) -->
+        <section id="rueda" class="section-rueda">
+            <div class="container">
+                <span class="section-kicker">Autodiagnóstico gratuito</span>
+                <h2 class="section-title text-center">La Rueda de tu Negocio</h2>
+                <p class="section-subtitle text-center">Medí los 5 pilares de tu negocio y descubrí cuál está definiendo tu techo hoy. Es el mismo diagnóstico con el que arrancamos cada proceso de consultoría.</p>
+
+                <ul class="rueda-specs">
+                    <li>
+                        <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+                        <b>20 preguntas</b>
+                        <small>4 por cada uno de los 5 pilares</small>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                        <b>6 minutos</b>
+                        <small>lo hacés acá mismo, sin registrarte</small>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+                        <b>Resultado al instante</b>
+                        <small>tu rueda, tu etapa, tu cuello de botella y tu punto ciego</small>
+                    </li>
+                </ul>
+
+                <div class="rueda-caja slide-up">
+                    <div class="rueda-progreso" id="ruedaProgreso" aria-hidden="true"></div>
+                    <div id="ruedaPasos"></div>
+                    <div class="rueda-paso" id="ruedaResultado"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- Cómo trabajamos -->
         <section class="section-proceso bg-light">
             <div class="container">
@@ -305,7 +301,7 @@
             <div class="container">
                 <span class="section-kicker">El marco Fluir</span>
                 <h2 class="section-title text-center">Los 5 pilares de un negocio que se sostiene solo</h2>
-                <p class="section-subtitle text-center">No hay un pilar más importante que otro: hay uno que hoy está más flojo que el resto y es el que define tu techo. Cada pilar tiene en Fluir un referente que lo trabaja con vos.</p>
+                <p class="section-subtitle text-center">No hay un pilar más importante que otro: hay uno que hoy está más flojo que el resto y es el que define tu techo.</p>
                 <div class="pilares-layout slide-up">
                     <div class="pilares-diagrama" id="pilaresDiagrama"></div>
                     <div class="pilares-panel">
@@ -383,8 +379,8 @@
         </div>
                 
                 <div class="clientes-action text-center">
-                    <a class="btn-primary btn-large" href="https://wa.me/5492235295052?text=Hola!%20Vi%20los%20casos%20de%20%C3%A9xito%20y%20quiero%20m%C3%A1s%20info." target="_blank">
-                        <i class="fa-solid fa-comments"></i> Contáctenos
+                    <a class="btn-primary btn-large" href="#rueda">
+                        <i class="fa-solid fa-clipboard-check"></i> Hacé la Rueda de tu Negocio
                     </a>
                 </div>
             </div>
@@ -494,30 +490,31 @@
                 </div>
             </div>
         </section>
-        <!-- La Rueda del Negocio (autodiagnóstico interactivo) -->
-        <section id="rueda" class="section-rueda">
+
+        <!-- Programa P·A·C — la oferta paga, antes escondida en la barra de alerta -->
+        <section id="pac" class="section-pac">
             <div class="container">
-                <span class="section-kicker">Autodiagnóstico gratuito</span>
-                <h2 class="section-title text-center">La Rueda de tu Negocio</h2>
-                <p class="section-subtitle text-center">20 preguntas, 5 pilares y una rueda que muestra dónde estás parado. Al final te devolvemos un resumen estratégico con lo primero que hay que mover. Sin costo.</p>
-                <div class="rueda-caja slide-up">
-                    <div class="rueda-progreso" id="ruedaProgreso" aria-hidden="true"></div>
-                    <div id="ruedaPasos"></div>
-                    <div class="rueda-paso" id="ruedaResultado"></div>
+                <span class="section-kicker">El programa</span>
+                <h2 class="section-title text-center">P·A·C — Programa Acelerador de Crecimiento</h2>
+                <p class="section-subtitle text-center">8 semanas de trabajo grupal para dueños de negocios: mentalidad, orden financiero y estrategia comercial. Grupos reducidos, modalidad presencial en Mar del Plata.</p>
+
+                <div class="pac-home-datos slide-up">
+                    <div class="pac-home-dato"><span class="pac-home-num">8</span><span class="pac-home-lbl">semanas de programa</span></div>
+                    <div class="pac-home-dato"><span class="pac-home-num">80 min</span><span class="pac-home-lbl">por encuentro semanal</span></div>
+                    <div class="pac-home-dato"><span class="pac-home-num">Cupo</span><span class="pac-home-lbl">limitado por grupo</span></div>
                 </div>
-            </div>
-        </section>
-        <!-- Lead magnet: banda de descarga de la guía -->
-        <section class="section-guia-cta">
-            <div class="container">
-                <div class="guia-cta-inner">
-                    <div class="guia-cta-text">
-                        <span class="section-kicker">Recurso gratis</span>
-                        <h2>Descargá gratis la guía<br><span>"Los 3 cuellos de botella de tu negocio"</span></h2>
-                        <p>Los 3 frenos más comunes que hacen que todo dependa de vos — y cómo empezar a resolverlos.</p>
-                    </div>
-                    <div class="guia-cta-action">
-                        <button type="button" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="guia-cta-btn"><i class="fa-solid fa-file-pdf"></i> Descargar la guía gratis</button>
+
+                <ul class="pac-home-incluye slide-up">
+                    <li><i class="fa-solid fa-users" aria-hidden="true"></i><span><b>Sesiones grupales</b> — 8 semanas de trabajo en grupo limitado, los miércoles de 18:30 a 19:50.</span></li>
+                    <li><i class="fa-solid fa-file-lines" aria-hidden="true"></i><span><b>Materiales y plantillas</b> — recursos listos para aplicar en tu negocio, no teoría.</span></li>
+                    <li><i class="fa-solid fa-headset" aria-hidden="true"></i><span><b>Soporte exclusivo</b> — canal directo de consultas entre sesiones.</span></li>
+                </ul>
+
+                <div class="pac-home-pie slide-up">
+                    <p>Las fechas de inicio se confirman por tanda y los grupos son reducidos.</p>
+                    <div class="pac-home-acciones">
+                        <a href="./pages/pac.html" class="btn-primary">Ver el programa completo <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="./pages/pac.html#proximo-programa" class="pac-home-link">Sumarme a la lista de espera <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -607,31 +604,19 @@
             </div>
         </section>
 
-        <!-- Banner Ticker (repetido debajo del FAQ) -->
-        <section class="hero-banner-divider">
-            <div class="banner-ticker-track">
-                <div class="banner-ticker-inner">
-                    <span class="banner-ticker-item">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                        Descargá gratis la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
-                        &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                    <span class="banner-ticker-item">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                        Descargá gratis la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
-                        &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                    <span class="banner-ticker-item">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                        Descargá gratis la guía:&nbsp;<strong>Los 3 Cuellos de Botella de tu Negocio</strong>
-                        &nbsp;&nbsp;
-                        <a href="javascript:void(0)" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="btn-banner-action"><i class="fa-solid fa-file-pdf"></i> Obtener Guía</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
+
+        <!-- Lead magnet: banda de descarga de la guía -->
+        <section class="section-guia-cta">
+            <div class="container">
+                <div class="guia-cta-inner">
+                    <div class="guia-cta-text">
+                        <span class="section-kicker">Recurso gratis</span>
+                        <h2>Descargá gratis la guía<br><span>"Los 3 cuellos de botella de tu negocio"</span></h2>
+                        <p>Los 3 frenos más comunes que hacen que todo dependa de vos — y cómo empezar a resolverlos.</p>
+                    </div>
+                    <div class="guia-cta-action">
+                        <button type="button" onclick="window.fnOpenGuia && window.fnOpenGuia(); return false;" class="guia-cta-btn"><i class="fa-solid fa-file-pdf"></i> Descargar la guía gratis</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -663,6 +648,7 @@
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#rueda">Rueda del negocio</a></li>
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#para-quien">¿Para quién?</a></li>
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#casos">Casos de éxito</a></li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <a href="#pac">Programa P·A·C</a></li>
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#faq">Preguntas frecuentes</a></li>
                 </ul>
             </div>

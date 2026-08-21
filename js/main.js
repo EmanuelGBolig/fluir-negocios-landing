@@ -28,46 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     captureUTMParameters();
 
-    // 0. PAC Alert Bar — dismiss + seguir a la navbar
-    const pacAlertBar = document.getElementById('pac-alert-bar');
-    const pacAlertClose = document.getElementById('pac-alert-close');
-
-    if (pacAlertBar) {
-        const navbarEl = document.querySelector('.navbar');
-
-        // Función que ajusta el top del alert al tamaño actual de la navbar
-        const syncAlertTop = () => {
-            if (navbarEl && pacAlertBar.style.display !== 'none') {
-                pacAlertBar.style.top = navbarEl.offsetHeight + 'px';
-            }
-        };
-
-        // Sincronizar en scroll, resize, al cargar y al finalizar transiciones de la navbar
-        window.addEventListener('scroll', syncAlertTop, { passive: true });
-        window.addEventListener('resize', syncAlertTop, { passive: true });
-        window.addEventListener('load', syncAlertTop, { passive: true });
-        
-        if (navbarEl) {
-            navbarEl.addEventListener('transitionend', syncAlertTop);
-        }
-
-        // Sincronización inicial
-        syncAlertTop();
-
-        if (pacAlertClose) {
-            pacAlertClose.addEventListener('click', () => {
-                pacAlertBar.classList.add('hidden');
-                setTimeout(() => { pacAlertBar.style.display = 'none'; }, 380);
-                window.removeEventListener('scroll', syncAlertTop);
-                window.removeEventListener('resize', syncAlertTop);
-                window.removeEventListener('load', syncAlertTop);
-                if (navbarEl) {
-                    navbarEl.removeEventListener('transitionend', syncAlertTop);
-                }
-            });
-        }
-    }
-
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
 

@@ -201,14 +201,7 @@
             '<ul class="pilar-items">' + p.items.map(function (it) {
                 return '<li><i class="fa-solid fa-circle-check" style="color:' + p.c2 + '" aria-hidden="true"></i> ' + esc(it) + '</li>';
             }).join('') + '</ul>' +
-            '<div class="pilar-referente">' +
-            '<span class="pilar-badge">&#9998; Completar</span>' +
-            '<div class="pilar-ref-foto" style="background:linear-gradient(135deg,' + p.c1 + ',' + p.c2 + ')">NN</div>' +
-            '<div class="pilar-ref-datos">' +
-            '<span class="pilar-ref-rol">' + esc(p.rol) + '</span>' +
-            '<h4 class="pilar-ref-nombre">Nombre y Apellido</h4>' +
-            '<p class="pilar-ref-desc">Breve descripción del perfil: formación, años de experiencia y qué resuelve concretamente dentro del negocio del cliente.</p>' +
-            '</div></div></div>';
+            '</div>';
     }
 
     function activarPilar(i) {
