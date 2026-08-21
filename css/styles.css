@@ -920,16 +920,22 @@ button.btn-secondary:hover {
 /* Testimonials */
 /* Testimonios en video (vertical, click-to-play) */
 .video-testis {
-    display: flex;
-    flex-wrap: wrap;
+    /* auto-fit: se acomoda sola a 1, 2, 3, 4 o 5 videos y siempre queda
+       centrada. Con flex-wrap, 4 reels de 9:16 partian 3 + 1 huerfano. */
+    display: grid;
+    /* El tope de ancho va en el item (max-width: 300px + margin auto), no en
+       la columna: con un maximo definido en la pista, auto-fit solo entraba
+       3 por fila y el 4to reel volvia a quedar huerfano. */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.6rem;
-    justify-content: center;
-    margin: 2.6rem 0 0.5rem;
+    max-width: 1100px;
+    margin: 2.6rem auto 0.5rem;
 }
 
 .video-testi-item {
     width: 100%;
     max-width: 300px;
+    margin: 0 auto;
 }
 
 .video-testi {
@@ -954,6 +960,24 @@ button.btn-secondary:hover {
 .video-testi-cap b {
     color: #fff;
     font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+    /* En tablet, 4 pistas darian videos de ~200px: mejor 2 x 2. Sigue siendo
+       auto-fit para que con un solo video la pista vacia colapse y quede
+       centrado, en vez de pegado a la izquierda. */
+    .video-testis {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        max-width: 660px;
+    }
+}
+
+@media (max-width: 560px) {
+    .video-testis {
+        grid-template-columns: min(300px, 100%);
+        justify-content: center;
+        gap: 2rem;
+    }
 }
 
 .section-testimonials {
