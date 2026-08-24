@@ -1190,49 +1190,46 @@
 }
 
 /* ===================================================
-   RUEDA — ficha del diagnóstico (qué es, cuánto dura, qué te llevás)
+   RUEDA — ficha del diagnostico, en una sola linea
+   Antes eran 3 tarjetas apiladas de 132px: empujaban la primera
+   pregunta 523px hacia abajo.
    =================================================== */
 #rueda .rueda-specs {
     list-style: none;
     padding: 0;
-    margin: 1.6rem auto 0;
-    max-width: 900px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.9rem;
+    margin: 1.1rem auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem 1.6rem;
 }
 
 #rueda .rueda-specs li {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    text-align: center;
-    padding: 1.1rem 1rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: var(--border-radius);
+    gap: 0.45rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.72);
 }
 
 #rueda .rueda-specs i {
     color: #6FD4F5;
-    font-size: 1.15rem;
+    font-size: 0.95rem;
 }
 
 #rueda .rueda-specs b {
-    font-family: var(--font-heading);
-    font-size: 1.02rem;
+    font-weight: 700;
     color: var(--color-absolute-white);
 }
 
-#rueda .rueda-specs small {
-    font-size: 0.84rem;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.72);
+#rueda .rueda-caja {
+    margin-top: 1.6rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 560px) {
     #rueda .rueda-specs {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
