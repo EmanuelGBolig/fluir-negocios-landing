@@ -1245,7 +1245,7 @@
 }
 
 #rueda.rueda-panel {
-    padding: 1.1rem 1.6rem 1.4rem;
+    padding: 1rem 1.5rem 1.1rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 }
@@ -1386,20 +1386,41 @@
 }
 
 .rueda-modal #rueda .rueda-escala {
-    gap: 0.4rem;
+    gap: 0.3rem;
 }
 
+/* Las 5 opciones son la mitad del alto del pop-up: es donde mas rinde
+   recortar sin perder area de click (siguen en ~44px, el minimo tactil). */
 .rueda-modal #rueda .rueda-opcion {
-    padding: 0.7rem 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.rueda-modal #rueda .rueda-opcion-t {
+    font-size: 0.95rem;
 }
 
 .rueda-modal #rueda .rueda-tip {
-    margin-top: 0.6rem;
+    margin-top: 0.45rem;
+    font-size: 0.78rem;
+}
+
+.rueda-modal #rueda .rueda-paso-titulo {
+    font-size: 1.05rem;
+    margin: 0.15rem 0 0.4rem;
+}
+
+.rueda-modal #rueda .rueda-pregunta-txt {
+    font-size: 0.98rem;
+    margin-bottom: 0.55rem;
 }
 
 @media (max-width: 640px) {
     #rueda.rueda-panel {
         padding: 0.9rem 1rem 1.2rem;
+    }
+    /* En desktop 42px alcanza para el mouse; con el dedo no. */
+    .rueda-modal #rueda .rueda-opcion {
+        padding: 0.68rem 1rem;
     }
     .rueda-modal .rueda-top-contador {
         font-size: 0.74rem;
