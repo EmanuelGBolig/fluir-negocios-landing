@@ -345,7 +345,7 @@
             return '<div class="rueda-paso" data-paso="' + i + '">' +
                 '<div class="rueda-paso-top">' +
                 '<span class="rueda-paso-kicker" style="color:' + p.claro + '"><i class="' + p.icono + '" aria-hidden="true"></i> Pilar ' + p.num + ' · ' + esc(p.corto) + '</span>' +
-                '<span class="rueda-paso-contador" data-contador="' + i + '">Pregunta 1 de 4</span>' +
+                '<span class="rueda-paso-contador" data-contador="' + i + '">1 / 4</span>' +
                 '</div>' +
                 '<h3 class="rueda-paso-titulo">' + esc(p.nombre) + '</h3>' +
                 vistas + vistaAuto +
@@ -370,7 +370,10 @@
             var vf = pasos[i].querySelector('.rueda-volver-fila');
             if (vf) vf.style.display = (vistas[i] < VISTAS_POR_PILAR - 1 && (i > 0 || vistas[i] > 0)) ? '' : 'none';
             var ct = pasos[i].querySelector('[data-contador="' + i + '"]');
-            if (ct) ct.textContent = vistas[i] < 4 ? ('Pregunta ' + (vistas[i] + 1) + ' de 4') : 'Tu autopuntaje';
+            // Solo la posicion dentro del pilar: el "Pregunta N de 20" del
+            // encabezado ya lleva la cuenta global, y dos contadores con
+            // numeros distintos confundian.
+            if (ct) ct.textContent = vistas[i] < 4 ? ((vistas[i] + 1) + ' / 4') : 'Tu autopuntaje';
         }
         elResultado.classList.toggle('is-activo', pasoActual === PILARES.length);
         pintarProgreso();
