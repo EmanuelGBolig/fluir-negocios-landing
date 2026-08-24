@@ -1233,3 +1233,74 @@
         gap: 0.5rem;
     }
 }
+
+/* ===================================================
+   LA RUEDA EN POP-UP
+   #rueda deja de ser una franja de ancho completo y pasa a ser el panel
+   oscuro del modal. Conserva el id para que todo el CSS de adentro
+   (y los enlaces href="#rueda") sigan funcionando.
+   =================================================== */
+.rueda-modal .modal-container {
+    max-width: 1000px;
+}
+
+#rueda.rueda-panel {
+    padding: 2.4rem 2.2rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+/* El panel ya es la tarjeta: la caja interior no necesita su propio marco. */
+.rueda-modal #rueda .rueda-caja {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin-top: 1.3rem;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.rueda-modal .modal-close {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+}
+
+.rueda-modal .modal-close:hover {
+    background: rgba(255, 255, 255, 0.26);
+    color: #fff;
+}
+
+/* Ficha del diagnostico en el pie de los pilares, para que se vea que
+   ofrece la Rueda antes de abrir el pop-up. */
+.pilares-pie-specs {
+    list-style: none;
+    padding: 0;
+    margin: 1.1rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.45rem 1.5rem;
+}
+
+.pilares-pie-specs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.87rem;
+    color: #64748b;
+}
+
+.pilares-pie-specs i {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+    #rueda.rueda-panel {
+        padding: 2rem 1.1rem 1.6rem;
+    }
+    .pilares-pie-specs {
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+}

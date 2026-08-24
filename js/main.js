@@ -295,6 +295,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.fnOpenGuia = openGuiaModal;
 
+    // 8c. La Rueda del Negocio en pop-up.
+    // Vive fuera del flujo de la pagina: cualquier enlace a #rueda la abre.
+    const modalRueda = document.getElementById('modal-rueda');
+    function openRuedaModal() {
+        if (!modalRueda) return;
+        modalRueda.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeRuedaModal() {
+        if (!modalRueda) return;
+        modalRueda.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    window.fnOpenRueda = openRuedaModal;
+
+    if (modalRueda) {
+        const btnCloseRueda = document.getElementById('btn-close-rueda');
+        if (btnCloseRueda) btnCloseRueda.addEventListener('click', closeRuedaModal);
+
+        modalRueda.addEventListener('click', function (e) {
+            if (e.target === modalRueda || e.target.classList.contains('rueda-modal-container')) closeRuedaModal();
+        });
+
+        // Va en fase de captura a proposito: el smooth scroll del punto 2 hace
+        // preventDefault sobre todos los href que empiezan con #, asi que hay
+        // que interceptar antes de que llegue al ancla.
+        document.addEventListener('click', function (e) {
+            const a = e.target.closest ? e.target.closest('a[href="#rueda"]') : null;
+            if (!a) return;
+            e.preventDefault();
+            e.stopPropagation();
+            openRuedaModal();
+        }, true);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modalRueda.classList.contains('active')) closeRuedaModal();
+        });
+    }
+
     if (modalGuia) {
         const btnCloseGuia = document.getElementById('btn-close-guia');
         if (btnCloseGuia) btnCloseGuia.addEventListener('click', closeGuiaModal);
