@@ -4703,6 +4703,14 @@ button.btn-secondary:hover {
     }
 }
 
+/* Entre 1025 y 1140px el navbar horizontal entra justo: con "Consultanos
+   ahora" quedaban 25px de aire. Se achica la separacion entre items. */
+@media (min-width: 1025px) and (max-width: 1140px) {
+    .nav-links {
+        gap: 1.05rem;
+    }
+}
+
 /* ===================================================
    NAVBAR: pasar al menu hamburguesa antes de que los items
    se apilen. Con 7 items el navbar horizontal necesita ~1000px;

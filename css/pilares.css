@@ -1245,7 +1245,7 @@
 }
 
 #rueda.rueda-panel {
-    padding: 2.4rem 2.2rem 2rem;
+    padding: 1.1rem 1.6rem 1.4rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 }
@@ -1302,5 +1302,110 @@
     .pilares-pie-specs {
         flex-direction: column;
         gap: 0.45rem;
+    }
+}
+
+/* ===================================================
+   POP-UP DE LA RUEDA — version compacta
+   El encabezado grande (kicker + h2 + bajada + ficha) comia ~450px antes
+   de la primera pregunta. Adentro del modal el usuario ya sabe que entro,
+   asi que el encabezado se reduce a una barra.
+   =================================================== */
+.rueda-modal .rueda-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: 0.9rem;
+}
+
+.rueda-modal .rueda-top-kicker {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6FD4F5;
+}
+
+.rueda-modal .rueda-top-titulo {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--color-absolute-white);
+    margin: 0.15rem 0 0;
+}
+
+.rueda-modal .rueda-top-der {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Cuantas preguntas faltan sobre el total: el contador por pilar
+   ("Pregunta 1 de 4") no deja ver cuanto queda. */
+.rueda-modal .rueda-top-contador {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 0.35rem 0.8rem;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+/* El boton de cerrar vuelve al flujo: en el header ya no hace falta que
+   sea absoluto, y asi no se superpone con el contador. */
+.rueda-modal .modal-close {
+    position: static;
+    top: auto;
+    right: auto;
+    width: 34px;
+    height: 34px;
+    font-size: 1.25rem;
+}
+
+/* --- el cuestionario, mas apretado --- */
+.rueda-modal #rueda .rueda-progreso {
+    margin-bottom: 1rem;
+}
+
+.rueda-modal #rueda .rueda-paso-titulo {
+    font-size: 1.15rem;
+    margin: 0.25rem 0 0.5rem;
+}
+
+.rueda-modal #rueda .rueda-pregunta-txt {
+    font-size: 1.02rem;
+    margin-bottom: 0.7rem;
+}
+
+.rueda-modal #rueda .rueda-escala {
+    gap: 0.4rem;
+}
+
+.rueda-modal #rueda .rueda-opcion {
+    padding: 0.7rem 1rem;
+}
+
+.rueda-modal #rueda .rueda-tip {
+    margin-top: 0.6rem;
+}
+
+@media (max-width: 640px) {
+    #rueda.rueda-panel {
+        padding: 0.9rem 1rem 1.2rem;
+    }
+    .rueda-modal .rueda-top-contador {
+        font-size: 0.74rem;
+        padding: 0.3rem 0.6rem;
+    }
+    .rueda-modal .rueda-top-titulo {
+        font-size: 1rem;
     }
 }

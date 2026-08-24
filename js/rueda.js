@@ -253,6 +253,35 @@
         pasoActual = 0;
     }
 
+    /* Contador global: el "Pregunta 1 de 4" de cada pilar no dice cuanto
+       falta en total. Este muestra la posicion sobre las 20. */
+    var elContadorGlobal = document.getElementById('ruedaContadorGlobal');
+
+    function respondidas() {
+        var n = 0;
+        for (var k = 0; k < respuestas.length; k++) {
+            for (var q = 0; q < respuestas[k].length; q++) {
+                if (respuestas[k][q] !== null) n++;
+            }
+        }
+        return n;
+    }
+
+    function pintarContadorGlobal() {
+        if (!elContadorGlobal) return;
+        if (pasoActual === PILARES.length) {
+            elContadorGlobal.textContent = 'Tu resultado';
+            return;
+        }
+        var p = PILARES[pasoActual];
+        if (vistas[pasoActual] >= VISTAS_POR_PILAR - 1) {
+            elContadorGlobal.textContent = 'Pilar ' + (pasoActual + 1) + ' de ' + PILARES.length + ' · tu puntaje';
+            return;
+        }
+        var total = PILARES.length * 4;
+        elContadorGlobal.textContent = 'Pregunta ' + Math.min(respondidas() + 1, total) + ' de ' + total;
+    }
+
     function pintarProgreso() {
         if (!elProgreso) return;
         var html = '';
@@ -345,6 +374,7 @@
         }
         elResultado.classList.toggle('is-activo', pasoActual === PILARES.length);
         pintarProgreso();
+        pintarContadorGlobal();
     }
 
     function refrescarBoton(i) {
