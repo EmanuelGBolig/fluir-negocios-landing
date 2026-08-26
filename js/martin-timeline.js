@@ -191,12 +191,6 @@
     // viewport y dispara un refresh que hace saltar el pin. Esto lo ignora.
     ST.config({ ignoreMobileResize: true });
 
-    // Lenis maneja el scroll suavizado: hay que avisarle a ScrollTrigger
-    // en cada cuadro, si no las posiciones quedan desfasadas.
-    if (window.__lenis && window.__lenis.on) {
-        window.__lenis.on('scroll', ST.update);
-    }
-
     // Cuanto scroll ocupa pasar de una etapa a la siguiente.
     // Con 0.85 de pantalla por etapa el recorrido daba 5.9 pantallas: el 25%
     // de la pagina entera clavada, y se sentia trabada. Se acota a px fijos

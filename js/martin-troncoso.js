@@ -27,14 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lenis maneja el suavizado: desactivar el smooth nativo para evitar doble easing
     document.documentElement.style.scrollBehavior = 'auto';
 
-    const lenisRaf = (time) => {
-      lenis.raf(time);
-      requestAnimationFrame(lenisRaf);
-    };
-    requestAnimationFrame(lenisRaf);
     // Se expone para que la linea de tiempo pueda scrollear sin pelearse
     // con el suavizado (window.scrollTo compite con Lenis).
     window.__lenis = lenis;
+
+    if (typeof gsap !== 'undefined' && window.ScrollTrigger) {
+      /* Un solo reloj para los dos.
+         Con bucles de requestAnimationFrame separados, Lenis escribe el
+         scroll en su cuadro y ScrollTrigger lee el valor viejo en el suyo:
+         quedan 1 o 2 cuadros de desfasaje y con la rueda se nota como
+         saltos y tirones, sobre todo dentro de una seccion clavada.
+         La solucion es que Lenis corra adentro del ticker de GSAP. */
+      gsap.registerPlugin(window.ScrollTrigger);
+      lenis.on('scroll', window.ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000); // el ticker da segundos, Lenis espera ms
+      });
+      // Sin esto GSAP "recupera" cuadros perdidos y pega tirones.
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const lenisRaf = (time) => {
+        lenis.raf(time);
+        requestAnimationFrame(lenisRaf);
+      };
+      requestAnimationFrame(lenisRaf);
+    }
   }
 
   // 2. Sticky Header Compaction on Scroll
