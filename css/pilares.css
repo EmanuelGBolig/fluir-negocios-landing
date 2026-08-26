@@ -1134,6 +1134,14 @@
         padding: 1.4rem;
     }
 
+    /* Arriba la banda es una fila y #pilares .pilares-guia-txt lleva
+       flex: 1 1 320px, donde 320px es el ANCHO base. Al pasar a columna ese
+       mismo valor se interpreta como ALTO base: el texto ocupa 178px y la
+       caja se estiraba igual a 320px, dejando 142px de aire muerto. */
+    #pilares .pilares-guia-txt {
+        flex: 0 1 auto;
+    }
+
     #pilares .pilares-guia-btn {
         width: 100%;
         justify-content: center;

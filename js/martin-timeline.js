@@ -201,6 +201,9 @@
     // de la pagina entera clavada, y se sentia trabada. Se acota a px fijos
     // para que en monitores altos no crezca al pedo.
     function pasoPx() {
+        // clientWidth y no innerWidth, para que el corte caiga exacto en el
+        // mismo punto que el @media (max-width: 860px) del CSS.
+        if (document.documentElement.clientWidth <= 860) return 240;
         return Math.min(window.innerHeight * 0.45, 340);
     }
 

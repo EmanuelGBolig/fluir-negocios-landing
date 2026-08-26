@@ -3240,3 +3240,143 @@ body::after {
     display: none;
   }
 }
+
+/* ==========================================================================
+   ESCALA DE MOBILE
+   En 375px la pagina medía 16316px: 20 pantallas. Estos bloques recuperan
+   las grillas que colapsaban a una sola columna y compactan las tarjetas.
+   VAN AL FINAL: varias reglas base sin media query (.stat-number en 2218,
+   .pains-closing-banner en 2240) ya dejaban muertos los bloques mobile de
+   mas arriba, asi que estas solo ganan por orden de aparicion.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 4 tarjetas apiladas median 1204px. En 2x2 entran en 2 filas. */
+  .ecosystem-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .ecosystem-card {
+    padding: 1.15rem 0.95rem;
+  }
+
+  .ecosystem-top {
+    margin-bottom: 0.75rem;
+  }
+
+  .ecosystem-badge {
+    font-size: 0.62rem;
+  }
+
+  .ecosystem-title {
+    font-size: 1.05rem;
+  }
+
+  .ecosystem-card .pain-desc {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .ecosystem-link {
+    font-size: 0.68rem;
+    letter-spacing: 0;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  /* Sin el flex-shrink el icono se aplasta de 16px a 5px en la tarjeta de
+     texto mas largo y queda como un glifo roto. */
+  .ecosystem-link svg,
+  .ecosystem-link i {
+    flex: 0 0 14px;
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Red de seguridad a 320px: "acompanamiento" no entra y .brand-card tiene
+     overflow:hidden, asi que se recortaria en silencio. */
+  .ecosystem-link span {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 576px) {
+  /* --- que hago: tarjetas de dolor y de valor ---
+     Todo scopeado a #que-hago: metodo, ecosistema, casos y contacto tambien
+     usan .pain-desc y no hay que tocarlos. */
+  #que-hago .pains-list,
+  #que-hago .value-list {
+    gap: 0.75rem;
+  }
+
+  #que-hago .pain-card,
+  #que-hago .value-card {
+    padding: 1.05rem 1.1rem;
+    gap: 0.8rem;
+  }
+
+  #que-hago .pain-icon-box,
+  #que-hago .value-card-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  #que-hago .pain-title,
+  #que-hago .value-card-title {
+    line-height: 1.28;
+    margin-bottom: 0.3rem;
+  }
+
+  #que-hago .pain-title {
+    font-size: 1.05rem;
+  }
+
+  /* Un escalon arriba de los titulos de dolor, igual que en desktop: son el
+     argumento de venta. Cuesta 6px y vale la pena. */
+  #que-hago .value-card-title {
+    font-size: 1.15rem;
+  }
+
+  #que-hago .pain-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* --- que hago: banner de cierre ---
+     El prefijo #que-hago es load-bearing: las reglas de nivel raiz de la
+     linea 2240 ganan hoy incluso en mobile. Si alguien "limpia" el id, este
+     bloque deja de aplicar en silencio. */
+  #que-hago .pains-closing-banner {
+    padding: 1.5rem 1.15rem;
+  }
+
+  #que-hago .pains-closing-text {
+    font-size: 1.12rem;
+    line-height: 1.32;
+    margin-bottom: 0.9rem;
+  }
+
+  #que-hago .pains-closing-sub {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+  }
+
+  /* --- stats en 2x2 en vez de 4 apilados --- */
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem 0.75rem;
+  }
+
+  .stat-item {
+    padding: 0.5rem 0.25rem;
+  }
+
+  /* El clamp es obligatorio: "Fundador" es una palabra sola que no wrappea y
+     a 1.9rem fijo se sale 12px de la celda por debajo de 340px. Como body
+     tiene overflow-x:hidden, eso no se ve como scroll sino como texto
+     pisando el gap. */
+  .stat-number {
+    font-size: clamp(1.45rem, 8.1vw, 1.9rem);
+  }
+}

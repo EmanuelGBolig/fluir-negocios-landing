@@ -973,10 +973,43 @@ button.btn-secondary:hover {
 }
 
 @media (max-width: 560px) {
+    /* Los 4 reels 9:16 apilados median 2445px: 4 pantallas enteras solo esta
+       seccion. Pasan a carril horizontal con snap. El asomo de la siguiente
+       tarjeta (78% de ancho) es lo que avisa que hay mas. */
     .video-testis {
-        grid-template-columns: min(300px, 100%);
-        justify-content: center;
-        gap: 2rem;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        grid-template-columns: none;
+        gap: 1rem;
+        max-width: none;
+        /* margen negativo: sangra a pantalla completa anulando el padding
+           lateral del .container, para que el carril llegue a los bordes */
+        margin: 1.4rem -1.5rem 0.5rem;
+        padding: 0.8rem 1.5rem 1.8rem;
+    }
+
+    .video-testis::-webkit-scrollbar {
+        display: none;
+    }
+
+    .video-testi-item {
+        flex: 0 0 78%;
+        /* hay que resetear el max-width:300px de la regla base */
+        max-width: 78%;
+        scroll-snap-align: center;
+        margin: 0;
+    }
+
+    /* La sombra de desktop (0 20px 50px) se derrama 30px arriba y 70px abajo;
+       con overflow-y:hidden quedaria cortada plana. El padding vertical del
+       carril tampoco es decorativo: es lo que evita ese recorte. */
+    .video-testi {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
     }
 }
 
@@ -1379,15 +1412,10 @@ button.btn-secondary:hover {
         align-items: center;
     }
 
+    /* Con el grid ya en columna, la flecha entre pasos solo suma alto:
+       56px por flecha sin aportar nada. */
     .proceso-arrow {
-        padding: 1rem 0;
-        transform: none;
-        display: flex;
-        justify-content: center;
-    }
-
-    .proceso-arrow i {
-        transform: rotate(90deg);
+        display: none;
     }
 }
 
@@ -2965,7 +2993,15 @@ button.btn-secondary:hover {
 
 @media (max-width: 640px) {
     .hero-new {
-        padding: 144px 0 60px; /* 100px navbar + 44px alert bar */
+        /* La barra de alerta del PAC ya no existe, asi que los 44px que
+           reservaba sobraban. El valor final lo fija la escala de mobile
+           del final del archivo. */
+        padding: 144px 0 60px;
+    }
+
+    /* Cuadrada ocupaba 327px de alto en una pantalla de 375. */
+    .hero-img-card {
+        aspect-ratio: 4 / 3;
     }
     
     .hero-actions-new {
@@ -4783,4 +4819,157 @@ button.btn-secondary:hover {
         display: block;
     }
 
+}
+
+
+/* ===================================================
+   ESCALA DE MOBILE
+   Las secciones usaban el mismo padding vertical que en desktop (de 4 a
+   6rem), desproporcionado en una pantalla de 375px. Este bloque unifica
+   el ritmo vertical y compacta titulos, bajadas y listas.
+
+   VA AL FINAL A PROPOSITO: casi todas estas reglas tienen la misma
+   especificidad que las que pisan (.section-team, .section-cta-final,
+   .hero-new, .section-title) y solo ganan por orden de aparicion.
+   Si se mueve mas arriba, deja de aplicar en silencio.
+   =================================================== */
+@media (max-width: 768px) {
+    :root {
+        --sp-seccion: 3rem;
+        --sp-seccion-corta: 2.5rem;
+    }
+
+    .section-problema,
+    .section-programas,
+    .section-proceso,
+    .section-testimonials,
+    .section-team,
+    .section-success,
+    .section-faq {
+        padding: var(--sp-seccion) 0;
+    }
+
+    .section-guia-cta {
+        padding: var(--sp-seccion-corta) 0;
+    }
+
+    .stats-band {
+        padding: 2rem 0;
+    }
+
+    /* El 1rem lateral es obligatorio: sin el, el texto blanco queda pegado
+       al borde de la pantalla sobre el gradiente. */
+    .section-cta-final {
+        padding: 3.25rem 1rem;
+    }
+
+    .hero-new {
+        padding-top: 6.5rem;
+        padding-bottom: 3rem;
+    }
+
+    /* .section-pilares no entra aca: su padding lo pone #pilares en
+       pilares.css, que gana por ID y por orden de carga. */
+
+    /* --- titulos y bajadas --- */
+    .section-title {
+        font-size: 1.75rem;
+        line-height: 1.15;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Las dos pisan el margen del titulo con la misma especificidad,
+       asi que hay que repetirlas. */
+    .section-team .section-title,
+    .section-title.text-brand-gradient {
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title:has(+ .section-subtitle) {
+        margin-bottom: 0.75rem;
+    }
+
+    .section-title::after {
+        width: 52px;
+        height: 3px;
+        margin-top: 0.55rem;
+    }
+
+    .section-kicker {
+        margin-bottom: 0.6rem;
+    }
+
+    .section-subtitle {
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+    }
+
+    /* --- proceso: los pasos de tarjeta centrada a fila con sangria --- */
+    .proceso-grid {
+        gap: 0.75rem;
+    }
+
+    .proceso-step {
+        max-width: none;
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 0.85rem;
+        row-gap: 0.3rem;
+        text-align: left;
+        padding: 1.3rem 1.2rem;
+    }
+
+    /* min-width obligatorio: sin el, "01" mide 26.7px y "03" 31.7px, y los
+       tres titulos arrancan en x distintos. */
+    .paso-num {
+        grid-column: 1;
+        grid-row: 1;
+        min-width: 2.25rem;
+        font-size: 1.5rem;
+        opacity: 0.5;
+    }
+
+    .paso-title {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .paso-desc {
+        grid-column: 1 / -1;
+    }
+
+    /* --- casos: huecos internos --- */
+    .clientes-carousel-wrapper {
+        margin-bottom: 1.6rem;
+    }
+
+    .clientes-action {
+        margin-top: 2.2rem;
+    }
+}
+
+/* Lista de "cuando fluye": va en su propio bloque de primer nivel.
+   Anidarla dentro de otro @media daria un @media anidado, invalido en CSS
+   plano, y el navegador descartaria todo el bloque. */
+@media (max-width: 768px) {
+    .section-success .success-list {
+        gap: 0.6rem;
+    }
+
+    .section-success .success-list li {
+        padding: 0.75rem 0.9rem;
+        gap: 0.7rem;
+    }
+
+    .section-success .success-list li i {
+        font-size: 1.05rem;
+    }
+
+    /* No subir de 1rem: a 16.6px el primer item vuelve a 3 renglones y se
+       pierde un tercio del ahorro. */
+    .section-success .success-list li span {
+        font-size: 1rem;
+        line-height: 1.45;
+    }
 }
