@@ -3380,3 +3380,143 @@ body::after {
     font-size: clamp(1.45rem, 8.1vw, 1.9rem);
   }
 }
+
+/* ==========================================================================
+   CARRILES DE CASOS (mobile)
+   Los testimonios en video y los escritos dejan de apilarse.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .cases-videos {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.9rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .cases-videos::-webkit-scrollbar,
+  .cases-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 84% DEL RIEL, no 86vw: con vw el calculo ignora el padding lateral del
+     container y el asomo da -1.9px, o sea cero senial de que hay un segundo
+     video. Con 84% asoman 39px. */
+  .cases-videos .case-video-card {
+    flex: 0 0 84%;
+    scroll-snap-align: center;
+  }
+
+  /* El segundo video arranca clipeado por el riel, asi que el
+     IntersectionObserver de .reveal nunca dispara y lo dejaria en opacity 0
+     para siempre. */
+  html.js .cases-videos > .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .cases-grid {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.9rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 0;
+  }
+
+  /* 78vw y no 82vw: 82 deja un asomo de 12.9px que no invita a nada, y 78 no
+     cuesta ni un px de alto porque la cita rompe en 5 lineas igual. Ademas es
+     el ancho que ya usa .team-grid en la home. */
+  .case-card {
+    min-width: 78vw;
+    max-width: 78vw;
+    flex: 0 0 auto;
+    height: auto;
+    scroll-snap-align: center;
+  }
+
+  /* overflow-x:auto hace que overflow-y compute a auto: el :hover pegajoso
+     del touch levanta la tarjeta 4px y el riel le come el borde y el glow. */
+  .cases-grid .brand-card:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   GUIA DE CARRIL — version oscura de esta pagina
+   VA A PRIMER NIVEL, no adentro de un @media: la visibilidad la decide
+   js/carrusel.js con la clase .es-visible, y solo la pone cuando el carril
+   realmente scrollea. Si el `display: none` base queda dentro del media
+   query, en desktop la regla no existe y la guia aparece igual.
+   ========================================================================== */
+/* --- guia del carril, version oscura --- */
+.carril-guia {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 0.7rem;
+}
+
+.carril-guia.es-visible {
+  display: flex;
+}
+
+.carril-guia-txt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--niebla);
+}
+
+.carril-guia-txt svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--dorado);
+}
+
+.carril-guia-btns {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.carril-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201, 162, 75, 0.12);
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  color: var(--dorado);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.carril-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.carril-btn:hover:not(:disabled) {
+  background: var(--dorado);
+  color: var(--noche);
+}
+
+.carril-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
