@@ -2740,188 +2740,109 @@ body::after {
   }
 }
 
+
 /* ==========================================================================
-   LÍNEA DE TIEMPO HORIZONTAL (dentro de "Sobre mí")
+   LÍNEA DE TIEMPO — escena anclada
+   La sección se "clava" mientras se scrollea y cada etapa entra desde la
+   derecha tapando a la anterior. El alto del riel define cuánto scroll
+   ocupa el recorrido: --paso por cada etapa después de la primera.
    ========================================================================== */
-.tl {
-  margin-top: 4.5rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--crema-borde);
+.tl2 {
+  --paso: 68vh;
+  background: var(--crema);
+  position: relative;
 }
 
-.tl-cab {
+/* El pin lo hace ScrollTrigger con su propio spacer: no va sticky acá,
+   se pelearían. */
+.tl2-fijo {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 5.5rem 0 2.5rem;
+  overflow: hidden;
+}
+
+.tl2-cab {
   text-align: center;
-  margin-bottom: 2.25rem;
+  flex-shrink: 0;
 }
 
-.tl-titulo {
+.tl2-titulo {
   font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
   font-weight: 600;
   line-height: 1.2;
   color: var(--carbon);
-  margin: 0 0 0.6rem;
+  margin: 0;
 }
 
-.tl-bajada {
-  font-family: var(--font-sans);
-  color: var(--carbon-suave);
-  max-width: 560px;
-  margin: 0 auto;
-}
-
-/* --- eje de años --- */
-.tl-eje {
-  position: relative;
-  margin-bottom: 1.8rem;
-  padding: 0 0.5rem;
-}
-
-.tl-eje-linea {
-  position: absolute;
-  left: 0.5rem;
-  right: 0.5rem;
-  top: 11px;
-  height: 2px;
-  background: var(--crema-borde);
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-}
-
-.tl-eje-linea > i {
-  display: block;
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, var(--dorado), var(--dorado2));
-  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tl-anios {
-  position: relative;
+/* --- escena: las etapas se apilan una sobre otra ---
+   El que crece es el .container que la envuelve; la escena lo llena.
+   Si el flex:1 queda en .tl2-escena, colapsa a 2px de alto. */
+.tl2-escena-cont {
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
-  justify-content: space-between;
-  gap: 0.4rem;
-  overflow-x: auto;
-  scrollbar-width: none;
 }
 
-.tl-anios::-webkit-scrollbar {
-  display: none;
-}
-
-.tl-anio {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  font-family: var(--font-sans);
-}
-
-.tl-punto {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--crema);
-  border: 2px solid var(--crema-borde);
-  transition: var(--transition-smooth);
-}
-
-.tl-anio.es-hecho .tl-punto {
-  border-color: var(--dorado);
-  background: var(--dorado-translucent);
-}
-
-.tl-anio.es-activo .tl-punto {
-  border-color: var(--dorado);
-  background: var(--dorado);
-  transform: scale(1.15);
-  box-shadow: 0 0 0 6px var(--dorado-subtle);
-}
-
-.tl-anio-txt {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--carbon-suave);
-  letter-spacing: 0.02em;
-  transition: var(--transition-fast);
-  white-space: nowrap;
-}
-
-.tl-anio.es-activo .tl-anio-txt {
-  color: var(--carbon);
-}
-
-.tl-anio:hover .tl-anio-txt {
-  color: var(--dorado);
-}
-
-/* --- carril de tarjetas --- */
-.tl-carril {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding-bottom: 0.5rem;
-}
-
-.tl-carril::-webkit-scrollbar {
-  display: none;
-}
-
-.tl-carril.es-arrastrando {
-  cursor: grabbing;
-  scroll-snap-type: none;
-}
-
-.tl-card {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 2rem;
-  align-items: center;
-  opacity: 0.55;
-  transition: opacity 0.4s ease;
-}
-
-.tl-card.es-activo {
-  opacity: 1;
-}
-
-.tl-media {
+.tl2-escena {
   position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--marino);
-  aspect-ratio: 4 / 3;
+  background: var(--crema-card);
   border: 1px solid var(--crema-borde);
+  box-shadow: 0 24px 60px rgba(46, 48, 48, 0.1);
 }
 
-.tl-media img,
-.tl-video {
+.tl2-etapa {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  background: var(--crema-card);
+  will-change: transform;
+  /* Sin transición: la posición la maneja el scroll cuadro a cuadro. */
+}
+
+.tl2-etapa-tapa {
+  position: absolute;
+  inset: 0;
+  background: var(--noche);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tl2-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--marino);
+}
+
+.tl2-media img,
+.tl2-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.tl-media--video-vacio img {
+.tl2-media--video-vacio img {
   filter: brightness(0.55);
 }
 
-.tl-play {
+.tl2-play {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 62px;
-  height: 62px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2931,12 +2852,12 @@ body::after {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-/* Aviso de material provisorio: se saca al poner el archivo real
-   (sacando `pendiente: true` del hito en martin-timeline.js). */
-.tl-media-aviso {
+/* Aviso de material provisorio: desaparece al sacar `pendiente: true`
+   del hito en js/martin-timeline.js. */
+.tl2-aviso {
   position: absolute;
-  left: 0.75rem;
-  bottom: 0.75rem;
+  left: 0.85rem;
+  bottom: 0.85rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -2945,132 +2866,280 @@ body::after {
   background: rgba(6, 15, 32, 0.78);
   color: var(--claro);
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   backdrop-filter: blur(4px);
 }
 
-.tl-media-aviso svg {
+.tl2-aviso svg {
   width: 13px;
   height: 13px;
 }
 
-.tl-cuerpo-top {
+.tl2-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.5rem, 3.5vw, 3rem);
+  min-width: 0;
+}
+
+.tl2-texto-top {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
+  flex-wrap: wrap;
 }
 
-.tl-card-anio {
+.tl2-anio {
   font-family: var(--font-sans);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 3px;
   color: var(--dorado);
 }
 
-.tl-chapa {
+.tl2-chapa {
   font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #9a6d0b;
   background: rgba(201, 162, 75, 0.16);
   border: 1px solid rgba(201, 162, 75, 0.45);
-  padding: 0.22rem 0.6rem;
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-pill);
 }
 
-.tl-card-titulo {
+.tl2-etapa-titulo {
   font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
   font-weight: 600;
-  line-height: 1.22;
+  line-height: 1.2;
   color: var(--carbon);
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.75rem;
 }
 
-.tl-card-texto {
+.tl2-etapa-texto {
   font-family: var(--font-sans);
   color: var(--carbon-suave);
-  line-height: 1.65;
+  line-height: 1.62;
   margin: 0;
+  font-size: clamp(0.92rem, 1.1vw, 1.02rem);
 }
 
-/* --- controles --- */
-.tl-controles {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  margin-top: 2rem;
+/* --- eje de años --- */
+.tl2-eje {
+  position: relative;
+  flex-shrink: 0;
+  padding: 0 0.5rem;
 }
 
-.tl-nav {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
+.tl2-linea {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  top: 9px;
+  height: 2px;
+  background: var(--crema-borde);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.tl2-linea > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--dorado), var(--dorado2));
+}
+
+.tl2-anios {
+  position: relative;
   display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.tl2-anio-btn {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: var(--crema-card);
-  border: 1px solid var(--crema-borde);
-  color: var(--carbon);
+  gap: 0.45rem;
+  background: none;
+  border: 0;
+  padding: 0;
   cursor: pointer;
+  font-family: var(--font-sans);
+  flex: 1 0 auto;
+}
+
+.tl2-punto {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--crema);
+  border: 2px solid var(--crema-borde);
   transition: var(--transition-smooth);
 }
 
-.tl-nav:hover:not(:disabled) {
-  background: var(--dorado);
+.tl2-anio-btn.es-hecho .tl2-punto {
   border-color: var(--dorado);
-  color: var(--noche);
-  transform: translateY(-2px);
+  background: var(--dorado-translucent);
 }
 
-.tl-nav:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+.tl2-anio-btn.es-activo .tl2-punto {
+  border-color: var(--dorado);
+  background: var(--dorado);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 5px var(--dorado-subtle);
 }
 
-.tl-nav svg {
-  width: 19px;
-  height: 19px;
-}
-
-.tl-pos {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
+.tl2-anio-txt {
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--carbon-suave);
-  min-width: 54px;
-  text-align: center;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.tl2-anio-btn.es-activo .tl2-anio-txt {
+  color: var(--carbon);
+}
+
+.tl2-anio-btn:hover .tl2-anio-txt {
+  color: var(--dorado);
+}
+
+/* Pista de que hay que seguir scrolleando; se apaga al arrancar. */
+.tl2-pista {
+  position: absolute;
+  left: 50%;
+  bottom: 0.25rem;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--carbon-suave);
+  opacity: 0.85;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.tl2.es-andando .tl2-pista {
+  opacity: 0;
+}
+
+.tl2-pista svg {
+  width: 15px;
+  height: 15px;
 }
 
 @media (max-width: 860px) {
-  .tl-card {
+  .tl2 {
+    --paso: 58vh;
+  }
+
+  .tl2-fijo {
+    padding: 4.5rem 0 2rem;
+    gap: 1rem;
+  }
+
+  .tl2-etapa {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .tl2-anio-txt {
+    font-size: 0.72rem;
+  }
+
+  .tl2-punto {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Sin GSAP o con movimiento reducido: se apila en vertical y se lee
+   de corrido, sin animación. */
+.tl2.es-estatico .tl2-fijo,
+.tl2.es-estatico .tl2-escena,
+.tl2.es-estatico .tl2-etapa,
+.tl2.es-estatico .tl2-eje,
+.tl2.es-estatico .tl2-pista {
+  /* los valores concretos están en el bloque de abajo, compartidos */
+}
+
+.tl2.es-estatico .tl2-fijo {
+  height: auto;
+  overflow: visible;
+  padding: 2.5rem 0;
+}
+
+.tl2.es-estatico .tl2-escena {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.tl2.es-estatico .tl2-etapa {
+  position: relative;
+  inset: auto;
+  transform: none !important;
+  min-height: 320px;
+  border: 1px solid var(--crema-borde);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.tl2.es-estatico .tl2-etapa-tapa,
+.tl2.es-estatico .tl2-pista {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl2-fijo {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .tl2-escena {
+    display: flex;
+    flex-direction: column;
     gap: 1.25rem;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    overflow: visible;
   }
 
-  .tl-media {
-    aspect-ratio: 16 / 10;
+  .tl2-etapa {
+    position: relative;
+    inset: auto;
+    transform: none !important;
+    min-height: 320px;
+    border: 1px solid var(--crema-borde);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
   }
 
-  .tl-anios {
-    justify-content: flex-start;
-    gap: 1.75rem;
-  }
-
-  .tl-eje-linea {
+  .tl2-etapa-tapa {
     display: none;
   }
 
-  .tl {
-    margin-top: 3rem;
-    padding-top: 2.25rem;
+  .tl2-eje,
+  .tl2-pista {
+    display: none;
   }
 }

@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(lenisRaf);
     };
     requestAnimationFrame(lenisRaf);
+    // Se expone para que la linea de tiempo pueda scrollear sin pelearse
+    // con el suavizado (window.scrollTo compite con Lenis).
+    window.__lenis = lenis;
   }
 
   // 2. Sticky Header Compaction on Scroll

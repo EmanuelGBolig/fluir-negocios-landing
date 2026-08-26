@@ -37,7 +37,7 @@
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
   <!-- Custom Brand Stylesheet for Martín Troncoso -->
-  <link rel="stylesheet" href="../css/martin-troncoso.css?v=4.0">
+  <link rel="stylesheet" href="../css/martin-troncoso.css?v=4.2">
 
   <!-- Schema.org JSON-LD (Person & ProfessionalService) -->
   <script type="application/ld+json">
@@ -368,27 +368,29 @@
           </div>
         </div>
 
-        <!-- Línea de tiempo horizontal. El contenido se arma desde el array
-             HITOS de js/martin-timeline.js: no hay que tocar este HTML. -->
-        <div class="tl reveal" id="tl">
-          <div class="tl-cab">
-            <span class="eyebrow">LA TRAYECTORIA</span>
-            <h3 class="tl-titulo">De coach a <span class="accent-gold-italic">líder de equipos</span></h3>
-            <p class="tl-bajada">Desde 2013 hasta hoy. Movete por la línea para recorrer cada paso del camino.</p>
-          </div>
+      </div>
+    </section>
 
-          <div class="tl-eje">
-            <div class="tl-eje-linea"><i id="tlAvance"></i></div>
-            <div class="tl-anios" id="tlAnios" role="tablist" aria-label="Años de la trayectoria"></div>
-          </div>
+    <!-- ==========================================================================
+         4b. LÍNEA DE TIEMPO — escena anclada
+         El contenido sale del array HITOS de js/martin-timeline.js.
+         No hace falta tocar este HTML.
+         ========================================================================== -->
+    <section class="tl2 section--crema" id="tl" aria-label="Trayectoria de Martín Troncoso">
+      <div class="tl2-fijo">
+        <div class="container tl2-cab">
+          <span class="eyebrow">LA TRAYECTORIA</span>
+          <h3 class="tl2-titulo">De coach a <span class="accent-gold-italic">líder de equipos</span></h3>
+        </div>
 
-          <div class="tl-carril" id="tlCarril" tabindex="0" aria-label="Hitos de la trayectoria"></div>
+        <div class="container tl2-escena-cont">
+          <div class="tl2-escena" id="tlEscena"></div>
+        </div>
 
-          <div class="tl-controles">
-            <button type="button" class="tl-nav" data-dir="-1" aria-label="Hito anterior"><i data-lucide="arrow-left"></i></button>
-            <span class="tl-pos" id="tlPos">1 / 1</span>
-            <button type="button" class="tl-nav" data-dir="1" aria-label="Hito siguiente"><i data-lucide="arrow-right"></i></button>
-          </div>
+        <div class="container tl2-eje">
+          <div class="tl2-linea"><i id="tlAvance"></i></div>
+          <div class="tl2-anios" id="tlAnios"></div>
+          <span class="tl2-pista"><i data-lucide="mouse-pointer-2"></i> Seguí scrolleando para avanzar en el tiempo</span>
         </div>
       </div>
     </section>
@@ -1025,8 +1027,10 @@
   </button>
 
   <!-- Script interactivo de Martín Troncoso -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="../js/martin-troncoso.js?v=3.9"></script>
-  <script src="../js/martin-timeline.js?v=1.1"></script>
+  <script src="../js/martin-timeline.js?v=2.0"></script>
 </body>
 
 </html>
