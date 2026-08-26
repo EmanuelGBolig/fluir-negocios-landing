@@ -20,46 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 1b. Lenis Smooth Scroll (solo sin prefers-reduced-motion)
-  let lenis = null;
-  /* Para comparar: agregando ?nosmooth=1 a la URL se desactiva Lenis y la
-     pagina usa el scroll nativo del navegador. Sirve para decidir si el
-     scroll suavizado suma o molesta, sin tener que tocar codigo. */
-  const SIN_SUAVIZADO = /[?&]nosmooth=1/.test(location.search);
-
-  if (!REDUCED_MOTION && !SIN_SUAVIZADO && typeof Lenis !== 'undefined') {
-    // lerp 0.1 se sentia flotante: la pagina seguia moviendose despues de
-    // soltar la rueda. 0.18 responde mas seco sin perder el suavizado.
-    lenis = new Lenis({ lerp: 0.18, smoothWheel: true });
-    // Lenis maneja el suavizado: desactivar el smooth nativo para evitar doble easing
-    document.documentElement.style.scrollBehavior = 'auto';
-
-    // Se expone para que la linea de tiempo pueda scrollear sin pelearse
-    // con el suavizado (window.scrollTo compite con Lenis).
-    window.__lenis = lenis;
-
-    if (typeof gsap !== 'undefined' && window.ScrollTrigger) {
-      /* Un solo reloj para los dos.
-         Con bucles de requestAnimationFrame separados, Lenis escribe el
-         scroll en su cuadro y ScrollTrigger lee el valor viejo en el suyo:
-         quedan 1 o 2 cuadros de desfasaje y con la rueda se nota como
-         saltos y tirones, sobre todo dentro de una seccion clavada.
-         La solucion es que Lenis corra adentro del ticker de GSAP. */
-      gsap.registerPlugin(window.ScrollTrigger);
-      lenis.on('scroll', window.ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000); // el ticker da segundos, Lenis espera ms
-      });
-      // Sin esto GSAP "recupera" cuadros perdidos y pega tirones.
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      const lenisRaf = (time) => {
-        lenis.raf(time);
-        requestAnimationFrame(lenisRaf);
-      };
-      requestAnimationFrame(lenisRaf);
-    }
-  }
+  /* Scroll nativo del navegador, a proposito.
+     Antes esta pagina usaba Lenis (scroll suavizado por JS). Se saco: la
+     inercia propia desacopla la rueda de la pagina y se sentia raro, y
+     ademas obligaba a sincronizarlo cuadro a cuadro con ScrollTrigger.
+     Los saltos a anclajes se suavizan con scrollIntoView, que no toca el
+     scroll normal. Las guardas `if (lenis)` de mas abajo caen solas en su
+     rama nativa. */
+  const lenis = null;
 
   // 2. Sticky Header Compaction on Scroll
   const navbar = document.querySelector('.navbar');
@@ -224,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6b. Anclajes internos integrados con Lenis (nav, footer, CTAs locales)
+  // 6b. Anclajes internos (nav, footer, CTAs locales)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const hash = anchor.getAttribute('href');

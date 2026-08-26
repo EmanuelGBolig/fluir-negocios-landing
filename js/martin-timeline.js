@@ -206,8 +206,7 @@
             end: function () { return '+=' + (N - 1) * pasoPx(); },
             pin: elFijo,
             pinSpacing: true,
-            // scrub true y no un numero: Lenis ya suaviza el scroll, y sumarle
-            // el lag de GSAP encima se siente pesado.
+            // scrub true y no un numero: sigue al scroll sin lag agregado.
             scrub: true,
             // Evita el salto al entrar al pin scrolleando rapido.
             anticipatePin: 1,
@@ -239,8 +238,7 @@
         var i = parseInt(b.getAttribute('data-i'), 10);
         var st = linea.scrollTrigger;
         var destino = st.start + (st.end - st.start) * (i / (N - 1));
-        if (window.__lenis && window.__lenis.scrollTo) window.__lenis.scrollTo(destino);
-        else window.scrollTo({ top: destino, behavior: 'smooth' });
+        window.scrollTo({ top: destino, behavior: 'smooth' });
     });
 
     // Las imágenes entran con lazy load y cambian el alto: hay que recalcular.
