@@ -8,6 +8,11 @@
    PARA COMPLETAR: todo el contenido vive en el array HITOS de acá abajo.
    No hace falta tocar nada más.
 
+   CADENCIA: la linea va cada 2 anios, no anio por anio. La unica excepcion
+   es el salto 2013 -> 2016, porque los dos son fechas reales (el arranque
+   como coach y la apertura de Fluir Coaching) y no se pueden mover.
+   Al sumar hitos, respetar el paso de 2 anios.
+
    Cada hito:
      anio      texto del eje (string: sirve "2013" o "2016-2018")
      titulo    título corto del hito
@@ -32,14 +37,6 @@
             media: { tipo: 'imagen', src: '../assets/carousel/hero-2.webp', alt: 'Martín Troncoso en sus primeros años como coach' },
             pendiente: true
             // real: dato del propio Martín
-        },
-        {
-            anio: '2014',
-            titulo: 'Los primeros entrenamientos',
-            texto: 'Reemplazar por el hito real de este año: qué entrenamiento dio, con quién se formó o qué aprendió.',
-            media: { tipo: 'imagen', src: '../assets/carousel/hero-3.webp', alt: 'Entrenamiento' },
-            pendiente: true,
-            borrador: true
         },
         {
             anio: '2016',
@@ -163,14 +160,22 @@
     var etapas = elEscena.querySelectorAll('.tl2-etapa');
     var N = HITOS.length;
 
+    var indiceActual = 0;
+
     function marcar(p) {
         var idx = Math.round(p * (N - 1));
+        indiceActual = idx;
         for (var i = 0; i < botones.length; i++) {
             botones[i].classList.toggle('es-activo', i === idx);
             botones[i].classList.toggle('es-hecho', i < idx);
         }
         if (elAvance) elAvance.style.width = (p * 100).toFixed(2) + '%';
         raiz.classList.toggle('es-andando', p > 0.02);
+
+        var atras = raiz.querySelector('[data-dir="-1"]');
+        var adelante = raiz.querySelector('[data-dir="1"]');
+        if (atras) atras.disabled = idx <= 0;
+        if (adelante) adelante.disabled = idx >= N - 1;
     }
 
     var sinMovimiento = window.matchMedia &&
@@ -231,14 +236,35 @@
 
     marcar(0);
 
-    // Clic en un año: se calcula la posición de scroll de esa etapa.
-    elAnios.addEventListener('click', function (e) {
-        var b = e.target.closest('.tl2-anio-btn');
-        if (!b) return;
-        var i = parseInt(b.getAttribute('data-i'), 10);
+    /* Ir a una etapa. Como el recorrido lo maneja el scroll, "ir" es
+       scrollear a la posicion que le corresponde a esa etapa dentro del pin. */
+    function irAEtapa(i) {
+        i = Math.max(0, Math.min(N - 1, i));
         var st = linea.scrollTrigger;
+        if (!st) return;
         var destino = st.start + (st.end - st.start) * (i / (N - 1));
         window.scrollTo({ top: destino, behavior: 'smooth' });
+        marcar(i / (N - 1));
+    }
+
+    elAnios.addEventListener('click', function (e) {
+        var b = e.target.closest('.tl2-anio-btn');
+        if (b) irAEtapa(parseInt(b.getAttribute('data-i'), 10));
+    });
+
+    raiz.addEventListener('click', function (e) {
+        var f = e.target.closest('.tl2-flecha');
+        if (f && !f.disabled) irAEtapa(indiceActual + parseInt(f.getAttribute('data-dir'), 10));
+    });
+
+    // Flechas del teclado cuando la seccion esta en pantalla.
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        var r = raiz.getBoundingClientRect();
+        if (r.top > 0 || r.bottom < window.innerHeight) return; // no esta clavada
+        if (e.target.closest('input, textarea, select')) return;
+        e.preventDefault();
+        irAEtapa(indiceActual + (e.key === 'ArrowRight' ? 1 : -1));
     });
 
     // Las imágenes entran con lazy load y cambian el alto: hay que recalcular.

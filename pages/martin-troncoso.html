@@ -35,7 +35,7 @@
 
 
   <!-- Custom Brand Stylesheet for Martín Troncoso -->
-  <link rel="stylesheet" href="../css/martin-troncoso.css?v=4.8">
+  <link rel="stylesheet" href="../css/martin-troncoso.css?v=5.1">
 
   <!-- Schema.org JSON-LD (Person & ProfessionalService) -->
   <script type="application/ld+json">
@@ -379,16 +379,25 @@
         <div class="container tl2-cab">
           <span class="eyebrow">LA TRAYECTORIA</span>
           <h3 class="tl2-titulo">De coach a <span class="accent-gold-italic">líder de equipos</span></h3>
+          <p class="tl2-instruccion">
+            <i data-lucide="mouse-pointer-2" aria-hidden="true"></i>
+            <span>Scrolleá para avanzar en el tiempo, o tocá <b>las flechas</b> y <b>los años</b>.</span>
+          </p>
         </div>
 
         <div class="container tl2-escena-cont">
           <div class="tl2-escena" id="tlEscena"></div>
+          <button type="button" class="tl2-flecha tl2-flecha--atras" data-dir="-1" aria-label="Etapa anterior">
+            <i data-lucide="chevron-left" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="tl2-flecha tl2-flecha--adelante" data-dir="1" aria-label="Etapa siguiente">
+            <i data-lucide="chevron-right" aria-hidden="true"></i>
+          </button>
         </div>
 
         <div class="container tl2-eje">
           <div class="tl2-linea"><i id="tlAvance"></i></div>
           <div class="tl2-anios" id="tlAnios"></div>
-          <span class="tl2-pista"><i data-lucide="mouse-pointer-2"></i> Seguí scrolleando para avanzar en el tiempo</span>
         </div>
       </div>
     </section>
@@ -1028,7 +1037,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="../js/martin-troncoso.js?v=5.0"></script>
-  <script src="../js/martin-timeline.js?v=2.4"></script>
+  <script src="../js/martin-timeline.js?v=2.6"></script>
 </body>
 
 </html>
