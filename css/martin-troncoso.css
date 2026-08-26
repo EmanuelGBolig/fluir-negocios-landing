@@ -56,20 +56,36 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* auto y no smooth: ScrollTrigger pide que no este, porque le interfiere
+     el calculo de posiciones. Los saltos a anclajes ya los suaviza el JS,
+     con Lenis o con scrollIntoView. */
+  scroll-behavior: auto;
   font-size: 16px;
+  /* El color base va acá: si queda en body, la capa de fondo (body::before,
+     en z-index -1) podría pintarse por detrás y no verse el gradiente. */
+  background-color: var(--noche);
 }
 
 body {
-  background-color: var(--noche);
-  background-image: radial-gradient(circle at 50% 0%, var(--marino) 0%, var(--noche) 85%);
-  background-attachment: fixed;
   color: var(--marfil);
   font-family: var(--font-sans);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* El gradiente iba en el body con background-attachment: fixed, que obliga
+   al navegador a repintar el fondo entero en cada cuadro de scroll. Con una
+   capa fija propia se ve exactamente igual, pero se compone una sola vez. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--noche);
+  background-image: radial-gradient(circle at 50% 0%, var(--marino) 0%, var(--noche) 85%);
 }
 
 /* Headings */
@@ -2874,7 +2890,9 @@ body::after {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  backdrop-filter: blur(4px);
+  /* Sin backdrop-filter: son 8 chapas dentro de la escena clavada y cada
+     una fuerza una capa que se recompone en cada cuadro. A este tamanio el
+     fondo solido se ve igual. */
 }
 
 .tl2-aviso svg {

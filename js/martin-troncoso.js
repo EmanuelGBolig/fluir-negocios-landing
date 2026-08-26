@@ -22,8 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1b. Lenis Smooth Scroll (solo sin prefers-reduced-motion)
   let lenis = null;
-  if (!REDUCED_MOTION && typeof Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+  /* Para comparar: agregando ?nosmooth=1 a la URL se desactiva Lenis y la
+     pagina usa el scroll nativo del navegador. Sirve para decidir si el
+     scroll suavizado suma o molesta, sin tener que tocar codigo. */
+  const SIN_SUAVIZADO = /[?&]nosmooth=1/.test(location.search);
+
+  if (!REDUCED_MOTION && !SIN_SUAVIZADO && typeof Lenis !== 'undefined') {
+    // lerp 0.1 se sentia flotante: la pagina seguia moviendose despues de
+    // soltar la rueda. 0.18 responde mas seco sin perder el suavizado.
+    lenis = new Lenis({ lerp: 0.18, smoothWheel: true });
     // Lenis maneja el suavizado: desactivar el smooth nativo para evitar doble easing
     document.documentElement.style.scrollBehavior = 'auto';
 
