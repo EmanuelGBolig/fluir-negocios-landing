@@ -37,7 +37,7 @@
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
   <!-- Custom Brand Stylesheet for Martín Troncoso -->
-  <link rel="stylesheet" href="../css/martin-troncoso.css?v=3.9">
+  <link rel="stylesheet" href="../css/martin-troncoso.css?v=4.0">
 
   <!-- Schema.org JSON-LD (Person & ProfessionalService) -->
   <script type="application/ld+json">
@@ -365,6 +365,29 @@
                 "Soy un ser humano completo por integrar todas las cosas."
               </p>
             </div>
+          </div>
+        </div>
+
+        <!-- Línea de tiempo horizontal. El contenido se arma desde el array
+             HITOS de js/martin-timeline.js: no hay que tocar este HTML. -->
+        <div class="tl reveal" id="tl">
+          <div class="tl-cab">
+            <span class="eyebrow">LA TRAYECTORIA</span>
+            <h3 class="tl-titulo">De coach a <span class="accent-gold-italic">líder de equipos</span></h3>
+            <p class="tl-bajada">Desde 2013 hasta hoy. Movete por la línea para recorrer cada paso del camino.</p>
+          </div>
+
+          <div class="tl-eje">
+            <div class="tl-eje-linea"><i id="tlAvance"></i></div>
+            <div class="tl-anios" id="tlAnios" role="tablist" aria-label="Años de la trayectoria"></div>
+          </div>
+
+          <div class="tl-carril" id="tlCarril" tabindex="0" aria-label="Hitos de la trayectoria"></div>
+
+          <div class="tl-controles">
+            <button type="button" class="tl-nav" data-dir="-1" aria-label="Hito anterior"><i data-lucide="arrow-left"></i></button>
+            <span class="tl-pos" id="tlPos">1 / 1</span>
+            <button type="button" class="tl-nav" data-dir="1" aria-label="Hito siguiente"><i data-lucide="arrow-right"></i></button>
           </div>
         </div>
       </div>
@@ -1003,6 +1026,7 @@
 
   <!-- Script interactivo de Martín Troncoso -->
   <script src="../js/martin-troncoso.js?v=3.9"></script>
+  <script src="../js/martin-timeline.js?v=1.1"></script>
 </body>
 
 </html>

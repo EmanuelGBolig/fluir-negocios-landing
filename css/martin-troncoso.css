@@ -2739,3 +2739,338 @@ body::after {
     background: linear-gradient(135deg, rgba(27, 51, 88, 0.94) 0%, rgba(10, 24, 48, 0.96) 100%);
   }
 }
+
+/* ==========================================================================
+   LÍNEA DE TIEMPO HORIZONTAL (dentro de "Sobre mí")
+   ========================================================================== */
+.tl {
+  margin-top: 4.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--crema-borde);
+}
+
+.tl-cab {
+  text-align: center;
+  margin-bottom: 2.25rem;
+}
+
+.tl-titulo {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--carbon);
+  margin: 0 0 0.6rem;
+}
+
+.tl-bajada {
+  font-family: var(--font-sans);
+  color: var(--carbon-suave);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* --- eje de años --- */
+.tl-eje {
+  position: relative;
+  margin-bottom: 1.8rem;
+  padding: 0 0.5rem;
+}
+
+.tl-eje-linea {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  top: 11px;
+  height: 2px;
+  background: var(--crema-borde);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.tl-eje-linea > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--dorado), var(--dorado2));
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tl-anios {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tl-anios::-webkit-scrollbar {
+  display: none;
+}
+
+.tl-anio {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.tl-punto {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--crema);
+  border: 2px solid var(--crema-borde);
+  transition: var(--transition-smooth);
+}
+
+.tl-anio.es-hecho .tl-punto {
+  border-color: var(--dorado);
+  background: var(--dorado-translucent);
+}
+
+.tl-anio.es-activo .tl-punto {
+  border-color: var(--dorado);
+  background: var(--dorado);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px var(--dorado-subtle);
+}
+
+.tl-anio-txt {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--carbon-suave);
+  letter-spacing: 0.02em;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tl-anio.es-activo .tl-anio-txt {
+  color: var(--carbon);
+}
+
+.tl-anio:hover .tl-anio-txt {
+  color: var(--dorado);
+}
+
+/* --- carril de tarjetas --- */
+.tl-carril {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 0.5rem;
+}
+
+.tl-carril::-webkit-scrollbar {
+  display: none;
+}
+
+.tl-carril.es-arrastrando {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.tl-card {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+
+.tl-card.es-activo {
+  opacity: 1;
+}
+
+.tl-media {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--marino);
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--crema-borde);
+}
+
+.tl-media img,
+.tl-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tl-media--video-vacio img {
+  filter: brightness(0.55);
+}
+
+.tl-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201, 162, 75, 0.92);
+  color: var(--noche);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Aviso de material provisorio: se saca al poner el archivo real
+   (sacando `pendiente: true` del hito en martin-timeline.js). */
+.tl-media-aviso {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: rgba(6, 15, 32, 0.78);
+  color: var(--claro);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.tl-media-aviso svg {
+  width: 13px;
+  height: 13px;
+}
+
+.tl-cuerpo-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.tl-card-anio {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--dorado);
+}
+
+.tl-chapa {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a6d0b;
+  background: rgba(201, 162, 75, 0.16);
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  padding: 0.22rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+
+.tl-card-titulo {
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.22;
+  color: var(--carbon);
+  margin: 0 0 0.7rem;
+}
+
+.tl-card-texto {
+  font-family: var(--font-sans);
+  color: var(--carbon-suave);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* --- controles --- */
+.tl-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.tl-nav {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--crema-card);
+  border: 1px solid var(--crema-borde);
+  color: var(--carbon);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.tl-nav:hover:not(:disabled) {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--noche);
+  transform: translateY(-2px);
+}
+
+.tl-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.tl-nav svg {
+  width: 19px;
+  height: 19px;
+}
+
+.tl-pos {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--carbon-suave);
+  min-width: 54px;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .tl-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .tl-media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .tl-anios {
+    justify-content: flex-start;
+    gap: 1.75rem;
+  }
+
+  .tl-eje-linea {
+    display: none;
+  }
+
+  .tl {
+    margin-top: 3rem;
+    padding-top: 2.25rem;
+  }
+}
