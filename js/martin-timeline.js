@@ -187,20 +187,36 @@
     gsap.registerPlugin(window.ScrollTrigger);
     var ST = window.ScrollTrigger;
 
+    // En mobile, mostrar/ocultar la barra de direcciones cambia el alto del
+    // viewport y dispara un refresh que hace saltar el pin. Esto lo ignora.
+    ST.config({ ignoreMobileResize: true });
+
     // Lenis maneja el scroll suavizado: hay que avisarle a ScrollTrigger
     // en cada cuadro, si no las posiciones quedan desfasadas.
     if (window.__lenis && window.__lenis.on) {
         window.__lenis.on('scroll', ST.update);
     }
 
+    // Cuanto scroll ocupa pasar de una etapa a la siguiente.
+    // Con 0.85 de pantalla por etapa el recorrido daba 5.9 pantallas: el 25%
+    // de la pagina entera clavada, y se sentia trabada. Se acota a px fijos
+    // para que en monitores altos no crezca al pedo.
+    function pasoPx() {
+        return Math.min(window.innerHeight * 0.45, 340);
+    }
+
     var linea = gsap.timeline({
         scrollTrigger: {
             trigger: raiz,
             start: 'top top',
-            end: function () { return '+=' + (N - 1) * window.innerHeight * 0.85; },
+            end: function () { return '+=' + (N - 1) * pasoPx(); },
             pin: elFijo,
             pinSpacing: true,
-            scrub: 0.6,
+            // scrub true y no un numero: Lenis ya suaviza el scroll, y sumarle
+            // el lag de GSAP encima se siente pesado.
+            scrub: true,
+            // Evita el salto al entrar al pin scrolleando rapido.
+            anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: function (self) { marcar(self.progress); }
         }

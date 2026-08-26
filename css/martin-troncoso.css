@@ -2757,6 +2757,9 @@ body::after {
    se pelearían. */
 .tl2-fijo {
   height: 100vh;
+  /* svh no cambia cuando aparece/desaparece la barra del navegador: sin
+     esto el alto del panel clavado se movia mientras se scrollea. */
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2806,8 +2809,9 @@ body::after {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   background: var(--crema-card);
-  will-change: transform;
-  /* Sin transición: la posición la maneja el scroll cuadro a cuadro. */
+  /* Sin transición: la posición la maneja el scroll cuadro a cuadro.
+     Tampoco lleva will-change fijo: con 8 paneles a pantalla completa eran
+     8 capas compositadas permanentes. GSAP lo pone solo mientras anima. */
 }
 
 .tl2-etapa-tapa {
