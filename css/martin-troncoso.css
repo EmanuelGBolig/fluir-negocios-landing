@@ -2801,6 +2801,8 @@ body::after {
 /* --- escena: las etapas se apilan una sobre otra ---
    El que crece es el .container que la envuelve; la escena lo llena.
    Si el flex:1 queda en .tl2-escena, colapsa a 2px de alto. */
+/* --- escena: tarjeta partida al medio ---
+   Izquierda la diapositiva del Canva, derecha el texto. */
 .tl2-escena-cont {
   flex: 1 1 auto;
   min-height: 0;
@@ -2825,7 +2827,7 @@ body::after {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   background: var(--crema-card);
-  /* Sin transición: la posición la maneja el scroll cuadro a cuadro.
+  /* Sin transicion: la posicion la maneja el scroll cuadro a cuadro.
      Tampoco lleva will-change fijo: con 8 paneles a pantalla completa eran
      8 capas compositadas permanentes. GSAP lo pone solo mientras anima. */
 }
@@ -2841,63 +2843,18 @@ body::after {
 .tl2-media {
   position: relative;
   overflow: hidden;
-  background: var(--marino);
+  /* Mismo azul que el fondo de las placas del Canva: como van con
+     object-fit contain (son 3:2 y esta mitad es mas cuadrada), las bandas
+     que sobran quedan invisibles y el collage no se recorta nunca. */
+  background: var(--noche);
 }
 
 .tl2-media img,
 .tl2-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-}
-
-.tl2-media--video-vacio img {
-  filter: brightness(0.55);
-}
-
-.tl2-play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(201, 162, 75, 0.92);
-  color: var(--noche);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
-
-/* Aviso de material provisorio: desaparece al sacar `pendiente: true`
-   del hito en js/martin-timeline.js. */
-.tl2-aviso {
-  position: absolute;
-  left: 0.85rem;
-  bottom: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: var(--radius-pill);
-  background: rgba(6, 15, 32, 0.78);
-  color: var(--claro);
-  font-family: var(--font-sans);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  /* Sin backdrop-filter: son 8 chapas dentro de la escena clavada y cada
-     una fuerza una capa que se recompone en cada cuadro. A este tamanio el
-     fondo solido se ve igual. */
-}
-
-.tl2-aviso svg {
-  width: 13px;
-  height: 13px;
 }
 
 .tl2-texto {
@@ -2916,14 +2873,6 @@ body::after {
   flex-wrap: wrap;
 }
 
-.tl2-anio {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 3px;
-  color: var(--dorado);
-}
-
 .tl2-chapa {
   font-family: var(--font-sans);
   font-size: 0.66rem;
@@ -2939,9 +2888,9 @@ body::after {
 
 .tl2-etapa-titulo {
   font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.22;
   color: var(--carbon);
   margin: 0 0 0.75rem;
 }
@@ -2986,16 +2935,18 @@ body::after {
   gap: 0.35rem;
 }
 
+/* Sin texto de anio, el boton medía 15px de alto. El punto se ve chico
+   pero el area de toque es de 44px, el minimo tactil. */
 .tl2-anio-btn {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.45rem;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
   background: none;
   border: 0;
   padding: 0;
   cursor: pointer;
-  font-family: var(--font-sans);
   flex: 1 0 auto;
 }
 
@@ -3020,21 +2971,8 @@ body::after {
   box-shadow: 0 0 0 5px var(--dorado-subtle);
 }
 
-.tl2-anio-txt {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--carbon-suave);
-  white-space: nowrap;
-  transition: var(--transition-fast);
-}
 
-.tl2-anio-btn.es-activo .tl2-anio-txt {
-  color: var(--carbon);
-}
 
-.tl2-anio-btn:hover .tl2-anio-txt {
-  color: var(--dorado);
-}
 
 /* Instruccion de uso: va en el encabezado y queda siempre visible.
    Antes era una pista al pie que se desvanecia al arrancar, y quedaba
@@ -3147,6 +3085,19 @@ body::after {
     right: 24px;
   }
 
+  /* Vertical: la diapositiva arriba y el texto abajo.
+     aspect-ratio 3/2 en la mitad de imagen = la proporcion exacta de las
+     placas, asi que con object-fit contain la llena sin bandas y el resto
+     del alto queda entero para el texto. */
+  .tl2-etapa {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .tl2-media {
+    aspect-ratio: 3 / 2;
+  }
+
   /* 7rem = 112px arriba. Cuando la seccion se clava el usuario ya scrolleo,
      asi que el navbar esta en su version compacta de 100px: con los 72px de
      antes le tapaba 28px al encabezado. El alto lo absorbe la escena, que es
@@ -3168,16 +3119,7 @@ body::after {
 
   /* Mas alto para el texto de la etapa y menos para la imagen: es donde
      aprieta cuando la escena se achica. */
-  /* Una columna: imagen arriba, texto abajo. Y mas alto para el texto que
-     para la imagen, que es donde aprieta cuando la escena se achica. */
-  .tl2-etapa {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  }
 
-  .tl2-anio-txt {
-    font-size: 0.72rem;
-  }
 
   .tl2-punto {
     width: 15px;
@@ -3205,20 +3147,26 @@ body::after {
     margin-top: 0.35rem;
   }
 
+  /* Caja de imagen mas baja que la placa: con object-fit contain la placa
+     se achica y quedan bandas al costado, que sobre el azul del fondo no se
+     ven. Devuelve ~35px al texto, que si no quedaba 14px corto. */
+  .tl2-media {
+    aspect-ratio: 16 / 9;
+  }
+
   .tl2-etapa-titulo {
-    font-size: 1.2rem;
-    margin-bottom: 0.45rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
   }
 
   .tl2-etapa-texto {
     font-size: 0.88rem;
-    line-height: 1.5;
+    line-height: 1.48;
   }
 
   .tl2-texto {
-    padding: 1rem 1.1rem;
+    padding: 0.85rem 1.1rem;
   }
-
 }
 
 /* Sin GSAP o con movimiento reducido: se apila en vertical y se lee

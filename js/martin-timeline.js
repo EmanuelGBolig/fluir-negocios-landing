@@ -3,89 +3,57 @@
    GSAP + ScrollTrigger (ambos gratis, desde el CDN oficial).
 
    La sección se clava en pantalla y, a medida que se scrollea, cada
-   etapa entra desde la derecha tapando a la anterior, hasta la última.
+   diapositiva entra desde la derecha tapando a la anterior.
 
-   PARA COMPLETAR: todo el contenido vive en el array HITOS de acá abajo.
-   No hace falta tocar nada más.
+   Las diapositivas salen del diseño de Canva "Foto: quitar gruas y ajustar
+   brillo" (8 paginas, 1800x1200) y ocupan la mitad izquierda de la tarjeta.
+   Van con object-fit contain sobre fondo azul: son 3:2 y esa mitad es mas
+   cuadrada, asi que recortarlas arruinaria el collage.
+   Sin año: el eje quedo como puntos de posicion.
 
-   CADENCIA: la linea va cada 2 anios, no anio por anio. La unica excepcion
-   es el salto 2013 -> 2016, porque los dos son fechas reales (el arranque
-   como coach y la apertura de Fluir Coaching) y no se pueden mover.
-   Al sumar hitos, respetar el paso de 2 anios.
+   PARA ACTUALIZAR: reexportar del Canva y reemplazar los archivos de
+   assets/timeline/ con el mismo nombre. Los .mp4 salen de exportar la
+   pagina como MP4 (horizontal_1080p) y despues comprimir:
+     ffmpeg -i entrada.mp4 -vf scale=1440:-2 -c:v libx264 -preset slow             -crf 27 -c:a aac -b:a 96k -movflags +faststart salida.mp4
 
    Cada hito:
-     anio      texto del eje (string: sirve "2013" o "2016-2018")
-     titulo    título corto del hito
-     texto     2 o 3 líneas contando qué pasó
-     media     { tipo: 'imagen' | 'video', src, poster, alt }
-                 - 'imagen' -> src es la foto
-                 - 'video'  -> src es el mp4 y poster la miniatura
-                              (si src está vacío se dibuja la maqueta)
-     pendiente true mientras la foto/video sea de muestra. Muestra el
-               aviso "Material de muestra" sobre la imagen.
-     borrador  true mientras el texto sea inventado. Muestra la chapa
-               "Por completar". Sacar cuando el hito sea el real.
+     titulo   el titulo que se ve a la derecha de la diapositiva
+     texto    2 o 3 lineas contando la etapa. PENDIENTE: lo completan
+              Martin y el equipo; mientras tanto lleva borrador: true
+     borrador true mientras el texto sea de relleno. Muestra la chapa
+              "Por completar". Sacar cuando el texto sea el real.
+     media    { tipo: 'imagen' | 'video', src, poster }
    ============================================================ */
 (function () {
     'use strict';
 
+    var BASE = '../assets/timeline/';
+
     var HITOS = [
-        {
-            anio: '2013',
-            titulo: 'El primer paso como coach',
-            texto: 'Empieza a trabajar como coach en una empresa de coaching ontológico. El primer contacto con el oficio que después iba a convertirse en su profesión.',
-            media: { tipo: 'imagen', src: '../assets/carousel/hero-2.webp', alt: 'Martín Troncoso en sus primeros años como coach' },
-            pendiente: true
-            // real: dato del propio Martín
-        },
-        {
-            anio: '2016',
-            titulo: 'Nace Fluir Coaching',
-            texto: 'Abre Fluir Coaching sin saber nada de administración, marketing ni ventas. Solo con amor por el servicio. Los errores vinieron después, de todos los tamaños.',
-            media: { tipo: 'imagen', src: '../assets/carousel/Fluir_foto-490.webp', alt: 'Los comienzos de Fluir Coaching' },
-            pendiente: true
-            // real: sale del "Sobre mí" de esta misma página
-        },
-        {
-            anio: '2018',
-            titulo: 'La primera sede',
-            texto: 'Reemplazar por el hito real: cuándo fue la primera sede, dónde y qué significó dejar de trabajar en espacios prestados.',
-            media: { tipo: 'imagen', src: '../assets/carousel/hero-4.webp', alt: 'La primera sede de Fluir' },
-            pendiente: true,
-            borrador: true
-        },
-        {
-            anio: '2020',
-            titulo: 'La primera graduación',
-            texto: 'Reemplazar por el hito real: la primera camada que terminó el proceso completo y qué cambió a partir de ahí.',
-            media: { tipo: 'video', src: '', poster: '../assets/carousel/hero-5.webp', alt: 'La primera graduación' },
-            pendiente: true,
-            borrador: true
-        },
-        {
-            anio: '2022',
-            titulo: 'El equipo crece',
-            texto: 'Reemplazar por el hito real: cuándo dejó de estar solo, quiénes se sumaron y cómo cambió su rol al pasar de hacer a conducir.',
-            media: { tipo: 'imagen', src: '../assets/carousel/hero-2.webp', alt: 'El equipo de Fluir' },
-            pendiente: true,
-            borrador: true
-        },
-        {
-            anio: '2024',
-            titulo: 'Nace Fluir Negocios',
-            texto: 'Reemplazar por el hito real: en qué año arrancó Fluir Negocios y por qué hizo falta separarlo de Fluir Coaching.',
-            media: { tipo: 'imagen', src: '../assets/carousel/hero-3.webp', alt: 'Fluir Negocios' },
-            pendiente: true,
-            borrador: true
-        },
-        {
-            anio: '2026',
-            titulo: 'Diez años de Fluir',
-            texto: 'Hoy acompaña a dueños de negocios y emprendedores a hacer el mismo salto que hizo él: de dueño a líder. Con claridad, mejores decisiones y ganas de volver a disfrutar el negocio.',
-            media: { tipo: 'imagen', src: '../assets/carousel/Fluir_foto-490.webp', alt: 'Martín Troncoso hoy' },
-            pendiente: true
-            // real: "Hoy, 10 años después" del "Sobre mí"
-        }
+        { titulo: 'Mis primeros entrenamientos como coach',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'imagen', src: BASE + 'slide-01.jpg' } },
+        { titulo: 'Nace Fluir Coaching, mi primera empresa y su primera sede',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'imagen', src: BASE + 'slide-02.jpg' } },
+        { titulo: 'Entrenamiento Senderos de Fuego a través de los años',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'imagen', src: BASE + 'slide-03.jpg' } },
+        { titulo: 'Nos mudamos a una nueva y mejor sede',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'video', src: BASE + 'slide-04.mp4', poster: BASE + 'slide-04.jpg' } },
+        { titulo: 'Contratación internacional: Quito, Ecuador',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'imagen', src: BASE + 'slide-05.jpg' } },
+        { titulo: 'Sede actual',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'video', src: BASE + 'slide-06.mp4', poster: BASE + 'slide-06.jpg' } },
+        { titulo: 'Tomando formación en empresas y negocios en España',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'video', src: BASE + 'slide-07.mp4', poster: BASE + 'slide-07.jpg' } },
+        { titulo: 'Multiverso Fluir y Martín',
+          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
+          media: { tipo: 'video', src: BASE + 'slide-08.mp4', poster: BASE + 'slide-08.jpg' } }
     ];
 
     /* ------------------------------------------------------------
@@ -107,39 +75,21 @@
 
     function media(h) {
         var m = h.media || {};
-        var aviso = h.pendiente
-            ? '<span class="tl2-aviso"><i data-lucide="image"></i> Material de muestra</span>'
-            : '';
-
-        // Video sin archivo: se dibuja la maqueta, no un <video> que da 404.
-        if (m.tipo === 'video' && !m.src) {
-            return '<div class="tl2-media tl2-media--video-vacio">' +
-                (m.poster ? '<img src="' + esc(m.poster) + '" alt="' + esc(m.alt || '') + '" loading="lazy">' : '') +
-                '<span class="tl2-play" aria-hidden="true"><i data-lucide="play"></i></span>' +
-                '<span class="tl2-aviso"><i data-lucide="video"></i> Video pendiente</span>' +
-                '</div>';
-        }
         if (m.tipo === 'video') {
-            return '<div class="tl2-media">' +
-                '<video class="tl2-video" controls preload="none" playsinline' +
+            return '<video class="tl2-video" controls preload="none" playsinline' +
                 (m.poster ? ' poster="' + esc(m.poster) + '"' : '') + '>' +
                 '<source src="' + esc(m.src) + '" type="video/mp4">' +
                 'Tu navegador no puede reproducir el video.' +
-                '</video>' + aviso + '</div>';
+                '</video>';
         }
-        return '<div class="tl2-media">' +
-            '<img src="' + esc(m.src) + '" alt="' + esc(m.alt || h.titulo) + '" loading="lazy">' +
-            aviso + '</div>';
+        return '<img src="' + esc(m.src) + '" alt="' + esc(h.titulo) + '" loading="lazy">';
     }
 
     elEscena.innerHTML = HITOS.map(function (h, i) {
         return '<article class="tl2-etapa" data-i="' + i + '" style="z-index:' + (i + 1) + '">' +
-            media(h) +
+            '<div class="tl2-media">' + media(h) + '</div>' +
             '<div class="tl2-texto">' +
-            '<div class="tl2-texto-top">' +
-            '<span class="tl2-anio">' + esc(h.anio) + '</span>' +
-            (h.borrador ? '<span class="tl2-chapa">Por completar</span>' : '') +
-            '</div>' +
+            (h.borrador ? '<div class="tl2-texto-top"><span class="tl2-chapa">Por completar</span></div>' : '') +
             '<h4 class="tl2-etapa-titulo">' + esc(h.titulo) + '</h4>' +
             '<p class="tl2-etapa-texto">' + esc(h.texto) + '</p>' +
             '</div>' +
@@ -147,11 +97,12 @@
             '</article>';
     }).join('');
 
+    /* Sin años: la diapositiva ya dice "01 / 08" en su pie, asi que el eje
+       queda como puntos de posicion. */
     elAnios.innerHTML = HITOS.map(function (h, i) {
         return '<button type="button" class="tl2-anio-btn" data-i="' + i + '" ' +
-            'aria-label="Ir a ' + esc(h.anio) + ': ' + esc(h.titulo) + '">' +
-            '<span class="tl2-punto" aria-hidden="true"></span>' +
-            '<span class="tl2-anio-txt">' + esc(h.anio) + '</span></button>';
+            'aria-label="Ir a la diapositiva ' + (i + 1) + ' de ' + HITOS.length + ': ' + esc(h.titulo) + '">' +
+            '<span class="tl2-punto" aria-hidden="true"></span></button>';
     }).join('');
 
     if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
