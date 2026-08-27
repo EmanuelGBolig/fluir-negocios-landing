@@ -85,9 +85,14 @@
         return '<img src="' + esc(m.src) + '" alt="' + esc(h.titulo) + '" loading="lazy">';
     }
 
+    var ICONO_EXPANDIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>';
+
     elEscena.innerHTML = HITOS.map(function (h, i) {
         return '<article class="tl2-etapa" data-i="' + i + '" style="z-index:' + (i + 1) + '">' +
-            '<div class="tl2-media">' + media(h) + '</div>' +
+            '<div class="tl2-media">' + media(h) +
+            '<button type="button" class="tl2-expandir" data-expandir="' + i + '" ' +
+            'aria-label="Ampliar: ' + esc(h.titulo) + '">' + ICONO_EXPANDIR + '</button>' +
+            '</div>' +
             '<div class="tl2-texto">' +
             (h.borrador ? '<div class="tl2-texto-top"><span class="tl2-chapa">Por completar</span></div>' : '') +
             '<h4 class="tl2-etapa-titulo">' + esc(h.titulo) + '</h4>' +
@@ -113,8 +118,38 @@
 
     var indiceActual = 0;
 
+    /* El video de la etapa activa arranca solo y en silencio; los demas se
+       pausan y vuelven al principio. muted es obligatorio: sin eso el
+       navegador bloquea el autoplay y play() rechaza la promesa. */
+    function sincronizarVideos(idx) {
+        var vids = elEscena.querySelectorAll('video');
+        for (var i = 0; i < vids.length; i++) {
+            var v = vids[i];
+            var suEtapa = parseInt(v.parentNode.parentNode.getAttribute('data-i'), 10);
+            if (suEtapa === idx) {
+                v.muted = true;
+                var pr = v.play();
+                // Si el navegador lo bloquea igual, no tiene que romper nada.
+                if (pr && pr.catch) pr.catch(function () { });
+            } else {
+                // Rebobinar siempre, no solo si venia reproduciendo: si quedo
+                // pausado a mitad, al volver a la etapa arrancaria por ahi.
+                if (!v.paused) v.pause();
+                if (v.currentTime !== 0) v.currentTime = 0;
+            }
+        }
+    }
+
+    function pausarTodos() {
+        var vids = elEscena.querySelectorAll('video');
+        for (var i = 0; i < vids.length; i++) if (!vids[i].paused) vids[i].pause();
+    }
+
     function marcar(p) {
         var idx = Math.round(p * (N - 1));
+        // marcar() corre en cada cuadro del scroll: solo tocar los videos
+        // cuando de verdad cambio la etapa.
+        if (idx !== indiceActual) sincronizarVideos(idx);
         indiceActual = idx;
         for (var i = 0; i < botones.length; i++) {
             botones[i].classList.toggle('es-activo', i === idx);
@@ -170,7 +205,11 @@
             // Evita el salto al entrar al pin scrolleando rapido.
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onUpdate: function (self) { marcar(self.progress); }
+            onUpdate: function (self) { marcar(self.progress); },
+            onToggle: function (self) {
+                if (self.isActive) sincronizarVideos(indiceActual);
+                else pausarTodos();
+            }
         }
     });
 
@@ -223,4 +262,68 @@
 
     // Las imágenes entran con lazy load y cambian el alto: hay que recalcular.
     window.addEventListener('load', function () { ST.refresh(); });
+
+    /* ------------------------------------------------------------
+       Ampliar la diapositiva
+       Las placas son 1800x1200 y en la tarjeta se ven a menos de la mitad:
+       el detalle de las fotos no se lee. Al ampliar se muestran a pantalla
+       completa, respetando el 3:2.
+       ------------------------------------------------------------ */
+    var lupa = document.createElement('div');
+    lupa.className = 'tl2-lupa';
+    lupa.setAttribute('role', 'dialog');
+    lupa.setAttribute('aria-modal', 'true');
+    lupa.innerHTML =
+        '<button type="button" class="tl2-lupa-cerrar" aria-label="Cerrar">&times;</button>' +
+        '<figure class="tl2-lupa-caja"></figure>' +
+        '<figcaption class="tl2-lupa-pie"></figcaption>';
+    document.body.appendChild(lupa);
+
+    var lupaCaja = lupa.querySelector('.tl2-lupa-caja');
+    var lupaPie = lupa.querySelector('.tl2-lupa-pie');
+
+    function abrirLupa(i) {
+        var h = HITOS[i];
+        if (!h) return;
+        var m = h.media || {};
+        // El video de la tarjeta se pausa: no pueden sonar los dos.
+        pausarTodos();
+        lupaCaja.innerHTML = (m.tipo === 'video')
+            ? '<video controls autoplay playsinline preload="metadata"' +
+              (m.poster ? ' poster="' + esc(m.poster) + '"' : '') + '>' +
+              '<source src="' + esc(m.src) + '" type="video/mp4"></video>'
+            : '<img src="' + esc(m.src) + '" alt="' + esc(h.titulo) + '">';
+        lupaPie.textContent = h.titulo;
+        lupa.classList.add('es-visible');
+        document.body.style.overflow = 'hidden';
+        lupa.querySelector('.tl2-lupa-cerrar').focus();
+    }
+
+    function cerrarLupa() {
+        lupa.classList.remove('es-visible');
+        // Vaciar corta el audio del video ampliado.
+        lupaCaja.innerHTML = '';
+        document.body.style.overflow = '';
+        sincronizarVideos(indiceActual);
+    }
+
+    elEscena.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-expandir]');
+        if (b) { abrirLupa(parseInt(b.getAttribute('data-expandir'), 10)); return; }
+        // La imagen tambien amplia; el video no, porque el click es de sus
+        // propios controles.
+        var img = e.target.closest('.tl2-media img');
+        if (img) {
+            var et = img.closest('.tl2-etapa');
+            if (et) abrirLupa(parseInt(et.getAttribute('data-i'), 10));
+        }
+    });
+
+    lupa.addEventListener('click', function (e) {
+        if (e.target === lupa || e.target.closest('.tl2-lupa-cerrar')) cerrarLupa();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lupa.classList.contains('es-visible')) cerrarLupa();
+    });
 })();

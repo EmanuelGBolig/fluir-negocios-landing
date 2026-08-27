@@ -2807,13 +2807,23 @@ body::after {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  /* habilita las unidades cq* que usa .tl2-escena */
+  container-type: size;
 }
 
+/* La proporcion de la tarjeta NO es arbitraria: sale de que la mitad de
+   imagen tiene que quedar en 3:2, igual que las placas del Canva, para que
+   no aparezcan bandas de fondo. Si la imagen ocupa la fraccion f del ancho,
+   la tarjeta tiene que ser 1.5/f : 1. Con f = 0.55 -> 2.727.
+   Si se cambia el reparto de columnas, hay que recalcular este numero. */
 .tl2-escena {
   position: relative;
-  flex: 1 1 auto;
-  min-height: 0;
-  width: 100%;
+  aspect-ratio: 2.727;
+  width: min(100cqw, calc(100cqh * 2.727));
+  height: auto;
+  flex: 0 0 auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--crema-card);
@@ -2825,7 +2835,7 @@ body::after {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-columns: 55fr 45fr;
   background: var(--crema-card);
   /* Sin transicion: la posicion la maneja el scroll cuadro a cuadro.
      Tampoco lleva will-change fijo: con 8 paneles a pantalla completa eran
@@ -2849,11 +2859,13 @@ body::after {
   background: var(--noche);
 }
 
+/* La caja quedo en 3:2 igual que la placa, asi que cover no recorta nada;
+   esta para absorber el redondeo de subpixel y que no asome el fondo. */
 .tl2-media img,
 .tl2-video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 }
 
@@ -3085,6 +3097,16 @@ body::after {
     right: 24px;
   }
 
+  /* En vertical la tarjeta no lleva la proporcion 2.727, que existe para
+     que la MITAD de imagen quede 3:2 en el layout horizontal. Acá la
+     imagen es una fila propia y ya tiene su 3/2, asi que la tarjeta
+     simplemente llena el alto disponible. */
+  .tl2-escena {
+    aspect-ratio: auto;
+    width: 100%;
+    height: 100%;
+  }
+
   /* Vertical: la diapositiva arriba y el texto abajo.
      aspect-ratio 3/2 en la mitad de imagen = la proporcion exacta de las
      placas, asi que con object-fit contain la llena sin bandas y el resto
@@ -3145,13 +3167,6 @@ body::after {
     font-size: 0.75rem;
     padding: 0.32rem 0.7rem;
     margin-top: 0.35rem;
-  }
-
-  /* Caja de imagen mas baja que la placa: con object-fit contain la placa
-     se achica y quedan bandas al costado, que sobre el azul del fondo no se
-     ven. Devuelve ~35px al texto, que si no quedaba 14px corto. */
-  .tl2-media {
-    aspect-ratio: 16 / 9;
   }
 
   .tl2-etapa-titulo {
@@ -3521,4 +3536,130 @@ body::after {
 .carril-btn:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+/* ==========================================================================
+   AMPLIAR LA DIAPOSITIVA
+   ========================================================================== */
+.tl2-media {
+  cursor: zoom-in;
+}
+
+/* El boton va sobre el video tambien, donde el click del medio es de sus
+   propios controles y no puede ampliar. */
+.tl2-expandir {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 15, 32, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--marfil);
+  cursor: zoom-in;
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+.tl2-expandir svg {
+  width: 17px;
+  height: 17px;
+}
+
+.tl2-etapa:hover .tl2-expandir,
+.tl2-expandir:focus-visible {
+  opacity: 1;
+}
+
+.tl2-expandir:hover {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--noche);
+}
+
+/* En touch no hay hover: siempre visible. */
+@media (hover: none) {
+  .tl2-expandir {
+    opacity: 1;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.tl2-lupa {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3.5rem 1rem 1.5rem;
+  background: rgba(6, 15, 32, 0.94);
+  backdrop-filter: blur(6px);
+}
+
+.tl2-lupa.es-visible {
+  display: flex;
+}
+
+.tl2-lupa-caja {
+  margin: 0;
+  max-width: min(100%, 1600px);
+  /* Respeta el 3:2 de las placas y entra siempre entera. */
+  max-height: calc(100% - 3rem);
+  aspect-ratio: 3 / 2;
+  width: min(100%, calc((100vh - 8rem) * 3 / 2));
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.tl2-lupa-caja img,
+.tl2-lupa-caja video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: var(--noche);
+}
+
+.tl2-lupa-pie {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--niebla);
+  text-align: center;
+  max-width: 40rem;
+}
+
+.tl2-lupa-cerrar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--marfil);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.tl2-lupa-cerrar:hover {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--noche);
 }
