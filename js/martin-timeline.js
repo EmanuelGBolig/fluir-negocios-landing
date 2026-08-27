@@ -1,9 +1,10 @@
 /* ============================================================
-   MARTÍN TRONCOSO — Línea de tiempo como escena anclada
-   GSAP + ScrollTrigger (ambos gratis, desde el CDN oficial).
+   MARTÍN TRONCOSO — Línea de tiempo
+   GSAP (gratis, desde el CDN oficial). NO usa ScrollTrigger.
 
-   La sección se clava en pantalla y, a medida que se scrollea, cada
-   diapositiva entra desde la derecha tapando a la anterior.
+   Cada diapositiva entra desde la derecha tapando a la anterior. Se avanza
+   con las flechas de los costados, con los puntos de abajo o con las
+   flechas del teclado: la seccion NO secuestra el scroll de la pagina.
 
    Las diapositivas salen del diseño de Canva "Foto: quitar gruas y ajustar
    brillo" (8 paginas, 1800x1200) y ocupan la mitad izquierda de la tarjeta.
@@ -169,75 +170,64 @@
 
     // Sin GSAP o con movimiento reducido: el CSS ya deja las etapas
     // apiladas en vertical y legibles. No se anima nada.
-    if (sinMovimiento || typeof window.gsap === 'undefined' || !window.ScrollTrigger) {
+    if (sinMovimiento || typeof window.gsap === 'undefined') {
         raiz.classList.add('es-estatico');
         return;
     }
 
     var gsap = window.gsap;
-    gsap.registerPlugin(window.ScrollTrigger);
-    var ST = window.ScrollTrigger;
 
-    // En mobile, mostrar/ocultar la barra de direcciones cambia el alto del
-    // viewport y dispara un refresh que hace saltar el pin. Esto lo ignora.
-    ST.config({ ignoreMobileResize: true });
-
-    // Cuanto scroll ocupa pasar de una etapa a la siguiente.
-    // Con 0.85 de pantalla por etapa el recorrido daba 5.9 pantallas: el 25%
-    // de la pagina entera clavada, y se sentia trabada. Se acota a px fijos
-    // para que en monitores altos no crezca al pedo.
-    function pasoPx() {
-        // clientWidth y no innerWidth, para que el corte caiga exacto en el
-        // mismo punto que el @media (max-width: 860px) del CSS.
-        if (document.documentElement.clientWidth <= 860) return 240;
-        return Math.min(window.innerHeight * 0.45, 340);
-    }
-
-    var linea = gsap.timeline({
-        scrollTrigger: {
-            trigger: raiz,
-            start: 'top top',
-            end: function () { return '+=' + (N - 1) * pasoPx(); },
-            pin: elFijo,
-            pinSpacing: true,
-            // scrub true y no un numero: sigue al scroll sin lag agregado.
-            scrub: true,
-            // Evita el salto al entrar al pin scrolleando rapido.
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: function (self) { marcar(self.progress); },
-            onToggle: function (self) {
-                if (self.isActive) sincronizarVideos(indiceActual);
-                else pausarTodos();
-            }
-        }
-    });
+    /* La linea NO la maneja el scroll.
+       Antes esta seccion se clavaba en pantalla y avanzaba con la rueda:
+       secuestrar el scroll confunde (la pagina parece trabada) y se peleaba
+       con el navbar fijo y con el alto cambiante del navegador en mobile.
+       Ahora la timeline arranca pausada y solo se mueve cuando la persona
+       toca una flecha, un punto o usa las flechas del teclado. */
+    var linea = gsap.timeline({ paused: true });
 
     // Cada etapa entra desde la derecha; la anterior retrocede un poco y se
     // oscurece, para que se lea como que queda tapada abajo.
     for (var i = 1; i < N; i++) {
+        // Esta si tiene que pintar su estado inicial al construirse: es la
+        // que deja las etapas 1..N-1 estacionadas a la derecha.
         linea.fromTo(etapas[i],
             { xPercent: 100 },
             { xPercent: 0, ease: 'none', duration: 1 }, i - 1);
+
+        /* immediateRender: false es obligatorio en las dos de abajo.
+           Sin eso, el fromTo de "tapado" de la etapa i-1 (que arranca en
+           xPercent 0) se renderiza al construir la timeline y pisa el
+           xPercent 100 que le habia puesto su propio tween de entrada:
+           quedaban las 8 etapas encimadas en x=0. Con ScrollTrigger no se
+           notaba porque forzaba un render en el cuadro 0. */
         linea.fromTo(etapas[i - 1],
             { xPercent: 0, scale: 1 },
-            { xPercent: -14, scale: 0.94, ease: 'none', duration: 1 }, i - 1);
+            { xPercent: -14, scale: 0.94, ease: 'none', duration: 1, immediateRender: false }, i - 1);
         linea.fromTo(etapas[i - 1].querySelector('.tl2-etapa-tapa'),
             { opacity: 0 },
-            { opacity: 0.35, ease: 'none', duration: 1 }, i - 1);
+            { opacity: 0.35, ease: 'none', duration: 1, immediateRender: false }, i - 1);
     }
 
+    linea.pause(0);
     marcar(0);
+    sincronizarVideos(0);
 
-    /* Ir a una etapa. Como el recorrido lo maneja el scroll, "ir" es
-       scrollear a la posicion que le corresponde a esa etapa dentro del pin. */
+    /* Ir a una etapa: se lleva la cabeza de la timeline hasta el segundo que
+       le corresponde. Cada tramo dura 1, asi que la etapa i vive en i. */
+    var yendo = false;
     function irAEtapa(i) {
         i = Math.max(0, Math.min(N - 1, i));
-        var st = linea.scrollTrigger;
-        if (!st) return;
-        var destino = st.start + (st.end - st.start) * (i / (N - 1));
-        window.scrollTo({ top: destino, behavior: 'smooth' });
+        if (i === indiceActual && linea.time() === i) return;
+        yendo = true;
         marcar(i / (N - 1));
+        linea.tweenTo(i, {
+            duration: 0.55,
+            ease: 'power2.inOut',
+            onComplete: function () {
+                yendo = false;
+                sincronizarVideos(i);
+            }
+        });
     }
 
     elAnios.addEventListener('click', function (e) {
@@ -250,18 +240,27 @@
         if (f && !f.disabled) irAEtapa(indiceActual + parseInt(f.getAttribute('data-dir'), 10));
     });
 
-    // Flechas del teclado cuando la seccion esta en pantalla.
+    // Flechas del teclado cuando la seccion esta a la vista.
     document.addEventListener('keydown', function (e) {
         if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-        var r = raiz.getBoundingClientRect();
-        if (r.top > 0 || r.bottom < window.innerHeight) return; // no esta clavada
         if (e.target.closest('input, textarea, select')) return;
+        var r = raiz.getBoundingClientRect();
+        var visible = r.top < window.innerHeight * 0.75 && r.bottom > window.innerHeight * 0.25;
+        if (!visible) return;
         e.preventDefault();
         irAEtapa(indiceActual + (e.key === 'ArrowRight' ? 1 : -1));
     });
 
-    // Las imágenes entran con lazy load y cambian el alto: hay que recalcular.
-    window.addEventListener('load', function () { ST.refresh(); });
+    /* Nada de videos sonando cuando la seccion no esta a la vista. */
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entradas) {
+            for (var k = 0; k < entradas.length; k++) {
+                if (entradas[k].isIntersecting) sincronizarVideos(indiceActual);
+                else pausarTodos();
+            }
+        }, { threshold: 0.25 }).observe(raiz);
+    }
+
 
     /* ------------------------------------------------------------
        Ampliar la diapositiva
