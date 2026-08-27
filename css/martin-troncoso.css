@@ -2870,25 +2870,32 @@ body::after {
   min-width: 0;
 }
 
-.tl2-texto-top {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.7rem;
-  flex-wrap: wrap;
+
+
+/* Periodo arriba del titulo. No es el eje de anios que sacamos: es el dato
+   de cuando paso, que el titulo solo no dice. */
+.tl2-epoca {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 0.55rem;
 }
 
-.tl2-chapa {
-  font-family: var(--font-sans);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #9a6d0b;
-  background: rgba(201, 162, 75, 0.16);
-  border: 1px solid rgba(201, 162, 75, 0.45);
-  padding: 0.2rem 0.55rem;
-  border-radius: var(--radius-pill);
+.tl2-etapa-texto + .tl2-etapa-texto {
+  margin-top: 0.7rem;
+}
+
+.tl2-cierre {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--dorado);
+  margin: 0.9rem 0 0;
 }
 
 .tl2-etapa-titulo {

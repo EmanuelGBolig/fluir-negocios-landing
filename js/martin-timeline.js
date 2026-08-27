@@ -18,11 +18,10 @@
      ffmpeg -i entrada.mp4 -vf scale=1440:-2 -c:v libx264 -preset slow             -crf 27 -c:a aac -b:a 96k -movflags +faststart salida.mp4
 
    Cada hito:
+     epoca    el periodo, arriba del titulo
      titulo   el titulo que se ve a la derecha de la diapositiva
-     texto    2 o 3 lineas contando la etapa. PENDIENTE: lo completan
-              Martin y el equipo; mientras tanto lleva borrador: true
-     borrador true mientras el texto sea de relleno. Muestra la chapa
-              "Por completar". Sacar cuando el texto sea el real.
+     texto    array: un parrafo por elemento
+     cierre   opcional, una linea final destacada (solo la usa la ultima)
      media    { tipo: 'imagen' | 'video', src, poster }
    ============================================================ */
 (function () {
@@ -30,31 +29,83 @@
 
     var BASE = '../assets/timeline/';
 
+    /* Contenido aprobado, de Textos-Trayectoria-Web.md (audio de Martin del
+       27/08/2026, datos confirmados por el). Los titulos NO son los del
+       Canva: son los de la web, que Martin reescribio. */
     var HITOS = [
-        { titulo: 'Mis primeros entrenamientos como coach',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'imagen', src: BASE + 'slide-01.jpg' } },
-        { titulo: 'Nace Fluir Coaching, mi primera empresa y su primera sede',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'imagen', src: BASE + 'slide-02.jpg' } },
-        { titulo: 'Entrenamiento Senderos de Fuego a través de los años',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'imagen', src: BASE + 'slide-03.jpg' } },
-        { titulo: 'Nos mudamos a una nueva y mejor sede',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'video', src: BASE + 'slide-04.mp4', poster: BASE + 'slide-04.jpg' } },
-        { titulo: 'Contratación internacional: Quito, Ecuador',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'imagen', src: BASE + 'slide-05.jpg' } },
-        { titulo: 'Sede actual',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'video', src: BASE + 'slide-06.mp4', poster: BASE + 'slide-06.jpg' } },
-        { titulo: 'Tomando formación en empresas y negocios en España',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'video', src: BASE + 'slide-07.mp4', poster: BASE + 'slide-07.jpg' } },
-        { titulo: 'Multiverso Fluir y Martín',
-          texto: 'Completar con Martín: qué pasó en esta etapa, en dos o tres líneas.', borrador: true,
-          media: { tipo: 'video', src: BASE + 'slide-08.mp4', poster: BASE + 'slide-08.jpg' } }
+        {
+            epoca: '2013',
+            titulo: 'Mis primeros entrenamientos como coach',
+            texto: [
+                'Antes de entrenar a alguien, me entrené a mí. En 2013 arranqué mi propio camino de desarrollo personal y, casi en paralelo, mi formación como coach y entrenador.',
+                'No empecé para enseñar: empecé porque necesitaba cambiar algo mío. Todo lo que hago hoy salió de esa decisión.'
+            ],
+            media: { tipo: 'imagen', src: BASE + 'slide-01.jpg' }
+        },
+        {
+            epoca: '2016',
+            titulo: 'Mi primera empresa y mi primera sede',
+            texto: [
+                'Abrí Fluir Coaching sin saber nada de administración, logística ni ventas. Solo con mucho amor por el servicio y ganas de hacer que suceda.',
+                'Ahí se me empezó a forjar el carácter de líder y de emprendedor: fue el primer lugar donde mis decisiones generaron resultados reales, en mi economía y en la de otras personas.'
+            ],
+            media: { tipo: 'imagen', src: BASE + 'slide-02.jpg' }
+        },
+        {
+            epoca: '2017 – hoy',
+            titulo: 'Senderos de Fuego',
+            texto: [
+                'Es mi versión propia del Fire Walking, una práctica milenaria que distintas culturas usan para entrenar el enfoque, la concentración, la valentía y la osadía.',
+                'Yo la llevé a la superación personal: entrenar la determinación para ir por los objetivos atravesando el miedo, no esperando a que se vaya. Doce ediciones después, sigue siendo la prueba más física de algo que repito siempre: la práctica por encima de la teoría.'
+            ],
+            media: { tipo: 'imagen', src: BASE + 'slide-03.jpg' }
+        },
+        {
+            epoca: '2022',
+            titulo: 'Nos mudamos, y dejé de estar solo',
+            texto: [
+                'Nos fuimos a una sede mejor y aprovechamos para renovar todo: la imagen de marca, los servicios, la forma de trabajar.',
+                'Pero el salto más grande no fue el edificio: fue asociarme con Antonella, mi pareja. La marca creció el día que dejé de sostenerla solo.'
+            ],
+            media: { tipo: 'video', src: BASE + 'slide-04.mp4', poster: BASE + 'slide-04.jpg' }
+        },
+        {
+            epoca: '2024 · Quito, Ecuador',
+            titulo: 'Mi primera contratación internacional',
+            texto: [
+                'Me contrataron para llevar mis entrenamientos a Quito y dicté dos ediciones, en febrero y marzo, junto al instituto GA Training.',
+                'Volví con una alianza estratégica, más de 10 coaches profesionales formados en conjunto y gente maravillosa del otro lado. El trabajo bien hecho se entiende en cualquier país.'
+            ],
+            media: { tipo: 'imagen', src: BASE + 'slide-05.jpg' }
+        },
+        {
+            epoca: 'Agosto 2024',
+            titulo: 'Triplicamos todo',
+            texto: [
+                'Inauguramos la sede en la que estamos hoy y triplicamos el tamaño: el equipo, la estructura, el edificio y la cantidad de gente que podemos recibir.',
+                'Fue el salto de calidad que veníamos preparando hace años, y también el más exigente. Crecer en serio se ve menos en la foto de la inauguración que en todo lo que hubo que ordenar antes.'
+            ],
+            media: { tipo: 'video', src: BASE + 'slide-06.mp4', poster: BASE + 'slide-06.jpg' }
+        },
+        {
+            epoca: '2025 · España',
+            titulo: 'Formación en empresas y negocios',
+            texto: [
+                'En 2025 viajamos a España a hacer una formación de tres días en empresas y negocios, para crecer como empresario y como mentor de otros empresarios.',
+                'El que enseña también se sienta a aprender. Si dejo de entrenarme, me quedo sin nada con qué entrenar a otro.'
+            ],
+            media: { tipo: 'video', src: BASE + 'slide-07.mp4', poster: BASE + 'slide-07.jpg' }
+        },
+        {
+            epoca: '2024 – hoy',
+            titulo: 'Ya no es un instituto: son tres equipos',
+            texto: [
+                'Hoy trabajamos juntos Fluir Coaching, el instituto; Fluir Negocios y Empresas, la consultora; y Fluir Marketing, la agencia de comunicación y publicidad.',
+                'Tres puertas distintas para lo mismo: que una persona y su negocio crezcan de verdad, acompañados en todo lo que necesiten.'
+            ],
+            cierre: 'De dueño a líder. Hacer que suceda.',
+            media: { tipo: 'video', src: BASE + 'slide-08.mp4', poster: BASE + 'slide-08.jpg' }
+        }
     ];
 
     /* ------------------------------------------------------------
@@ -95,9 +146,12 @@
             'aria-label="Ampliar: ' + esc(h.titulo) + '">' + ICONO_EXPANDIR + '</button>' +
             '</div>' +
             '<div class="tl2-texto">' +
-            (h.borrador ? '<div class="tl2-texto-top"><span class="tl2-chapa">Por completar</span></div>' : '') +
+            (h.epoca ? '<span class="tl2-epoca">' + esc(h.epoca) + '</span>' : '') +
             '<h4 class="tl2-etapa-titulo">' + esc(h.titulo) + '</h4>' +
-            '<p class="tl2-etapa-texto">' + esc(h.texto) + '</p>' +
+            [].concat(h.texto).map(function (par) {
+                return '<p class="tl2-etapa-texto">' + esc(par) + '</p>';
+            }).join('') +
+            (h.cierre ? '<p class="tl2-cierre">' + esc(h.cierre) + '</p>' : '') +
             '</div>' +
             '<span class="tl2-etapa-tapa" aria-hidden="true"></span>' +
             '</article>';
