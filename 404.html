@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        /* Mientras "Enforce HTTPS" siga apagado en GitHub Pages, esto evita que
+           alguien se quede navegando la version http:// del sitio. */
+        if (location.protocol === 'http:' && /(^|\.)fluirnegocios\.com$/.test(location.hostname)) {
+            location.replace(location.href.replace(/^http:/, 'https:'));
+        }
+    </script>
     <title>Página no encontrada (404) | Fluir Negocios</title>
     <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://fluirnegocios.com/404.html">
@@ -13,8 +20,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/styles.css?v=2.2">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- Font Awesome sin bloquear el render: se aplica apenas termina de bajar -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="./css/styles.css?v=5.0">
     <style>
         .nf-wrap {
             min-height: 88vh;
@@ -65,7 +75,7 @@
 
 <body>
     <div class="nf-wrap">
-        <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="nf-logo">
+        <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="nf-logo" width="800" height="310" loading="lazy" decoding="async">
         <div class="nf-code">404</div>
         <h1>Esta página no existe (o se mudó)</h1>
         <p>El link que seguiste no llevó a ningún lado. Pero tu negocio sí necesita atención —

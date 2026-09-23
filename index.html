@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        /* Mientras "Enforce HTTPS" siga apagado en GitHub Pages, esto evita que
+           alguien se quede navegando la version http:// del sitio. */
+        if (location.protocol === 'http:' && /(^|\.)fluirnegocios\.com$/.test(location.hostname)) {
+            location.replace(location.href.replace(/^http:/, 'https:'));
+        }
+    </script>
     <!-- Google Search Console: verificación de propiedad -->
     <meta name="google-site-verification" content="FBVqBIESZSX88BKWi0Phy7TkfMxlfkylsfiB1tqIcnE" />
     <title>Consultoría para dueños de negocios en Mar del Plata | Fluir Negocios</title>
@@ -33,6 +40,11 @@
     <!-- Favicon -->
     <link rel="icon" href="./assets/logos/favicon.png" type="image/png">
 
+    <!-- Preload de la imagen del hero (es el LCP de la home) -->
+    <link rel="preload" as="image" href="./assets/carousel/Fluir_foto-490-920w.webp"
+        imagesrcset="./assets/carousel/Fluir_foto-490-460w.webp 460w, ./assets/carousel/Fluir_foto-490-920w.webp 920w, ./assets/carousel/Fluir_foto-490.webp 1800w"
+        imagesizes="(max-width: 540px) 92vw, 460px" fetchpriority="high">
+
     <!-- Google Fonts: Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,10 +53,13 @@
         rel="stylesheet">
 
     <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- Font Awesome sin bloquear el render: se aplica apenas termina de bajar -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/styles.css?v=4.1">
+    <link rel="stylesheet" href="./css/styles.css?v=5.0">
     <!-- Los 5 Pilares + Rueda del Negocio -->
     <link rel="stylesheet" href="./css/pilares.css?v=1.8">
 
@@ -72,23 +87,21 @@
       fbq('init', '2089699688631959');
       fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1"
-    /></noscript>
+    <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
 </head>
 
 <body>
     <!-- Preloader -->
     <div id="preloader" class="preloader">
-        <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="preloader-logo">
+        <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="preloader-logo" width="800" height="310">
     </div>
 
     <header class="navbar">
         <div class="container nav-container">
             <div class="logo">
                 <a href="#inicio">
-                    <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="navbar-logo">
+                    <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="navbar-logo" width="800" height="310">
                 </a>
             </div>
             <nav>
@@ -117,7 +130,7 @@
             <div class="hero-bg-glow-2"></div>
             <div class="container hero-container-new">
                 <div class="hero-left-col">
-                    <span class="hero-badge-top">FN – CONSULTORÍA PARA DUEÑOS DE NEGOCIOS • ARGENTINA</span>
+                    <span class="hero-badge-top">FN – CONSULTORÍA PARA DUEÑOS DE NEGOCIOS • MAR DEL PLATA Y TODA ARGENTINA</span>
                     <h1 class="hero-title-new">Dejá de trabajar<br><span>dentro de tu negocio.</span><br>Empezá a <span>liderarlo.</span></h1>
                     <p class="hero-desc-new">Trabajás de sol a sol, todo pasa por vos y a fin de mes la plata no alcanza. Te ayudamos a ordenar los números, delegar con criterio y construir un equipo que funcione sin que tengas que estar en todo.</p>
                     <div class="hero-actions-new">
@@ -134,11 +147,11 @@
                 <div class="hero-right-col">
                     <div class="hero-img-card">
                         <div class="hero-img-slider-wrap">
-                            <img src="./assets/carousel/Fluir_foto-490.webp" alt="Mastermind Fluir Negocios" class="hero-img-new active" width="1800" height="1200" fetchpriority="high">
-                            <img src="./assets/carousel/hero-2.webp" alt="Oficinas Fluir Negocios" class="hero-img-new" loading="lazy">
-                            <img src="./assets/carousel/hero-3.webp" alt="Capacitación Fluir Negocios" class="hero-img-new hero-3" loading="lazy">
-                            <img src="./assets/carousel/hero-4.webp" alt="Consultoría Fluir Negocios" class="hero-img-new" loading="lazy">
-                            <img src="./assets/carousel/hero-5.webp" alt="Mentoring Fluir Negocios" class="hero-img-new" loading="lazy">
+                            <img src="./assets/carousel/Fluir_foto-490.webp" alt="Mastermind Fluir Negocios" class="hero-img-new active" width="1800" height="1200" fetchpriority="high" srcset="./assets/carousel/Fluir_foto-490-460w.webp 460w, ./assets/carousel/Fluir_foto-490-920w.webp 920w, ./assets/carousel/Fluir_foto-490.webp 1800w" sizes="(max-width: 540px) 92vw, 460px">
+                            <img src="./assets/carousel/hero-2.webp" alt="Oficinas Fluir Negocios" class="hero-img-new" loading="lazy" width="1800" height="1200" srcset="./assets/carousel/hero-2-460w.webp 460w, ./assets/carousel/hero-2-920w.webp 920w, ./assets/carousel/hero-2.webp 1800w" sizes="(max-width: 540px) 92vw, 460px">
+                            <img src="./assets/carousel/hero-3.webp" alt="Capacitación Fluir Negocios" class="hero-img-new hero-3" loading="lazy" width="1725" height="1150" srcset="./assets/carousel/hero-3-460w.webp 460w, ./assets/carousel/hero-3-920w.webp 920w, ./assets/carousel/hero-3.webp 1725w" sizes="(max-width: 540px) 92vw, 460px">
+                            <img src="./assets/carousel/hero-4.webp" alt="Consultoría Fluir Negocios" class="hero-img-new" loading="lazy" width="894" height="682" srcset="./assets/carousel/hero-4-460w.webp 460w, ./assets/carousel/hero-4.webp 894w" sizes="(max-width: 540px) 92vw, 460px">
+                            <img src="./assets/carousel/hero-5.webp" alt="Mentoring Fluir Negocios" class="hero-img-new" loading="lazy" width="2092" height="1200" srcset="./assets/carousel/hero-5-460w.webp 460w, ./assets/carousel/hero-5-920w.webp 920w, ./assets/carousel/hero-5.webp 2092w" sizes="(max-width: 540px) 92vw, 460px">
                         </div>
                         <div class="human-floating-pill">
                             <div class="human-avatars">
@@ -270,11 +283,13 @@
                         <div class="programa-pie">
                             <p class="programa-nota">Empezás por el diagnóstico, sin cargo.</p>
                             <a href="https://wa.me/5492235295052?text=Hola!%20Quiero%20reservar%20una%20llamada%20para%20la%20consultor%C3%ADa%20individual." target="_blank" rel="noopener" class="programa-btn">Reservá tu llamada <i class="fa-solid fa-arrow-right"></i></a>
-                            <a href="#rueda" class="programa-link">Antes quiero hacer la Rueda</a>
+                            <a href="./pages/mar.html" class="programa-link">Ver el detalle del m&eacute;todo M&middot;A&middot;R</a>
                         </div>
                     </article>
 
                 </div>
+
+                <p class="programas-otros">¿Buscás algo más puntual? Conocé la <a href="./pages/cde.html">C&middot;D&middot;E, nuestra capacitación para gerentes y encargados</a>, o <a href="./pages/sistemas.html">Fluir Sistemas: webs que venden, automatización con IA y tableros con tus números</a>.</p>
             </div>
         </section>
 
@@ -366,29 +381,29 @@
             <div class="clientes-marquee">
                 <div class="clientes-marquee-track">
                     <!-- Set 1 -->
-                    <img src="./assets/clients/logo-sheraton.webp" alt="Sheraton" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-grido.webp" alt="Grido" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-crea.webp" alt="CREA" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-elecsur.webp" alt="Elecsur" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-patagonian-fruits.webp" alt="Patagonian Fruits" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-zummacro.webp" alt="Zummacro World Commerce" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-quavo.webp" alt="Quavo" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-contegma.webp" alt="Contegma" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-lola-hunkeler.webp" alt="Lola Hunkeler" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-musso.webp" alt="Musso Aluminios" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-fj.webp" alt="FJ Servicio Técnico" class="clientes-marquee-img">
+                    <img src="./assets/clients/logo-sheraton.webp" alt="Sheraton" class="clientes-marquee-img" width="227" height="190" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-grido.webp" alt="Grido" class="clientes-marquee-img" width="267" height="182" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-crea.webp" alt="CREA" class="clientes-marquee-img" width="161" height="125" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-elecsur.webp" alt="Elecsur" class="clientes-marquee-img" width="297" height="113" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-patagonian-fruits.webp" alt="Patagonian Fruits" class="clientes-marquee-img" width="228" height="93" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-zummacro.webp" alt="Zummacro World Commerce" class="clientes-marquee-img" width="234" height="88" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-quavo.webp" alt="Quavo" class="clientes-marquee-img" width="226" height="78" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-contegma.webp" alt="Contegma" class="clientes-marquee-img" width="270" height="65" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-lola-hunkeler.webp" alt="Lola Hunkeler" class="clientes-marquee-img" width="186" height="112" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-musso.webp" alt="Musso Aluminios" class="clientes-marquee-img" width="247" height="135" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-fj.webp" alt="FJ Servicio Técnico" class="clientes-marquee-img" width="196" height="106" loading="lazy" decoding="async">
                     <!-- Set 2 (duplicado para loop continuo) -->
-                    <img src="./assets/clients/logo-sheraton.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-grido.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-crea.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-elecsur.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-patagonian-fruits.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-zummacro.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-quavo.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-contegma.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-lola-hunkeler.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-musso.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
-                    <img src="./assets/clients/logo-fj.webp" alt="" aria-hidden="true" class="clientes-marquee-img">
+                    <img src="./assets/clients/logo-sheraton.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="227" height="190" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-grido.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="267" height="182" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-crea.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="161" height="125" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-elecsur.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="297" height="113" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-patagonian-fruits.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="228" height="93" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-zummacro.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="234" height="88" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-quavo.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="226" height="78" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-contegma.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="270" height="65" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-lola-hunkeler.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="186" height="112" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-musso.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="247" height="135" loading="lazy" decoding="async">
+                    <img src="./assets/clients/logo-fj.webp" alt="" aria-hidden="true" class="clientes-marquee-img" width="196" height="106" loading="lazy" decoding="async">
                 </div>
             </div>
         </div>
@@ -507,7 +522,7 @@
                         
                         <div class="team-card slide-up stagger-1">
                             <div class="team-card-img-wrap">
-                                <img src="./assets/team/vanesa.png" alt="Vanesa Chiesa" class="team-card-img">
+                                <img src="./assets/team/vanesa.png" alt="Vanesa Chiesa" class="team-card-img" width="453" height="680" loading="lazy" decoding="async">
                             </div>
                             <div class="team-card-body">
                                 <span class="team-card-badge">Dir. Fluir Empresas</span>
@@ -518,7 +533,7 @@
                         
                         <div class="team-card slide-up stagger-2">
                             <div class="team-card-img-wrap">
-                                <img src="./assets/team/martin.png" alt="Martín Troncoso" class="team-card-img">
+                                <img src="./assets/team/martin.png" alt="Martín Troncoso" class="team-card-img" width="453" height="680" loading="lazy" decoding="async">
                             </div>
                             <div class="team-card-body">
                                 <span class="team-card-badge">C.E.O Fluir Coaching</span>
@@ -530,7 +545,7 @@
                         
                         <div class="team-card slide-up stagger-3">
                             <div class="team-card-img-wrap">
-                                <img src="./assets/team/antonela.png" alt="Antonela Dello Russo" class="team-card-img">
+                                <img src="./assets/team/antonela.png" alt="Antonela Dello Russo" class="team-card-img" width="453" height="680" loading="lazy" decoding="async">
                             </div>
                             <div class="team-card-body">
                                 <span class="team-card-badge">C.E.O Fluir Negocios</span>
@@ -685,7 +700,7 @@
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-col">
-                <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="footer-logo-img">
+                <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="footer-logo-img" width="800" height="310" loading="lazy" decoding="async">
                 <p class="footer-desc">Más de 10 años acompañando a dueños de negocios a construir negocios que funcionen
                     sin depender de ellos.</p>
             </div>
@@ -698,6 +713,15 @@
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#casos">Casos de éxito</a></li>
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#programas">Programas</a></li>
                     <li><i class="fa-solid fa-chevron-right"></i> <a href="#faq">Preguntas frecuentes</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Programas y servicios</h3>
+                <ul class="contact-list">
+                    <li><i class="fa-solid fa-chevron-right"></i> <a href="./pages/pac.html">P&middot;A&middot;C &mdash; Programa Acelerador de Crecimiento</a></li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <a href="./pages/mar.html">M&middot;A&middot;R &mdash; Consultor&iacute;a individual</a></li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <a href="./pages/cde.html">C&middot;D&middot;E &mdash; Capacitaci&oacute;n de equipo</a></li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <a href="./pages/sistemas.html">Fluir Sistemas &mdash; Webs, IA y tableros</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -740,14 +764,19 @@
       "url": "https://fluirnegocios.com/",
       "logo": "https://fluirnegocios.com/assets/logos/logo.png",
       "telephone": "+5492235295052",
+      "image": "https://fluirnegocios.com/assets/og/og-home.jpg",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Catamarca 2930",
         "addressLocality": "Mar del Plata",
         "addressRegion": "Buenos Aires",
+        "postalCode": "7600",
         "addressCountry": "AR"
       },
-      "areaServed": "AR",
+      "areaServed": [
+        { "@type": "City", "name": "Mar del Plata" },
+        { "@type": "Country", "name": "Argentina" }
+      ],
       "sameAs": [
         "https://instagram.com/fluir.negocios.mdq",
         "https://www.fluircoaching.com"

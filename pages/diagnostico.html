@@ -4,11 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        /* Mientras "Enforce HTTPS" siga apagado en GitHub Pages, esto evita que
+           alguien se quede navegando la version http:// del sitio. */
+        if (location.protocol === 'http:' && /(^|\.)fluirnegocios\.com$/.test(location.hostname)) {
+            location.replace(location.href.replace(/^http:/, 'https:'));
+        }
+    </script>
     <title>Autodiagnóstico gratis — ¿Tu negocio funciona sin vos? | Fluir Negocios</title>
     <meta name="description" content="Respondé 10 preguntas y descubrí al instante qué tan dependiente de vos es tu negocio, con los 3 frenos principales que te impiden crecer. Gratis.">
     <!-- Landing de campañas (Meta Ads): noindex para no competir con la home en Google -->
     <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://fluirnegocios.com/pages/diagnostico.html">
+
+    <!-- Open Graph: la landing se comparte por WhatsApp y Meta Ads -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fluirnegocios.com/pages/diagnostico.html">
+    <meta property="og:title" content="¿Tu negocio funciona sin vos? Descubrilo en 2 minutos">
+    <meta property="og:description" content="Respondé 10 preguntas y descubrí al instante qué tan dependiente de vos es tu negocio, con los 3 frenos principales que te impiden crecer. Gratis.">
+    <meta property="og:image" content="https://fluirnegocios.com/assets/og/og-diagnostico.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_AR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://fluirnegocios.com/assets/og/og-diagnostico.jpg">
     <link rel="icon" href="../assets/logos/favicon.png" type="image/png">
 
     <!-- ============================================================
@@ -43,7 +62,7 @@
         fbq('init', META_PIXEL_ID);
         fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
+    <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
 
     <!-- CSS crítico inline: sin hojas externas ni fuentes web (performance mobile) -->
     <style>
@@ -140,7 +159,10 @@
         @media (min-width: 480px) { .topbar img { height: 50px; } .card { padding: 28px 26px; } }
     </style>
     <!-- Tokens que espera pilares.css (la landing no carga styles.css para seguir liviana) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- Font Awesome sin bloquear el render: se aplica apenas termina de bajar -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../css/pilares.css?v=1.1">
     <style>
         :root {
@@ -171,7 +193,7 @@
 <body>
     <div class="wrap">
         <!-- Solo logo, sin navegación (landing de campaña: un solo objetivo) -->
-        <header class="topbar"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132"></header>
+        <header class="topbar"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132" loading="lazy" decoding="async"></header>
 
         <section class="hero">
             <h1>¿Tu negocio funciona <span>sin vos</span>?<br>Descubrilo en 2 minutos</h1>

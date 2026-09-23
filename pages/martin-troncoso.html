@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        /* Mientras "Enforce HTTPS" siga apagado en GitHub Pages, esto evita que
+           alguien se quede navegando la version http:// del sitio. */
+        if (location.protocol === 'http:' && /(^|\.)fluirnegocios\.com$/.test(location.hostname)) {
+            location.replace(location.href.replace(/^http:/, 'https:'));
+        }
+    </script>
     <title>Martín Troncoso — ahora en martintroncoso.com</title>
 
     <!-- GitHub Pages no hace redirecciones del lado del servidor, asi que

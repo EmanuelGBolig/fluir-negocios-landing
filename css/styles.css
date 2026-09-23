@@ -55,6 +55,13 @@ html {
     font-size: 16px;
 }
 
+/* FIX-CLS: las imagenes llevan width/height en el HTML para que el navegador
+   reserve el espacio antes de descargarlas. Esta regla de especificidad minima
+   deja que el CSS de cada clase siga mandando sobre el alto. */
+img {
+    height: auto;
+}
+
 body {
     background-color: var(--color-light);
     color: var(--color-dark-gray);
@@ -4758,6 +4765,28 @@ button.btn-secondary:hover {
 }
 
 .programa-link:hover {
+    border-bottom-color: var(--color-primary);
+}
+
+/* Enlaces al resto de los servicios, al pie de la seccion de programas */
+.programas-otros {
+    margin: 2.5rem auto 0;
+    max-width: 760px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-dark-gray);
+}
+
+.programas-otros a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast);
+}
+
+.programas-otros a:hover {
     border-bottom-color: var(--color-primary);
 }
 
