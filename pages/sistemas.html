@@ -115,43 +115,93 @@
 
     <!-- Schema.org: Service + Breadcrumb -->
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Service",
-          "name": "Fluir Sistemas",
-          "serviceType": "Desarrollo web, automatización con IA y tableros de datos para negocios",
-          "description": "Webs y landings que venden, automatización con IA y n8n, y tableros con los números del negocio en tiempo real.",
-          "url": "https://fluirnegocios.com/pages/sistemas.html",
-          "areaServed": { "@type": "Country", "name": "Argentina" },
-          "provider": {
-            "@type": "ProfessionalService",
-            "name": "Fluir Negocios",
-            "url": "https://fluirnegocios.com/",
-            "telephone": "+5492235295052",
-            "address": { "@type": "PostalAddress", "addressLocality": "Mar del Plata", "addressRegion": "Buenos Aires", "addressCountry": "AR" }
+      "@type": "Service",
+      "name": "Fluir Sistemas — Webs, automatización con IA y tableros para PyMEs",
+      "serviceType": "Desarrollo web, automatización con IA y tableros de datos para negocios",
+      "description": "Webs y landings que venden, automatización con IA y n8n, y tableros con los números del negocio en tiempo real.",
+      "url": "https://fluirnegocios.com/pages/sistemas.html",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      },
+      "provider": {
+        "@type": "ProfessionalService",
+        "@id": "https://fluirnegocios.com/#fluir-negocios",
+        "name": "Fluir Negocios",
+        "url": "https://fluirnegocios.com/"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de Fluir Sistemas",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fluir Web"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "USD",
+              "minPrice": "300"
+            }
           },
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Servicios de Fluir Sistemas",
-            "itemListElement": [
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fluir Web" }, "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD", "minPrice": "300" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fluir Automatiza" }, "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD", "minPrice": "300" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fluir Tablero" }, "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD", "minPrice": "200" } }
-            ]
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fluir Automatiza"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "USD",
+              "minPrice": "300"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fluir Tablero"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "USD",
+              "minPrice": "200"
+            }
           }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://fluirnegocios.com/"
         },
         {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://fluirnegocios.com/" },
-            { "@type": "ListItem", "position": 2, "name": "Programas", "item": "https://fluirnegocios.com/#programas" },
-            { "@type": "ListItem", "position": 3, "name": "Fluir Sistemas", "item": "https://fluirnegocios.com/pages/sistemas.html" }
-          ]
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Programas",
+          "item": "https://fluirnegocios.com/#programas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fluir Sistemas",
+          "item": "https://fluirnegocios.com/pages/sistemas.html"
         }
       ]
     }
+  ]
+}
     </script>
 </head>
 

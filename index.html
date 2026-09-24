@@ -782,6 +782,7 @@
     {
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
+      "@id": "https://fluirnegocios.com/#fluir-negocios",
       "name": "Fluir Negocios",
       "description": "Consultoría para dueños de negocios: facturar más, delegar con criterio y construir un equipo que funcione sin el dueño.",
       "url": "https://fluirnegocios.com/",
@@ -800,9 +801,34 @@
         { "@type": "City", "name": "Mar del Plata" },
         { "@type": "Country", "name": "Argentina" }
       ],
+      "serviceType": [
+        "Consultoría empresarial",
+        "Asesoría para PyMEs",
+        "Capacitación de equipos"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Programas y servicios de Fluir Negocios",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "P·A·C — Consultoría grupal para dueños de PyMEs", "url": "https://fluirnegocios.com/pages/pac.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "M·A·R — Asesoría empresarial 1 a 1", "url": "https://fluirnegocios.com/pages/mar.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "C·D·E — Capacitación de equipos", "url": "https://fluirnegocios.com/pages/cde.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fluir Sistemas — Webs, automatización con IA y tableros", "url": "https://fluirnegocios.com/pages/sistemas.html" } }
+        ]
+      },
+      "parentOrganization": {
+        "@type": "Organization",
+        "@id": "https://fluirnegocios.com/#grupo-fluir",
+        "name": "Fluir",
+        "description": "Grupo de marcas con base en Mar del Plata.",
+        "subOrganization": [
+          { "@type": "Organization", "name": "Fluir Coaching", "url": "https://www.fluircoaching.com/" },
+          { "@type": "Organization", "name": "Fluir Empresas", "url": "https://fluirempresas.com/" },
+          { "@type": "Organization", "name": "Fluir Marketing", "url": "https://fluirmarketing.com/" }
+        ]
+      },
       "sameAs": [
-        "https://instagram.com/fluir.negocios.mdq",
-        "https://www.fluircoaching.com"
+        "https://instagram.com/fluir.negocios.mdq"
       ]
     }
     </script>

@@ -83,34 +83,51 @@
     <!-- End Meta Pixel Code -->
     <!-- Schema.org: Service + Breadcrumb -->
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@graph": [
+      "@type": "Service",
+      "name": "M·A·R — Asesoría empresarial 1 a 1 para dueños de PyMEs",
+      "serviceType": "Consultoría 1 a 1 para dueños de negocios",
+      "description": "Asesoría y consultoría 1 a 1 para dueños de PyMEs en Mar del Plata y todo el país. Arquitectura para empresas autónomas en tres niveles: Tracción, Impulso y Exponencial.",
+      "url": "https://fluirnegocios.com/pages/mar.html",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      },
+      "provider": {
+        "@type": "ProfessionalService",
+        "@id": "https://fluirnegocios.com/#fluir-negocios",
+        "name": "Fluir Negocios",
+        "url": "https://fluirnegocios.com/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
         {
-          "@type": "Service",
-          "name": "M·A·R — Método Acelerador de Resultados",
-          "serviceType": "Consultoría 1 a 1 para dueños de negocios",
-          "description": "Asesoría y consultoría 1 a 1 para dueños de PyMEs en Mar del Plata y todo el país. Arquitectura para empresas autónomas en tres niveles: Tracción, Impulso y Exponencial.",
-          "url": "https://fluirnegocios.com/pages/mar.html",
-          "areaServed": { "@type": "Country", "name": "Argentina" },
-          "provider": {
-            "@type": "ProfessionalService",
-            "name": "Fluir Negocios",
-            "url": "https://fluirnegocios.com/",
-            "telephone": "+5492235295052",
-            "address": { "@type": "PostalAddress", "addressLocality": "Mar del Plata", "addressRegion": "Buenos Aires", "addressCountry": "AR" }
-          }
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://fluirnegocios.com/"
         },
         {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://fluirnegocios.com/" },
-            { "@type": "ListItem", "position": 2, "name": "Programas", "item": "https://fluirnegocios.com/#programas" },
-            { "@type": "ListItem", "position": 3, "name": "M·A·R — Método Acelerador de Resultados", "item": "https://fluirnegocios.com/pages/mar.html" }
-          ]
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Programas",
+          "item": "https://fluirnegocios.com/#programas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "M·A·R — Método Acelerador de Resultados",
+          "item": "https://fluirnegocios.com/pages/mar.html"
         }
       ]
     }
+  ]
+}
     </script>
 </head>
 
