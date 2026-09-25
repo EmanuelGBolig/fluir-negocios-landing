@@ -41,12 +41,12 @@
     <meta property="og:url" content="https://fluirnegocios.com/pages/diagnostico.html">
     <meta property="og:title" content="¿Tu negocio funciona sin vos? Descubrilo en 2 minutos">
     <meta property="og:description" content="Respondé 10 preguntas y descubrí al instante qué tan dependiente de vos es tu negocio, con los 3 frenos principales que te impiden crecer. Gratis.">
-    <meta property="og:image" content="https://fluirnegocios.com/assets/og/og-diagnostico.jpg">
+    <meta property="og:image" content="https://fluirnegocios.com/assets/og/og-diagnostico-v2.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="es_AR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://fluirnegocios.com/assets/og/og-diagnostico.jpg">
+    <meta name="twitter:image" content="https://fluirnegocios.com/assets/og/og-diagnostico-v2.jpg">
     <link rel="icon" href="../assets/logos/favicon.png" type="image/png">
 
     <!-- ============================================================
@@ -83,43 +83,48 @@
     </script>
     <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
 
-    <!-- CSS crítico inline: sin hojas externas ni fuentes web (performance mobile) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,700..900;1,62..125,700..900&family=Chivo:wght@400..700&display=swap">
+    <!-- CSS crítico inline -->
     <style>
         :root {
-            --blue: #0F52BA; --blue2: #2D7DDB; --cyan: #00B4D8; --ink: #0A1A2F;
-            --muted: #6A788A; --line: #E3EAF2; --bg: #EEF3F8;
+            --blue: #1257C7; --blue2: #1257C7; --cyan: #1257C7; --ink: #0D1524;
+            --muted: #5A6475; --line: #D5DBE4; --bg: #F3F5F8;
             --red: #E5484D; --amber: #E0A422; --green: #2FB37A;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Chivo', 'Helvetica Neue', Arial, sans-serif;
             color: var(--ink);
-            background: linear-gradient(180deg, #F6FAFF 0%, var(--bg) 100%);
+            background: var(--bg);
             line-height: 1.5;
         }
         .wrap { max-width: 640px; margin: 0 auto; padding: 0 18px; }
         .topbar { padding: 16px 0 4px; text-align: center; }
-        .topbar img { height: 44px; width: auto; }
+        .topbar img { height: 40px; width: auto; }
 
         /* Hero compacto: CTA visible sin scroll a 390px */
         .hero { text-align: center; padding: 14px 0 18px; }
-        .hero h1 { font-size: clamp(26px, 7vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; }
+        .hero h1 { font-family: 'Archivo', 'Arial Black', sans-serif; font-stretch: 115%; font-size: clamp(30px, 8vw, 46px); line-height: 1; font-weight: 900; letter-spacing: -0.03em; text-wrap: balance; }
+        .hero h1 span { font-style: italic; }
         .hero h1 span { color: var(--blue); }
         .hero .sub { color: #37475A; font-size: 16px; margin: 10px auto 16px; max-width: 480px; }
         .hero .sub b { color: var(--ink); }
         .btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             font: inherit; font-weight: 800; font-size: 17px; cursor: pointer;
-            border: 0; border-radius: 13px; padding: 16px 22px; text-decoration: none;
+            border: 0; border-radius: 999px; padding: 17px 26px; text-decoration: none;
             transition: transform .15s ease, box-shadow .15s ease;
         }
         .btn-cta {
             width: 100%; max-width: 420px; color: #fff;
-            background: linear-gradient(135deg, var(--blue), var(--cyan));
-            box-shadow: 0 12px 26px rgba(15, 82, 186, .32);
+            background: var(--blue);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 12px 26px -12px rgba(18, 87, 199, .9);
         }
-        .btn-cta:hover { transform: translateY(-2px); }
+        .btn-cta:hover { background: #0F4CB0; }
+        .btn-cta:active { transform: scale(.96); }
         .micro { font-size: 13px; color: var(--muted); margin-top: 8px; }
 
         /* Card del quiz */
@@ -169,7 +174,7 @@
         /* Prueba social */
         .proof { text-align: center; padding: 6px 0 10px; }
         .proof .nums { font-weight: 800; color: var(--blue); font-size: 15px; }
-        .testi { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-top: 12px; text-align: left; font-size: 14.5px; color: #37475A; }
+        .testi { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 14px 16px; margin-top: 12px; text-align: left; font-size: 14.5px; color: #37475A; }
         .testi i { display: block; font-style: italic; }
         .testi b { display: block; margin-top: 8px; color: var(--ink); font-style: normal; font-size: 13.5px; }
         .final { text-align: center; padding: 10px 0 50px; }
@@ -185,21 +190,21 @@
     <link rel="stylesheet" href="../css/pilares.css?v=1.1">
     <style>
         :root {
-            --color-primary: #0F52BA;
-            --color-secondary: #00B4D8;
+            --color-primary: #1257C7;
+            --color-secondary: #5B8FE0;
             --color-dark: #0f172a;
             --color-dark-gray: #334155;
             --color-light: #ffffff;
             --color-light-gray: #f8fafc;
             --color-border: #e2e8f0;
             --color-absolute-white: #ffffff;
-            --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-text: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-heading: 'Archivo', 'Arial Black', sans-serif;
+            --font-text: 'Chivo', 'Helvetica Neue', Arial, sans-serif;
             --border-radius: 16px;
             --radius-lg: 24px;
             --radius-full: 9999px;
             --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-            --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            --gradient-primary: var(--color-primary);
             --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-norm: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -220,9 +225,9 @@
         <header class="topbar"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132" loading="lazy" decoding="async"></header>
 
         <section class="hero">
-            <h1>¿Tu negocio funciona <span>sin vos</span>?<br>Descubrilo en 2 minutos</h1>
-            <p class="sub">Respondé 20 preguntas sobre los <b>5 pilares</b> de tu negocio y al instante te devolvemos tu rueda, tu <b>cuello de botella</b> y por dónde empezar. Gratis.</p>
-            <a href="#rueda" class="btn btn-cta" data-cta="hero">Hacer la Rueda de mi Negocio →</a>
+            <h1>¿Tu negocio funciona <span>sin vos</span>? Descubrilo en 5 minutos.</h1>
+            <p class="sub">Respondé 20 preguntas sobre las <b>5 áreas</b> de tu negocio y al instante te devolvemos tu resultado, <b>lo que más te frena</b> y por dónde empezar. Gratis.</p>
+            <a href="#rueda" class="btn btn-cta" data-cta="hero">Hacer el test →</a>
             <div class="micro">5 minutos · gratis · resultado al instante</div>
         </section>
 
@@ -240,13 +245,13 @@
         <!-- Prueba social compacta -->
         <section class="proof">
             <div class="nums">+100 negocios acompañados · +10 años de trayectoria</div>
-            <div class="testi"><i>"Pasamos de que todo dependiera de nosotros a tener un encargado que decide solo. Franco hoy cierra cuentas mayoristas en vez de estar en el mostrador."</i><b>Franco y Claudia — Distribuidora López y López, Mar del Plata</b></div>
-            <div class="testi"><i>"Antes gestionaba el taller por intuición y el dinero se me escapaba. Hoy tengo un sueldo fijo y sé que mi punto de equilibrio son 27 servicios."</i><b>Mauro Marin — Mauro Marin Tapas de Cilindros · Rectificadora</b></div>
+            <div class="testi"><i>"Estábamos creciendo exponencialmente, no podíamos tener el control y se desbordaba todo."</i><b>Vanesa Ruiz Díaz · Distribuidora Martín, Mar del Plata</b></div>
+            <div class="testi"><i>"Lo primero que me hizo ruido fue cuando me enseñaron a dividir: tener un sueldo. El taller tiene su plata, y yo pensaba que era mía."</i><b>Mauro Marin · Tapas de Cilindros, rectificadora</b></div>
         </section>
 
         <section class="final">
-            <a href="#rueda" class="btn btn-cta" data-cta="footer">Hacer la Rueda de mi Negocio →</a>
-            <div class="micro">Te vas con tu rueda y un plan concreto de por dónde empezar.</div>
+            <a href="#rueda" class="btn btn-cta" data-cta="footer">Hacer el test →</a>
+            <div class="micro">Te vas con tu resultado y un plan concreto de por dónde empezar.</div>
         </section>
 
         <div class="foot">Fluir Negocios · Mar del Plata, Argentina · <a href="https://fluirnegocios.com/" style="color:#6A788A">fluirnegocios.com</a></div>

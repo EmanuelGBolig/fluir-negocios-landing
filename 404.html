@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 
 <head>
     <meta charset="UTF-8">
@@ -33,62 +33,19 @@
     <title>Página no encontrada (404) | Fluir Negocios</title>
     <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://fluirnegocios.com/404.html">
-    <link rel="icon" href="./assets/logos/favicon.png" type="image/png">
+    <link rel="icon" href="/assets/logos/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <!-- Font Awesome sin bloquear el render: se aplica apenas termina de bajar -->
-    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <link rel="stylesheet" href="./css/styles.css?v=5.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,700..900&family=Chivo:wght@400..700&family=Chivo+Mono:wght@400;500&display=swap">
+    <!-- Rutas absolutas: GitHub Pages sirve este 404 en cualquier profundidad de URL -->
+    <link rel="stylesheet" href="/css/fluir.css?v=1">
     <style>
-        .nf-wrap {
-            min-height: 88vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 3rem 1.5rem;
-        }
-
-        .nf-logo {
-            height: 56px;
-            margin-bottom: 1.8rem;
-        }
-
-        .nf-code {
-            font-size: clamp(4.5rem, 14vw, 8rem);
-            font-weight: 800;
-            line-height: 1;
-            background: var(--gradient-primary, linear-gradient(135deg, #0F52BA, #00B4D8));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nf-wrap h1 {
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
-            margin: 0.4rem 0 0.8rem;
-            color: #0f172a;
-        }
-
-        .nf-wrap p {
-            color: #475569;
-            max-width: 480px;
-            margin: 0 auto 2rem;
-            line-height: 1.6;
-        }
-
-        .nf-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        .nf { min-height: 100vh; display: grid; align-content: center; background: var(--tinta); color: #fff; }
+        .nf .envoltura { display: grid; gap: 22px; padding-block: 60px; }
+        .nf .logo { height: 40px; width: auto; }
+        .nf .codigo { font-family: var(--f-dato); color: var(--azul-claro); letter-spacing: .08em; }
+        .nf h1 { font-size: clamp(2.4rem, 6vw, 4.8rem); font-weight: 900; font-stretch: 120%; letter-spacing: -0.04em; line-height: .95; max-width: 14ch; }
+        .nf p { max-width: 46ch; color: rgba(255,255,255,.82); font-size: 1.08rem; }
     </style>
 </head>
 
@@ -96,19 +53,19 @@
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9R963MW"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
 
-    <div class="nf-wrap">
-        <img src="./assets/logos/logo.png" alt="Fluir Negocios" class="nf-logo" width="800" height="310" loading="lazy" decoding="async">
-        <div class="nf-code">404</div>
-        <h1>Esta página no existe (o se mudó)</h1>
-        <p>El link que seguiste no llevó a ningún lado. Pero tu negocio sí necesita atención —
-            arrancá por acá:</p>
-        <div class="nf-actions">
-            <a href="./" class="btn-primary">Volver al inicio</a>
-            <a href="./#programas" class="btn-secondary">Ver programas</a>
+    <main class="nf">
+        <div class="envoltura">
+            <a href="/"><img class="logo" src="/assets/logos/logo-340.webp" alt="Fluir Negocios" width="102" height="40"></a>
+            <span class="codigo">ERROR 404</span>
+            <h1>Esta página no existe <em style="color:var(--azul-claro)">o se mudó.</em></h1>
+            <p>El link que seguiste no lleva a ningún lado. Desde acá podés volver al inicio o hacer el test de tu negocio.</p>
+            <div class="acciones">
+                <a class="boton boton-azul" href="/">Volver al inicio</a>
+                <a class="boton vidrio" href="/#rueda">Hacer el test</a>
+            </div>
         </div>
-    </div>
+    </main>
 </body>
 
 </html>
