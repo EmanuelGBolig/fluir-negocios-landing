@@ -207,7 +207,7 @@
       f.appendChild(im); f.appendChild(dm); svg.appendChild(f);
       el._lente = { id: id, w: w, h: h };
       var claro = el.classList.contains('claro');
-      el.style.backdropFilter = 'url(#' + id + ') blur(' + (claro ? 14 : 7) + 'px) saturate(190%) brightness(' + (claro ? 1.04 : 1.06) + ')';
+      el.style.backdropFilter = 'url(#' + id + ') blur(' + (claro ? 26 : 22) + 'px) saturate(' + (claro ? 190 : 170) + '%) brightness(' + (claro ? 1.05 : 1.1) + ')';
     }
 
     var objetivos = [].slice.call(document.querySelectorAll('.barra, .dock, .boton.vidrio, .portada .ficha, .logos, .contacto .vidrio'));

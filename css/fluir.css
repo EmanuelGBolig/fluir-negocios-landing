@@ -410,3 +410,56 @@ h2.fn-revela { filter: blur(10px); }
   -webkit-backdrop-filter: blur(6px) saturate(180%) brightness(1.08);
   backdrop-filter: blur(6px) saturate(180%) brightness(1.08);
 }
+
+/* ============================================================
+   Vidrio líquido v3: como las notificaciones de iOS 26
+   - Esmerilado: lo de atrás se ve solo como color (blur fuerte)
+   - Relleno gris claro traslúcido
+   - Borde que agarra luz en las esquinas (arriba a la izquierda y abajo a la derecha)
+   ============================================================ */
+.vidrio {
+  background:
+    radial-gradient(200px 100px at var(--bx, var(--inclina, 22%)) 0%, rgba(255,255,255,.14), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.09));
+  -webkit-backdrop-filter: blur(22px) saturate(170%) brightness(1.1);
+  backdrop-filter: blur(22px) saturate(170%) brightness(1.1);
+  box-shadow: 0 12px 34px -14px rgba(0,0,0,.5);
+}
+/* El borde es un anillo con degradado: brilla en dos esquinas y casi desaparece en los lados */
+.vidrio::after {
+  inset: 0; padding: 1.2px; opacity: 1;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,.95) 0%, rgba(255,255,255,.38) 14%, rgba(255,255,255,.08) 36%,
+    rgba(255,255,255,.05) 62%, rgba(255,255,255,.32) 86%, rgba(255,255,255,.8) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.vidrio:hover::after { opacity: 1; }
+.vidrio.claro {
+  background:
+    radial-gradient(200px 100px at var(--bx, var(--inclina, 22%)) 0%, rgba(255,255,255,.35), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.46));
+  -webkit-backdrop-filter: blur(26px) saturate(190%) brightness(1.05);
+  backdrop-filter: blur(26px) saturate(190%) brightness(1.05);
+  box-shadow: inset 0 0 0 .5px rgba(13,21,36,.07), 0 14px 34px -16px rgba(13,21,36,.35);
+}
+.vidrio.claro::after {
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,.6) 20%, rgba(255,255,255,.15) 45%, rgba(255,255,255,.15) 60%, rgba(255,255,255,.55) 85%, #fff 100%);
+}
+/* Tarjetas de contacto, equipo y datos: misma receta, un poco menos de relleno */
+.contacto .vidrio, .equipo.vidrio, .ficha.vidrio {
+  background:
+    radial-gradient(200px 100px at var(--bx, var(--inclina, 22%)) 0%, rgba(255,255,255,.12), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.07));
+  -webkit-backdrop-filter: blur(22px) saturate(170%) brightness(1.1);
+  backdrop-filter: blur(22px) saturate(170%) brightness(1.1);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .vidrio, .contacto .vidrio, .equipo.vidrio, .ficha.vidrio { background: rgba(58,66,84,.92); }
+  .vidrio.claro { background: rgba(255,255,255,.96); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .vidrio, .contacto .vidrio, .equipo.vidrio, .ficha.vidrio { background: rgba(40,48,64,.97); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .vidrio.claro { background: #fff; }
+}
