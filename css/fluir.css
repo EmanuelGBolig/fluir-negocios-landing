@@ -235,3 +235,12 @@ section { scroll-margin-top: 90px; }
 .pie a { color: rgba(255,255,255,.85); text-underline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
+
+/* ---------- Portada sin foto de fondo (Sistemas, C·D·E) ---------- */
+.portada.sin-foto { background: radial-gradient(1200px 500px at 85% 0%, #14305f 0%, #0b1220 60%); min-height: auto; }
+.portada.sin-foto::before { display: none; }
+.portada.sin-foto .envoltura { grid-template-columns: 1fr; align-items: end; }
+@media (min-width: 1000px) { .portada.sin-foto .envoltura { grid-template-columns: 7fr 5fr; gap: 48px; } }
+/* La foto como tarjeta, cerca de su tamaño real: no se estira ni se pixela */
+.foto-tarjeta { width: 100%; max-width: 620px; height: auto; aspect-ratio: 894 / 682; object-fit: cover; border-radius: var(--r-panel); align-self: end; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08); }
+.portada.sin-foto h1 { font-size: clamp(2.5rem, 5vw, 4.4rem); max-width: 13ch; }
