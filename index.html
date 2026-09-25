@@ -484,6 +484,98 @@ h2.fn-revela { filter: blur(10px); }
 /* Lugar para la barra inferior del teléfono: adentro de la sección oscura del final,
    no como franja clara debajo. Va al final para ganarle al padding del cierre. */
 @media (max-width: 820px) { .cierre .envoltura { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 104px); } }
+
+/* ============================================================
+   Vidrio líquido v2: más transparente y con física de iOS 26
+   (va al final: reemplaza la receta anterior de vidrio y botones)
+   ============================================================ */
+:root {
+  /* Resortes generados con la fórmula del oscilador amortiguado, como los springs de SwiftUI */
+  --resorte: linear(0, 0.021, 0.0766, 0.1564, 0.2516, 0.3547, 0.4597, 0.5619, 0.6579, 0.7453, 0.8225, 0.8888, 0.9441, 0.9887, 1.0234, 1.049, 1.0666, 1.0775, 1.0827, 1.0833, 1.0804, 1.075, 1.0678, 1.0596, 1.0508, 1.0421, 1.0337, 1.0259, 1.0189, 1.0128, 1.0076, 1.0033, 0.9998, 0.9972, 0.9953, 0.9941, 0.9933, 0.993, 0.9931, 0.9934, 0.9939, 0.9946, 0.9953, 0.996, 0.9967, 0.9974, 0.998, 0.9986, 1);
+  --resorte-suave: linear(0, 0.0148, 0.0535, 0.109, 0.1753, 0.2479, 0.323, 0.3979, 0.4706, 0.5396, 0.6038, 0.6628, 0.7161, 0.7637, 0.8058, 0.8426, 0.8743, 0.9015, 0.9245, 0.9437, 0.9596, 0.9725, 0.9829, 0.9911, 0.9975, 1.0023, 1.0058, 1.0082, 1.0098, 1.0107, 1.0111, 1.011, 1.0107, 1.0101, 1.0094, 1.0087, 1.0078, 1.007, 1.0062, 1.0054, 1.0047, 1.004, 1.0034, 1.0028, 1.0023, 1.0019, 1.0015, 1.0012, 1);
+  --borde-luz:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    inset 0 -1px 0 rgba(255,255,255,.28),
+    inset 1px 0 0 rgba(255,255,255,.2),
+    inset -1px 0 0 rgba(255,255,255,.2),
+    inset 0 0 22px rgba(255,255,255,.07);
+}
+
+/* Vidrio claro (sobre fotos y fondos oscuros): casi transparente, el borde hace el trabajo */
+.vidrio {
+  background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.035));
+  -webkit-backdrop-filter: blur(9px) saturate(190%) brightness(1.06);
+  backdrop-filter: blur(9px) saturate(190%) brightness(1.06);
+  box-shadow: var(--borde-luz), 0 12px 32px -14px rgba(5,10,22,.5);
+}
+/* Brillo especular: sigue al dedo, al mouse o a la inclinación del teléfono */
+.vidrio::after {
+  background:
+    radial-gradient(160px 80px at var(--bx, var(--inclina, 28%)) 0%, rgba(255,255,255,.55), transparent 70%),
+    radial-gradient(120px 60px at calc(100% - var(--bx, var(--inclina, 28%))) 100%, rgba(255,255,255,.18), transparent 70%);
+  opacity: .55;
+}
+.vidrio.claro {
+  background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.34));
+  -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.04);
+  backdrop-filter: blur(16px) saturate(200%) brightness(1.04);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(255,255,255,.5), inset 0 0 0 1px rgba(13,21,36,.06), 0 14px 34px -16px rgba(13,21,36,.38);
+}
+
+/* Botón principal: vidrio teñido de azul, lo bastante opaco para que el texto blanco se lea */
+.boton-azul {
+  background: linear-gradient(180deg, rgba(38,108,222,.9), rgba(18,87,199,.84));
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(255,255,255,.2), inset 0 0 16px rgba(255,255,255,.08), 0 12px 28px -12px rgba(18,87,199,.85);
+}
+.boton-azul:hover { background: linear-gradient(180deg, rgba(38,108,222,.96), rgba(18,87,199,.92)); }
+
+/* Toque estilo iOS 26: el botón crece, se ilumina desde el dedo y vuelve con resorte */
+.boton, .flecha { position: relative; }
+.boton, .flecha, .video .play {
+  isolation: isolate; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: transform .7s var(--resorte), background .25s, box-shadow .3s, opacity .25s;
+}
+.boton::before, .flecha::before, .video .play::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  background: radial-gradient(circle at var(--px, 50%) var(--py, 50%), rgba(255,255,255,.55), rgba(255,255,255,.12) 45%, transparent 75%);
+  opacity: 0; transition: opacity .45s ease-out;
+}
+.fn-presionado::before { opacity: 1; transition-duration: .12s; }
+.fn-presionado { transition-duration: .35s; }
+@media (hover: hover) {
+  .boton:hover { transform: none; }
+  .boton:active, .flecha:active { transform: none; }
+  .vidrio:hover::after { opacity: .8; }
+}
+.boton:active { transform: none; }
+
+/* Barra inferior: vidrio que se adapta al fondo, como la de la barra de arriba */
+.dock:not(.claro) { color: #fff; }
+.dock:not(.claro) .boton:not(.boton-azul) { color: #fff; }
+@media (max-width: 820px) {
+  .dock { transition: left .75s var(--resorte-suave), right .75s var(--resorte-suave), padding .5s var(--resorte-suave), color .3s, background .3s; }
+  .dock .boton { transition: flex-basis .6s var(--resorte-suave), padding .6s var(--resorte-suave), opacity .25s, min-height .5s var(--resorte-suave), transform .7s var(--resorte); }
+}
+.barra { transition: width .8s var(--resorte-suave), color .3s, background .3s; }
+
+/* Entradas con resorte: aparecen desde un poco más chicas y desenfocadas */
+@keyframes fn-vidrio-entra { from { opacity: 0; transform: translateY(14px) scale(.86); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+.portada .acciones > *, .portada .ficha, .portada .logos, .portada .tablero, .portada .foto-tarjeta { animation-duration: 1s; animation-timing-function: var(--resorte); }
+.fn-revela { transition: opacity .7s ease-out, transform 1s var(--resorte-suave), filter .7s ease-out; }
+.techo.fn-cambio { animation: fn-latido .7s var(--resorte); }
+
+@media (prefers-reduced-motion: reduce) {
+  .boton, .flecha, .video .play, .dock, .dock .boton, .barra { transition: none !important; }
+}
+
+/* Tarjetas de contacto, equipo y datos: vidrio casi transparente, que se note el borde y no el relleno */
+.contacto .vidrio, .equipo.vidrio, .ficha.vidrio {
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.012));
+  -webkit-backdrop-filter: blur(6px) saturate(180%) brightness(1.08);
+  backdrop-filter: blur(6px) saturate(180%) brightness(1.08);
+}
 </style>
 </head>
 <body>
@@ -1003,6 +1095,137 @@ h2.fn-revela { filter: blur(10px); }
       else if (y < ultimo - 8 || y < 120) dock.classList.remove('mini');
       ultimo = y;
     }, { passive: true });
+  })();
+
+  /* ---------- Vidrio líquido v2 ---------- */
+  (function () {
+    var reducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* 1) Toque: crece, se ilumina desde el dedo y se estira un poco si arrastrás */
+    var activo = null, x0 = 0, y0 = 0;
+    function soltar() {
+      if (!activo) return;
+      activo.classList.remove('fn-presionado');
+      activo.style.transform = '';
+      activo = null;
+    }
+    document.addEventListener('pointerdown', function (e) {
+      var el = e.target.closest && e.target.closest('.boton, .flecha, .video .play');
+      if (!el || reducir) return;
+      activo = el; x0 = e.clientX; y0 = e.clientY;
+      var r = el.getBoundingClientRect();
+      el.style.setProperty('--px', ((e.clientX - r.left) / r.width * 100) + '%');
+      el.style.setProperty('--py', ((e.clientY - r.top) / r.height * 100) + '%');
+      el.classList.add('fn-presionado');
+      el.style.transform = 'scale(1.07)';
+    }, { passive: true });
+    document.addEventListener('pointermove', function (e) {
+      if (!activo) return;
+      var dx = Math.max(-40, Math.min(40, e.clientX - x0)), dy = Math.max(-30, Math.min(30, e.clientY - y0));
+      var sx = 1.07 + Math.abs(dx) / 420 - Math.abs(dy) / 900, sy = 1.07 + Math.abs(dy) / 420 - Math.abs(dx) / 900;
+      activo.style.transform = 'translate(' + (dx * 0.22).toFixed(1) + 'px,' + (dy * 0.22).toFixed(1) + 'px) scale(' + sx.toFixed(3) + ',' + sy.toFixed(3) + ')';
+      var r = activo.getBoundingClientRect();
+      activo.style.setProperty('--px', ((e.clientX - r.left) / r.width * 100) + '%');
+      activo.style.setProperty('--py', ((e.clientY - r.top) / r.height * 100) + '%');
+    }, { passive: true });
+    ['pointerup', 'pointercancel', 'blur'].forEach(function (ev) { window.addEventListener(ev, soltar, { passive: true }); });
+
+    /* 2) Brillo que sigue la inclinación del teléfono (Android; iOS pide permiso y no lo forzamos) */
+    window.addEventListener('deviceorientation', function (e) {
+      if (e.gamma == null) return;
+      var g = Math.max(-30, Math.min(30, e.gamma));
+      document.documentElement.style.setProperty('--inclina', (50 + g * 1.4).toFixed(0) + '%');
+    }, { passive: true });
+
+    /* 3) La barra inferior cambia de tinte según el fondo, igual que la de arriba */
+    var dock = document.querySelector('.dock');
+    var zonas = [].slice.call(document.querySelectorAll('[data-tono]'));
+    function tinteDock() {
+      if (!dock) return;
+      var y = dock.getBoundingClientRect().top + dock.offsetHeight / 2, tono = 'claro';
+      for (var i = 0; i < zonas.length; i++) {
+        var r = zonas[i].getBoundingClientRect();
+        if (r.top <= y && r.bottom > y) { tono = zonas[i].dataset.tono; break; }
+      }
+      dock.classList.toggle('claro', tono === 'claro');
+    }
+    window.addEventListener('scroll', tinteDock, { passive: true });
+    window.addEventListener('resize', tinteDock);
+    tinteDock();
+
+    /* 4) Lente: los bordes del vidrio curvan lo que tienen detrás, como en iOS 26.
+          Solo Chrome y Android soportan un filtro SVG dentro de backdrop-filter;
+          en el resto queda el vidrio transparente sin curvatura. */
+    var chromium = !!(navigator.userAgentData && navigator.userAgentData.brands &&
+      navigator.userAgentData.brands.some(function (b) { return /Chromium/.test(b.brand); }));
+    if (!chromium || reducir || matchMedia('(prefers-reduced-transparency: reduce)').matches) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('width', '0'); svg.setAttribute('height', '0');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.style.position = 'absolute';
+    document.body.appendChild(svg);
+    var n = 0;
+
+    function mapa(w, h, radio, bisel) {
+      var c = document.createElement('canvas'); c.width = w; c.height = h;
+      var ctx = c.getContext('2d'), img = ctx.createImageData(w, h), d = img.data;
+      var cx = w / 2, cy = h / 2, hx = w / 2 - radio, hy = h / 2 - radio;
+      for (var y = 0; y < h; y++) {
+        for (var x = 0; x < w; x++) {
+          var px = Math.abs(x + .5 - cx) - hx, py = Math.abs(y + .5 - cy) - hy;
+          var dist, nx, ny;
+          if (px > 0 && py > 0) { var l = Math.sqrt(px * px + py * py); dist = radio - l; nx = px / l; ny = py / l; }
+          else if (px > py) { dist = radio - px; nx = 1; ny = 0; }
+          else { dist = radio - py; nx = 0; ny = 1; }
+          nx *= (x + .5 < cx ? -1 : 1); ny *= (y + .5 < cy ? -1 : 1);
+          var k = (y * w + x) * 4, f = 0;
+          if (dist < bisel && dist > -1) { var t = 1 - Math.max(0, dist) / bisel; f = t * t; }
+          d[k] = 128 + nx * f * 127; d[k + 1] = 128 + ny * f * 127; d[k + 2] = 128; d[k + 3] = 255;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      return c.toDataURL();
+    }
+
+    function lente(el) {
+      var r = el.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height);
+      if (w < 20 || h < 20) return;
+      if (el._lente && Math.abs(el._lente.w - w) < 3 && Math.abs(el._lente.h - h) < 3) return;
+      var radio = Math.min(h / 2, parseFloat(getComputedStyle(el).borderTopLeftRadius) || h / 2);
+      var id = el._lente ? el._lente.id : 'fn-lente-' + (++n);
+      var viejo = document.getElementById(id); if (viejo) viejo.remove();
+      var f = document.createElementNS(NS, 'filter');
+      f.setAttribute('id', id); f.setAttribute('x', '0'); f.setAttribute('y', '0');
+      f.setAttribute('width', w); f.setAttribute('height', h);
+      f.setAttribute('filterUnits', 'userSpaceOnUse'); f.setAttribute('primitiveUnits', 'userSpaceOnUse');
+      f.setAttribute('color-interpolation-filters', 'sRGB');
+      var im = document.createElementNS(NS, 'feImage');
+      im.setAttribute('href', mapa(w, h, radio, Math.min(18, h * 0.42)));
+      im.setAttribute('x', '0'); im.setAttribute('y', '0'); im.setAttribute('width', w); im.setAttribute('height', h);
+      im.setAttribute('result', 'mapa'); im.setAttribute('preserveAspectRatio', 'none');
+      var dm = document.createElementNS(NS, 'feDisplacementMap');
+      dm.setAttribute('in', 'SourceGraphic'); dm.setAttribute('in2', 'mapa');
+      dm.setAttribute('scale', String(-Math.min(46, h * 0.8)));
+      dm.setAttribute('xChannelSelector', 'R'); dm.setAttribute('yChannelSelector', 'G');
+      f.appendChild(im); f.appendChild(dm); svg.appendChild(f);
+      el._lente = { id: id, w: w, h: h };
+      var claro = el.classList.contains('claro');
+      el.style.backdropFilter = 'url(#' + id + ') blur(' + (claro ? 14 : 7) + 'px) saturate(190%) brightness(' + (claro ? 1.04 : 1.06) + ')';
+    }
+
+    var objetivos = [].slice.call(document.querySelectorAll('.barra, .dock, .boton.vidrio, .portada .ficha, .logos, .contacto .vidrio'));
+    var pendiente = null;
+    var ro = new ResizeObserver(function (entradas) {
+      clearTimeout(pendiente);
+      pendiente = setTimeout(function () { entradas.forEach(function (en) { lente(en.target); }); objetivos.forEach(lente); }, 160);
+    });
+    objetivos.forEach(function (el) { lente(el); ro.observe(el); });
+    /* La barra de arriba y la de abajo cambian de tinte: el blur del lente se ajusta */
+    var mo = new MutationObserver(function (ms) {
+      ms.forEach(function (m) { var el = m.target; if (el._lente) { el._lente.w = 0; lente(el); } });
+    });
+    [document.querySelector('.barra'), dock].forEach(function (el) { if (el) mo.observe(el, { attributes: true, attributeFilter: ['class'] }); });
   })();
 
   /* Videos: uno a la vez; la cita se esconde mientras suena */
