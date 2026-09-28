@@ -65,7 +65,7 @@
             titulo: 'Nos mudamos, y dejé de estar solo',
             texto: [
                 'Nos fuimos a una sede mejor y aprovechamos para renovar todo: la imagen de marca, los servicios, la forma de trabajar.',
-                'Pero el salto más grande no fue el edificio: fue asociarme con Antonella, mi pareja. La marca creció el día que dejé de sostenerla solo.'
+                'Pero el salto más grande no fue el edificio: fue asociarme con Antonela, mi pareja. La marca creció el día que dejé de sostenerla solo.'
             ],
             media: { tipo: 'video', src: BASE + 'slide-04.mp4', poster: BASE + 'slide-04.jpg' }
         },
