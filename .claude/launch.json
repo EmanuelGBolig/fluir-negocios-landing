@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "landing",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4173"
+      ],
+      "port": 4173
+    },
+    {
+      "name": "martin",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4174",
+        "--directory",
+        "C:\\Users\\Usuario\\Documents\\Fluir Negocios\\Landing\\martintroncoso-com"
+      ],
+      "port": 4174
+    }
+  ]
+}
