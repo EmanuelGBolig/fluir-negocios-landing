@@ -1,0 +1,20 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fn-landing",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "http-server", "-p", "8123", "-c-1"],
+      "port": 8123
+    },
+    {
+      "name": "panel-demo",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "C:\\Users\\Usuario\\AppData\\Local\\Temp\\claude\\C--Users-Usuario-Documents-Fluir-Negocios-Landing-FN-Landing\\300ac8d8-7a5b-4d04-9ae8-3be107ed139a\\scratchpad\\panel-demo.cmd"
+      ],
+      "port": 3000
+    }
+  ]
+}
