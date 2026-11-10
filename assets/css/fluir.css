@@ -574,3 +574,7 @@ section[id], span[id] { scroll-margin-top: 16px; }
   .faq-grilla .cabeza { position: sticky; top: 32px; }
 }
 @media (min-width: 1024px) { .campana h1 { font-size: 4.1rem; } }
+.otro__foto img { aspect-ratio: 16 / 9; object-position: 50% 40%; }
+.otro { grid-template-rows: auto 1fr auto; }
+.otro__visual { display: grid; align-content: center; padding: 20px; background: var(--gris-fondo); }
+.otro__visual .pieza { box-shadow: 0 10px 24px -14px rgba(10, 31, 58, 0.3); }
