@@ -418,6 +418,9 @@
     }
     el.addEventListener('scroll', actualizar, { passive: true });
     addEventListener('resize', actualizar);
+    /* El CSS completo puede llegar después que este script: se vuelve a medir cuando cambia el tamaño */
+    addEventListener('load', actualizar);
+    if ('ResizeObserver' in window) new ResizeObserver(actualizar).observe(el);
     actualizar();
   });
 })();
