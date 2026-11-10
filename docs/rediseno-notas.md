@@ -263,6 +263,30 @@ Las cuatro páginas ya usan el sistema nuevo y salieron publicadas junto con la 
 4. Cuando nada use más `css/fluir.css`, `css/styles.css`, `css/pilares.css`, `js/main.js`, `js/rueda.js`, `js/carrusel.js` y `js/fluir.js`, borrarlos. Hoy los usan `404.html`, `pages/diagnostico.html` y `pages/martin-troncoso*`.
 5. Las imágenes para compartir viejas (`og-*-v2.jpg`, `og-*.jpg`) ya no las usa ninguna página nueva. Se pueden borrar cuando se resuelva el punto 2.
 
+## Ajustes después de publicar (10/11)
+
+- **Fotos:** salieron los dos cuadros de la capacitación de Elecsur y Contegma, que eran de baja calidad.
+  - "Lo que cambia" queda sin foto.
+  - El C·D·E pasa a la foto de Anto presentando.
+  - La cita de Elecsur queda como tarjeta de texto.
+  - El equipo queda con una sola foto a lo ancho.
+- **Celular menos vertical:** en el celular, los grupos de tarjetas se deslizan hacia el costado, con puntitos que marcan cuántas hay. En escritorio todo sigue igual.
+  - Qué grupos: lo que cambia, casos, programas, etapas, semanas, módulos y servicios.
+  - El test: el radar queda arriba y las cinco frases se deslizan de a una. Al marcar una, pasa sola a la siguiente.
+  - También bajó el aire entre secciones, se ocultó la tapa de la guía y los logos van de a cuatro por fila.
+
+  | Página | Antes | Ahora |
+  |---|---|---|
+  | Home | 19,1 pantallas | 11,7 pantallas |
+  | M·A·R | 7,6 | 6,3 |
+  | P·A·C | 6,6 | 4,8 |
+  | C·D·E | 7,2 | 5,4 |
+  | Fluir Sistemas | 5,5 | 4,6 |
+  | /diagnostico | 4,0 | 4,0 |
+
+- **Barra inferior:** en escritorio ya no aparece, porque ahí está el botón de la cabecera. Queda en celular y tablet.
+- **Tarjeta del M·A·R en la home:** ya no se estira el bloque de título.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.
