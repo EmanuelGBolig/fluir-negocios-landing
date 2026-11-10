@@ -763,3 +763,5 @@ section[id], span[id] { scroll-margin-top: 16px; }
   .con-barra { --barra-alto: 0px; }
   .programa { align-content: start; }
 }
+/* 404: links de la ficha */
+.ficha li > .enlace { min-height: 48px; }

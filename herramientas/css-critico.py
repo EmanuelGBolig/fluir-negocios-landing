@@ -12,7 +12,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 CSS = RAIZ / 'assets' / 'css' / 'fluir.css'
 PAGINAS = ['index.html', 'diagnostico/index.html', 'diagnostico/tu/index.html',
-           'pages/mar.html', 'pages/pac.html', 'pages/cde.html', 'pages/sistemas.html']
+           'pages/mar.html', 'pages/pac.html', 'pages/cde.html', 'pages/sistemas.html', '404.html']
 
 # Selectores que aparecen en la primera pantalla (celular y escritorio)
 CRITICOS = re.compile(r'''^(

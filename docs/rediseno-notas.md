@@ -122,9 +122,9 @@ La carpeta `_boceto/` no está en ninguna rama de GitHub ni en la PC.
   - **Lo que se pierde:** el PageView de quien se va antes de 3 s sin tocar nada.
   - **Por qué:** con las etiquetas cargando de entrada, Lighthouse daba 76 a 78 de rendimiento. Esas tres librerías bloqueaban 1,1 s del celular.
   - **Cómo volver atrás:** en el `<head>` de cada página, `window.FN_ETIQUETAS_YA = true`.
-- **GA4 se carga dos veces:** una directa y otra desde GTM. Lo vi en la carga de la página.
-  - Si en GTM hay una etiqueta de Google con G-FYF1E7Y5TY, puede estar contando dos veces cada página vista.
-  - No lo toqué porque el brief pide mantener los dos. Vale revisarlo en GTM.
+- **GA4 se carga una sola vez.** Al principio anoté que se cargaba dos veces, pero estaba mal: el contenedor público de GTM (GTM-W9R963MW) no tiene ninguna etiqueta. Ni GA4 ni el píxel salen de GTM. El segundo pedido a `gtag/js` lo hace la propia librería de GA4.
+- **Píxel de Meta inmediato** (rama, 10/11, pendiente de publicar). La campaña "FN | Web Diagnóstico | Leads" optimiza por vistas de la página de destino, que Meta cuenta con el PageView del píxel. Por eso el píxel volvió a cargar de entrada, con el código estándar. GA4 y GTM siguen diferidos.
+  - **El costo:** Lighthouse mobile baja de 94–100 a 74–83 en rendimiento, y de 100 a 79 en buenas prácticas, por las cookies de terceros. El primer contenido sigue en 0,76–1,13 s.
 
 ### Rendimiento y CSS crítico
 - `herramientas/css-critico.py` copia en cada página las reglas que dibujan la primera pantalla, y el CSS completo carga sin bloquear.
@@ -256,12 +256,16 @@ Las cuatro páginas ya usan el sistema nuevo y salieron publicadas junto con la 
 - **Sale:** "el más pedido", porque no tiene respaldo.
 - **Kit Arranque Pro:** se muestra con un flujo de ejemplo (la consulta de WhatsApp se responde, se anota en la planilla y se deriva a una persona).
 
-### Lo que sigue pendiente
-1. Pasar `404.html` al sistema nuevo. Hoy usa `css/fluir.css` y no dice nada fuera de marca.
-2. Decidir qué hacer con `pages/diagnostico.html`, la landing vieja de campañas. Sigue publicada como antes. Las campañas tienen que apuntar a `/diagnostico/`. Opciones: redirigirla a `/diagnostico/` o borrarla.
-3. Revisar la carga doble de GA4 en GTM.
-4. Cuando nada use más `css/fluir.css`, `css/styles.css`, `css/pilares.css`, `js/main.js`, `js/rueda.js`, `js/carrusel.js` y `js/fluir.js`, borrarlos. Hoy los usan `404.html`, `pages/diagnostico.html` y `pages/martin-troncoso*`.
-5. Las imágenes para compartir viejas (`og-*-v2.jpg`, `og-*.jpg`) ya no las usa ninguna página nueva. Se pueden borrar cuando se resuelva el punto 2.
+### Pendientes resueltos (10/11, en la rama)
+1. **`404.html`:** pasó al sistema nuevo, con rutas absolutas porque GitHub Pages la sirve en cualquier profundidad.
+2. **`pages/diagnostico.html`:** ahora redirige a `/diagnostico/` y conserva `utm_*`, `h` y `fbclid`. No dispara el píxel, porque el PageView lo dispara la página de destino. Antes era la landing vieja con el test de la rueda, que disparaba un Lead propio ("Rueda del Negocio"). Si alguna campaña que optimiza por Lead apunta a esa URL, va a dejar de recibir esos Lead.
+3. **GA4:** no había carga doble (ver Medición).
+
+### Lo que queda
+- Los CSS y JS viejos (`css/`, `js/`) ya no los usa ninguna página. Se pueden borrar más adelante.
+- `pages/martin-troncoso*` siguen como estaban: redirigen a martintroncoso.com.
+- La cuenta de Meta "Fluir nuevas publicidades" (952206709062329) figura como UNSETTLED (saldo impago) y no se pudo consultar. Hay que revisarla en el administrador de anuncios.
+- Los anuncios tienen que apuntar a `https://fluirnegocios.com/diagnostico/` (o `/diagnostico/tu/` fuera de Argentina), con `utm_content` y, si corresponde, `h=plata`, `h=equipo` o `h=grupo`. El documento de pauta de junio todavía los manda a la home.
 
 ## Ajustes después de publicar (10/11)
 
