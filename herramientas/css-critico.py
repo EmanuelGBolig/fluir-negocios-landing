@@ -24,7 +24,7 @@ CRITICOS = re.compile(r'''^(
   | \.portada | \.cifras | \.cifra | \.mosaico
   | \.clientes | \.logos
   | \.barra-inferior | \.con-barra
-  | \.campana | \.programa-cabeza | \.ficha | \.portada__foto | \.portada__visual
+  | \.campana | \.cp-portada | \.cp-marca | \.cp-foto | \.cp-panel | \.cp-prueba | \.cp-cifras | \.cp-logos | html | \.programa-cabeza | \.ficha | \.portada__foto | \.portada__visual
 )''', re.X)
 
 

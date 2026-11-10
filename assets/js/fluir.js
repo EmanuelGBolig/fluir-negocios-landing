@@ -58,22 +58,18 @@
     }
   }, true);
 
-  /* ---------- Titular según el anuncio ---------- */
+  /* ---------- Titular según el anuncio ----------
+     Lo decide un script en el <head> antes de dibujar (marca <html data-h>), y el CSS muestra
+     solo la variante que corresponde. Esto queda de respaldo por si ese script no estuvo. */
   (function () {
-    var cont = document.querySelector('[data-variantes]');
-    if (!cont) return;
+    if (!document.querySelector('[data-variantes]') || document.documentElement.hasAttribute('data-h')) return;
     var permitidas = ['plata', 'equipo', 'grupo'];
     var h = (qs.get('h') || '').toLowerCase();
     if (permitidas.indexOf(h) < 0) {
       var c = (qs.get('utm_content') || '').toLowerCase();
       h = permitidas.filter(function (p) { return c.indexOf(p) > -1; })[0] || '';
     }
-    if (!h) return;
-    /* data-variante admite varias palabras: "base plata" se ve sin parámetro y con ?h=plata */
-    todos('[data-variante]', cont).forEach(function (el) {
-      el.hidden = el.getAttribute('data-variante').split(' ').indexOf(h) < 0;
-    });
-    cuerpo.setAttribute('data-h', h);
+    if (h) document.documentElement.setAttribute('data-h', h);
   })();
 
   /* ---------- Barra inferior: aparece cuando el botón de la portada ya no se ve ---------- */

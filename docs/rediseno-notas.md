@@ -291,6 +291,23 @@ Las cuatro páginas ya usan el sistema nuevo y salieron publicadas junto con la 
 - **Barra inferior:** en escritorio ya no aparece, porque ahí está el botón de la cabecera. Queda en celular y tablet.
 - **Tarjeta del M·A·R en la home:** ya no se estira el bloque de título.
 
+## /diagnostico, versión inmersiva para celular (10/11)
+
+Las dos versiones (vos y tú) salen de `herramientas/diagnostico.py`. Los cambios se hacen ahí y después se corre `herramientas/css-critico.py`.
+
+- **Portada:**
+  - Foto real a todo el ancho, con el logo encima y un chip que dice quién es.
+  - Un panel navy sube sobre la foto, con el titular, el botón blanco, las cifras y cuatro logos de clientes.
+  - Con `h=` o con la palabra en `utm_content` cambian el titular, la bajada y la foto: base, distribuidora; plata, Mauro; equipo, Checars; grupo, mesa de dueños.
+  - La variante se decide en el `<head>`, antes de dibujar, así el titular no parpadea, y la foto que corresponde se precarga.
+- **Qué pasa después:** una ventana de WhatsApp de ejemplo con el mensaje real que se envía ("Hola, quiero mi diagnóstico.") y un aviso animado: "Te responde una persona del equipo". Respeta `prefers-reduced-motion`. Debajo van los tres pasos.
+- **Casos:** tarjetas con foto y el número en grande, que en el celular se deslizan.
+- **Testimonio:** Mauro en formato historia de Instagram, con la cita encima. Al tocar se reproduce en vertical.
+- **Equipo:** avatares superpuestos y tres preguntas.
+- **Cierre:** navy sobre la foto del salón.
+- **Medidas:** 4,5 pantallas de celular y sin links salvo WhatsApp.
+- **Lighthouse mobile:** accesibilidad 100 y rendimiento entre 78 y 88, con el píxel inmediato. Ahora el elemento más grande es la foto, que aparece entre 1,8 y 3,3 s según la corrida.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.
