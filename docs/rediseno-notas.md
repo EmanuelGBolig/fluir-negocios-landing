@@ -1,6 +1,6 @@
 # Rediseño web 2026 · notas
 
-Rama `rediseno-web`, 10 de noviembre de 2026. Nada publicado: GitHub Pages sale de `master`.
+Rama `rediseno-web`, 10 de noviembre de 2026. Con tu aprobación, se publicó el mismo día: merge a `master`, que es la rama que publica GitHub Pages.
 
 ## Antes de empezar: el boceto no estaba
 
@@ -152,6 +152,12 @@ La carpeta `_boceto/` no está en ninguna rama de GitHub ni en la PC.
   | Home | 97–99 | 100 | 100 | 100 | 0,84–1,0 s | 0 |
   | /diagnostico | 94–100 | 100 | 100 | 69 (noindex, a propósito) | 0,67–0,85 s | 0 |
   | /diagnostico/tu | 96–100 | 100 | 100 | 69 (noindex) | 0,75–0,9 s | 0 |
+  | M·A·R | 100 | 100 | 100 | 100 | 0,76 s | 0 |
+  | P·A·C | 99 | 100 | 100 | 100 | 0,76 s | 0 |
+  | C·D·E | 99 | 100 | 100 | 100 | 0,76 s | 0 |
+  | Fluir Sistemas | 100 | 100 | 100 | 100 | 0,76 s | 0 |
+
+  La prueba de eventos de las cuatro páginas de programas sumó comprobaciones: en total pasaron 251.
 
 - **Búsqueda en las páginas nuevas, el JS y el CSS:** no hay "pyme", "charla", "45 minutos", "fluirempresas", "Fluir Empresas" ni "coaching". Tampoco hay títulos con punto final.
   - Solo aparece "2 minutos", en el `aria-label` del video de Mauro, como duración del video.
@@ -202,18 +208,58 @@ La carpeta `_boceto/` no está en ninguna rama de GitHub ni en la PC.
 | Retratos del equipo en mayor resolución (hoy son de 453 × 680) | Equipo en escritorio |
 | Facundo de Checars y Mauro en crudo, sin subtítulos quemados | Portadas de video y cuadros más limpios |
 
-## Fase 2 (cuando apruebes la home)
+## Fase 2: páginas de programas (hecha el 10/11)
 
-1. Pasar `pages/mar.html`, `pac.html`, `cde.html` y `sistemas.html` a `assets/css/fluir.css` y `assets/js/fluir.js`.
-   - Gradiente de programa en el bloque de título.
-   - Sin "PyMEs".
-   - Sin horarios ni condiciones de cobro.
-   - Sumarlas a `PAGINAS` en `herramientas/css-critico.py`.
-2. Pasar `404.html` al sistema nuevo.
-3. Decidir qué hacer con `pages/diagnostico.html` (la landing vieja de campañas). Las campañas deberían apuntar a `/diagnostico/`. Opciones: redirigirla o dejarla con un link.
-4. Regenerar las imágenes para compartir de cada programa (`og-mar`, `og-pac`, `og-cde`, `og-sistemas`) con el sistema nuevo.
-5. Revisar la carga doble de GA4 en GTM.
-6. Cuando ya nada use `css/fluir.css`, `css/styles.css`, `css/pilares.css`, `js/main.js`, `js/rueda.js` y `js/carrusel.js`, borrarlos.
+Las cuatro páginas ya usan el sistema nuevo y salieron publicadas junto con la home y `/diagnostico`.
+
+### Todas
+- **Encabezado de programa:** una franja con su gradiente (M·A·R, P·A·C y C·D·E) o navy (Fluir Sistemas).
+  - Es el único lugar donde aparece el gradiente.
+  - El nombre y la etiqueta van apilados, sobre el extremo oscuro, para cumplir el contraste.
+- **Una sola acción:** todos los botones piden el diagnóstico con el mensaje base.
+  - Antes había mensajes distintos ("Quiero mi web", "Pedir una demo", "Consultar el próximo grupo"). Ahora todos son "Hola, quiero mi diagnóstico.", más el código del anuncio si lo hay.
+  - Schedule se mide con `mar-…`, `pac-…`, `cde-…` y `sistemas-…`.
+- **Imágenes para compartir nuevas:** `og-mar-v3.jpg`, `og-pac-v3.jpg`, `og-cde-v3.jpg` y `og-sistemas-v3.jpg`.
+- **Schema:** Service y BreadcrumbList sin "PyMEs".
+- **Contenido de la página:** al pie, el mismo cierre con WhatsApp, oficina e Instagram de la home.
+
+### M·A·R
+- **Etapas:** las tres del brief (Tracción: números y caja · Impulso: procesos, manuales y encargado · Exponencial: automatización y web), cada una dicha como beneficio y con lo que te llevás.
+- **Foto:** sale `hero-2`, por el cartel de Fluir Empresas. Entra Martín con Mauro en la puerta del taller.
+- **Herramientas:** suma el tablero de cinco números de ejemplo.
+- **Casos:** el de López y López, con su dirección y resultados sin número, pasa a los tres casos verificados más el testimonio de Mauro.
+- **Sale:** "diagnóstico de 45 minutos".
+
+### P·A·C
+- **Formato:** grupos de 4, 8 semanas, online o presencial en Mar del Plata.
+- **Sale:**
+  - "Ocho miércoles";
+  - el horario de 18:30 a 19:50;
+  - "8 encuentros de 80 min";
+  - "Fecha a confirmar".
+- **Se mantiene:** el orden de las semanas, "Es para vos si" y "Con qué salís". "Clientes que pagan a tiempo" pasó a "una política de cobranza escrita", para no prometer.
+
+### C·D·E
+- **Sale:**
+  - "4 semanas", "8 sesiones" y "unas 15 horas" (los documentos no se ponen de acuerdo en la duración);
+  - "reunión semanal de 15 minutos";
+  - "plan a 90 días";
+  - "seguimiento a 30 y 60 días".
+- **Testimonios:** el video de Macarena Poli sale. La cita de Elecsur y Contegma queda como texto, con la foto de esa capacitación; ya no está el video donde se dice "Fluir Coaching".
+
+### Fluir Sistemas
+- **Sale:** los precios (desde USD 300, desde USD 200, Kit por unos USD 700, mantenimiento mensual) y la pregunta "¿Los precios son finales?".
+  - El brief pide que no haya condiciones de cobro en ninguna parte, y que todo lleve al diagnóstico.
+  - Si querés que vuelvan, están en `git show c494e46:pages/sistemas.html`.
+- **Sale:** "el más pedido", porque no tiene respaldo.
+- **Kit Arranque Pro:** se muestra con un flujo de ejemplo (la consulta de WhatsApp se responde, se anota en la planilla y se deriva a una persona).
+
+### Lo que sigue pendiente
+1. Pasar `404.html` al sistema nuevo. Hoy usa `css/fluir.css` y no dice nada fuera de marca.
+2. Decidir qué hacer con `pages/diagnostico.html`, la landing vieja de campañas. Sigue publicada como antes. Las campañas tienen que apuntar a `/diagnostico/`. Opciones: redirigirla a `/diagnostico/` o borrarla.
+3. Revisar la carga doble de GA4 en GTM.
+4. Cuando nada use más `css/fluir.css`, `css/styles.css`, `css/pilares.css`, `js/main.js`, `js/rueda.js`, `js/carrusel.js` y `js/fluir.js`, borrarlos. Hoy los usan `404.html`, `pages/diagnostico.html` y `pages/martin-troncoso*`.
+5. Las imágenes para compartir viejas (`og-*-v2.jpg`, `og-*.jpg`) ya no las usa ninguna página nueva. Se pueden borrar cuando se resuelva el punto 2.
 
 ## Para confirmar
 

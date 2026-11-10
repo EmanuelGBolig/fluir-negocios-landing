@@ -578,3 +578,91 @@ section[id], span[id] { scroll-margin-top: 16px; }
 .otro { grid-template-rows: auto 1fr auto; }
 .otro__visual { display: grid; align-content: center; padding: 20px; background: var(--gris-fondo); }
 .otro__visual .pieza { box-shadow: 0 10px 24px -14px rgba(10, 31, 58, 0.3); }
+
+/* =========================================================
+   Páginas de programas (fase 2)
+   ========================================================= */
+/* Bloque de título del programa: el único lugar con su gradiente. El texto va sobre el extremo oscuro. */
+.programa-cabeza { color: #fff; }
+.programa-cabeza .contenedor { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding-top: 22px; padding-bottom: 20px; }
+.programa-cabeza b { font: 700 2.5rem/1 var(--ubuntu); letter-spacing: 0.02em; }
+.programa-cabeza span { font: 700 0.9375rem/1.3 var(--montserrat); }
+.programa-cabeza--mar { background: linear-gradient(90deg, #050B14 0%, #0F1C3F 55%, #0056B3 100%); }
+.programa-cabeza--pac { background: linear-gradient(90deg, #0056B3 0%, #0056B3 45%, #00B4D8 80%, #2ECC71 100%); }
+.programa-cabeza--cde { background: linear-gradient(270deg, #20C997 0%, #48C6EF 30%, #0F52BA 58%, #0F52BA 100%); }
+.programa-cabeza--sistemas { background: var(--navy); }
+.programa-cabeza--pac b, .programa-cabeza--pac span, .programa-cabeza--cde b, .programa-cabeza--cde span { text-shadow: 0 1px 2px rgba(5, 11, 20, 0.25); }
+
+.portada--programa { padding-top: 28px; }
+.portada__foto { margin: 0; border-radius: var(--borde); overflow: hidden; background: var(--gris-fondo); }
+.portada__foto img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.portada__foto figcaption { font-size: 0.875rem; color: var(--tinta-2); padding: 10px 2px 0; background: #fff; }
+.portada__visual { display: grid; align-content: center; padding: 18px; border-radius: var(--borde); background: var(--gris-fondo); }
+
+.ficha { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.ficha li { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; background: var(--gris-fondo); }
+.ficha small { font: 700 0.6875rem/1.2 var(--montserrat); letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-2); }
+.ficha b { font-size: 0.9375rem; line-height: 1.3; }
+
+/* Etapas grandes del M·A·R y módulos del C·D·E */
+.etapas-grandes { display: grid; gap: 14px; counter-reset: etapa; }
+.etapa { counter-increment: etapa; display: grid; gap: 10px; padding: 22px 20px; border-radius: var(--borde); background: #fff; border: 1px solid var(--linea); }
+.etapa::before { content: counter(etapa, decimal-leading-zero); font: 700 2.25rem/1 var(--ubuntu); color: var(--tinta-2); }
+.etapa h3 { font: 700 1.5rem/1.15 var(--ubuntu); letter-spacing: -0.01em; }
+.etapa .etapa__nombre { font: 700 0.8125rem/1.2 var(--montserrat); letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-2); }
+.etapa > p { color: var(--tinta-2); }
+.tildes { display: grid; gap: 8px; margin-top: 4px; }
+.tildes li { position: relative; padding-left: 28px; }
+.tildes li::before { content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center / 12px no-repeat; }
+
+/* Línea de semanas del P·A·C */
+.linea-semanas { display: grid; gap: 0; }
+.tramo { display: grid; grid-template-columns: 92px 1fr; gap: 4px 16px; padding: 18px 0; border-top: 1px solid var(--linea); }
+.tramo:last-child { border-bottom: 1px solid var(--linea); }
+.tramo small { grid-row: span 2; font: 700 0.8125rem/1.3 var(--montserrat); letter-spacing: 0.04em; text-transform: uppercase; color: var(--tinta-2); padding-top: 4px; }
+.tramo h3 { font: 700 1.375rem/1.15 var(--ubuntu); }
+.tramo p { color: var(--tinta-2); }
+
+.dos-columnas { display: grid; gap: 14px; }
+.tarjeta-simple { display: grid; gap: 8px; align-content: start; padding: 22px 20px; border-radius: var(--borde); background: #fff; border: 1px solid var(--linea); }
+.tarjeta-simple h3 { font: 700 1.375rem/1.15 var(--ubuntu); }
+.tarjeta-simple > p { color: var(--tinta-2); }
+.tarjeta-simple .etiqueta { font: 700 0.75rem/1.2 var(--montserrat); letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-2); }
+
+.cita-foto { display: grid; gap: 0; border-radius: var(--borde); overflow: hidden; background: var(--gris-fondo); }
+.cita-foto img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.cita-foto blockquote { padding: 22px 20px 24px; }
+.cita-foto blockquote p { font-family: var(--ubuntu); font-style: italic; font-size: 1.375rem; line-height: 1.3; }
+.cita-foto blockquote footer { margin-top: 10px; font-size: 0.875rem; color: var(--tinta-2); }
+
+/* Flujo de automatización de ejemplo */
+.flujo { display: grid; gap: 0; padding: 14px; }
+.flujo li { position: relative; display: grid; grid-template-columns: 32px 1fr; gap: 10px; padding: 8px 0; }
+.flujo li::before { content: ""; width: 32px; height: 32px; border-radius: 10px; background: var(--gris-fondo); border: 1px solid var(--linea); }
+.flujo li:not(:last-child)::after { content: ""; position: absolute; left: 15px; top: 42px; bottom: -6px; width: 2px; background: var(--linea); }
+.flujo b { display: block; font-size: 0.8125rem; }
+.flujo span { font-size: 0.75rem; color: var(--tinta-2); }
+.flujo li.hecho::before { background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center / 16px no-repeat; border-color: var(--navy); }
+
+.pie nav ul { row-gap: 0; }
+
+@media (min-width: 720px) {
+  .ficha { grid-template-columns: repeat(4, 1fr); }
+  .dos-columnas { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .etapas-grandes { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .tramo { grid-template-columns: 140px 1fr; }
+  .cita-foto { grid-template-columns: 1fr 1fr; align-items: center; }
+  .cita-foto img { height: 100%; aspect-ratio: auto; min-height: 360px; }
+  .cita-foto blockquote { padding: 36px; }
+}
+@media (min-width: 1024px) {
+  .programa-cabeza .contenedor { padding-top: 26px; padding-bottom: 24px; }
+  .programa-cabeza b { font-size: 3rem; }
+  .portada--programa .portada__grilla { grid-template-columns: 1.05fr 0.95fr; }
+  .portada__foto img { aspect-ratio: 4 / 5; max-height: 600px; }
+  .linea-semanas { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .tramo { grid-template-columns: 1fr; border: 0; border-top: 3px solid var(--navy); padding-top: 16px; }
+  .tramo:last-child { border-bottom: 0; }
+  .tramo small { grid-row: auto; }
+}
+@media (min-width: 1024px) { .portada--programa .ficha { grid-template-columns: 1fr 1fr; } }

@@ -4,191 +4,93 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-W9R963MW');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FYF1E7Y5TY"></script>
+<!-- Medición: GTM GTM-W9R963MW, GA4 G-FYF1E7Y5TY y píxel de Meta 2089699688631959.
+     Las colas se arman ya (PageView y cualquier evento quedan guardados desde el primer momento)
+     y las tres librerías se descargan al primer toque, scroll o tecla, o 3 s después de cargar.
+     Así no bloquean el primer dibujo en el celular. Para cargarlas de inmediato: FN_ETIQUETAS_YA = true. -->
 <script>
+  window.FN_ETIQUETAS_YA = false;
   window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-FYF1E7Y5TY');
+  !function(f){if(f.fbq)return;var n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}(window);
+  fbq('init', '2089699688631959');
+  fbq('track', 'PageView');
+  (function () {
+    var listo = false, eventos = ['pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel'];
+    function cargar() {
+      if (listo) return; listo = true;
+      eventos.forEach(function (e) { removeEventListener(e, cargar, { passive: true }); });
+      ['https://www.googletagmanager.com/gtm.js?id=GTM-W9R963MW',
+       'https://www.googletagmanager.com/gtag/js?id=G-FYF1E7Y5TY',
+       'https://connect.facebook.net/en_US/fbevents.js'].forEach(function (src) {
+        var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
+      });
+    }
+    if (window.FN_ETIQUETAS_YA) return cargar();
+    eventos.forEach(function (e) { addEventListener(e, cargar, { passive: true }); });
+    addEventListener('load', function () { setTimeout(cargar, 3000); });
+  })();
 </script>
-<!-- End Google Analytics 4 -->
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
 
 <script>
-  /* Mientras "Enforce HTTPS" siga apagado en GitHub Pages, esto evita que
-     alguien se quede navegando la version http:// del sitio. */
   if (location.protocol === 'http:' && /(^|\.)fluirnegocios\.com$/.test(location.hostname)) {
     location.replace(location.href.replace(/^http:/, 'https:'));
   }
 </script>
-<title>P·A·C — Consultoría grupal para dueños de PyMEs | Fluir Negocios</title>
-<meta name="description" content="8 semanas de asesoría grupal presencial en Mar del Plata para dueños de PyMEs. Mentalidad, orden financiero y estrategia comercial. Consultoría real para dueños reales.">
+<title>P·A·C — Programa grupal de ocho semanas para dueños de negocios | Fluir Negocios</title>
+<meta name="description" content="Programa grupal de ocho semanas para dueños de negocios, en grupos de cuatro: mandos y delegación, caja y márgenes, ventas y canales, y escala. Online o presencial en Mar del Plata.">
 <link rel="canonical" href="https://fluirnegocios.com/pages/pac.html">
+<meta name="theme-color" content="#0A1F3A">
 
-<meta property="og:title" content="P·A·C — Consultoría grupal para dueños de PyMEs | Fluir Negocios">
-<meta property="og:description" content="8 semanas de transformación grupal para dueños de negocios. Mentalidad, orden financiero y estrategia comercial.">
-<meta property="og:image" content="https://fluirnegocios.com/assets/og/og-pac-v2.jpg">
+<meta property="og:title" content="P·A·C | Cuatro dueños, ocho semanas, una mesa">
+<meta property="og:description" content="Programa grupal de ocho semanas para dueños de negocios, en grupos de cuatro: mandos y delegación, caja y márgenes, ventas y canales, y escala. Online o presencial en Mar del Plata.">
+<meta property="og:image" content="https://fluirnegocios.com/assets/og/og-pac-v3.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fluirnegocios.com/pages/pac.html">
 <meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Fluir Negocios">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="P·A·C — Consultoría grupal para dueños de PyMEs | Fluir Negocios">
-<meta name="twitter:description" content="8 semanas de transformación grupal para dueños de negocios. Mentalidad, orden financiero y estrategia comercial.">
-<meta name="twitter:image" content="https://fluirnegocios.com/assets/og/og-pac-v2.jpg">
+<meta name="twitter:title" content="P·A·C | Cuatro dueños, ocho semanas, una mesa">
+<meta name="twitter:description" content="Programa grupal de ocho semanas para dueños de negocios, en grupos de cuatro: mandos y delegación, caja y márgenes, ventas y canales, y escala. Online o presencial en Mar del Plata.">
+<meta name="twitter:image" content="https://fluirnegocios.com/assets/og/og-pac-v3.jpg">
 
 <link rel="icon" href="../assets/logos/favicon.png" type="image/png">
-<link rel="preload" as="image" href="../assets/carousel/hero-3-920w.webp" imagesrcset="../assets/carousel/hero-3-460w.webp 460w, ../assets/carousel/hero-3-920w.webp 920w, ../assets/carousel/hero-3.webp 1725w" imagesizes="100vw" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,700..900&family=Chivo:wght@400..700&family=Chivo+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../css/fluir.css?v=9">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
+<style id="css-critico">:root{--zafiro:#0F52BA;--zafiro-hover:#0B4396;--navy:#0A1F3A;--navy-profundo:#050B14;--cian:#00B4D8;--gris-fondo:#F5F7FA;--gris:#D6D6D6;--azul-fluir:#014BA0;--tinta:#0A1F3A;--tinta-2:#46546A;--linea:#E2E6EC;--blanco:#FFFFFF;--ubuntu:"Ubuntu","Ubuntu-respaldo",system-ui,sans-serif;--montserrat:"Montserrat","Montserrat-respaldo",system-ui,sans-serif;--borde:16px;--borde-chico:10px;--ancho:1180px;--lado:20px;--bloque:72px;--barra-alto:0px;--foco:var(--navy)}@font-face{font-family:"Ubuntu-respaldo";src:local("Arial");font-weight:400;size-adjust:100%;ascent-override:93.2%;descent-override:18.9%;line-gap-override:0%}@font-face{font-family:"Ubuntu-respaldo";src:local("Arial Bold"),local("Arial-BoldMT");font-weight:700;size-adjust:98%;ascent-override:95.1%;descent-override:19.3%;line-gap-override:0%}@font-face{font-family:"Montserrat-respaldo";src:local("Arial");font-weight:400;size-adjust:111.5%;ascent-override:86.8%;descent-override:22.5%;line-gap-override:0%}@font-face{font-family:"Montserrat-respaldo";src:local("Arial Bold"),local("Arial-BoldMT");font-weight:600 700;size-adjust:109.5%;ascent-override:88.4%;descent-override:22.9%;line-gap-override:0%}*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}body{margin:0;background:var(--blanco);color:var(--tinta);font:400 1.0625rem/1.4 var(--montserrat);overflow-x:hidden}img,video,svg{display:block;max-width:100%}img{height:auto}a{color:var(--zafiro);text-underline-offset:3px}h1,h2,h3,h4,p,ol,ul,figure,blockquote,dl,dd{margin:0}ul[role="list"],ol[role="list"]{list-style:none;padding:0}button,input{font:inherit;color:inherit}[hidden]{display:none !important}:focus-visible{outline:3px solid var(--foco);outline-offset:3px;border-radius:6px}.oscuro{--foco:#FFFFFF}.solo-lector{position:absolute !important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}.saltar{position:absolute;left:12px;top:-60px;z-index:50;background:var(--navy);color:#fff;padding:12px 16px;border-radius:8px;font-weight:700}.saltar:focus{top:12px}.titular,h1,h2{font-family:var(--ubuntu);font-weight:700;letter-spacing:-0.015em;text-wrap:balance}h1{font-size:clamp(2.45rem,9.6vw,4.6rem);line-height:1.02}h2{font-size:clamp(1.95rem,7.2vw,3.2rem);line-height:1.06}h3{font-family:var(--montserrat);font-weight:700;font-size:1.1875rem;line-height:1.25}.bajada{font-family:var(--ubuntu);font-weight:400;font-size:1.1875rem;line-height:1.4;color:var(--tinta-2);text-wrap:pretty}.oscuro .bajada{color:rgba(255,255,255,0.86)}.antetitulo{font:700 0.8125rem/1.3 var(--montserrat);letter-spacing:0.08em;text-transform:uppercase;color:var(--tinta-2)}.oscuro .antetitulo{color:rgba(255,255,255,0.78)}.cita{font-family:var(--ubuntu);font-style:italic;font-weight:400}.contenedor{width:100%;max-width:calc(var(--ancho) + var(--lado) * 2);margin:0 auto;padding:0 var(--lado)}.bloque{padding:var(--bloque) 0}.bloque--gris{background:var(--gris-fondo)}.oscuro{background:var(--navy);color:#fff}.cabeza{display:grid;gap:14px;margin-bottom:36px;max-width:46rem}.boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:14px 24px;border:0;border-radius:14px;background:var(--zafiro);color:#fff;text-decoration:none;cursor:pointer;font:700 1.0625rem/1.2 var(--montserrat);text-align:center;transition:background-color 0.15s ease,transform 0.15s ease}.boton:hover{background:var(--zafiro-hover)}.boton:active{transform:translateY(1px)}.boton svg{width:22px;height:22px;flex:none}.boton--claro{background:#fff;color:var(--navy)}.boton--claro:hover{background:#E9EEF5}.boton--ancho{width:100%}.boton--chico{min-height:48px;padding:10px 18px;font-size:1rem}.enlace{display:inline-flex;align-items:center;gap:8px;min-height:48px;font-weight:700;color:var(--zafiro);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}.enlace:hover{text-decoration-thickness:3px}.oscuro .enlace{color:#fff}.nota{font-size:0.9375rem;color:var(--tinta-2)}.oscuro .nota{color:rgba(255,255,255,0.8)}.cabecera{position:relative;z-index:5;background:#fff;border-bottom:1px solid var(--linea)}.cabecera .contenedor{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}.marca{display:inline-flex;align-items:center;min-height:48px}.marca img{width:108px;height:auto}.menu{display:none}.cabecera__accion{display:none}.portada{padding:28px 0 56px;background:#fff}.portada__grilla{display:grid;gap:32px}.portada__texto{display:grid;gap:18px;align-content:start}.portada .bajada{max-width:34rem}.portada__accion{display:grid;gap:10px;margin-top:6px}.portada__accion .nota{text-align:center}.cifras{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin-top:8px;padding-top:18px;border-top:1px solid var(--linea)}.cifra{display:grid;gap:2px}.cifra b{font:700 1.6rem/1 var(--ubuntu)}.cifra span{font-size:0.9375rem;color:var(--tinta-2)}.oscuro .cifra span{color:rgba(255,255,255,0.8)}.mosaico{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mosaico figure{position:relative;border-radius:14px;overflow:hidden;background:var(--gris-fondo);aspect-ratio:4 / 5}.mosaico img{width:100%;height:100%;object-fit:cover}.mosaico figcaption{position:absolute;left:6px;bottom:6px;right:6px;font:700 0.75rem/1.2 var(--montserrat);color:var(--navy);background:rgba(255,255,255,0.94);padding:5px 7px;border-radius:7px;width:fit-content;max-width:calc(100% - 12px)}.clientes{background:var(--navy-profundo);color:#fff;padding:36px 0}.clientes p{text-align:center;margin-bottom:18px}.logos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 14px;align-items:center}.logos li{display:grid;place-items:center;height:48px}.logos img{max-height:40px;max-width:100%;width:auto;object-fit:contain;opacity:0.92}.oscuro .paso::before{background:#fff;color:var(--navy)}.oscuro .paso::after{background:rgba(255,255,255,0.25)}.oscuro .paso p{color:rgba(255,255,255,0.82)}.barra-inferior{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px var(--lado) calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--linea);box-shadow:0 -6px 20px rgba(10,31,58,0.08);transform:translateY(110%);transition:transform 0.25s ease,visibility 0.25s;visibility:hidden}.barra-inferior.visible{transform:none;visibility:visible}.barra-inferior .boton{width:100%;min-height:52px}.con-barra{--barra-alto:calc(74px + env(safe-area-inset-bottom))}@media (prefers-reduced-motion:reduce){.barra-inferior{transition:none}}.campana .portada{padding-top:20px;padding-bottom:40px}.campana .cabecera{border-bottom:0}.campana .cabecera .contenedor{min-height:60px;justify-content:flex-start}.campana .bloque{padding:52px 0}.campana .cabeza{margin-bottom:26px}@media (min-width:720px){:root{--lado:32px;--bloque:96px}.portada{padding:48px 0 80px}.portada__accion{grid-template-columns:auto;justify-content:start}.portada__accion .nota{text-align:left}.mosaico{gap:12px}.logos{grid-template-columns:repeat(6,1fr)}}@media (min-width:1024px){:root{--bloque:120px}.menu{display:flex;gap:4px}.menu a{display:inline-flex;align-items:center;min-height:48px;padding:0 12px;color:var(--tinta);text-decoration:none;font-weight:600;font-size:0.9375rem;border-radius:8px}.menu a:hover{background:var(--gris-fondo)}.cabecera__accion{display:inline-flex}.cabecera .contenedor{min-height:80px}.marca img{width:124px}.portada__grilla{grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center}.portada__texto{gap:22px}.bajada{font-size:1.3125rem}.mosaico{grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:14px;height:600px}.mosaico figure{aspect-ratio:auto;border-radius:18px}.mosaico figure:first-child{grid-row:span 2}.mosaico figcaption{left:12px;bottom:12px;font-size:0.875rem;padding:7px 10px}.logos{grid-template-columns:repeat(12,1fr)}.clientes p{margin-bottom:22px}}@media (min-width:1280px){h1{font-size:5rem}}.cabeza--pegada{margin-bottom:8px}.con-barra .pie{padding-bottom:calc(36px + var(--barra-alto))}.con-barra .pie--chico{padding-bottom:calc(26px + var(--barra-alto))}@media (min-width:1024px){.campana h1{font-size:4.1rem}}.programa-cabeza{color:#fff}.programa-cabeza .contenedor{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:22px;padding-bottom:20px}.programa-cabeza b{font:700 2.5rem/1 var(--ubuntu);letter-spacing:0.02em}.programa-cabeza span{font:700 0.9375rem/1.3 var(--montserrat)}.programa-cabeza--mar{background:linear-gradient(90deg,#050B14 0%,#0F1C3F 55%,#0056B3 100%)}.programa-cabeza--pac{background:linear-gradient(90deg,#0056B3 0%,#0056B3 45%,#00B4D8 80%,#2ECC71 100%)}.programa-cabeza--cde{background:linear-gradient(270deg,#20C997 0%,#48C6EF 30%,#0F52BA 58%,#0F52BA 100%)}.programa-cabeza--sistemas{background:var(--navy)}.programa-cabeza--pac b,.programa-cabeza--pac span,.programa-cabeza--cde b,.programa-cabeza--cde span{text-shadow:0 1px 2px rgba(5,11,20,0.25)}.portada--programa{padding-top:28px}.portada__foto{margin:0;border-radius:var(--borde);overflow:hidden;background:var(--gris-fondo)}.portada__foto img{width:100%;aspect-ratio:4 / 3;object-fit:cover}.portada__foto figcaption{font-size:0.875rem;color:var(--tinta-2);padding:10px 2px 0;background:#fff}.portada__visual{display:grid;align-content:center;padding:18px;border-radius:var(--borde);background:var(--gris-fondo)}.ficha{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}.ficha li{display:grid;gap:2px;padding:12px 14px;border-radius:12px;background:var(--gris-fondo)}.ficha small{font:700 0.6875rem/1.2 var(--montserrat);letter-spacing:0.08em;text-transform:uppercase;color:var(--tinta-2)}.ficha b{font-size:0.9375rem;line-height:1.3}.cita-foto{display:grid;gap:0;border-radius:var(--borde);overflow:hidden;background:var(--gris-fondo)}.cita-foto img{width:100%;aspect-ratio:4 / 3;object-fit:cover}.cita-foto blockquote{padding:22px 20px 24px}.cita-foto blockquote p{font-family:var(--ubuntu);font-style:italic;font-size:1.375rem;line-height:1.3}.cita-foto blockquote footer{margin-top:10px;font-size:0.875rem;color:var(--tinta-2)}@media (min-width:720px){.ficha{grid-template-columns:repeat(4,1fr)}.cita-foto{grid-template-columns:1fr 1fr;align-items:center}.cita-foto img{height:100%;aspect-ratio:auto;min-height:360px}.cita-foto blockquote{padding:36px}}@media (min-width:1024px){.programa-cabeza .contenedor{padding-top:26px;padding-bottom:24px}.programa-cabeza b{font-size:3rem}.portada--programa .portada__grilla{grid-template-columns:1.05fr 0.95fr}.portada__foto img{aspect-ratio:4 / 5;max-height:600px}}@media (min-width:1024px){.portada--programa .ficha{grid-template-columns:1fr 1fr}}</style>
+<link rel="preload" href="../assets/css/fluir.css?v=2" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="../assets/css/fluir.css?v=2"></noscript>
 
-<!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2089699688631959');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2089699688631959&ev=PageView&noscript=1" /></noscript>
-<!-- End Meta Pixel Code -->
-
-</head>
-<body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9R963MW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
-<header class="barra vidrio" id="barra">
-  <a class="logo" href="../" aria-label="Fluir Negocios, inicio"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="102" height="40"></a>
-  <nav aria-label="Secciones">
-    <a href="../">Inicio</a>
-    <a href="../#programas">Programas</a>
-    <a href="../#rueda">Test</a>
-    <a href="../#quienes-somos">Equipo</a>
-  </nav>
-  <a class="boton boton-azul" href="https://wa.me/5492235295052?text=Hola!%20Quiero%20sumarme%20a%20la%20lista%20de%20espera%20del%20pr%C3%B3ximo%20PAC." target="_blank" rel="noopener">WhatsApp</a>
-</header>
-
-<div class="dock vidrio claro">
-  <a class="boton" href="../#rueda">Hacer el test</a>
-  <a class="boton boton-azul" href="https://wa.me/5492235295052?text=Hola!%20Quiero%20sumarme%20a%20la%20lista%20de%20espera%20del%20pr%C3%B3ximo%20PAC." target="_blank" rel="noopener">WhatsApp</a>
-</div>
-
-<main>
-
-<section class="portada" data-tono="oscuro">
-  <img src="../assets/carousel/hero-3-920w.webp" srcset="../assets/carousel/hero-3-460w.webp 460w, ../assets/carousel/hero-3-920w.webp 920w, ../assets/carousel/hero-3.webp 1725w" sizes="100vw" alt="Antonela Dello Russo dando una charla para dueños de negocios en Mar del Plata" fetchpriority="high" style="object-position:38% 40%">
-  <div class="envoltura">
-    <p class="sigla">P·A·C · PROGRAMA GRUPAL</p>
-    <h1>Ocho miércoles para <em>ordenar tu negocio.</em></h1>
-    <p class="bajada">Consultoría grupal para dueños de PyMEs: primero quién decide qué, después la plata, después las ventas. Presencial en Mar del Plata.</p>
-    <div class="acciones">
-      <a class="boton boton-azul" href="https://wa.me/5492235295052?text=Hola!%20Quiero%20sumarme%20a%20la%20lista%20de%20espera%20del%20pr%C3%B3ximo%20PAC." target="_blank" rel="noopener">Sumarme a la lista de espera</a>
-    </div>
-    <div class="ficha vidrio">
-      <div><span class="mono">PRÓXIMO GRUPO</span><strong>Fecha a confirmar</strong></div>
-      <div><span class="mono">HORARIO</span><strong>Miércoles 18:30 a 19:50</strong></div>
-      <div><span class="mono">LUGAR</span><strong>Catamarca 2930</strong></div>
-    </div>
-  </div>
-</section>
-
-<section class="bloque blanco" id="semanas" data-tono="claro">
-  <div class="envoltura">
-    <div class="cabeza">
-      <h2>Las ocho semanas, en este orden.</h2>
-      <p>Si crecés con los números desordenados, crece el desorden. Por eso la plata va antes que las ventas.</p>
-    </div>
-    <div class="tramo" style="--semanas:8">
-      <div style="--dura:2"><span class="mono">SEMANAS 1 Y 2</span><h3>Control de mandos</h3><p>Roles, delegación y quién decide qué. Lo que deja de pasar por vos.</p></div>
-      <div style="--dura:2"><span class="mono">SEMANAS 3 Y 4</span><h3>Control financiero</h3><p>Caja, costos, márgenes y punto de equilibrio.</p></div>
-      <div style="--dura:3"><span class="mono">SEMANAS 5 A 7</span><h3>Crecimiento y ventas</h3><p>Estrategia comercial, canales nuevos y un sistema de ventas que no dependa de tu agenda.</p></div>
-      <div class="final" style="--dura:1"><span class="mono">SEMANA 8</span><h3>Escala</h3><p>Métricas, automatización y el plan para después.</p></div>
-    </div>
-    <div class="datos" style="margin-top:32px">
-      <div><span class="mono">ENCUENTROS</span><strong>8 de 80 min</strong></div>
-      <div><span class="mono">GRUPO</span><strong>Reducido</strong></div>
-      <div><span class="mono">INCLUYE</span><strong>Plantillas listas para usar</strong></div>
-      <div><span class="mono">ENTRE SESIONES</span><strong>Canal directo</strong></div>
-    </div>
-  </div>
-</section>
-
-<section class="bloque" id="para-quien" data-tono="claro">
-  <div class="envoltura">
-    <div class="cabeza">
-      <h2>Es para vos si…</h2>
-    </div>
-    <div class="lista">
-      <div><h3>Estás desbordado.</h3><p>Hacés todo vos y no das más.</p></div>
-      <div><h3>El negocio se estancó.</h3><p>Se mantiene, pero no crece aunque trabajes más horas.</p></div>
-      <div><h3>Es un negocio familiar sin estructura.</h3><p>Todos hacen de todo y nadie sabe bien qué le toca.</p></div>
-      <div><h3>Vendés, pero no sabés dónde va la plata.</h3><p>Facturás y a fin de mes no alcanza.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="bloque blanco" data-tono="claro">
-  <div class="envoltura">
-    <div class="cabeza">
-      <h2>Con qué salís.</h2>
-    </div>
-    <div class="lista">
-      <div><h3>Rol de dueño</h3><p>Dejás de ser el empleado de tu propio negocio y delegás con criterio.</p></div>
-      <div><h3>Orden financiero</h3><p>Comprás con proyecciones, no por sensación. La caja deja de ser un misterio.</p></div>
-      <div><h3>Plan comercial</h3><p>Canales nuevos, mejores márgenes y clientes que pagan a tiempo.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="cierre" id="contacto" data-tono="oscuro">
-  <div class="envoltura">
-    <h2>¿Te sumás al próximo grupo?</h2>
-    <p class="bajada">Los grupos son reducidos. Anotate y te avisamos apenas se confirme la fecha.</p>
-    <div class="contacto">
-      <a class="vidrio" href="https://wa.me/5492235295052?text=Hola!%20Quiero%20sumarme%20a%20la%20lista%20de%20espera%20del%20pr%C3%B3ximo%20PAC." target="_blank" rel="noopener"><span class="mono">WHATSAPP</span><strong>223 529-5052</strong></a>
-      <a class="vidrio" href="https://maps.google.com/?q=Catamarca+2930,+Mar+del+Plata" target="_blank" rel="noopener"><span class="mono">OFICINA</span><strong>Catamarca 2930, Mar del Plata</strong></a>
-    </div>
-    <div class="pie">
-      <span>© 2026 Fluir Negocios · Mar del Plata</span>
-      <span><a href="./pac.html">P·A·C</a> · <a href="./mar.html">M·A·R</a> · <a href="./cde.html">C·D·E</a> · <a href="./sistemas.html">Fluir Sistemas</a></span>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<script src="../js/fluir.js?v=5"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Service",
-      "name": "P·A·C — Consultoría grupal para dueños de PyMEs",
-      "serviceType": "Consultoría y formación para dueños de negocios",
-      "description": "8 semanas de asesoría grupal presencial en Mar del Plata para dueños de PyMEs. Mentalidad, orden financiero y estrategia comercial. Consultoría real para dueños reales.",
+      "name": "P·A·C — Programa grupal de ocho semanas para dueños de negocios",
+      "serviceType": "Programa grupal para dueños de negocios",
+      "description": "Programa grupal de ocho semanas para dueños de negocios, en grupos de cuatro: mandos y delegación, caja y márgenes, ventas y canales, y escala. Online o presencial en Mar del Plata.",
       "url": "https://fluirnegocios.com/pages/pac.html",
-      "areaServed": {
-        "@type": "Country",
-        "name": "Argentina"
-      },
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Argentina"
+        },
+        {
+          "@type": "Place",
+          "name": "Latinoamérica"
+        }
+      ],
       "provider": {
         "@type": "ProfessionalService",
         "@id": "https://fluirnegocios.com/#fluir-negocios",
@@ -214,13 +116,182 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "P·A·C — Programa Acelerador de Crecimiento",
+          "name": "P·A·C",
           "item": "https://fluirnegocios.com/pages/pac.html"
         }
       ]
     }
   ]
 }
-    </script>
+</script>
+</head>
+<body data-pagina="pac">
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9R963MW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.42.25-.69.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.41"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.52.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5Z"/></symbol>
+  <symbol id="i-aviso" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M12 8v5m0 3.5v.5M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></symbol>
+</svg>
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="contenedor">
+    <a class="marca" href="../" aria-label="Fluir Negocios, inicio"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132"></a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="../">Inicio</a>
+      <a href="../#casos">Casos</a>
+      <a href="../#programas">Programas</a>
+      <a href="../#rueda">Test</a>
+      <a href="../#quienes-somos">Equipo</a>
+    </nav>
+    <a class="boton boton--chico cabecera__accion" href="https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico." data-wa data-cta="cabecera" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir mi diagnóstico</a>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <div class="programa-cabeza programa-cabeza--pac">
+    <div class="contenedor"><b>P·A·C</b><span>Grupal · 8 semanas</span></div>
+  </div>
+
+  <section class="portada portada--programa" aria-labelledby="titulo-portada">
+    <div class="contenedor portada__grilla">
+      <div class="portada__texto">
+        <h1 id="titulo-portada">Cuatro dueños, ocho semanas, una mesa</h1>
+        <p class="bajada">Ordenás tu negocio junto a otros tres dueños que están en lo mismo, con un asesor que guía cada encuentro. Primero quién decide qué, después la plata, después las ventas.</p>
+        <ul class="ficha" role="list"><li><small>Grupo</small><b>4 dueños</b></li><li><small>Duración</small><b>8 semanas</b></li><li><small>Dónde</small><b>Online o en Mar del Plata</b></li><li><small>Guía</small><b>Un asesor de Fluir</b></li></ul>
+        <div class="portada__accion" data-oculta-barra>
+          <a class="boton" href="https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico." data-wa data-cta="portada" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir mi diagnóstico</a>
+          <p class="nota">Sin cargo, por WhatsApp. Te responde una persona del equipo.</p>
+        </div>
+      </div>
+      <figure class="portada__foto">
+        <img src="../assets/img/mesa-duenos-894.webp" srcset="../assets/img/mesa-duenos-480.webp 480w, ../assets/img/mesa-duenos-894.webp 894w" sizes="(min-width: 1024px) 540px, 100vw" width="894" height="682" alt="Dueños de negocios trabajando alrededor de una mesa con cuadernos y planillas" fetchpriority="high">
+        <figcaption>Dueños trabajando en la misma mesa.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bloque bloque--gris" aria-labelledby="titulo-semanas">
+    <div class="contenedor">
+      <div class="cabeza">
+        <h2 id="titulo-semanas">Las ocho semanas, en este orden</h2>
+        <p class="bajada">Si crecés con los números desordenados, crece el desorden. Por eso la plata va antes que las ventas.</p>
+      </div>
+      <ol class="linea-semanas" role="list">
+        <li class="tramo"><small>Semanas 1 y 2</small><h3>Mandos y delegación</h3><p>Roles, delegación y quién decide qué. Lo que deja de pasar por vos.</p></li>
+        <li class="tramo"><small>Semanas 3 y 4</small><h3>Caja y márgenes</h3><p>Caja proyectada, costos, márgenes y punto de equilibrio.</p></li>
+        <li class="tramo"><small>Semanas 5 a 7</small><h3>Ventas y canales</h3><p>Canales nuevos y un sistema de ventas que no dependa de tu agenda.</p></li>
+        <li class="tramo"><small>Semana 8</small><h3>Escala</h3><p>Tu tablero de números y el plan para lo que sigue.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bloque" aria-labelledby="titulo-para">
+    <div class="contenedor cambios">
+      <div>
+        <div class="cabeza">
+          <h2 id="titulo-para">Es para vos si te pasa esto</h2>
+        </div>
+        <ol class="cambios__lista" role="list">
+          <li class="cambio"><h3>Hacés todo vos</h3><p>Y ya no das más.</p></li>
+          <li class="cambio"><h3>El negocio se estancó</h3><p>Se mantiene, pero no crece aunque trabajes más horas.</p></li>
+          <li class="cambio"><h3>Es familiar y no tiene estructura</h3><p>Todos hacen de todo y nadie sabe bien qué le toca.</p></li>
+          <li class="cambio"><h3>Vendés, pero no sabés dónde va la plata</h3><p>Facturás y a fin de mes no alcanza.</p></li>
+        </ol>
+      </div>
+      <div class="dos-columnas" style="align-content:start">
+        <div class="tarjeta-simple"><p class="etiqueta">Con qué salís</p><h3>Rol de dueño</h3><p>Dejás de ser el empleado de tu propio negocio y delegás con criterio.</p></div>
+        <div class="tarjeta-simple"><p class="etiqueta">Con qué salís</p><h3>Orden financiero</h3><p>Comprás con la caja proyectada, no por sensación.</p></div>
+        <div class="tarjeta-simple"><p class="etiqueta">Con qué salís</p><h3>Plan comercial</h3><p>Canales elegidos, márgenes revisados y una política de cobranza escrita.</p></div>
+        <div class="tarjeta-simple"><p class="etiqueta">Con qué salís</p><h3>Tablero propio</h3><p>Los cinco números de tu negocio, en una pantalla que mirás cada semana.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque bloque--gris" aria-labelledby="titulo-pasos">
+    <div class="contenedor">
+      <div class="cabeza">
+        <p class="antetitulo">Cómo se empieza</p>
+        <h2 id="titulo-pasos">Cómo entrás a un grupo</h2>
+      </div>
+      <ol class="pasos pasos--fila" role="list">
+        <li class="paso">
+          <h3>Conversación de diagnóstico</h3>
+          <p>Vemos si el P·A·C es lo que tu negocio necesita hoy, o si conviene el 1 a 1.</p>
+        </li>
+        <li class="paso">
+          <h3>Propuesta de Acompañamiento</h3>
+          <p>Con el grupo, la modalidad y los acuerdos claros, por escrito.</p>
+        </li>
+        <li class="paso">
+          <h3>Primera semana</h3>
+          <p>Mandos y delegación, con tus números y los de los otros tres dueños sobre la mesa.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bloque" id="faq" aria-labelledby="titulo-faq">
+    <div class="contenedor faq-grilla">
+      <div class="cabeza">
+        <h2 id="titulo-faq">Preguntas frecuentes</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>¿Es online o presencial?</summary>
+          <p>Hay grupos online y presenciales en Mar del Plata. Lo elegís en la Propuesta de Acompañamiento.</p>
+        </details>
+        <details>
+          <summary>¿Los otros dueños son de mi rubro?</summary>
+          <p>No hace falta. Cada uno trae su negocio, y los temas de fondo son los mismos: números, delegación y ventas.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto cuesta?</summary>
+          <p>La conversación de diagnóstico es sin cargo. Si después trabajamos juntos, el valor depende del programa y del tamaño del negocio, y queda escrito en la Propuesta de Acompañamiento.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque oscuro" id="contacto" aria-labelledby="titulo-contacto" data-oculta-barra>
+    <div class="contenedor contacto">
+      <div class="cabeza cabeza--pegada">
+        <h2 id="titulo-contacto">Empezá por la conversación de diagnóstico</h2>
+        <p class="bajada">Vemos si el P·A·C es para tu negocio y cuándo arranca el próximo grupo.</p>
+        <p class="accion-izq"><a class="boton boton--claro" href="https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico." data-wa data-cta="contacto" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir mi diagnóstico</a></p>
+      </div>
+      <div class="contacto__datos">
+        <a href="https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico." data-wa target="_blank" rel="noopener"><small>WhatsApp</small>223 529-5052</a>
+        <a href="https://maps.google.com/?q=Catamarca+2930,+Mar+del+Plata" target="_blank" rel="noopener"><small>Oficina</small>Catamarca 2930, Mar del Plata</a>
+        <a href="https://instagram.com/fluir.negocios.mdq" target="_blank" rel="noopener"><small>Instagram</small>@fluir.negocios.mdq</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie oscuro">
+  <div class="contenedor">
+    <a href="../" aria-label="Fluir Negocios, inicio"><img src="../assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132" loading="lazy" decoding="async"></a>
+    <nav aria-label="Programas">
+      <ul role="list">
+        <li><a href="./pac.html">P·A·C</a></li>
+        <li><a href="./mar.html">M·A·R</a></li>
+        <li><a href="./cde.html">C·D·E</a></li>
+        <li><a href="./sistemas.html">Fluir Sistemas</a></li>
+      </ul>
+    </nav>
+    <p>© 2026 Fluir Negocios · Mar del Plata</p>
+  </div>
+</footer>
+
+<div class="barra-inferior" aria-hidden="true">
+  <a class="boton" href="https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico." data-wa data-cta="barra" target="_blank" rel="noopener" tabindex="-1"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir mi diagnóstico</a>
+</div>
+
+<script src="../assets/js/fluir.js?v=2" defer></script>
 </body>
 </html>
