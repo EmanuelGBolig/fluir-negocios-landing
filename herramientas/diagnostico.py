@@ -17,18 +17,6 @@ VERSION = re.search(r'fluir\.css\?v=(\d+)', HOME).group(1)
 WA = 'https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico.'
 FUENTES = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap'
 
-# Fotos de la portada según el anuncio. La de "base" carga primero; las otras solo si toca.
-FOTOS = {
-    'base': ('distribuidora-martin', (360, 540, 720), 720, 900, '50% 28%',
-             'Vanesa Ruiz Díaz en el depósito de Distribuidora Martín, junto a una asesora de Fluir'),
-    'plata': ('rectificadora-mauro', (360, 540, 720), 720, 900, '30% 45%',
-              'Mauro Marin, dueño de una rectificadora, conversa con Martín Troncoso en la puerta de su taller'),
-    'equipo': ('concesionaria-checars', (360, 540, 720), 720, 900, '50% 32%',
-               'Facundo Palacios y Martín Troncoso en el salón de Checars, su concesionaria'),
-    'grupo': ('mesa-duenos-v', (360, 540), 546, 682, '50% 40%',
-              'Dueños de negocios trabajando alrededor de una mesa'),
-}
-
 TEXTOS = {
     'vos': dict(
         archivo='diagnostico/index.html', pre='../', lang='es-AR', pagina='diagnostico', locale='es_AR',
@@ -37,38 +25,36 @@ TEXTOS = {
         descripcion='Una conversación sin cargo para encontrar qué frena tu negocio y por dónde empezar. Para dueños de negocios de 2 a 30 personas.',
         og_titulo='Encontrá qué frena tu negocio y por dónde empezar',
         og_desc='Conversación de diagnóstico sin cargo, por WhatsApp. Fluir Negocios, Mar del Plata.',
-        ante='Diagnóstico sin cargo',
         h1={'base': 'Encontrá qué frena tu negocio y por dónde empezar',
             'plata': 'Vendés. Ahora sabé cuánto te queda',
             'equipo': 'Si mañana no venís, ¿qué se frena primero?',
             'grupo': 'Cuatro dueños, ocho semanas, una mesa'},
-        bajada={'base': 'Una conversación con alguien de nuestro equipo, para dueños de negocios de 2 a 30 personas.',
+        bajada={'base': 'Una conversación sin cargo con alguien de nuestro equipo, para dueños de negocios de 2 a 30 personas.',
                 'plata': 'Ordenamos con vos los números del negocio: cuánto ganás, a dónde se va la plata y cuál es tu sueldo.',
                 'equipo': 'Armamos con vos encargados, procesos y acuerdos claros, para que el negocio siga andando cuando no estás.',
                 'grupo': 'El P·A·C es un programa grupal: mandos y delegación, caja y márgenes, ventas y canales, y escala. Online o presencial en Mar del Plata.'},
-        chip={'base': 'Vanesa Ruiz Díaz · Distribuidora Martín', 'plata': 'Mauro Marin · Tapas de Cilindros',
-              'equipo': 'Facundo Palacios · Checars', 'grupo': 'Dueños trabajando en grupo'},
-        boton='Quiero mi diagnóstico', nota='Por WhatsApp. Te responde una persona del equipo.',
-        trabajamos='Trabajamos con',
+        boton='Quiero mi diagnóstico', nota='Sin cargo. Te responde una persona del equipo, no un bot.',
+        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.', chat_tu='Tu mensaje',
+        escribiendo='escribiendo…',
+        prueba='<b>Más de 100 negocios</b> acompañados en más de 10 años.',
         pasos_titulo='Qué pasa después de tocar el botón',
-        chat_sub='WhatsApp · 223 529-5052', chat_msj='Hola, quiero mi diagnóstico.', chat_tu='Tu mensaje',
-        chat_resp='Te responde una persona del equipo',
         pasos=[('Se abre WhatsApp con tu mensaje', 'Lo mandás y listo. Del otro lado hay una persona, no un bot.'),
                ('Coordinamos la conversación', 'Por videollamada o en nuestra oficina de Mar del Plata, cuando te quede cómodo.'),
                ('Te vas con el freno identificado', 'Y con el primer paso para destrabarlo. Si tiene sentido seguir, te pasamos una Propuesta de Acompañamiento con acuerdos claros.')],
         casos_titulo='Negocios como el tuyo, con sus números',
-        casos=[('Rectificadora', 'rectificadora-mauro', '27', 'trabajos por mes', 'es lo que necesita para no perder plata. El dueño lo sabe, cobra sueldo fijo y armó un fondo de emergencia de 3 meses.'),
-               ('Concesionaria', 'concesionaria-checars', '2', 'semanas de vacaciones', 'se tomó el dueño. La administración siguió funcionando.'),
-               ('Distribuidora familiar', None, '3 a 4', 'horas por día', 'recuperó el dueño. Los precios los define una administrativa, con márgenes escritos.')],
+        casos=[('Rectificadora', '27', 'trabajos por mes', 'Es lo que necesita para no perder plata. El dueño lo sabe, cobra sueldo fijo y armó un fondo de emergencia de 3 meses.'),
+               ('Concesionaria', '2', 'semanas de vacaciones', 'Se las tomó el dueño, y la administración siguió funcionando.'),
+               ('Distribuidora familiar', '3 a 4', 'horas por día', 'Las recuperó el dueño. Los precios los define una administrativa, con márgenes escritos.')],
         equipo_titulo='Te responde alguien de este equipo',
-        equipo_texto='<b>Antonela, Martín y Vanesa</b>Más de 10 años acompañando dueños desde Mar del Plata.',
+        equipo=[('antonela', 'Antonela Dello Russo', 'Finanzas, KPIs y área comercial'),
+                ('martin', 'Martín Troncoso', 'Equipos y delegación'),
+                ('vanesa', 'Vanesa Chiesa', 'Estructura y organización')],
         faq=[('¿Tiene costo?', 'No. La conversación de diagnóstico es sin cargo.'),
              ('¿Y si no es para mí?', 'Si no te sirve lo que hacemos, te lo decimos. Igual te llevás claro dónde está el freno.'),
              ('¿Es solo para Mar del Plata?', 'No. Acompañamos negocios de Argentina y del resto de Latinoamérica por videollamada.')],
         cierre='Contanos cómo está tu negocio', cierre_texto='Un mensaje alcanza para empezar.',
         cierre_nota='Sin cargo, por WhatsApp.',
         pie='Fluir Negocios · Catamarca 2930, Mar del Plata',
-        ver='Ver testimonio',
     ),
     'tu': dict(
         archivo='diagnostico/tu/index.html', pre='../../', lang='es-419', pagina='diagnostico-tu', locale='es_LA',
@@ -77,82 +63,61 @@ TEXTOS = {
         descripcion='Una conversación sin costo para descubrir qué frena tu negocio y por dónde empezar. Para dueños de negocios de 2 a 30 personas.',
         og_titulo='Descubre qué frena tu negocio y por dónde empezar',
         og_desc='Conversación de diagnóstico sin costo, por WhatsApp. Fluir Negocios, Mar del Plata, Argentina.',
-        ante='Diagnóstico sin costo',
         h1={'base': 'Descubre qué frena tu negocio y por dónde empezar',
             'plata': 'Vendes. Ahora descubre cuánto te queda',
             'equipo': 'Si mañana no vienes, ¿qué se detiene primero?',
             'grupo': 'Cuatro dueños, ocho semanas, una mesa'},
-        bajada={'base': 'Una conversación con alguien de nuestro equipo, para dueños de negocios de 2 a 30 personas.',
+        bajada={'base': 'Una conversación sin costo con alguien de nuestro equipo, para dueños de negocios de 2 a 30 personas.',
                 'plata': 'Ordenamos contigo los números del negocio: cuánto ganas, a dónde se va el dinero y cuál es tu sueldo.',
                 'equipo': 'Armamos contigo encargados, procesos y acuerdos claros, para que el negocio siga funcionando cuando no estás.',
                 'grupo': 'El P·A·C es un programa grupal: mandos y delegación, caja y márgenes, ventas y canales, y escala. En línea o presencial en Mar del Plata, Argentina.'},
-        chip={'base': 'Vanesa Ruiz Díaz · Distribuidora Martín', 'plata': 'Mauro Marin · Tapas de Cilindros',
-              'equipo': 'Facundo Palacios · Checars', 'grupo': 'Dueños trabajando en grupo'},
-        boton='Quiero mi diagnóstico', nota='Por WhatsApp. Te responde una persona del equipo.',
-        trabajamos='Trabajamos con',
+        boton='Quiero mi diagnóstico', nota='Sin costo. Te responde una persona del equipo, no un bot.',
+        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.', chat_tu='Tu mensaje',
+        escribiendo='escribiendo…',
+        prueba='<b>Más de 100 negocios</b> acompañados en más de 10 años.',
         pasos_titulo='Qué pasa después de tocar el botón',
-        chat_sub='WhatsApp · +54 9 223 529-5052', chat_msj='Hola, quiero mi diagnóstico.', chat_tu='Tu mensaje',
-        chat_resp='Te responde una persona del equipo',
         pasos=[('Se abre WhatsApp con tu mensaje', 'Lo envías y listo. Del otro lado hay una persona, no un bot.'),
                ('Coordinamos la conversación', 'Por videollamada, en el horario que te acomode.'),
                ('Te vas con el freno identificado', 'Y con el primer paso para destrabarlo. Si tiene sentido seguir, te enviamos una Propuesta de Acompañamiento con acuerdos claros.')],
         casos_titulo='Negocios como el tuyo, con sus números',
-        casos=[('Rectificadora', 'rectificadora-mauro', '27', 'trabajos por mes', 'es lo que necesita para no perder dinero. El dueño lo sabe, cobra sueldo fijo y armó un fondo de emergencia de 3 meses.'),
-               ('Concesionaria', 'concesionaria-checars', '2', 'semanas de vacaciones', 'se tomó el dueño. La administración siguió funcionando.'),
-               ('Distribuidora familiar', None, '3 a 4', 'horas por día', 'recuperó el dueño. Los precios los define una administrativa, con márgenes escritos.')],
+        casos=[('Rectificadora', '27', 'trabajos por mes', 'Es lo que necesita para no perder dinero. El dueño lo sabe, cobra sueldo fijo y armó un fondo de emergencia de 3 meses.'),
+               ('Concesionaria', '2', 'semanas de vacaciones', 'Se las tomó el dueño, y la administración siguió funcionando.'),
+               ('Distribuidora familiar', '3 a 4', 'horas por día', 'Las recuperó el dueño. Los precios los define una administrativa, con márgenes escritos.')],
         equipo_titulo='Te responde alguien de este equipo',
-        equipo_texto='<b>Antonela, Martín y Vanesa</b>Más de 10 años acompañando dueños, desde Mar del Plata, Argentina.',
+        equipo=[('antonela', 'Antonela Dello Russo', 'Finanzas, KPIs y área comercial'),
+                ('martin', 'Martín Troncoso', 'Equipos y delegación'),
+                ('vanesa', 'Vanesa Chiesa', 'Estructura y organización')],
         faq=[('¿Tiene costo?', 'No. La conversación de diagnóstico es sin costo.'),
              ('¿Y si no es para mí?', 'Si no te sirve lo que hacemos, te lo decimos. Igual te llevas claro dónde está el freno.'),
              ('¿Trabajan con negocios fuera de Argentina?', 'Sí. Acompañamos negocios de toda Latinoamérica por videollamada.')],
         cierre='Cuéntanos cómo está tu negocio', cierre_texto='Un mensaje alcanza para empezar.',
         cierre_nota='Sin costo, por WhatsApp.',
         pie='Fluir Negocios · Mar del Plata, Argentina',
-        ver='Ver testimonio',
     ),
 }
 
 
-def srcset(pre, nombre, anchos):
-    return ', '.join(f'{pre}assets/img/{nombre}-{w}.webp {w}w' for w in anchos)
-
-
-def boton(cta, texto, clase='boton boton--claro'):
+def boton(cta, texto, clase='boton'):
     return (f'<a class="{clase}" href="{WA}" data-wa data-cta="{cta}" target="_blank" rel="noopener">'
             f'<svg aria-hidden="true"><use href="#i-wa"/></svg>{texto}</a>')
 
 
 def pagina(t):
     pre = t['pre']
-    # Foto de portada: base y plata comparten lugar si fuera la misma; acá son distintas
-    fotos = []
-    for clave, (nombre, anchos, w, h, pos, alt) in FOTOS.items():
-        carga = ' fetchpriority="high"' if clave == 'base' else ' loading="lazy" decoding="async"'
-        fotos.append(
-            f'''    <figure class="cp-foto" data-variante="{clave}">
-      <img src="{pre}assets/img/{nombre}-{anchos[1]}.webp" srcset="{srcset(pre, nombre, anchos)}" sizes="(min-width: 1024px) 50vw, 100vw" width="{w}" height="{h}" alt="{alt}" style="object-position: {pos}"{carga}>
-      <figcaption>{t['chip'][clave]}</figcaption>
-    </figure>''')
-    h1 = '\n'.join(f'          <span data-variante="{k}">{v}</span>' for k, v in t['h1'].items())
-    bajadas = '\n'.join(f'        <p class="bajada" data-variante="{k}">{v}</p>' for k, v in t['bajada'].items())
+    h1 = '\n'.join(f'            <span data-variante="{k}">{v}</span>' for k, v in t['h1'].items())
+    bajadas = '\n'.join(f'          <p class="bajada" data-variante="{k}">{v}</p>' for k, v in t['bajada'].items())
     pasos = '\n'.join(f'          <li class="paso">\n            <h3>{a}</h3>\n            <p>{b}</p>\n          </li>' for a, b in t['pasos'])
-    casos = []
-    for rubro, foto, num, unidad, texto in t['casos']:
-        img = (f'<img src="{pre}assets/img/{foto}-540.webp" srcset="{srcset(pre, foto, (360, 540, 720))}" sizes="(min-width: 720px) 280px, 82vw" width="720" height="900" alt="" loading="lazy" decoding="async">'
-               if foto else '')
-        clase = 'cp-caso' if foto else 'cp-caso cp-caso--sin-foto'
-        casos.append(f'''        <article class="{clase}">
-          {img}
-          <p class="cp-caso__rubro">{rubro}</p>
-          <p class="cp-caso__numero">{num}</p>
-          <p class="cp-caso__unidad">{unidad}</p>
-          <p>{texto}</p>
-        </article>''')
-    faq = '\n'.join(f'        <details>\n          <summary>{q}</summary>\n          <p>{a}</p>\n        </details>' for q, a in t['faq'])
-    avatares = ''.join(f'<img src="{pre}assets/img/equipo-{n}-240.webp" width="240" height="360" alt="" loading="lazy" decoding="async">' for n in ('antonela', 'martin', 'vanesa'))
-    # Para las variantes, se precarga su foto (la de "base" ya está en el HTML con prioridad alta)
-    preload_js = '{ ' + ', '.join(f"{k}: ['{v[0]}', [{', '.join(str(w) for w in v[1])}]]" for k, v in FOTOS.items() if k != 'base') + ' }'
-
+    casos = '\n'.join(f'''        <li class="dg-caso">
+          <p class="dg-caso__rubro">{r}</p>
+          <p class="dg-caso__dato"><b>{n}</b><span>{u}</span></p>
+          <p>{x}</p>
+        </li>''' for r, n, u, x in t['casos'])
+    caras = ''.join(f'<img src="{pre}assets/img/equipo-{k}-240.webp" width="240" height="360" alt="">' for k, _, _ in t['equipo'])
+    equipo = '\n'.join(f'''        <figure>
+          <img src="{pre}assets/img/equipo-{k}-240.webp" srcset="{pre}assets/img/equipo-{k}-240.webp 240w, {pre}assets/img/equipo-{k}-453.webp 453w" sizes="(min-width: 720px) 200px, 30vw" width="453" height="680" alt="{nombre}" loading="lazy" decoding="async">
+          <figcaption><b>{nombre}</b>{rol}</figcaption>
+        </figure>''' for k, nombre, rol in t['equipo'])
+    faq = '\n'.join(f'          <details>\n            <summary>{q}</summary>\n            <p>{a}</p>\n          </details>' for q, a in t['faq'])
 
     return f'''<!DOCTYPE html>
 <html lang="{t['lang']}">
@@ -162,20 +127,12 @@ def pagina(t):
 <!-- Archivo generado por herramientas/diagnostico.py: los cambios van en ese script -->
 
 <script>
-  /* Titular y foto según el anuncio, antes del primer dibujo: ?h=plata|equipo|grupo o esa palabra en utm_content */
+  /* Titular según el anuncio, antes del primer dibujo: ?h=plata|equipo|grupo o esa palabra en utm_content */
   (function () {{
     try {{
       var q = new URLSearchParams(location.search), v = ['plata', 'equipo', 'grupo'], h = (q.get('h') || '').toLowerCase();
       if (v.indexOf(h) < 0) {{ var c = (q.get('utm_content') || '').toLowerCase(); h = v.filter(function (p) {{ return c.indexOf(p) > -1; }})[0] || ''; }}
-      if (!h) return;
-      document.documentElement.setAttribute('data-h', h);
-      var f = {preload_js}[h];
-      if (f) {{
-        var l = document.createElement('link'); l.rel = 'preload'; l.as = 'image';
-        l.setAttribute('imagesrcset', f[1].map(function (w) {{ return '{pre}assets/img/' + f[0] + '-' + w + '.webp ' + w + 'w'; }}).join(', '));
-        l.setAttribute('imagesizes', '(min-width: 1024px) 50vw, 100vw');
-        document.head.appendChild(l);
-      }}
+      if (h) document.documentElement.setAttribute('data-h', h);
     }} catch (e) {{}}
   }})();
 </script>
@@ -190,7 +147,7 @@ def pagina(t):
 <title>{t['titulo']}</title>
 <meta name="description" content="{t['descripcion']}">
 <link rel="canonical" href="{t['canonical']}">
-<meta name="theme-color" content="#0A1F3A">
+<meta name="theme-color" content="#FFFFFF">
 <meta property="og:title" content="{t['og_titulo']}">
 <meta property="og:description" content="{t['og_desc']}">
 <meta property="og:image" content="https://fluirnegocios.com/assets/og/og-home-v3.jpg">
@@ -210,111 +167,112 @@ def pagina(t):
 <link rel="preload" href="{pre}assets/css/fluir.css?v={VERSION}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{pre}assets/css/fluir.css?v={VERSION}"></noscript>
 </head>
-<body class="campana cp" data-pagina="{t['pagina']}" data-wa-mensaje="Hola, quiero mi diagnóstico.">
+<body class="campana dg" data-pagina="{t['pagina']}" data-wa-mensaje="Hola, quiero mi diagnóstico.">
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9R963MW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 {ICONOS}
 <!-- Sin menú ni links: la única acción es pedir el diagnóstico por WhatsApp -->
+<header class="dg-cabecera">
+  <div class="contenedor"><img src="{pre}assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132"></div>
+</header>
+
 <main>
 
-  <section class="cp-portada" aria-labelledby="titulo" data-variantes>
-    <span class="cp-marca"><img src="{pre}assets/logos/logo-340.webp" alt="Fluir Negocios" width="340" height="132"></span>
-{chr(10).join(fotos)}
-    <div class="cp-panel">
-      <p class="antetitulo">{t['ante']}</p>
-      <h1 id="titulo">
+  <section class="dg-portada" aria-labelledby="titulo" data-variantes>
+    <div class="contenedor dg-portada__grilla">
+      <div class="dg-texto">
+        <h1 id="titulo">
 {h1}
-      </h1>
+        </h1>
 {bajadas}
-      <div class="portada__accion" data-oculta-barra>
-        {boton('portada', t['boton'])}
-        <p class="nota">{t['nota']}</p>
-      </div>
-      <div class="cp-prueba">
-        <div class="cp-cifras">
-          <p><b>+10</b><span>años acompañando dueños</span></p>
-          <p><b>+100</b><span>negocios acompañados</span></p>
-        </div>
-        <div class="cp-logos">
-          <span>{t['trabajamos']}</span>
-          <img src="{pre}assets/clients/marquee/logo-grido.webp" alt="Grido" width="505" height="256">
-          <img src="{pre}assets/clients/marquee/logo-sheraton.webp" alt="Sheraton" width="309" height="256">
-          <img src="{pre}assets/clients/marquee/logo-crea.webp" alt="CREA" width="148" height="104">
-          <img src="{pre}assets/clients/marquee/checars-logo.webp" alt="Checars" width="361" height="256">
+        <div class="dg-accion" data-oculta-barra>
+          {boton('portada', t['boton'])}
+          <p class="nota">{t['nota']}</p>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="cp-bloque cp-bloque--gris" aria-labelledby="titulo-pasos">
-    <div class="contenedor">
-      <h2 id="titulo-pasos">{t['pasos_titulo']}</h2>
-      <div class="cp-pasos-grilla">
-        <figure class="cp-chat" aria-label="Ejemplo del mensaje que se envía por WhatsApp">
-          <div class="cp-chat__barra">
-            <span class="cp-avatares">{avatares}</span>
+      <div class="dg-escena">
+        <figure class="dg-escena__foto">
+          <img src="{pre}assets/img/mesa-duenos-894.webp" srcset="{pre}assets/img/mesa-duenos-480.webp 480w, {pre}assets/img/mesa-duenos-894.webp 894w" sizes="(min-width: 1024px) 560px, 92vw" width="894" height="682" alt="Dueños de negocios trabajando alrededor de una mesa con cuadernos y planillas" fetchpriority="high">
+        </figure>
+        <div class="dg-chat" role="img" aria-label="Ejemplo: tu mensaje de WhatsApp dice “{t['chat_msj']}” y te responde una persona del equipo">
+          <div class="dg-chat__barra">
+            <span class="dg-caras" aria-hidden="true">{caras}</span>
             <span><b>Fluir Negocios</b><small>{t['chat_sub']}</small></span>
           </div>
-          <div class="cp-chat__cuerpo">
-            <p class="cp-burbuja">{t['chat_msj']}<small>{t['chat_tu']} ✓✓</small></p>
-            <p class="cp-escribiendo"><span class="cp-puntitos" aria-hidden="true"><i></i><i></i><i></i></span><span>{t['chat_resp']}</span></p>
-          </div>
-        </figure>
-        <ol class="pasos cp-pasos" role="list">
-{pasos}
-        </ol>
+          <p class="dg-burbuja" aria-hidden="true">{t['chat_msj']}<small>{t['chat_tu']} ✓✓</small></p>
+          <p class="dg-escribe" aria-hidden="true"><span class="dg-puntos"><i></i><i></i><i></i></span>{t['escribiendo']}</p>
+        </div>
+      </div>
+
+      <div class="dg-prueba">
+        <p>{t['prueba']}</p>
+        <div class="dg-logos">
+          <img src="{pre}assets/clients/logo-grido.webp" alt="Grido" width="267" height="182">
+          <img src="{pre}assets/clients/logo-sheraton.webp" alt="Sheraton" width="227" height="190">
+          <img src="{pre}assets/clients/logo-musso.webp" alt="Musso" width="247" height="135">
+          <img src="{pre}assets/clients/logo-elecsur.webp" alt="Elecsur" width="297" height="113">
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cp-bloque" aria-labelledby="titulo-casos">
+  <section class="dg-bloque dg-bloque--gris dg-pasos" aria-labelledby="titulo-pasos">
+    <div class="contenedor">
+      <h2 id="titulo-pasos">{t['pasos_titulo']}</h2>
+      <ol class="pasos" role="list">
+{pasos}
+      </ol>
+    </div>
+  </section>
+
+  <section class="dg-bloque" aria-labelledby="titulo-casos">
     <div class="contenedor">
       <h2 id="titulo-casos">{t['casos_titulo']}</h2>
-      <div class="cp-testimonio-grilla">
-        <div class="cp-casos deslizable">
-{chr(10).join(casos)}
-        </div>
-        <figure class="video cp-historia">
-          <img src="{pre}assets/video/testimonio-mauro-marin-poster.webp" srcset="{pre}assets/video/testimonio-mauro-marin-poster-270.webp 270w, {pre}assets/video/testimonio-mauro-marin-poster.webp 540w" sizes="(min-width: 720px) 420px, 90vw" width="540" height="960" alt="Mauro Marin frente a su rectificadora" loading="lazy" decoding="async">
+      <ul class="dg-casos" role="list">
+{casos}
+      </ul>
+      <figure class="dg-testimonio">
+        <div class="video" data-pantalla>
+          <img src="{pre}assets/video/testimonio-mauro-marin-poster-270.webp" srcset="{pre}assets/video/testimonio-mauro-marin-poster-270.webp 270w, {pre}assets/video/testimonio-mauro-marin-poster.webp 540w" sizes="(min-width: 720px) 150px, 118px" width="540" height="960" alt="Mauro Marin frente a su rectificadora" loading="lazy" decoding="async">
           <video src="{pre}assets/video/testimonio-mauro-marin.mp4" preload="none" playsinline hidden width="540" height="960" aria-label="Testimonio de Mauro Marin, Tapas de Cilindros"></video>
-          <div class="cp-historia__barras" aria-hidden="true"><i></i><i></i><i></i></div>
-          <button class="video__play" type="button"><span class="icono"><svg aria-hidden="true"><use href="#i-play"/></svg></span><span class="texto">{t['ver']} <span class="video__duracion">2 min</span></span></button>
-          <blockquote>
-            <p>“El taller tiene su plata. Yo pensaba que era mía.”</p>
-            <footer><b>Mauro Marin</b> · Tapas de Cilindros, rectificadora</footer>
-          </blockquote>
-        </figure>
-      </div>
+          <button class="video__play" type="button" aria-label="Ver el testimonio de Mauro Marin"><span class="icono"><svg aria-hidden="true"><use href="#i-play"/></svg></span><span class="texto">Ver testimonio</span></button>
+        </div>
+        <blockquote>
+          <p>“El taller tiene su plata. Yo pensaba que era mía.”</p>
+          <footer><b>Mauro Marin</b> · Tapas de Cilindros, rectificadora</footer>
+        </blockquote>
+      </figure>
     </div>
   </section>
 
-  <section class="cp-bloque cp-bloque--gris" aria-labelledby="titulo-equipo">
+  <section class="dg-bloque dg-bloque--gris" aria-labelledby="titulo-equipo">
     <div class="contenedor">
       <h2 id="titulo-equipo">{t['equipo_titulo']}</h2>
-      <div class="cp-equipo">
-        <span class="cp-avatares">{avatares}</span>
-        <p>{t['equipo_texto']}</p>
-      </div>
-      <div class="faq">
+      <div class="dg-equipo-grilla">
+        <div class="dg-equipo">
+{equipo}
+        </div>
+        <div class="faq">
 {faq}
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cp-cierre" aria-labelledby="titulo-cierre" data-oculta-barra>
-    <img src="{pre}assets/img/salon-martin-800.webp" srcset="{pre}assets/img/salon-martin-480.webp 480w, {pre}assets/img/salon-martin-800.webp 800w, {pre}assets/img/salon-martin-1200.webp 1200w" sizes="100vw" width="1200" height="688" alt="" loading="lazy" decoding="async">
+  <section class="dg-cierre" aria-labelledby="titulo-cierre" data-oculta-barra>
     <div class="contenedor">
       <h2 id="titulo-cierre">{t['cierre']}</h2>
       <p class="bajada">{t['cierre_texto']}</p>
-      {boton('cierre', t['boton'])}
+      {boton('cierre', t['boton'], 'boton boton--claro')}
       <p class="nota">{t['cierre_nota']}</p>
     </div>
   </section>
 
 </main>
 
-<footer class="cp-pie">
-  <p>{t['pie']}</p>
+<footer class="dg-pie">
+  <div class="contenedor"><p>{t['pie']}</p></div>
 </footer>
 
 <div class="barra-inferior" aria-hidden="true">

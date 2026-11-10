@@ -291,22 +291,28 @@ Las cuatro páginas ya usan el sistema nuevo y salieron publicadas junto con la 
 - **Barra inferior:** en escritorio ya no aparece, porque ahí está el botón de la cabecera. Queda en celular y tablet.
 - **Tarjeta del M·A·R en la home:** ya no se estira el bloque de título.
 
-## /diagnostico, versión inmersiva para celular (10/11)
+## /diagnostico, rediseño final (10/11)
 
 Las dos versiones (vos y tú) salen de `herramientas/diagnostico.py`. Los cambios se hacen ahí y después se corre `herramientas/css-critico.py`.
 
-- **Portada:**
-  - Foto real a todo el ancho, con el logo encima y un chip que dice quién es.
-  - Un panel navy sube sobre la foto, con el titular, el botón blanco, las cifras y cuatro logos de clientes.
-  - Con `h=` o con la palabra en `utm_content` cambian el titular, la bajada y la foto: base, distribuidora; plata, Mauro; equipo, Checars; grupo, mesa de dueños.
-  - La variante se decide en el `<head>`, antes de dibujar, así el titular no parpadea, y la foto que corresponde se precarga.
-- **Qué pasa después:** una ventana de WhatsApp de ejemplo con el mensaje real que se envía ("Hola, quiero mi diagnóstico.") y un aviso animado: "Te responde una persona del equipo". Respeta `prefers-reduced-motion`. Debajo van los tres pasos.
-- **Casos:** tarjetas con foto y el número en grande, que en el celular se deslizan.
-- **Testimonio:** Mauro en formato historia de Instagram, con la cita encima. Al tocar se reproduce en vertical.
-- **Equipo:** avatares superpuestos y tres preguntas.
-- **Cierre:** navy sobre la foto del salón.
-- **Medidas:** 4,5 pantallas de celular y sin links salvo WhatsApp.
-- **Lighthouse mobile:** accesibilidad 100 y rendimiento entre 78 y 88, con el píxel inmediato. Ahora el elemento más grande es la foto, que aparece entre 1,8 y 3,3 s según la corrida.
+**Primer intento descartado: la versión "inmersiva".** Ponía cuadros de video a todo el ancho, que se veían borrosos, con el logo y etiquetas encima y un panel navy pesado, y repetía a Mauro tres veces. Se reemplazó entera.
+
+**Versión actual:**
+- **La pieza central:** la foto de la mesa de dueños, que es profesional y nítida, con una tarjeta de WhatsApp montada encima. La tarjeta muestra el mensaje real que se envía ("Hola, quiero mi diagnóstico."), las caras del equipo y "escribiendo…". Es el único movimiento de la página y respeta `prefers-reduced-motion`.
+- **Lo demás, claro y quieto:**
+  - fondo blanco y gris, titulares grandes en Ubuntu, sin rótulos en mayúsculas;
+  - el zafiro solo en el botón;
+  - cifras dichas en una frase y cuatro logos en gris;
+  - casos con el número en grande, en filas;
+  - testimonio de Mauro como miniatura vertical que se abre a pantalla completa;
+  - los tres retratos del equipo con nombre y tres preguntas;
+  - cierre en navy con el botón blanco.
+- **Según el anuncio cambian solo el titular y la bajada.** La foto queda siempre la misma, porque es la única nítida de dueños trabajando.
+- **Escritorio:** dos columnas en la portada, con el texto, el botón y la prueba a la izquierda y la foto con la tarjeta a la derecha. Los pasos y los casos van en tres columnas, y el equipo al lado de las preguntas.
+- **Medidas:** 4,4 pantallas de celular y 3,6 de escritorio. Sin scroll horizontal y todo lo tocable de 48 px o más.
+- **Lighthouse mobile:** accesibilidad 100, buenas prácticas 79 por las cookies del píxel y SEO 69 por el noindex. El rendimiento varió entre 63 y 82 en esta PC, con el píxel inmediato.
+  - El elemento más grande es la foto: se descarga en menos de 1 s, pero tarda en pintarse mientras corre el script de Meta.
+  - Probé cargar el píxel cuando termina la página y moverlo al final del HTML. Ninguna de las dos cosas mejoró de forma consistente.
 
 ## Para confirmar
 

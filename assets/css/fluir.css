@@ -767,138 +767,137 @@ section[id], span[id] { scroll-margin-top: 16px; }
 .ficha li > .enlace { min-height: 48px; }
 
 /* =========================================================
-   Página de campaña /diagnostico — versión inmersiva (cp-)
-   Celular primero: foto real a todo el ancho, panel navy con el
-   titular y el botón, casos deslizables y testimonio tipo historia.
+   Página de campaña /diagnostico (dg-)
+   Una sola pieza memorable: la foto de la mesa con la tarjeta de
+   WhatsApp encima (el mensaje real que se manda). Lo demás, claro y quieto.
    ========================================================= */
-/* Titular y foto según el anuncio: se decide en el head, antes de dibujar (sin parpadeo) */
+/* Titular según el anuncio: se decide en el head, antes de dibujar (sin parpadeo) */
 html:not([data-h]) [data-variante]:not([data-variante~="base"]),
 html[data-h="plata"] [data-variante]:not([data-variante~="plata"]),
 html[data-h="equipo"] [data-variante]:not([data-variante~="equipo"]),
 html[data-h="grupo"] [data-variante]:not([data-variante~="grupo"]) { display: none !important; }
 
-.cp-portada { position: relative; background: var(--navy); color: #fff; --foco: #fff; }
-.cp-marca { position: absolute; z-index: 3; top: 14px; left: var(--lado); display: block; }
-.cp-marca img { width: 104px; height: auto; }
-.cp-foto { position: relative; height: clamp(300px, 44vh, 400px); margin: 0; overflow: hidden; background: var(--navy); }
-.cp-foto img { width: 100%; height: 100%; object-fit: cover; }
-.cp-foto::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(5, 11, 20, 0.5) 0%, rgba(5, 11, 20, 0) 26%, rgba(10, 31, 58, 0) 58%, rgba(10, 31, 58, 0.92) 100%);
-}
-.cp-foto figcaption {
-  position: absolute; z-index: 2; left: var(--lado); bottom: 46px;
-  background: #fff; color: var(--navy); font: 700 0.8125rem/1.2 var(--montserrat);
-  padding: 7px 11px; border-radius: 999px; max-width: calc(100% - 40px);
-}
-.cp-panel {
-  position: relative; z-index: 2; margin-top: -30px; border-radius: 26px 26px 0 0;
-  background: var(--navy); padding: 26px var(--lado) 30px; display: grid; gap: 14px;
-}
-.cp-panel .antetitulo { color: rgba(255, 255, 255, 0.8); }
-.cp-panel h1 { color: #fff; font-size: clamp(2.2rem, 9.4vw, 3.9rem); line-height: 1.03; }
-.cp-panel .bajada { color: rgba(255, 255, 255, 0.88); }
-.cp-panel .boton { width: 100%; min-height: 56px; font-size: 1.125rem; }
-.cp-panel .nota { color: rgba(255, 255, 255, 0.8); text-align: center; }
-.cp-prueba { display: grid; gap: 14px; margin-top: 6px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.14); }
-.cp-cifras { display: flex; gap: 26px; }
-.cp-cifras p { display: grid; gap: 2px; }
-.cp-cifras b { font: 700 1.625rem/1 var(--ubuntu); color: #fff; }
-.cp-cifras span { font-size: 0.875rem; color: rgba(255, 255, 255, 0.8); }
-.cp-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 12px; align-items: center; }
-.cp-logos > span { grid-column: 1 / -1; font: 700 0.6875rem/1.2 var(--montserrat); letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.72); }
-.cp-logos img { max-height: 28px; width: auto; max-width: 100%; margin: 0 auto; opacity: 0.92; }
+.dg { --dg-burbuja: #E8EEF8; }
+.dg-cabecera { padding: 14px 0 0; }
+.dg-cabecera img { width: 112px; height: auto; display: block; }
 
-.cp-bloque { padding: 48px 0; }
-.cp-bloque--gris { background: var(--gris-fondo); }
-.cp-bloque h2 { font-size: clamp(1.85rem, 7.4vw, 2.75rem); margin-bottom: 18px; }
+.dg-portada { padding: 20px 0 44px; }
+.dg-portada__grilla { display: grid; gap: 30px; }
+.dg-texto { display: grid; gap: 16px; align-content: start; }
+.dg-texto h1 { font-size: clamp(2.45rem, 10vw, 4.4rem); line-height: 1.02; letter-spacing: -0.02em; }
+.dg-texto .bajada { font-size: 1.1875rem; max-width: 32rem; }
+.dg-accion { display: grid; gap: 10px; margin-top: 6px; }
+.dg-accion .boton { min-height: 58px; font-size: 1.125rem; }
+.dg-accion .nota { font-size: 0.9375rem; }
 
-/* WhatsApp de ejemplo: el mensaje que se manda de verdad */
-.cp-chat { border-radius: 20px; background: #fff; border: 1px solid var(--linea); overflow: hidden; box-shadow: 0 16px 36px -22px rgba(10, 31, 58, 0.45); }
-.cp-chat__barra { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--linea); }
-.cp-chat__barra b { display: block; font-size: 0.9375rem; }
-.cp-chat__barra small { font-size: 0.75rem; color: var(--tinta-2); }
-.cp-avatares { display: flex; flex: none; }
-.cp-avatares img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: 50% 12%; border: 2px solid #fff; background: #EEF0F3; }
-.cp-avatares img + img { margin-left: -10px; }
-.cp-chat__cuerpo { display: grid; gap: 12px; padding: 18px 14px 20px; background: var(--gris-fondo); }
-.cp-burbuja {
-  justify-self: end; max-width: 82%; padding: 10px 14px 8px; border-radius: 18px 18px 4px 18px;
-  background: var(--zafiro); color: #fff; font-weight: 600; line-height: 1.35;
+/* La pieza: foto + tarjeta de WhatsApp montada encima */
+.dg-escena { position: relative; padding-bottom: 64px; }
+.dg-escena__foto { margin: 0; border-radius: 22px; overflow: hidden; background: var(--gris-fondo); }
+.dg-escena__foto img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; }
+.dg-chat {
+  position: absolute; left: 14px; right: 14px; bottom: 0;
+  background: #fff; border-radius: 18px; border: 1px solid var(--linea);
+  box-shadow: 0 18px 40px -18px rgba(10, 31, 58, 0.38), 0 2px 6px rgba(10, 31, 58, 0.06);
+  padding: 12px 14px 14px; display: grid; gap: 10px;
 }
-.cp-burbuja small { display: block; margin-top: 2px; text-align: right; font-size: 0.6875rem; font-weight: 400; opacity: 0.9; }
-.cp-escribiendo { justify-self: start; display: flex; align-items: center; gap: 10px; }
-.cp-puntitos { display: inline-flex; gap: 4px; padding: 11px 13px; border-radius: 18px 18px 18px 4px; background: #fff; border: 1px solid var(--linea); }
-.cp-puntitos i { width: 7px; height: 7px; border-radius: 50%; background: var(--tinta-2); animation: cp-escribe 1.3s infinite ease-in-out; }
-.cp-puntitos i:nth-child(2) { animation-delay: 0.16s; }
-.cp-puntitos i:nth-child(3) { animation-delay: 0.32s; }
-.cp-escribiendo span { font-size: 0.8125rem; color: var(--tinta-2); }
-@keyframes cp-escribe { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .cp-puntitos i { animation: none; opacity: 0.6; } }
-.cp-pasos { margin-top: 22px; }
-
-/* Casos con foto y número grande */
-.cp-casos { display: grid; gap: 12px; }
-.cp-caso {
-  position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
-  min-height: 380px; padding: 20px; border-radius: 20px; overflow: hidden; background: var(--navy); color: #fff;
+.dg-chat__barra { display: flex; align-items: center; gap: 10px; }
+.dg-chat__barra b { display: block; font-size: 0.9375rem; line-height: 1.2; }
+.dg-chat__barra small { display: block; font-size: 0.75rem; color: var(--tinta-2); }
+.dg-caras { display: flex; flex: none; }
+.dg-caras img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: 50% 12%; border: 2px solid #fff; background: #EEF0F3; }
+.dg-caras img + img { margin-left: -9px; }
+.dg-burbuja {
+  justify-self: end; max-width: 86%; padding: 9px 13px 7px; border-radius: 16px 16px 4px 16px;
+  background: var(--dg-burbuja); color: var(--navy); font-weight: 600; line-height: 1.3;
 }
-.cp-caso > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.cp-caso::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5, 11, 20, 0) 22%, rgba(5, 11, 20, 0.8) 55%, rgba(5, 11, 20, 0.95) 100%); }
-.cp-caso--sin-foto::before { background: radial-gradient(120% 80% at 100% 0%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 60%); }
-.cp-caso__rubro { position: absolute; top: 16px; left: 16px; background: #fff; color: var(--navy); font: 700 0.75rem/1.2 var(--montserrat); padding: 6px 10px; border-radius: 999px; }
-.cp-caso__numero { font: 700 3.5rem/0.95 var(--ubuntu); letter-spacing: -0.02em; }
-.cp-caso__unidad { font: 700 1.375rem/1.15 var(--ubuntu); }
-.cp-caso p:not([class]) { color: rgba(255, 255, 255, 0.9); font-size: 0.9375rem; line-height: 1.4; }
+.dg-burbuja small { display: block; text-align: right; font-size: 0.6875rem; font-weight: 500; color: var(--tinta-2); }
+.dg-escribe { display: flex; align-items: center; gap: 9px; font-size: 0.8125rem; color: var(--tinta-2); }
+.dg-puntos { display: inline-flex; gap: 4px; padding: 9px 11px; border-radius: 14px 14px 14px 4px; background: var(--gris-fondo); }
+.dg-puntos i { width: 6px; height: 6px; border-radius: 50%; background: var(--tinta-2); animation: dg-escribe 1.3s infinite ease-in-out; }
+.dg-puntos i:nth-child(2) { animation-delay: 0.16s; }
+.dg-puntos i:nth-child(3) { animation-delay: 0.32s; }
+@keyframes dg-escribe { 0%, 60%, 100% { transform: translateY(0); opacity: 0.35; } 30% { transform: translateY(-3px); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .dg-puntos i { animation: none; opacity: 0.6; } }
 
-/* Testimonio en formato historia */
-.cp-historia.video { aspect-ratio: 4 / 5; max-height: none; margin-top: 18px; border-radius: 20px; }
-.cp-historia.video.sonando { aspect-ratio: 9 / 16; }
-.cp-historia::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(5, 11, 20, 0) 45%, rgba(5, 11, 20, 0.9) 100%); }
-.cp-historia.sonando::after, .cp-historia.sonando blockquote, .cp-historia.sonando .cp-historia__barras { display: none; }
-.cp-historia__barras { position: absolute; z-index: 2; top: 12px; left: 12px; right: 12px; display: flex; gap: 4px; }
-.cp-historia__barras i { flex: 1; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.45); }
-.cp-historia__barras i:first-child { background: #fff; }
-.cp-historia blockquote { position: absolute; z-index: 2; left: 18px; right: 18px; bottom: 18px; color: #fff; }
-.cp-historia blockquote p { font-family: var(--ubuntu); font-style: italic; font-size: 1.5rem; line-height: 1.25; }
-.cp-historia blockquote footer { margin-top: 8px; font-size: 0.875rem; color: rgba(255, 255, 255, 0.86); }
-.cp-historia .video__play { left: 50%; top: 42%; bottom: auto; transform: translate(-50%, -50%); padding: 8px 18px 8px 10px; z-index: 3; white-space: nowrap; }
-.cp-historia > img { object-position: 50% 78%; }
+.dg-prueba { display: grid; gap: 14px; margin-top: 10px; }
+.dg-prueba p { font-size: 0.9375rem; color: var(--tinta-2); }
+.dg-prueba p b { color: var(--tinta); }
+.dg-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: center; }
+.dg-logos img { max-height: 30px; width: auto; max-width: 100%; margin: 0 auto; filter: grayscale(1); opacity: 0.75; }
 
-/* Equipo y cierre */
-.cp-equipo { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.cp-equipo .cp-avatares img { width: 58px; height: 58px; border-width: 3px; }
-.cp-equipo .cp-avatares img + img { margin-left: -14px; }
-.cp-equipo p { font-size: 0.9375rem; color: var(--tinta-2); line-height: 1.35; }
-.cp-equipo p b { display: block; color: var(--tinta); font-size: 1rem; }
-.cp-cierre { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); color: #fff; --foco: #fff; padding: 56px 0 52px; }
-.cp-cierre > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.cp-cierre::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(10, 31, 58, 0.9); }
-.cp-cierre .contenedor { display: grid; gap: 14px; }
-.cp-cierre h2 { color: #fff; font-size: clamp(2rem, 8vw, 3rem); }
-.cp-cierre .bajada { color: rgba(255, 255, 255, 0.88); }
-.cp-cierre .boton { width: 100%; min-height: 56px; font-size: 1.125rem; }
-.cp-pie { background: var(--navy-profundo); color: rgba(255, 255, 255, 0.78); padding: 20px 0 24px; text-align: center; font-size: 0.875rem; }
-.con-barra .cp-pie { padding-bottom: calc(24px + var(--barra-alto)); }
+.dg-bloque { padding: 52px 0; }
+.dg-bloque--gris { background: var(--gris-fondo); }
+.dg-bloque h2 { font-size: clamp(1.9rem, 7.6vw, 2.8rem); line-height: 1.06; margin-bottom: 22px; max-width: 22ch; }
+
+/* Casos: el número es la imagen */
+.dg-casos { display: grid; gap: 0; }
+.dg-caso { display: grid; gap: 6px; padding: 20px 0; border-top: 1px solid var(--linea); }
+.dg-caso:last-child { border-bottom: 1px solid var(--linea); }
+.dg-caso__rubro { font-weight: 700; font-size: 0.9375rem; }
+.dg-caso__dato { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.dg-caso__dato b { font: 700 3.25rem/0.95 var(--ubuntu); letter-spacing: -0.02em; }
+.dg-caso__dato span { font: 700 1.25rem/1.2 var(--ubuntu); }
+.dg-caso > p:last-child { color: var(--tinta-2); }
+
+/* Testimonio: miniatura vertical + cita */
+.dg-testimonio { display: grid; grid-template-columns: 118px 1fr; gap: 18px; align-items: center; margin-top: 28px; padding: 16px; border-radius: 20px; background: var(--gris-fondo); }
+.dg-testimonio .video { border-radius: 14px; aspect-ratio: 9 / 16; }
+.dg-testimonio .video__play { left: 50%; bottom: 50%; transform: translate(-50%, 50%); padding: 6px; min-height: 52px; }
+.dg-testimonio .video__play .texto { display: none; }
+.dg-testimonio blockquote p { font-family: var(--ubuntu); font-style: italic; font-size: 1.3125rem; line-height: 1.28; }
+.dg-testimonio blockquote footer { margin-top: 8px; font-size: 0.875rem; color: var(--tinta-2); }
+.dg-testimonio blockquote footer b { color: var(--tinta); }
+
+/* Equipo */
+.dg-equipo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 26px; }
+.dg-equipo figure { margin: 0; display: grid; gap: 8px; }
+.dg-equipo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 8%; border-radius: 14px; background: #EEF0F3; }
+.dg-equipo figcaption { font-size: 0.8125rem; line-height: 1.3; color: var(--tinta-2); }
+.dg-equipo figcaption b { display: block; color: var(--tinta); font-size: 0.9375rem; }
+
+/* Cierre */
+.dg-cierre { background: var(--navy); color: #fff; padding: 56px 0 52px; --foco: #fff; }
+.dg-cierre .contenedor { display: grid; gap: 14px; }
+.dg-cierre h2 { color: #fff; font-size: clamp(2rem, 8vw, 3rem); max-width: 18ch; }
+.dg-cierre .bajada { color: rgba(255, 255, 255, 0.86); }
+.dg-cierre .boton { min-height: 58px; font-size: 1.125rem; }
+.dg-cierre .nota { color: rgba(255, 255, 255, 0.82); }
+.dg-pie { background: var(--navy-profundo); color: rgba(255, 255, 255, 0.78); padding: 20px 0 24px; font-size: 0.875rem; }
+.con-barra .dg-pie { padding-bottom: calc(24px + var(--barra-alto)); }
 
 @media (min-width: 720px) {
-  .cp-casos { grid-template-columns: repeat(3, 1fr); }
-  .cp-panel .boton, .cp-cierre .boton { width: auto; justify-self: start; padding: 14px 32px; }
-  .cp-panel .nota { text-align: left; }
-  .cp-historia.video { max-width: 420px; }
-  .cp-bloque { padding: 72px 0; }
+  .dg-accion { justify-items: start; }
+  .dg-accion .boton, .dg-cierre .boton { padding: 14px 34px; }
+  .dg-cierre .contenedor { justify-items: start; }
+  .dg-escena { max-width: 560px; }
+  .dg-chat { left: auto; right: -14px; width: 330px; }
+  .dg-testimonio { grid-template-columns: 150px 1fr; gap: 28px; padding: 22px; }
+  .dg-testimonio blockquote p { font-size: 1.75rem; }
+  .dg-equipo { max-width: 620px; gap: 16px; }
+  .dg-bloque { padding: 80px 0; }
 }
 @media (min-width: 1024px) {
-  .cp-portada { display: grid; grid-template-columns: 1.05fr 0.95fr; min-height: min(720px, 92vh); }
-  .cp-marca { top: 28px; left: max(var(--lado), calc((100vw - var(--ancho)) / 2)); }
-  .cp-marca img { width: 124px; }
-  .cp-foto { order: 2; height: auto; }
-  .cp-foto::after { background: linear-gradient(90deg, rgba(10, 31, 58, 0.55) 0%, rgba(10, 31, 58, 0) 30%); }
-  .cp-foto figcaption { bottom: 28px; left: 28px; }
-  .cp-panel { order: 1; margin: 0; border-radius: 0; align-content: center; padding: 120px 56px 64px max(var(--lado), calc((100vw - var(--ancho)) / 2)); }
-  .cp-pasos-grilla { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
-  .cp-pasos { margin-top: 0; }
-  .cp-testimonio-grilla { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 28px; align-items: start; }
-  .cp-testimonio-grilla .cp-historia.video { margin-top: 0; }
+  .dg-cabecera { padding-top: 28px; }
+  .dg-cabecera img { width: 128px; }
+  .dg-portada { padding: 40px 0 96px; }
+  .dg-portada__grilla { grid-template-columns: 1fr 1fr; grid-template-areas: "texto escena" "prueba escena"; column-gap: 72px; row-gap: 40px; align-items: center; }
+  .dg-texto { grid-area: texto; align-self: end; }
+  .dg-escena { grid-area: escena; }
+  .dg-prueba { grid-area: prueba; align-self: start; margin-top: 0; max-width: 460px; }
+  .dg-texto { gap: 20px; }
+  .dg-escena { max-width: none; padding-bottom: 0; }
+  .dg-escena__foto img { aspect-ratio: 4 / 5; object-position: 46% 50%; }
+  .dg-chat { left: -48px; right: auto; bottom: 40px; width: 340px; }
+  .dg-pasos .pasos { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .dg-pasos .paso { grid-template-columns: 1fr; padding-bottom: 0; align-content: start; }
+  .dg-pasos .paso::before { grid-row: auto; margin-bottom: 8px; }
+  .dg-pasos .paso::after { left: 64px; right: -24px; top: 23px; bottom: auto; width: auto; height: 2px; }
+  .dg-pasos .paso:last-child::after { display: none; }
+  .dg-pasos .paso h3 { padding-top: 0; }
+  .dg-casos { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .dg-caso, .dg-caso:last-child { border-bottom: 0; padding-top: 24px; border-top: 3px solid var(--navy); }
+  .dg-testimonio { max-width: 720px; }
+  .dg-equipo-grilla { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .dg-equipo { margin-bottom: 0; }
+  .dg-cierre { padding: 88px 0; }
 }
-.cp-cierre .nota { color: rgba(255, 255, 255, 0.82); }

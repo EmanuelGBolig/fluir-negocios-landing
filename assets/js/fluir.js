@@ -119,6 +119,13 @@
       fig.classList.add('sonando');
       var p = v.play();
       if (p && p.catch) p.catch(function () {});
+      /* Miniaturas chicas: el video se ve a pantalla completa con el reproductor del teléfono */
+      if (fig.hasAttribute('data-pantalla')) {
+        try {
+          var r = v.requestFullscreen ? v.requestFullscreen() : (v.webkitEnterFullscreen ? v.webkitEnterFullscreen() : null);
+          if (r && r.catch) r.catch(function () {});
+        } catch (err) {}
+      }
       v.focus();
     });
   });
