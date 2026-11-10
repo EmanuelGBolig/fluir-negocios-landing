@@ -93,11 +93,11 @@ La carpeta `_boceto/` no está en ninguna rama de GitHub ni en la PC.
   | `rectificadora-mauro` | Mauro con Martín en el taller |
   | `concesionaria-checars` | Facundo con Martín en el salón |
   | `distribuidora-martin` | Vanesa Ruiz Díaz en el depósito |
-  | `equipo-mesa` y `equipo-capacitacion` | Una capacitación con el equipo de Elecsur y Contegma. No se nombra a la empresa |
 
   El recorte del taller deja afuera el teléfono y el Instagram del cartel.
+- **Cuadros que salieron:** al principio usé dos cuadros de la capacitación de Elecsur y Contegma. Los saqué porque el video es de baja resolución y no alcanza para foto.
 - **Del carrusel:**
-  - Uso `hero-5` (Martín), `hero-3` (Anto) y `hero-4` (mesa de dueños, para el P·A·C).
+  - Uso `hero-5` (Martín), `hero-3` (Anto, también en C·D·E) y `hero-4` (mesa de dueños, para el P·A·C).
   - `hero-2` no se usa, por el cartel de Fluir Empresas.
 - **Retratos del equipo:** pasaron a webp.
 - **Videos:**
@@ -201,6 +201,7 @@ La carpeta `_boceto/` no está en ninguna rama de GitHub ni en la PC.
 | Escena | Para qué sección |
 |---|---|
 | El dueño de la distribuidora familiar en su negocio (si es López y López: depósito, mostrador o con la administrativa que define precios) | Caso "3 a 4 horas por día". Hoy es una tarjeta sin foto |
+| Una capacitación de encargados (C·D·E) con buena luz y en alta resolución: el equipo trabajando, no una charla de escenario | Portada del C·D·E, tarjeta del C·D·E en la home y "Lo que cambia" |
 | Una sesión real del P·A·C con cuatro dueños, tomada desde atrás o de costado para cuidar la privacidad | Programa P·A·C y `/diagnostico?h=grupo`. Hoy uso `hero-4`, que es chica (894 px) |
 | Un dueño con su encargado frente a la planilla de caja o al tablero, en su negocio | Herramientas y M·A·R: le daría cuerpo real a las piezas de ejemplo |
 | Antonela, Martín y Vanesa trabajando con un cliente, en su lugar (no en escenario) | Equipo y "Te responde alguien de este equipo" |
@@ -245,7 +246,8 @@ Las cuatro páginas ya usan el sistema nuevo y salieron publicadas junto con la 
   - "reunión semanal de 15 minutos";
   - "plan a 90 días";
   - "seguimiento a 30 y 60 días".
-- **Testimonios:** el video de Macarena Poli sale. La cita de Elecsur y Contegma queda como texto, con la foto de esa capacitación; ya no está el video donde se dice "Fluir Coaching".
+- **Testimonios:** el video de Macarena Poli sale. La cita de Elecsur y Contegma queda como tarjeta de texto, sin foto: el cuadro del video era de baja calidad. Ya no está el video donde se dice "Fluir Coaching".
+- **Foto de la portada:** Antonela presentando en un evento (`hero-3`), hasta que haya una foto real de una capacitación de encargados.
 
 ### Fluir Sistemas
 - **Sale:** los precios (desde USD 300, desde USD 200, Kit por unos USD 700, mantenimiento mensual) y la pregunta "¿Los precios son finales?".

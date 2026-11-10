@@ -666,3 +666,13 @@ section[id], span[id] { scroll-margin-top: 16px; }
   .tramo small { grid-row: auto; }
 }
 @media (min-width: 1024px) { .portada--programa .ficha { grid-template-columns: 1fr 1fr; } }
+
+/* Foto única a lo ancho (equipo) y cita sin foto (C·D·E) */
+.franja--una { grid-template-columns: 1fr; }
+.franja--una img { aspect-ratio: 16 / 9; }
+@media (min-width: 1024px) { .franja--una img { aspect-ratio: 21 / 8; } }
+.cita-grande { margin-top: 20px; padding: 28px 22px; border-radius: var(--borde); background: var(--navy); color: #fff; }
+.cita-grande blockquote p { font-family: var(--ubuntu); font-style: italic; font-size: clamp(1.375rem, 4.6vw, 2rem); line-height: 1.3; max-width: 40rem; }
+.cita-grande blockquote footer { margin-top: 14px; font-size: 0.9375rem; color: rgba(255, 255, 255, 0.82); }
+.cita-grande blockquote footer b { color: #fff; }
+@media (min-width: 720px) { .cita-grande { padding: 44px 48px; } }
