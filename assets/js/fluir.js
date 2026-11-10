@@ -385,7 +385,39 @@
       $('rueda-wa').href = waUrl(msg);
       $('resumen-vivo').textContent = 'Etapa: ' + ETAPAS[d.etapa].nombre + '. ' + d.titulo + '.';
     }
-    form.addEventListener('change', function () { dibujar(false); });
+    form.addEventListener('change', function (e) {
+      dibujar(false);
+      /* En el celular las frases se deslizan: al marcar una, pasa sola a la siguiente */
+      if (!form.classList.contains('deslizable') || !matchMedia('(max-width: 719px)').matches) return;
+      var actualFs = e.target.closest('fieldset'), siguiente = actualFs && actualFs.nextElementSibling;
+      if (!siguiente) return;
+      setTimeout(function () {
+        form.scrollTo({ left: siguiente.offsetLeft - parseFloat(getComputedStyle(form).paddingLeft || 0), behavior: reducir ? 'auto' : 'smooth' });
+      }, 260);
+    });
     dibujar(true);
   })();
+  /* ---------- Grupos deslizables (celular): puntitos de posición y foco con teclado ---------- */
+  todos('.deslizable, .piezas').forEach(function (el) {
+    var items = [].slice.call(el.children);
+    if (items.length < 2) return;
+    var puntos = document.createElement('div');
+    puntos.className = 'puntos';
+    puntos.setAttribute('aria-hidden', 'true');
+    items.forEach(function () { puntos.appendChild(document.createElement('i')); });
+    el.parentNode.insertBefore(puntos, el.nextSibling);
+    function actualizar() {
+      var desliza = el.scrollWidth > el.clientWidth + 4;
+      if (desliza) el.setAttribute('tabindex', '0'); else el.removeAttribute('tabindex');
+      puntos.hidden = !desliza;
+      if (!desliza) return;
+      var paso = items[1].offsetLeft - items[0].offsetLeft || el.clientWidth;
+      var i = Math.round(el.scrollLeft / paso);
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 4) i = items.length - 1;
+      [].forEach.call(puntos.children, function (p, k) { p.classList.toggle('activo', k === i); });
+    }
+    el.addEventListener('scroll', actualizar, { passive: true });
+    addEventListener('resize', actualizar);
+    actualizar();
+  });
 })();

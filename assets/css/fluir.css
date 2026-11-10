@@ -676,3 +676,90 @@ section[id], span[id] { scroll-margin-top: 16px; }
 .cita-grande blockquote footer { margin-top: 14px; font-size: 0.9375rem; color: rgba(255, 255, 255, 0.82); }
 .cita-grande blockquote footer b { color: #fff; }
 @media (min-width: 720px) { .cita-grande { padding: 44px 48px; } }
+
+/* =========================================================
+   Celular: menos vertical. Los grupos de tarjetas se deslizan
+   hacia el costado y las secciones tienen menos aire.
+   ========================================================= */
+.puntos { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+.puntos i { width: 7px; height: 7px; border-radius: 99px; background: var(--gris); transition: width 0.2s ease, background-color 0.2s ease; }
+.puntos i.activo { width: 20px; background: var(--navy); }
+.oscuro .puntos i { background: rgba(255, 255, 255, 0.3); }
+.oscuro .puntos i.activo { background: #fff; }
+@media (prefers-reduced-motion: reduce) { .puntos i { transition: none; } }
+
+@media (max-width: 719px) {
+  :root { --bloque: 56px; }
+  .cabeza { margin-bottom: 24px; gap: 10px; }
+
+  .deslizable {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 84%; grid-template-columns: none;
+    gap: 12px; align-items: stretch; position: relative;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--lado);
+    padding: 2px var(--lado) 4px; margin-left: calc(var(--lado) * -1); margin-right: calc(var(--lado) * -1);
+    scrollbar-width: none; overscroll-behavior-x: contain;
+  }
+  .deslizable::-webkit-scrollbar { display: none; }
+  .deslizable > * { scroll-snap-align: start; min-width: 0; }
+
+  /* Listas que en el celular pasan a ser tarjetas */
+  .deslizable > .cambio, .deslizable > .tramo {
+    grid-template-columns: 1fr; align-content: start; gap: 6px;
+    padding: 18px 16px; border: 1px solid var(--linea); border-radius: var(--borde); background: #fff;
+  }
+  .deslizable > .cambio:last-child, .deslizable > .tramo:last-child { border-bottom: 1px solid var(--linea); }
+  .deslizable > .cambio::before { grid-row: auto; line-height: 1; }
+  .deslizable > .tramo small { grid-row: auto; padding-top: 0; }
+
+  /* Casos: el video entra cuadrado y se estira al reproducirse */
+  .casos.deslizable .caso--video .video { aspect-ratio: 1 / 1; }
+  .casos.deslizable .caso--video .video.sonando { aspect-ratio: 9 / 16; }
+  .casos.deslizable .caso__numero { font-size: 2.75rem; }
+  .casos.deslizable .caso__texto { padding: 18px 16px 20px; }
+
+  /* Programas: fotos más bajas dentro de la tarjeta */
+  .programas.deslizable .programa__foto img, .programas.deslizable .otro__foto img { aspect-ratio: 2 / 1; }
+  .programas.deslizable .programa__titulo { padding: 18px 18px 16px; }
+  .programas.deslizable .programa__titulo b { font-size: 2.25rem; }
+  .programas.deslizable .programa__cuerpo { padding: 18px; gap: 12px; }
+  .programas.deslizable .otro__visual { padding: 14px; }
+  .accion-centrada { margin-top: 24px; }
+
+  /* Test más compacto */
+  .rueda__grilla { gap: 12px; }
+  .preguntas { gap: 8px; }
+  .pregunta { padding: 12px 12px 10px; }
+  .pregunta legend { margin-bottom: 6px; }
+  .pregunta legend b { font-size: 1rem; line-height: 1.3; }
+  .nivel label i { height: calc(8px + var(--n) * 5px); }
+  .pregunta__valor { margin-top: 4px; }
+  .lectura { padding: 14px 14px 16px; }
+  #radar { max-width: 260px; }
+  .diagnostico { padding: 18px 16px; gap: 12px; }
+
+  /* Otras secciones */
+  .tapa-guia { display: none; }
+  .franja { margin-bottom: 18px; }
+  .franja--una img { aspect-ratio: 2 / 1; }
+  .logos { grid-template-columns: repeat(4, 1fr); gap: 14px 10px; }
+  .logos li { height: 40px; }
+  .logos img { max-height: 32px; }
+  .clientes { padding: 28px 0; }
+  .paso { padding-bottom: 18px; }
+  .contacto { gap: 18px; }
+  .portada__foto img { aspect-ratio: 16 / 10; }
+  .etapa { padding: 18px 16px; gap: 8px; }
+  .etapa::before { font-size: 1.75rem; }
+}
+@media (max-width: 719px) {
+  /* Test: las frases se deslizan debajo del radar */
+  .preguntas.deslizable { grid-auto-columns: 86%; gap: 10px; }
+  .preguntas.deslizable .pregunta { display: grid; align-content: space-between; margin: 0; }
+}
+
+/* Escritorio: la cabecera ya tiene el botón; la barra inferior es solo para celular y tablet */
+@media (min-width: 1024px) {
+  .barra-inferior { display: none; }
+  .con-barra { --barra-alto: 0px; }
+  .programa { align-content: start; }
+}
