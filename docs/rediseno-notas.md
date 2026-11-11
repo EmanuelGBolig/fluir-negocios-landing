@@ -314,6 +314,40 @@ Las dos versiones (vos y tú) salen de `herramientas/diagnostico.py`. Los cambio
   - El elemento más grande es la foto: se descarga en menos de 1 s, pero tarda en pintarse mientras corre el script de Meta.
   - Probé cargar el píxel cuando termina la página y moverlo al final del HTML. Ninguna de las dos cosas mejoró de forma consistente.
 
+## /diagnostico con movimiento (11/11)
+
+Pedido: más atractiva y dinámica, que invite a deslizar y a pedir el diagnóstico, y que la tarjeta de WhatsApp lleve a WhatsApp.
+
+- **La tarjeta es un botón.** Tocarla en cualquier momento abre WhatsApp con el mensaje y el código del anuncio. Mide como los demás botones: Contact, Schedule con `diagnostico-tarjeta` (o `diagnostico-tu-tarjeta`) y `solicitar_diagnostico`.
+- **La tarjeta se escribe sola** cuando aparece en pantalla, en unos 5 segundos:
+  1. Se tipea "Hola, quiero mi diagnóstico." en el campo de abajo.
+  2. Se envía y los tildes pasan a azul.
+  3. Aparece "escribiendo…" del otro lado y llega "¡Hola! ¿A qué se dedica tu negocio?".
+  4. El campo queda con "Tocá y mandá el tuyo" ("Hacé clic…" en computadora) y el botón de enviar late.
+
+  Al terminar, el botón principal hace un brillo, una vez. La foto se acomoda despacio mientras tanto.
+- **Pasos:** al bajar se encienden de a uno, la línea se llena en zafiro y abajo hay un botón nuevo (`diagnostico-pasos`), que también brilla al encenderse el tercero.
+- **Casos:** cada uno tiene un dibujo chico de su número, decorativo:
+  - 27 puntos para los trabajos del mes;
+  - un mes con 2 semanas marcadas para las vacaciones;
+  - las 24 horas del día con 3 a 4 marcadas.
+
+  Los dibujos se completan al verse y el número sube desde abajo. En el celular los casos se deslizan hacia el costado, con "Deslizá →", puntitos y un amague de la fila la primera vez que aparece.
+- **Lo demás:**
+  - el play del testimonio late;
+  - las caras del equipo llegan de a una;
+  - la barra inferior brilla al aparecer.
+- **Menos movimiento:** si la persona lo pidió en su teléfono (`prefers-reduced-motion`), nada se mueve y todo aparece completo.
+  - Si el JS no carga, la tarjeta se completa sola a los 5 segundos.
+  - Las animaciones arrancan recién cuando el CSS completo está aplicado.
+- **Verificado:**
+  - 275 comprobaciones de botones y eventos;
+  - toque real en la tarjeta: abre wa.me con el código;
+  - sin desborde de 320 a 1440 px;
+  - Lighthouse mobile: accesibilidad 100, CLS 0 y FCP 0,8 s. El rendimiento quedó entre 74 y 93, en el rango que ya tenía con el píxel inmediato.
+- **Medidas:** 4,35 pantallas de celular y 3,85 de escritorio.
+- **Versión de CSS y JS:** `?v=8` en todas las páginas.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.

@@ -400,6 +400,114 @@
     });
     dibujar(true);
   })();
+  /* ---------- /diagnostico: la tarjeta de WhatsApp se escribe sola y la página acompaña al bajar ----------
+     El <head> marca html.dg-anima si la persona no pidió menos movimiento; sin esa marca todo queda
+     quieto y en su estado final. Arranca recién cuando el CSS completo está aplicado (--dg-completo),
+     para que las transiciones existan. La tarjeta es un link: tocarla abre WhatsApp en cualquier momento. */
+  (function () {
+    if (!cuerpo.classList.contains('dg')) return;
+    var raiz = document.documentElement;
+    raiz.classList.add('dg-js');
+    var chat = document.querySelector('.dg-chat');
+    var mueve = raiz.classList.contains('dg-anima') && !reducir && 'IntersectionObserver' in window;
+    if (!mueve) {
+      raiz.classList.remove('dg-anima');
+      if (chat) chat.classList.add('v-mia', 'v-leido', 'v-suya');
+      return;
+    }
+    function conCss(fn) {
+      var intentos = 0;
+      (function mirar() {
+        if (getComputedStyle(cuerpo).getPropertyValue('--dg-completo').trim() || intentos++ > 60) fn();
+        else setTimeout(mirar, 80);
+      })();
+    }
+    function alVer(els, fn, umbral, margen) {
+      var io = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (en) {
+          if (en.isIntersecting) { io.unobserve(en.target); fn(en.target); }
+        });
+      }, { threshold: umbral || 0, rootMargin: margen || '0px' });
+      [].concat(els).forEach(function (el) { io.observe(el); });
+    }
+    function brillo(b) {
+      if (!b) return;
+      b.classList.remove('brilla');
+      void b.offsetWidth;
+      b.classList.add('brilla');
+    }
+
+    /* Tarjeta: escribe el mensaje, lo manda, se lee, escriben del otro lado y responden */
+    function escribir() {
+      var campo = chat.querySelector('.dg-chat__tipeo');
+      var texto = (campo && campo.getAttribute('data-texto')) || '';
+      var i = 0;
+      setTimeout(function letra() {
+        campo.textContent = texto.slice(0, ++i);
+        if (i < texto.length) setTimeout(letra, 28 + Math.random() * 40);
+        else setTimeout(enviar, 360);
+      }, 250);
+      function enviar() {
+        campo.textContent = '';
+        chat.classList.add('v-envia', 'v-mia');
+        setTimeout(function () { chat.classList.add('v-leido'); }, 700);
+        setTimeout(function () { chat.classList.add('v-escribe'); }, 1000);
+        setTimeout(function () {
+          chat.classList.add('v-suya');
+          brillo(document.querySelector('.dg-accion .boton'));
+        }, 2500);
+      }
+    }
+
+    /* Pasos: se encienden de a uno, en orden, a medida que se baja */
+    function pasos() {
+      var items = todos('.dg-pasos .paso');
+      if (!items.length) return;
+      items[0].parentNode.classList.add('anima');
+      var meta = 0, hechos = 0, andando = false;
+      function seguir() {
+        if (hechos >= meta) { andando = false; return; }
+        andando = true;
+        var previo = items[hechos - 1], actual = items[hechos];
+        if (previo) previo.classList.add('lleno');
+        setTimeout(function () {
+          actual.classList.add('activo');
+          hechos++;
+          if (hechos === items.length) setTimeout(function () { brillo(document.querySelector('.dg-pasos__accion .boton')); }, 350);
+          setTimeout(seguir, 220);
+        }, previo ? 480 : 0);
+      }
+      alVer(items, function (p) {
+        meta = Math.max(meta, items.indexOf(p) + 1);
+        if (!andando) seguir();
+      }, 0, '0px 0px -30% 0px');
+    }
+
+    /* Casos: cada tarjeta se dibuja al verse; en el celular, la fila se asoma para invitar a deslizar */
+    function casos() {
+      var lista = document.querySelector('.dg-casos');
+      if (!lista) return;
+      alVer(todos('.dg-caso', lista), function (c) { c.classList.add('visto'); }, 0.55);
+      var bloque = lista.closest('section'), pista = bloque && bloque.querySelector('.dg-desliza'), usado = false;
+      lista.addEventListener('scroll', function () {
+        if (!usado && lista.scrollLeft > 12) { usado = true; if (pista) pista.classList.add('usado'); }
+      }, { passive: true });
+      if (bloque) alVer(lista, function () {
+        if (!usado && lista.scrollWidth > lista.clientWidth + 4) bloque.classList.add('asoma');
+      }, 0.45);
+    }
+
+    conCss(function () {
+      var escena = document.querySelector('.dg-escena');
+      if (escena) escena.classList.add('v-foto');
+      if (chat) alVer(chat, escribir, 0.5);
+      pasos();
+      casos();
+      var equipo = document.querySelector('.dg-equipo');
+      if (equipo) alVer(equipo, function () { equipo.classList.add('visto'); }, 0.25);
+    });
+  })();
+
   /* ---------- Grupos deslizables (celular): puntitos de posición y foco con teclado ---------- */
   todos('.deslizable, .piezas').forEach(function (el) {
     var items = [].slice.call(el.children);

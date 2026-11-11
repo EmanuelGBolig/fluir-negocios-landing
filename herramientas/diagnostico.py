@@ -34,8 +34,11 @@ TEXTOS = {
                 'equipo': 'Armamos con vos encargados, procesos y acuerdos claros, para que el negocio siga andando cuando no estás.',
                 'grupo': 'El P·A·C es un programa grupal: mandos y delegación, caja y márgenes, ventas y canales, y escala. Online o presencial en Mar del Plata.'},
         boton='Quiero mi diagnóstico', nota='Sin cargo. Te responde una persona del equipo, no un bot.',
-        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.', chat_tu='Tu mensaje',
-        escribiendo='escribiendo…',
+        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.',
+        chat_resp='¡Hola! ¿A qué se dedica tu negocio?',
+        chat_toca='Tocá y mandá el tuyo', chat_clic='Hacé clic y mandá el tuyo',
+        chat_aria='. Abre WhatsApp con el mensaje “Hola, quiero mi diagnóstico.”',
+        desliza='Deslizá',
         prueba='<b>Más de 100 negocios</b> acompañados en más de 10 años.',
         pasos_titulo='Qué pasa después de tocar el botón',
         pasos=[('Se abre WhatsApp con tu mensaje', 'Lo mandás y listo. Del otro lado hay una persona, no un bot.'),
@@ -72,8 +75,11 @@ TEXTOS = {
                 'equipo': 'Armamos contigo encargados, procesos y acuerdos claros, para que el negocio siga funcionando cuando no estás.',
                 'grupo': 'El P·A·C es un programa grupal: mandos y delegación, caja y márgenes, ventas y canales, y escala. En línea o presencial en Mar del Plata, Argentina.'},
         boton='Quiero mi diagnóstico', nota='Sin costo. Te responde una persona del equipo, no un bot.',
-        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.', chat_tu='Tu mensaje',
-        escribiendo='escribiendo…',
+        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.',
+        chat_resp='¡Hola! ¿A qué se dedica tu negocio?',
+        chat_toca='Toca y envía el tuyo', chat_clic='Haz clic y envía el tuyo',
+        chat_aria='. Abre WhatsApp con el mensaje “Hola, quiero mi diagnóstico.”',
+        desliza='Desliza',
         prueba='<b>Más de 100 negocios</b> acompañados en más de 10 años.',
         pasos_titulo='Qué pasa después de tocar el botón',
         pasos=[('Se abre WhatsApp con tu mensaje', 'Lo envías y listo. Del otro lado hay una persona, no un bot.'),
@@ -102,6 +108,29 @@ def boton(cta, texto, clase='boton'):
             f'<svg aria-hidden="true"><use href="#i-wa"/></svg>{texto}</a>')
 
 
+# Dibujo chico de cada caso (decorativo; el dato está escrito al lado), en el mismo orden que t['casos']
+def dibujo(tipo):
+    if tipo == 'trabajos':      # 27 trabajos en el mes
+        celdas = [(True, k) for k in range(27)]
+    elif tipo == 'vacaciones':  # un mes de 4 semanas, con 2 semanas de vacaciones
+        celdas = [(7 <= k < 21, k - 7) for k in range(28)]
+    else:                       # las 24 horas del día, 3 a 4 recuperadas
+        celdas = [(k < 4, k) for k in range(24)]
+    partes = []
+    for k, (on, i) in enumerate(celdas):
+        if not on:
+            partes.append('<i></i>')
+        else:
+            clase = 'on medio' if tipo == 'horas' and k == 3 else 'on'
+            partes.append(f'<i class="{clase}" style="--i:{i}"></i>')
+    return f'<span class="dg-viz dg-viz--{tipo}" aria-hidden="true">{"".join(partes)}</span>'
+
+
+DIBUJOS = ['trabajos', 'vacaciones', 'horas']
+ENVIAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>'
+FLECHA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+
 def pagina(t):
     pre = t['pre']
     h1 = '\n'.join(f'            <span data-variante="{k}">{v}</span>' for k, v in t['h1'].items())
@@ -109,9 +138,10 @@ def pagina(t):
     pasos = '\n'.join(f'          <li class="paso">\n            <h3>{a}</h3>\n            <p>{b}</p>\n          </li>' for a, b in t['pasos'])
     casos = '\n'.join(f'''        <li class="dg-caso">
           <p class="dg-caso__rubro">{r}</p>
+          {dibujo(d)}
           <p class="dg-caso__dato"><b>{n}</b><span>{u}</span></p>
           <p>{x}</p>
-        </li>''' for r, n, u, x in t['casos'])
+        </li>''' for (r, n, u, x), d in zip(t['casos'], DIBUJOS))
     caras = ''.join(f'<img src="{pre}assets/img/equipo-{k}-240.webp" width="240" height="360" alt="">' for k, _, _ in t['equipo'])
     equipo = '\n'.join(f'''        <figure>
           <img src="{pre}assets/img/equipo-{k}-240.webp" srcset="{pre}assets/img/equipo-{k}-240.webp 240w, {pre}assets/img/equipo-{k}-453.webp 453w" sizes="(min-width: 720px) 200px, 30vw" width="453" height="680" alt="{nombre}" loading="lazy" decoding="async">
@@ -133,6 +163,10 @@ def pagina(t):
       var q = new URLSearchParams(location.search), v = ['plata', 'equipo', 'grupo'], h = (q.get('h') || '').toLowerCase();
       if (v.indexOf(h) < 0) {{ var c = (q.get('utm_content') || '').toLowerCase(); h = v.filter(function (p) {{ return c.indexOf(p) > -1; }})[0] || ''; }}
       if (h) document.documentElement.setAttribute('data-h', h);
+      /* Movimiento solo si la persona no pidió menos: la tarjeta arranca vacía y se escribe sola */
+      if ('IntersectionObserver' in window && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {{
+        document.documentElement.classList.add('dg-anima');
+      }}
     }} catch (e) {{}}
   }})();
 </script>
@@ -195,14 +229,24 @@ def pagina(t):
         <figure class="dg-escena__foto">
           <img src="{pre}assets/img/mesa-duenos-894.webp" srcset="{pre}assets/img/mesa-duenos-480.webp 480w, {pre}assets/img/mesa-duenos-894.webp 894w" sizes="(min-width: 1024px) 560px, 92vw" width="894" height="682" alt="Dueños de negocios trabajando alrededor de una mesa con cuadernos y planillas" fetchpriority="high">
         </figure>
-        <div class="dg-chat" role="img" aria-label="Ejemplo: tu mensaje de WhatsApp dice “{t['chat_msj']}” y te responde una persona del equipo">
-          <div class="dg-chat__barra">
-            <span class="dg-caras" aria-hidden="true">{caras}</span>
+        <!-- La tarjeta es un botón más: abre WhatsApp con el mensaje (Schedule: {t['pagina']}-tarjeta) -->
+        <a class="dg-chat" href="{WA}" data-wa data-cta="tarjeta" target="_blank" rel="noopener">
+          <span class="dg-chat__barra" aria-hidden="true">
+            <span class="dg-caras">{caras}</span>
             <span><b>Fluir Negocios</b><small>{t['chat_sub']}</small></span>
-          </div>
-          <p class="dg-burbuja" aria-hidden="true">{t['chat_msj']}<small>{t['chat_tu']} ✓✓</small></p>
-          <p class="dg-escribe" aria-hidden="true"><span class="dg-puntos"><i></i><i></i><i></i></span>{t['escribiendo']}</p>
-        </div>
+          </span>
+          <span class="dg-chat__cuerpo" aria-hidden="true">
+            <span class="dg-chat__mia">{t['chat_msj']}<small>✓✓</small></span>
+            <span class="dg-chat__lugar">
+              <span class="dg-chat__escribe"><i></i><i></i><i></i></span>
+              <span class="dg-chat__suya">{t['chat_resp']}</span>
+            </span>
+          </span>
+          <span class="dg-chat__redactar">
+            <span class="dg-chat__campo"><span class="dg-chat__tipeo" data-texto="{t['chat_msj']}" aria-hidden="true"></span><span class="dg-chat__guia"><span class="toca">{t['chat_toca']}</span><span class="clic">{t['chat_clic']}</span><span class="solo-lector">{t['chat_aria']}</span></span></span>
+            <span class="dg-chat__enviar">{ENVIAR}</span>
+          </span>
+        </a>
       </div>
 
       <div class="dg-prueba">
@@ -223,13 +267,17 @@ def pagina(t):
       <ol class="pasos" role="list">
 {pasos}
       </ol>
+      <div class="dg-pasos__accion" data-oculta-barra>
+        {boton('pasos', t['boton'])}
+      </div>
     </div>
   </section>
 
   <section class="dg-bloque" aria-labelledby="titulo-casos">
     <div class="contenedor">
       <h2 id="titulo-casos">{t['casos_titulo']}</h2>
-      <ul class="dg-casos" role="list">
+      <p class="dg-desliza" aria-hidden="true">{t['desliza']}{FLECHA}</p>
+      <ul class="dg-casos deslizable" role="list">
 {casos}
       </ul>
       <figure class="dg-testimonio">
