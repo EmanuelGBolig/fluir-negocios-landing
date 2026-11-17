@@ -243,16 +243,23 @@ section[id], span[id] { scroll-margin-top: 16px; }
 
 /* ---------- Diagnóstico rápido: 10 preguntas de a una ---------- */
 .rueda { background: var(--navy); color: #fff; }
-.rapido { display: grid; gap: 22px; }
+.rapido { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
 .rapido__cabeza { margin-bottom: 0; }
 .tarjeta { background: #fff; color: var(--tinta); border-radius: var(--borde); --foco: var(--navy); }
 .rapido__tarjeta { padding: 20px 18px 18px; border-radius: 22px; box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.5); }
-.rapido__preguntas { display: grid; gap: 14px; }
+/* Alto fijo: la tarjeta mide lo mismo en la intro, en cada pregunta y en los datos, así la sección no se mueve.
+   El alto sale de medir el paso más alto en cada ancho (--alto-rapido); el resultado sí puede crecer. */
+.rapido__tarjeta { display: grid; grid-template-rows: 1fr; min-height: var(--alto-rapido, 0); }
+.rapido__preguntas { display: flex; flex-direction: column; gap: 14px; }
+.rapido__preguntas .rapido__volver { margin-top: auto; }
+.rapido__intro, .rapido__datos { display: flex; flex-direction: column; }
+/* Lo que se completa queda abajo, contra el botón */
+.rapido__intro .campo { margin-top: auto; }
 .rapido__arriba { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .rapido__paso { font-size: 0.875rem; color: var(--tinta-2); }
 .rapido__paso b { color: var(--tinta); }
 .rapido__area { font: 700 0.8125rem/1.2 var(--montserrat); color: var(--zafiro); }
-.rapido__progreso { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.rapido__progreso { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
 .rapido__progreso i { height: 5px; border-radius: 99px; background: var(--linea); }
 .rapido__progreso i.hecha { background: var(--navy); }
 .rapido__progreso i.actual { background: var(--zafiro); }
@@ -279,14 +286,18 @@ section[id], span[id] { scroll-margin-top: 16px; }
   background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 20px no-repeat;
 }
 .rapido__intro .nota, .rapido__datos .nota { text-align: center; font-size: 0.875rem; }
-.rapido__campos { display: grid; gap: 12px; align-items: start; }
+.rapido__campos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; align-items: end; }
+.rapido__campo-ancho { grid-column: 1 / -1; }
+.rapido__campos > * { min-width: 0; }
+.rapido__campos input { width: 100%; min-width: 0; }
 .rapido__campos .campo label span { font-weight: 500; color: var(--tinta-2); }
 .rapido__campos .campo small { font-size: 0.8125rem; color: var(--tinta-2); }
+.rapido__intro .campo label { font-size: 1rem; }
 .rapido__campos .campo input[aria-invalid="true"] { border-color: #B42318; }
 .rapido__error { padding: 10px 12px; border-radius: 10px; background: #FFF0F0; color: #8A1418; font-weight: 600; font-size: 0.9375rem; }
 .rapido__animo { padding: 10px 12px; border-radius: 10px; background: var(--gris-fondo); color: var(--tinta-2); font-size: 0.875rem; }
-.rapido__opciones--lista { grid-template-columns: 1fr; gap: 8px; }
-.rapido__opciones--lista button { min-height: 52px; padding: 10px 16px; text-align: left; font-size: 1rem; }
+.rapido__opciones--lista { grid-template-columns: 1fr 1fr; gap: 8px; }
+.rapido__opciones--lista button { min-height: 56px; padding: 8px 12px; text-align: left; font-size: 0.9375rem; line-height: 1.2; }
 .rapido__resultado { display: grid; gap: 14px; }
 .rapido__etapa { font-size: 0.875rem; color: var(--tinta-2); }
 .rapido__etapa b { color: var(--tinta); }
@@ -605,10 +616,14 @@ section[id], span[id] { scroll-margin-top: 16px; }
   .recortes--grande { min-height: 380px; }
   .obras { grid-template-columns: repeat(3, 1fr); gap: 24px; }
 }
-@media (min-width: 560px) {
-  .rapido__opciones--lista { grid-template-columns: 1fr 1fr; }
-  .rapido__campos { grid-template-columns: 1fr 1fr; }
-}
+/* Alto fijo de la tarjeta por ancho (medido: el paso más alto entre la intro, las 13 preguntas y los datos) */
+.rapido__tarjeta { --alto-rapido: 512px; }
+@media (max-width: 359px) { .rapido__tarjeta { --alto-rapido: 554px; } }
+@media (min-width: 390px) { .rapido__tarjeta { --alto-rapido: 538px; } }
+@media (min-width: 414px) { .rapido__tarjeta { --alto-rapido: 490px; } }
+@media (min-width: 560px) { .rapido__tarjeta { --alto-rapido: 468px; } }
+@media (min-width: 720px) { .rapido__tarjeta { --alto-rapido: 478px; } }
+@media (min-width: 1024px) { .rapido__tarjeta { --alto-rapido: 502px; } }
 /* Link directo /diagnostico-rapido/: la misma tarjeta, sola en la página */
 body.rapido-pagina { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; background: var(--navy); }
 body.rapido-pagina main { flex: 1; display: flex; flex-direction: column; }
@@ -619,10 +634,22 @@ body.rapido-pagina main { flex: 1; display: flex; flex-direction: column; }
 body.rapido-pagina h1 { color: #fff; font-size: clamp(2.2rem, 9vw, 3.6rem); line-height: 1.04; }
 .rapido__equipo { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 0.9375rem; color: rgba(255, 255, 255, 0.86); }
 .rapido__equipo .dg-caras img { border-color: var(--navy); }
+/* En el celular, el campo del nombre y el botón entran en la primera pantalla: arriba queda solo el título */
+@media (max-width: 719px) {
+  .rapido-pagina__bloque { padding-top: 22px; }
+  .rapido-pagina .rapido__cabeza .bajada, .rapido-pagina .rapido__equipo { display: none; }
+}
+/* Celulares chicos: la intro sin la frase de presentación (los beneficios ya lo dicen) */
+@media (max-width: 389px) {
+  .rapido__intro > p:not(.nota):not(.rapido__error) { display: none; }
+  .rapido__beneficios { gap: 8px; }
+  .rapido__beneficios li { font-size: 0.9375rem; }
+}
 @media (min-width: 1024px) {
   .utiles { gap: 24px; }
   .util__visual { min-height: 252px; padding: 22px; }
-  .rapido { grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: center; }
+  .rapido { grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: start; }
+  .rapido__cabeza { padding-top: 32px; }
   .rapido__tarjeta { padding: 28px 28px 24px; }
   .rapido__q { font-size: 1.625rem; }
 }

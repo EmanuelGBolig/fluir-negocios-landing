@@ -24,37 +24,36 @@ BAJADA = 'Preguntas de un toque, en dos minutos. Al final ves qué área te fren
 def tarjeta(nivel):
     """La tarjeta completa: datos, preguntas (las arma fluir.js) y resultado. nivel = etiqueta de los títulos internos."""
     return f'''<div class="rapido__tarjeta tarjeta" id="rapido">
-        <div class="rapido__intro" id="rapido-intro">
+        <form class="rapido__intro" id="rapido-intro" novalidate>
           <{nivel} class="rapido__titulo">Dos minutos para ver dónde se frena tu negocio</{nivel}>
-          <p>Es nuestro Punto de Partida en versión rápida: preguntas de un toque, sin escribir nada.</p>
+          <p>Es nuestro Punto de Partida en versión rápida: 13 preguntas de un toque.</p>
           <ul class="rapido__beneficios" role="list">
             <li>Ves qué área te frena más y en qué etapa está tu negocio.</li>
             <li>Te llevás dos pasos concretos para empezar.</li>
-            <li>Si después hablamos, no arrancamos de cero: la llamada va directo a lo que hay que hacer.</li>
+            <li>Si después hablamos, la llamada va directo a lo que hay que hacer.</li>
           </ul>
-          <button class="boton boton--ancho" type="button" id="rapido-empezar">Empezar el diagnóstico</button>
-          <p class="nota">16 preguntas de un toque. Al final te pedimos tu nombre y tu email.</p>
-        </div>
+          <div class="campo">
+            <label for="rapido-nombre">Para empezar, ¿cómo te llamás?</label>
+            <input id="rapido-nombre" name="nombre" type="text" autocomplete="given-name" required aria-describedby="rapido-error-intro">
+          </div>
+          <p class="rapido__error" id="rapido-error-intro" role="alert" hidden></p>
+          <button class="boton boton--ancho" type="submit">Empezar el diagnóstico</button>
+        </form>
 
         <!-- fluir.js muestra las preguntas de a una -->
         <div class="rapido__preguntas" id="rapido-preguntas" hidden></div>
 
         <form class="rapido__datos" id="rapido-datos" novalidate hidden>
           <{nivel} class="rapido__titulo" id="rapido-datos-titulo" tabindex="-1">Tu resultado está listo</{nivel}>
-          <p>¿A nombre de quién lo preparamos? Tu resultado le llega también a nuestro equipo. Así, cuando hablemos, ya sabemos dónde está el freno y usamos el tiempo para ver qué hacer, no para repasar lo básico.</p>
+          <p>Dejanos tu email: tu resultado le llega también a nuestro equipo y, cuando hablemos, vamos directo a lo que hay que hacer.</p>
           <div class="rapido__campos">
-            <div class="campo">
-              <label for="rapido-nombre">Tu nombre</label>
-              <input id="rapido-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="rapido-error">
-            </div>
-            <div class="campo">
+            <div class="campo rapido__campo-ancho">
               <label for="rapido-email">Tu email</label>
               <input id="rapido-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="rapido-error">
             </div>
             <div class="campo">
               <label for="rapido-tel">Tu WhatsApp <span>(opcional)</span></label>
-              <input id="rapido-tel" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="rapido-tel-ayuda rapido-error">
-              <small id="rapido-tel-ayuda">Por si preferís que te escribamos nosotros.</small>
+              <input id="rapido-tel" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="rapido-error">
             </div>
             <div class="campo">
               <label for="rapido-negocio">Tu negocio <span>(opcional)</span></label>
@@ -64,7 +63,6 @@ def tarjeta(nivel):
           <p class="rapido__error" id="rapido-error" role="alert" hidden></p>
           <button class="boton boton--ancho" type="submit">Ver mi resultado</button>
           <p class="nota">Tus datos le llegan solo a nuestro equipo.</p>
-          <button class="rapido__otra" type="button" id="rapido-volver-preguntas">Volver a las preguntas</button>
         </form>
 
         <div class="rapido__resultado" id="rapido-resultado" hidden>

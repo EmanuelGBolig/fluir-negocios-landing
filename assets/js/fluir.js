@@ -188,9 +188,9 @@
 
   /* =====================================================================
      Diagnóstico rápido (home #rueda y link directo /diagnostico-rapido/).
-     Embudo: 1) intro con lo que gana la persona, 2) preguntas de un toque, 3) nombre y email
-     justo antes del resultado (explicando para qué), 4) resultado + WhatsApp para agendar la llamada.
-     Preguntas: 3 del negocio y 3 de lo que busca (tomadas del formulario "Punto de Partida")
+     Embudo: 1) intro con lo que gana la persona y su nombre, 2) preguntas de un toque, 3) email (y WhatsApp
+     y negocio opcionales) justo antes del resultado, explicando para qué, 4) resultado + WhatsApp para agendar.
+     Preguntas (13): 2 del negocio y 1 de lo que busca (tomadas del formulario "Punto de Partida")
      y 10 de sí / a medias / no, dos por área: Finanzas, Equipo, Operaciones, Ventas y Proveedores
      (cada área de 0 a 4, total de 0 a 20). Todo le llega al equipo por Formspree (el mismo de la guía).
      No dispara Lead en el píxel: Lead es solo la guía.
@@ -231,8 +231,6 @@
         ops: ['Soy dueño y decido solo', 'Soy dueño y tengo socios', 'Es un negocio familiar', 'Soy encargado o gerente'] },
       { parte: 'Tu negocio', clave: 'Personas', q: '¿Cuántas personas trabajan con vos?',
         ops: ['Solo yo', '1 a 5', '6 a 15', '16 a 30', 'Más de 30'] },
-      { parte: 'Tu negocio', clave: 'Antigüedad', q: '¿Hace cuánto está en marcha?',
-        ops: ['Menos de 1 año', '1 a 3 años', '3 a 10 años', 'Más de 10 años'] },
       { area: F, q: '¿Sabés cuánto ganó tu negocio el mes pasado, sin estimarlo?' },
       { area: E, q: '¿Alguien resuelve el día a día sin consultarte?' },
       { area: O, q: '¿Los procesos clave están escritos, y no solo en tu cabeza?' },
@@ -244,11 +242,7 @@
       { area: M, q: '¿Sabés de dónde viene cada cliente nuevo?' },
       { area: A, q: '¿Tenés un proveedor alternativo para lo que no puede faltar?' },
       { parte: 'Lo que buscás', clave: 'Quiere lograr primero', q: '¿Qué te gustaría lograr primero?',
-        ops: ['Ganar más con lo que vendo', 'Vender más', 'Tener más tiempo', 'Un equipo que resuelva sin mí', 'Ordenar los números', 'Claridad para decidir'] },
-      { parte: 'Lo que buscás', clave: 'Cómo le afecta hoy', q: '¿Cómo te está afectando hoy?',
-        ops: ['Vivo con estrés o cansado', 'No me queda tiempo para mí ni para mi familia', 'Perdí las ganas de antes', 'Estoy bien, quiero crecer'] },
-      { parte: 'Lo que buscás', clave: 'Si nada cambia en 6 meses pierde', q: 'Si nada cambia en los próximos 6 meses, ¿qué es lo que más perdés?',
-        ops: ['Plata', 'Tiempo', 'Clientes y oportunidades', 'Ganas y energía'] }
+        ops: ['Ganar más con lo que vendo', 'Vender más', 'Tener más tiempo', 'Un equipo que resuelva sin mí', 'Ordenar los números', 'Claridad para decidir'] }
     ];
     /* Si empatan, se empieza por el área de la que dependen las demás */
     var PRIORIDAD = [F, E, O, M, A];
@@ -320,7 +314,7 @@
       return d;
     }
 
-    var respuestas = [], actual = 0, datos = null, enviado = false;
+    var respuestas = [], actual = 0, datos = { nombre: '' }, conEmail = false, enviado = false;
 
     function valores() {
       var v = [0, 0, 0, 0, 0];
@@ -337,7 +331,18 @@
     }
 
     /* --- 1) Intro --- */
-    $('rapido-empezar').addEventListener('click', function (e) {
+    var nombreEl = $('rapido-nombre'), errorIntro = $('rapido-error-intro');
+    intro.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nombre = nombreEl.value.trim();
+      if (!nombre) {
+        errorIntro.textContent = 'Escribí tu nombre, así sabemos con quién hablamos.';
+        errorIntro.hidden = false; nombreEl.setAttribute('aria-invalid', 'true'); nombreEl.focus();
+        return;
+      }
+      errorIntro.hidden = true; nombreEl.removeAttribute('aria-invalid');
+      datos.nombre = nombre;
+      try { sessionStorage.setItem('fn_nombre', nombre); } catch (err) {}
       ga('diagnostico_rapido_inicio', { pagina: PAGINA });
       actual = 0;
       mostrar(caja);
@@ -351,8 +356,10 @@
       var segmentos = PREGUNTAS.map(function (x, i) {
         return '<i class="' + (i < actual ? 'hecha' : (i === actual ? 'actual' : '')) + '"></i>';
       }).join('');
-      var aviso = actual === 3 ? '<p class="rapido__animo">Ahora, cómo está hoy. Respondé con lo primero que te salga: no hay respuestas buenas ni malas.</p>' :
-                  (actual === 13 ? '<p class="rapido__animo">Ya casi. Tres preguntas sobre lo que buscás.</p>' : '');
+      var quien = escapar(datos.nombre.split(/\s+/)[0]);
+      var aviso = actual === 0 ? '<p class="rapido__animo">Dale, ' + quien + '. Primero, dos preguntas sobre tu negocio.</p>' :
+                  actual === 2 ? '<p class="rapido__animo">Ahora, cómo está hoy. Respondé con lo primero que te salga: no hay respuestas buenas ni malas.</p>' :
+                  (actual === PREGUNTAS.length - 1 ? '<p class="rapido__animo">Última, ' + quien + '.</p>' : '');
       caja.innerHTML =
         '<div class="rapido__arriba"><p class="rapido__paso">Pregunta <b>' + (actual + 1) + '</b> de ' + PREGUNTAS.length + '</p>' +
         '<p class="rapido__area">' + (p.area !== undefined ? AREAS[p.area].corto : p.parte) + '</p></div>' +
@@ -380,31 +387,26 @@
         actual++;
         if (actual < PREGUNTAS.length) { pintarPregunta(conFoco); return; }
         /* Ya contestó todo: si dejó sus datos en esta visita, va directo al resultado */
-        if (datos) { mostrarResultado(conFoco); return; }
+        if (conEmail) { mostrarResultado(conFoco); return; }
         ga('diagnostico_rapido_datos', { pagina: PAGINA });
+        $('rapido-datos-titulo').textContent = 'Tu resultado está listo, ' + datos.nombre.split(/\s+/)[0];
         mostrar(form);
         if (conFoco) $('rapido-datos-titulo').focus({ preventScroll: true });
       }, reducir ? 60 : 240);
     });
 
     /* --- 3) Datos: justo antes del resultado, explicando para qué --- */
-    var nombreEl = $('rapido-nombre'), emailEl = $('rapido-email'), telEl = $('rapido-tel'), negocioEl = $('rapido-negocio'), error = $('rapido-error');
+    var emailEl = $('rapido-email'), telEl = $('rapido-tel'), negocioEl = $('rapido-negocio'), error = $('rapido-error');
     try {
       nombreEl.value = sessionStorage.getItem('fn_nombre') || '';
       emailEl.value = sessionStorage.getItem('fn_email') || '';
     } catch (e) {}
-    $('rapido-volver-preguntas').addEventListener('click', function () {
-      actual = PREGUNTAS.length - 1;
-      mostrar(caja);
-      pintarPregunta(true);
-    });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var nombre = nombreEl.value.trim(), email = emailEl.value.trim(), tel = telEl.value.trim(), negocio = negocioEl.value.trim();
-      [nombreEl, emailEl, telEl].forEach(function (el) { el.removeAttribute('aria-invalid'); });
+      var email = emailEl.value.trim(), tel = telEl.value.trim(), negocio = negocioEl.value.trim();
+      [emailEl, telEl].forEach(function (el) { el.removeAttribute('aria-invalid'); });
       var mal = null, texto = '';
-      if (!nombre) { mal = nombreEl; texto = 'Escribí tu nombre, así sabemos con quién hablamos.'; }
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mal = emailEl; texto = 'Revisá tu email: le falta algo o tiene un error.'; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mal = emailEl; texto = 'Revisá tu email: le falta algo o tiene un error.'; }
       else if (tel && tel.replace(/\D/g, '').length < 8) { mal = telEl; texto = 'Revisá tu WhatsApp: escribilo con característica, sin el 0 ni el 15. O dejalo vacío.'; }
       if (mal) {
         error.textContent = texto; error.hidden = false;
@@ -412,8 +414,8 @@
         return;
       }
       error.hidden = true;
-      datos = { nombre: nombre, email: email, tel: tel, negocio: negocio };
-      try { sessionStorage.setItem('fn_nombre', nombre); sessionStorage.setItem('fn_email', email); } catch (err) {}
+      datos.email = email; datos.tel = tel; datos.negocio = negocio; conEmail = true;
+      try { sessionStorage.setItem('fn_email', email); } catch (err) {}
       mostrarResultado(true);
     });
 

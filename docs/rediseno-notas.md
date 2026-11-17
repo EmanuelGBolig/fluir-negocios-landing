@@ -423,6 +423,23 @@ Pedido:
   - Lighthouse mobile del link directo: rendimiento 98, accesibilidad 100 y CLS 0.
 - **Versión de CSS y JS:** `?v=10`.
 
+## Diagnóstico rápido: nombre al principio, 13 preguntas y tarjeta de alto fijo (17/11)
+
+Pedido: que la sección no se mueva según el alto de cada pregunta, pedir el nombre al principio y bajar a 13 preguntas más el nombre.
+
+- **Recorrido:**
+  1. La intro pide el nombre ("Para empezar, ¿cómo te llamás?").
+  2. Siguen 13 preguntas de un toque: rol y personas, las 10 de sí, a medias o no, y qué quiere lograr primero. Salieron antigüedad, "cómo te afecta" y "qué perdés si nada cambia".
+  3. Antes del resultado se pide el email, con WhatsApp y negocio opcionales, bajo el título "Tu resultado está listo, {nombre}".
+  - Las preguntas lo nombran: "Dale, Juan…" y "Última, Juan."
+- **Alto fijo:** la tarjeta mide lo mismo en la intro, en cada pregunta y en los datos. El alto sale de medir el paso más alto en cada ancho y está en `--alto-rapido`, con los cortes de 360, 390, 414, 560, 720 y 1024 px en `fluir.css`.
+  - En escritorio, el texto de la izquierda queda arriba, así no se mueve cuando aparece el resultado, que es lo único que puede crecer.
+  - Las listas de opciones van en dos columnas también en el celular, y los campos de WhatsApp y negocio van lado a lado.
+  - Si cambian los textos de la tarjeta, hay que volver a medir: el script de medición recorre todos los pasos en cada ancho.
+- **Arreglado:** en el celular, los campos lado a lado ensanchaban la columna más que la pantalla. Ahora la grilla usa `minmax(0, 1fr)` y los campos se achican.
+- **Link directo en el celular:** arriba de la tarjeta queda solo el título, así el nombre y el botón entran en la primera pantalla en 360×740, 390×844 y 414×896.
+- **Verificado:** 263 comprobaciones de botones y eventos. La sección no se mueve en ningún paso, de 320 a 1600 px.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.
