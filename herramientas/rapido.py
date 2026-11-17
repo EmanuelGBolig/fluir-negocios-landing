@@ -18,67 +18,68 @@ FUENTES = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&
 URL = 'https://fluirnegocios.com/diagnostico-rapido/'
 
 TITULO = '¿Qué está frenando tu negocio?'
-BAJADA = 'Preguntas de un toque, en dos minutos. Al final ves qué área te frena más y por dónde empezar.'
+BAJADA = '13 preguntas que se responden con un toque. Al final ves qué área de tu negocio está más floja y por dónde empezar.'
 
 
 def tarjeta(nivel):
-    """La tarjeta completa: datos, preguntas (las arma fluir.js) y resultado. nivel = etiqueta de los títulos internos."""
+    """La tarjeta completa: intro, preguntas (las arma fluir.js), datos y resultado. nivel = etiqueta de los títulos internos."""
     return f'''<div class="rapido__tarjeta tarjeta" id="rapido">
-        <form class="rapido__intro" id="rapido-intro" novalidate>
-          <{nivel} class="rapido__titulo">Dos minutos para ver dónde se frena tu negocio</{nivel}>
-          <p>Es nuestro Punto de Partida en versión rápida: 13 preguntas de un toque.</p>
+        <form class="rapido__intro" id="rapido-intro" novalidate onsubmit="return false">
+          <{nivel} class="rapido__titulo">Diagnóstico en 2 minutos</{nivel}>
           <ul class="rapido__beneficios" role="list">
-            <li>Ves qué área te frena más y en qué etapa está tu negocio.</li>
-            <li>Te llevás dos pasos concretos para empezar.</li>
-            <li>Si después hablamos, la llamada va directo a lo que hay que hacer.</li>
+            <li>Te muestra qué área de tu negocio está más floja.</li>
+            <li>Te da dos pasos concretos para empezar.</li>
+            <li>Si después hablamos, la llamada va directo a tu caso.</li>
           </ul>
           <div class="campo">
-            <label for="rapido-nombre">Para empezar, ¿cómo te llamás?</label>
-            <input id="rapido-nombre" name="nombre" type="text" autocomplete="given-name" required aria-describedby="rapido-error-intro">
+            <label for="rapido-nombre">Nombre completo</label>
+            <input id="rapido-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="rapido-error-intro">
           </div>
           <p class="rapido__error" id="rapido-error-intro" role="alert" hidden></p>
-          <button class="boton boton--ancho" type="submit">Empezar el diagnóstico</button>
+          <button class="boton boton--ancho" type="submit">Empezar</button>
+          <p class="nota">13 preguntas. Se responden con un toque.</p>
         </form>
 
         <!-- fluir.js muestra las preguntas de a una -->
         <div class="rapido__preguntas" id="rapido-preguntas" hidden></div>
 
-        <form class="rapido__datos" id="rapido-datos" novalidate hidden>
+        <form class="rapido__datos" id="rapido-datos" novalidate hidden onsubmit="return false">
           <{nivel} class="rapido__titulo" id="rapido-datos-titulo" tabindex="-1">Tu resultado está listo</{nivel}>
-          <p>Dejanos tu email: tu resultado le llega también a nuestro equipo y, cuando hablemos, vamos directo a lo que hay que hacer.</p>
+          <p>Dejanos tu email para que tu resultado le llegue también a nuestro equipo. Así, en la llamada vamos directo a tu caso.</p>
           <div class="rapido__campos">
             <div class="campo rapido__campo-ancho">
-              <label for="rapido-email">Tu email</label>
+              <label for="rapido-email">Email</label>
               <input id="rapido-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="rapido-error">
             </div>
             <div class="campo">
-              <label for="rapido-tel">Tu WhatsApp <span>(opcional)</span></label>
+              <label for="rapido-tel">WhatsApp <span>(opcional)</span></label>
               <input id="rapido-tel" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="rapido-error">
             </div>
             <div class="campo">
-              <label for="rapido-negocio">Tu negocio <span>(opcional)</span></label>
+              <label for="rapido-negocio">Negocio <span>(opcional)</span></label>
               <input id="rapido-negocio" name="negocio" type="text" autocomplete="organization" placeholder="Nombre o rubro">
             </div>
           </div>
           <p class="rapido__error" id="rapido-error" role="alert" hidden></p>
           <button class="boton boton--ancho" type="submit">Ver mi resultado</button>
-          <p class="nota">Tus datos le llegan solo a nuestro equipo.</p>
+          <p class="nota">Solo lo ve nuestro equipo.</p>
         </form>
 
         <div class="rapido__resultado" id="rapido-resultado" hidden>
           <p class="solo-lector" aria-live="polite" id="resumen-vivo"></p>
-          <p class="rapido__etapa" id="etapa-nombre"></p>
+          <p class="rapido__hola" id="rapido-hola"></p>
           <{nivel} class="rapido__titulo" id="diag-titulo" tabindex="-1"></{nivel}>
           <p id="diag-texto"></p>
-          <ul class="rapido__areas" id="rapido-areas" role="list"></ul>
-          <p class="diagnostico__subtitulo">Por dónde empezar</p>
-          <ol class="diagnostico__pasos" id="diag-pasos"></ol>
-          <div class="diagnostico__programa">
-            <span class="nota">Te conviene</span>
-            <a id="diag-prog" href="/pages/mar.html">M·A·R, acompañamiento 1 a 1 o grupal</a>
+          <div class="rapido__bloque">
+            <p class="diagnostico__subtitulo">Por dónde empezar</p>
+            <ol class="diagnostico__pasos" id="diag-pasos"></ol>
+          </div>
+          <div class="rapido__bloque rapido__ayuda">
+            <p class="diagnostico__subtitulo">Cómo te ayudamos</p>
+            <p id="rapido-ayuda"><a id="diag-prog" href="/pages/mar.html">Conocé el M·A·R</a></p>
           </div>
           <a class="boton boton--ancho" id="rueda-wa" href="{WA}" data-cta="test" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Agendar mi llamada por WhatsApp</a>
-          <p class="nota rapido__aviso" id="rapido-aviso">Sin cargo. Te responde una persona del equipo, no un bot.</p>
+          <p class="nota rapido__aviso" id="rapido-aviso">Sin cargo. Te responde una persona del equipo.</p>
           <button class="rapido__otra" type="button" id="rapido-otra">Hacerlo de nuevo</button>
         </div>
       </div>'''
@@ -108,7 +109,7 @@ def pagina(home):
 <link rel="canonical" href="{URL}">
 <meta name="theme-color" content="#0A1F3A">
 <meta property="og:title" content="Diagnóstico rápido: ¿qué está frenando tu negocio?">
-<meta property="og:description" content="Preguntas de un toque, en dos minutos. Ves qué área te frena más y por dónde empezar.">
+<meta property="og:description" content="13 preguntas que se responden con un toque. Ves qué área de tu negocio está más floja y por dónde empezar.">
 <meta property="og:image" content="https://fluirnegocios.com/assets/og/og-diagnostico-rapido.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">

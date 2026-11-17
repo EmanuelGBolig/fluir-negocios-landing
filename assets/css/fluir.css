@@ -241,73 +241,85 @@ section[id], span[id] { scroll-margin-top: 16px; }
 .video.sonando .video__play { display: none; }
 .video__duracion { font-weight: 400; color: var(--tinta-2); }
 
-/* ---------- Diagnóstico rápido: 10 preguntas de a una ---------- */
+/* ---------- Diagnóstico rápido: nombre, 13 preguntas de a una, email y resultado ---------- */
 .rueda { background: var(--navy); color: #fff; }
-.rapido { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.rapido { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 .rapido__cabeza { margin-bottom: 0; }
 .tarjeta { background: #fff; color: var(--tinta); border-radius: var(--borde); --foco: var(--navy); }
-.rapido__tarjeta { padding: 20px 18px 18px; border-radius: 22px; box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.5); }
 /* Alto fijo: la tarjeta mide lo mismo en la intro, en cada pregunta y en los datos, así la sección no se mueve.
    El alto sale de medir el paso más alto en cada ancho (--alto-rapido); el resultado sí puede crecer. */
-.rapido__tarjeta { display: grid; grid-template-rows: 1fr; min-height: var(--alto-rapido, 0); }
-.rapido__preguntas { display: flex; flex-direction: column; gap: 14px; }
-.rapido__preguntas .rapido__volver { margin-top: auto; }
-.rapido__intro, .rapido__datos { display: flex; flex-direction: column; }
-/* Lo que se completa queda abajo, contra el botón */
+.rapido__tarjeta {
+  display: grid; grid-template-rows: 1fr; min-height: var(--alto-rapido, 0);
+  padding: 16px 16px 14px; border-radius: 20px; box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.5);
+}
+.rapido__tarjeta .boton { min-height: 50px; font-size: 1rem; }
+.rapido__tarjeta .campo { gap: 4px; }
+.rapido__tarjeta .campo label { font-size: 0.9375rem; }
+.rapido__tarjeta .campo input { min-height: 48px; padding: 10px 12px; font-size: 1rem; }
+.rapido__titulo { font: 700 1.375rem/1.15 var(--ubuntu); letter-spacing: -0.01em; outline: none; text-wrap: balance; }
+.rapido__error { padding: 8px 10px; border-radius: 10px; background: #FFF0F0; color: #8A1418; font-weight: 600; font-size: 0.875rem; }
+
+/* 1) Intro y 3) datos */
+.rapido__intro, .rapido__datos { display: flex; flex-direction: column; gap: 12px; }
 .rapido__intro .campo { margin-top: auto; }
-.rapido__arriba { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.rapido__paso { font-size: 0.875rem; color: var(--tinta-2); }
-.rapido__paso b { color: var(--tinta); }
-.rapido__area { font: 700 0.8125rem/1.2 var(--montserrat); color: var(--zafiro); }
-.rapido__progreso { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
-.rapido__progreso i { height: 5px; border-radius: 99px; background: var(--linea); }
-.rapido__progreso i.hecha { background: var(--navy); }
-.rapido__progreso i.actual { background: var(--zafiro); }
-.rapido__pregunta { display: grid; gap: 16px; padding-top: 4px; }
-.rapido__q { min-height: 2.5em; font: 700 1.375rem/1.22 var(--ubuntu); letter-spacing: -0.01em; outline: none; text-wrap: pretty; }
-.rapido__opciones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.rapido__opciones button {
-  min-height: 56px; padding: 8px 6px; border-radius: 14px; border: 2px solid var(--linea); background: #fff;
-  color: var(--navy); font: 700 1.0625rem/1.1 var(--montserrat); cursor: pointer;
-}
-.rapido__opciones button:hover { border-color: var(--navy); }
-.rapido__opciones button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
-.rapido__volver, .rapido__otra {
-  justify-self: start; min-height: 48px; padding: 0; border: 0; background: none; cursor: pointer;
-  color: var(--tinta-2); font: 600 0.9375rem/1.2 var(--montserrat); text-decoration: underline; text-underline-offset: 3px;
-}
-.rapido__otra { justify-self: center; }
-.rapido__intro, .rapido__datos { display: grid; gap: 14px; }
-.rapido__intro > p:not(.nota), .rapido__datos > p:not(.nota):not(.rapido__error) { color: var(--tinta-2); }
-.rapido__beneficios { display: grid; gap: 10px; }
-.rapido__beneficios li { position: relative; padding-left: 30px; font-weight: 600; line-height: 1.35; }
+.rapido__datos > p:not(.nota):not(.rapido__error) { color: var(--tinta-2); font-size: 0.9375rem; }
+.rapido__intro .nota, .rapido__datos .nota { text-align: center; font-size: 0.8125rem; }
+.rapido__beneficios { display: grid; gap: 8px; }
+.rapido__beneficios li { position: relative; padding-left: 28px; font-size: 0.9375rem; font-weight: 600; line-height: 1.3; }
 .rapido__beneficios li::before {
-  content: ""; position: absolute; left: 0; top: 1px; width: 20px; height: 20px; border-radius: 50%;
-  background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 20px no-repeat;
+  content: ""; position: absolute; left: 0; top: 0; width: 19px; height: 19px; border-radius: 50%;
+  background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 19px no-repeat;
 }
-.rapido__intro .nota, .rapido__datos .nota { text-align: center; font-size: 0.875rem; }
-.rapido__campos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; align-items: end; }
+.rapido__campos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
 .rapido__campo-ancho { grid-column: 1 / -1; }
 .rapido__campos > * { min-width: 0; }
 .rapido__campos input { width: 100%; min-width: 0; }
 .rapido__campos .campo label span { font-weight: 500; color: var(--tinta-2); }
-.rapido__campos .campo small { font-size: 0.8125rem; color: var(--tinta-2); }
-.rapido__intro .campo label { font-size: 1rem; }
-.rapido__campos .campo input[aria-invalid="true"] { border-color: #B42318; }
-.rapido__error { padding: 10px 12px; border-radius: 10px; background: #FFF0F0; color: #8A1418; font-weight: 600; font-size: 0.9375rem; }
-.rapido__animo { padding: 10px 12px; border-radius: 10px; background: var(--gris-fondo); color: var(--tinta-2); font-size: 0.875rem; }
-.rapido__opciones--lista { grid-template-columns: 1fr 1fr; gap: 8px; }
-.rapido__opciones--lista button { min-height: 56px; padding: 8px 12px; text-align: left; font-size: 0.9375rem; line-height: 1.2; }
-.rapido__resultado { display: grid; gap: 14px; }
-.rapido__etapa { font-size: 0.875rem; color: var(--tinta-2); }
-.rapido__etapa b { color: var(--tinta); }
-.rapido__titulo { font: 700 1.625rem/1.1 var(--ubuntu); letter-spacing: -0.01em; outline: none; }
-.rapido__areas { display: grid; gap: 7px; padding: 12px 14px; border-radius: 12px; background: var(--gris-fondo); }
-.rapido__areas li { display: grid; grid-template-columns: 6.75rem 1fr; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--tinta-2); }
-.rapido__areas li.flojo { color: var(--tinta); font-weight: 700; }
-.rapido__barra { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
-.rapido__barra i { height: 8px; border-radius: 3px; background: var(--linea); }
-.rapido__barra i.lleno { background: var(--navy); }
+.rapido__tarjeta .campo input[aria-invalid="true"] { border-color: #B42318; }
+
+/* 2) Preguntas */
+.rapido__preguntas { display: flex; flex-direction: column; gap: 10px; }
+.rapido__arriba { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.rapido__paso { font-size: 0.8125rem; color: var(--tinta-2); }
+.rapido__paso b { color: var(--tinta); }
+.rapido__area { font: 700 0.8125rem/1.2 var(--montserrat); color: var(--zafiro); }
+.rapido__progreso { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; }
+.rapido__progreso i { height: 4px; border-radius: 99px; background: var(--linea); }
+.rapido__progreso i.hecha { background: var(--navy); }
+.rapido__progreso i.actual { background: var(--zafiro); }
+.rapido__animo { padding: 7px 10px; border-radius: 8px; background: var(--gris-fondo); color: var(--tinta-2); font-size: 0.8125rem; line-height: 1.3; }
+.rapido__pregunta { display: grid; gap: 12px; padding-top: 2px; }
+.rapido__q { font: 700 1.1875rem/1.25 var(--ubuntu); letter-spacing: -0.01em; outline: none; text-wrap: pretty; }
+.rapido__q span { display: block; margin-top: 2px; font: 600 0.8125rem/1.3 var(--montserrat); color: var(--tinta-2); letter-spacing: 0; }
+.rapido__opciones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rapido__opciones button {
+  min-height: 48px; padding: 6px; border-radius: 12px; border: 2px solid var(--linea); background: #fff;
+  color: var(--navy); font: 700 1rem/1.1 var(--montserrat); cursor: pointer;
+}
+.rapido__opciones button:hover { border-color: var(--navy); }
+.rapido__opciones button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.rapido__opciones button:disabled { opacity: 0.45; cursor: not-allowed; border-color: var(--linea); }
+.rapido__opciones--lista { grid-template-columns: 1fr 1fr; gap: 6px; }
+.rapido__opciones--lista button { min-height: 48px; padding: 6px 10px; text-align: left; font-size: 0.875rem; line-height: 1.2; }
+.rapido__pie { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; }
+.rapido__seguir.boton { min-height: 48px; padding: 10px 26px; }
+.rapido__seguir.boton:disabled { opacity: 0.45; cursor: not-allowed; }
+.rapido__volver, .rapido__otra {
+  min-height: 48px; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--tinta-2); font: 600 0.875rem/1.2 var(--montserrat); text-decoration: underline; text-underline-offset: 3px;
+}
+.rapido__otra { justify-self: center; min-height: 44px; }
+
+/* 4) Resultado */
+.rapido__resultado { display: grid; gap: 10px; align-content: start; }
+.rapido__hola { font-size: 0.875rem; color: var(--tinta-2); }
+.rapido__resultado #diag-texto { font-size: 0.9375rem; line-height: 1.4; color: var(--tinta); }
+.rapido__bloque { display: grid; gap: 6px; padding-top: 10px; border-top: 1px solid var(--linea); }
+.rapido__bloque .diagnostico__pasos { gap: 4px; font-size: 0.9375rem; line-height: 1.35; }
+.rapido__ayuda p { font-size: 0.9375rem; line-height: 1.4; }
+.rapido__ayuda a { font-weight: 700; color: var(--navy); white-space: nowrap; }
+.rapido__resultado .nota { text-align: center; font-size: 0.8125rem; }
+
 @media (prefers-reduced-motion: no-preference) {
   .rapido__opciones button { transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease, transform 0.15s ease; }
   .rapido__opciones button:active { transform: scale(0.97); }
@@ -617,13 +629,12 @@ section[id], span[id] { scroll-margin-top: 16px; }
   .obras { grid-template-columns: repeat(3, 1fr); gap: 24px; }
 }
 /* Alto fijo de la tarjeta por ancho (medido: el paso más alto entre la intro, las 13 preguntas y los datos) */
-.rapido__tarjeta { --alto-rapido: 512px; }
-@media (max-width: 359px) { .rapido__tarjeta { --alto-rapido: 554px; } }
-@media (min-width: 390px) { .rapido__tarjeta { --alto-rapido: 538px; } }
-@media (min-width: 414px) { .rapido__tarjeta { --alto-rapido: 490px; } }
-@media (min-width: 560px) { .rapido__tarjeta { --alto-rapido: 468px; } }
-@media (min-width: 720px) { .rapido__tarjeta { --alto-rapido: 478px; } }
-@media (min-width: 1024px) { .rapido__tarjeta { --alto-rapido: 502px; } }
+.rapido__tarjeta { --alto-rapido: 412px; }
+@media (max-width: 359px) { .rapido__tarjeta { --alto-rapido: 460px; } }
+@media (min-width: 390px) { .rapido__tarjeta { --alto-rapido: 416px; } }
+@media (min-width: 414px) { .rapido__tarjeta { --alto-rapido: 396px; } }
+@media (min-width: 560px) { .rapido__tarjeta { --alto-rapido: 390px; } }
+@media (min-width: 1024px) { .rapido__tarjeta { --alto-rapido: 410px; } }
 /* Link directo /diagnostico-rapido/: la misma tarjeta, sola en la página */
 body.rapido-pagina { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; background: var(--navy); }
 body.rapido-pagina main { flex: 1; display: flex; flex-direction: column; }
@@ -636,22 +647,27 @@ body.rapido-pagina h1 { color: #fff; font-size: clamp(2.2rem, 9vw, 3.6rem); line
 .rapido__equipo .dg-caras img { border-color: var(--navy); }
 /* En el celular, el campo del nombre y el botón entran en la primera pantalla: arriba queda solo el título */
 @media (max-width: 719px) {
-  .rapido-pagina__bloque { padding-top: 22px; }
-  .rapido-pagina .rapido__cabeza .bajada, .rapido-pagina .rapido__equipo { display: none; }
+  .rapido-pagina .dg-cabecera { padding: 10px 0; }
+  .rapido-pagina .dg-cabecera img { width: 96px; }
+  .rapido-pagina__bloque { padding: 14px 0 32px; }
+  .rapido-pagina .rapido { gap: 12px; }
+  body.rapido-pagina h1 { font-size: 1.75rem; }
+  .rapido-pagina .rapido__cabeza .antetitulo, .rapido-pagina .rapido__cabeza .bajada, .rapido-pagina .rapido__equipo { display: none; }
 }
-/* Celulares chicos: la intro sin la frase de presentación (los beneficios ya lo dicen) */
+/* Celulares chicos: un poco menos de aire */
 @media (max-width: 389px) {
-  .rapido__intro > p:not(.nota):not(.rapido__error) { display: none; }
-  .rapido__beneficios { gap: 8px; }
-  .rapido__beneficios li { font-size: 0.9375rem; }
+  .rapido__tarjeta { padding: 14px 12px 12px; }
+  .rapido__beneficios li { font-size: 0.875rem; }
+  .rapido__q { font-size: 1.125rem; }
 }
 @media (min-width: 1024px) {
   .utiles { gap: 24px; }
   .util__visual { min-height: 252px; padding: 22px; }
   .rapido { grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: start; }
   .rapido__cabeza { padding-top: 32px; }
-  .rapido__tarjeta { padding: 28px 28px 24px; }
-  .rapido__q { font-size: 1.625rem; }
+  .rapido__tarjeta { padding: 24px 24px 20px; }
+  .rapido__q { font-size: 1.375rem; }
+  .rapido__titulo { font-size: 1.5rem; }
 }
 
 /* ---------- Piezas sueltas de la home ---------- */
@@ -855,10 +871,7 @@ body.rapido-pagina h1 { color: #fff; font-size: clamp(2.2rem, 9vw, 3.6rem); line
   .programas.deslizable .otro__visual { padding: 14px; }
   .accion-centrada { margin-top: 24px; }
 
-  /* Diagnóstico rápido más compacto */
-  .rapido { gap: 18px; }
-  .rapido__tarjeta { padding: 18px 16px 16px; }
-  .rapido__q { font-size: 1.25rem; }
+  /* Diagnóstico rápido: la tarjeta compacta ya viene del bloque base */
   .recortes { min-height: 0; padding: 16px 14px 22px; }
 
   /* Otras secciones */

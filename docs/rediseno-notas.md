@@ -440,6 +440,43 @@ Pedido: que la sección no se mueva según el alto de cada pregunta, pedir el no
 - **Link directo en el celular:** arriba de la tarjeta queda solo el título, así el nombre y el botón entran en la primera pantalla en 360×740, 390×844 y 414×896.
 - **Verificado:** 263 comprobaciones de botones y eventos. La sección no se mueve en ningún paso, de 320 a 1600 px.
 
+## Diagnóstico rápido: lenguaje claro, resultado centrado en el problema y tarjetas compactas (17/11)
+
+Pedido:
+- Pedir el nombre completo al empezar.
+- Revisar las preguntas 5 y 6, que tenían "en tu cabeza" y "boca en boca".
+- En la 13 se pueden marcar hasta 3 opciones.
+- El resultado se centra en el problema de la persona y cierra con cómo la ayudamos.
+- "Finanzas" pasa a "Administración".
+- Textos claros, sin metáforas ni ambigüedades.
+- Tarjetas más chicas, para que cada paso entre en una pantalla de celular.
+
+- **Intro:** "Diagnóstico en 2 minutos", tres beneficios, el campo "Nombre completo" y el botón "Empezar".
+- **Preguntas reescritas** sin metáforas. Por ejemplo:
+  - "¿Los procesos importantes del negocio están escritos?"
+  - "¿Conseguís clientes nuevos todos los meses, además de los que llegan por recomendación?"
+  - "¿El trabajo sale bien cuando vos no estás?"
+  - Las respuestas son "Sí", "En parte" y "No".
+- **Pregunta 13:** "¿Qué te gustaría lograr? Elegí hasta 3". Se marcan y desmarcan opciones; con 3 elegidas, el resto se bloquea. Para avanzar está el botón "Seguir".
+- **Resultado:** "Listo, Juan. Esto es lo que más te frena hoy:" y después:
+  - el problema en palabras simples, como "No sabés cuánto gana tu negocio" o "Todo pasa por vos";
+  - qué le está causando y lo que quiere lograr ("Querés tener más tiempo libre y…: para lograrlo, lo primero es resolver esto");
+  - "Por dónde empezar", con dos pasos;
+  - "Cómo te ayudamos", con el programa y su link;
+  - el WhatsApp.
+
+  Se sacaron las barras por área y la etapa: siguen en el mail al equipo.
+- **"Finanzas" ahora es "Administración"** en el diagnóstico, en el resultado, en el mensaje de WhatsApp ("lo que más me frena es la administración") y en el mail.
+- **Mail al equipo:** suma "Quiere lograr", con hasta 3 metas.
+- **Tarjetas compactas:** menos aire, botones de 48 px y títulos más chicos. En el link directo, en el celular, arriba queda solo el título.
+  - En 390 px la tarjeta mide unos 410 px, contra 560 antes, y cada paso entra en una pantalla de 390×760.
+  - Al mostrar el resultado, la página baja hasta la tarjeta.
+  - Altos fijos nuevos: 412, 460, 416, 396, 390 y 410 px.
+- **Arreglado:**
+  - el texto de "Cómo te ayudamos" borraba el link al programa;
+  - si alguien tocaba "Empezar" antes de que cargara el JS, el formulario se mandaba solo y ponía el nombre en la dirección. Ahora los dos formularios tienen `onsubmit="return false"`.
+- **Verificado:** la sección no se mueve en ningún paso, de 320 a 1366 px, en la home y en el link.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.
