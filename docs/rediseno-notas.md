@@ -387,6 +387,42 @@ Pedido: las herramientas tenían muchos números y eran poco atractivas. El test
   - la home pasó de 11,7 a 11,4 pantallas de celular.
 - **Versión de CSS y JS:** `?v=9`.
 
+## Diagnóstico rápido como embudo, con link propio (17/11)
+
+Pedido:
+- El mensaje de WhatsApp es el del ejemplo del usuario.
+- Pide nombre y email para que la información le llegue al equipo, de forma amigable y explicando por qué.
+- Las preguntas mezclan el diagnóstico con el formulario "Punto de Partida" (Google Forms, 21 preguntas abiertas).
+- Tiene un link directo para mandar.
+
+- **Link directo:** `https://fluirnegocios.com/diagnostico-rapido/`.
+  - Lo genera `herramientas/rapido.py`, que también actualiza la misma tarjeta en la home (entre `<!-- rapido:inicio -->` y `<!-- rapido:fin -->`).
+  - Tiene noindex, no va en el sitemap y no tiene menú.
+  - Su imagen para compartir es `assets/og/og-diagnostico-rapido.jpg`.
+  - Schedule se mide como `diagnostico-rapido-test`.
+- **Recorrido:**
+  1. **Intro** con lo que gana la persona: ve qué área la frena y en qué etapa está, se lleva dos pasos y la llamada va directo a lo que hay que hacer. Avisa que al final se piden nombre y email.
+  2. **16 preguntas de un toque:**
+     - 3 del negocio, tomadas del formulario: rol y socios, cuántas personas trabajan y antigüedad.
+     - Las 10 de sí, a medias o no, que son las que dan el resultado.
+     - 3 de lo que busca, también del formulario: qué quiere lograr primero, cómo le afecta hoy y qué pierde si nada cambia en 6 meses.
+  3. **Datos justo antes del resultado,** explicando para qué: nombre y email obligatorios, WhatsApp y negocio opcionales. Se piden al final y no al principio porque así completa más gente: ya invirtió tiempo y quiere ver el resultado. Todo el que ve un resultado deja sus datos.
+  4. **Resultado** con su nombre y el botón "Agendar mi llamada por WhatsApp" (sigue `data-cta="test"`).
+- **Mensaje de WhatsApp:** "Hola, soy {nombre}. Hice el diagnóstico de la web y lo que más me frena son las finanzas. Quiero agendar la llamada de asesoría personalizada." Se le suma el código del anuncio si viene `utm_content`. La frase del freno cambia según el resultado.
+- **Al equipo:** va un mail por Formspree, al mismo formulario de la guía (`mredepgv`). El asunto es "Diagnóstico rápido: Nombre (Negocio) — Resultado". Incluye:
+  - nombre, email, WhatsApp y negocio;
+  - perfil: "Encaja" si es dueño o negocio familiar de 2 a 30 personas, o "Revisar" si no;
+  - resultado, etapa, puntaje por área y programa sugerido;
+  - las 16 respuestas, el origen (home o link directo) y las UTM.
+- **Medición:**
+  - GA4: `diagnostico_rapido_inicio`, `diagnostico_rapido_datos` y `diagnostico_rapido` (el embudo paso a paso);
+  - píxel: no se agregó nada y el Lead sigue siendo solo la guía.
+- **Foto del C·D·E en la home:** se recortó para que se vea menos techo y más gente sentada (`evento-anto-sala-*.webp`). La página del C·D·E sigue con la foto completa.
+- **Verificado:**
+  - 261 comprobaciones de botones y eventos, con el recorrido completo y lo que se manda a Formspree;
+  - Lighthouse mobile del link directo: rendimiento 98, accesibilidad 100 y CLS 0.
+- **Versión de CSS y JS:** `?v=10`.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.

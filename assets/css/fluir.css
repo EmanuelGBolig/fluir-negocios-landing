@@ -270,6 +270,23 @@ section[id], span[id] { scroll-margin-top: 16px; }
   color: var(--tinta-2); font: 600 0.9375rem/1.2 var(--montserrat); text-decoration: underline; text-underline-offset: 3px;
 }
 .rapido__otra { justify-self: center; }
+.rapido__intro, .rapido__datos { display: grid; gap: 14px; }
+.rapido__intro > p:not(.nota), .rapido__datos > p:not(.nota):not(.rapido__error) { color: var(--tinta-2); }
+.rapido__beneficios { display: grid; gap: 10px; }
+.rapido__beneficios li { position: relative; padding-left: 30px; font-weight: 600; line-height: 1.35; }
+.rapido__beneficios li::before {
+  content: ""; position: absolute; left: 0; top: 1px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 20px no-repeat;
+}
+.rapido__intro .nota, .rapido__datos .nota { text-align: center; font-size: 0.875rem; }
+.rapido__campos { display: grid; gap: 12px; align-items: start; }
+.rapido__campos .campo label span { font-weight: 500; color: var(--tinta-2); }
+.rapido__campos .campo small { font-size: 0.8125rem; color: var(--tinta-2); }
+.rapido__campos .campo input[aria-invalid="true"] { border-color: #B42318; }
+.rapido__error { padding: 10px 12px; border-radius: 10px; background: #FFF0F0; color: #8A1418; font-weight: 600; font-size: 0.9375rem; }
+.rapido__animo { padding: 10px 12px; border-radius: 10px; background: var(--gris-fondo); color: var(--tinta-2); font-size: 0.875rem; }
+.rapido__opciones--lista { grid-template-columns: 1fr; gap: 8px; }
+.rapido__opciones--lista button { min-height: 52px; padding: 10px 16px; text-align: left; font-size: 1rem; }
 .rapido__resultado { display: grid; gap: 14px; }
 .rapido__etapa { font-size: 0.875rem; color: var(--tinta-2); }
 .rapido__etapa b { color: var(--tinta); }
@@ -588,6 +605,20 @@ section[id], span[id] { scroll-margin-top: 16px; }
   .recortes--grande { min-height: 380px; }
   .obras { grid-template-columns: repeat(3, 1fr); gap: 24px; }
 }
+@media (min-width: 560px) {
+  .rapido__opciones--lista { grid-template-columns: 1fr 1fr; }
+  .rapido__campos { grid-template-columns: 1fr 1fr; }
+}
+/* Link directo /diagnostico-rapido/: la misma tarjeta, sola en la página */
+body.rapido-pagina { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; background: var(--navy); }
+body.rapido-pagina main { flex: 1; display: flex; flex-direction: column; }
+.rapido-pagina .dg-cabecera { padding-bottom: 14px; background: #fff; }
+.rapido-pagina__bloque { flex: 1; display: flex; align-items: center; }
+.dg-pie a { color: #fff; }
+.rapido-pagina__bloque { padding: 36px 0 56px; }
+body.rapido-pagina h1 { color: #fff; font-size: clamp(2.2rem, 9vw, 3.6rem); line-height: 1.04; }
+.rapido__equipo { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 0.9375rem; color: rgba(255, 255, 255, 0.86); }
+.rapido__equipo .dg-caras img { border-color: var(--navy); }
 @media (min-width: 1024px) {
   .utiles { gap: 24px; }
   .util__visual { min-height: 252px; padding: 22px; }
@@ -647,6 +678,7 @@ section[id], span[id] { scroll-margin-top: 16px; }
 }
 @media (min-width: 1024px) { .campana h1 { font-size: 4.1rem; } }
 .otro__foto img { aspect-ratio: 16 / 9; object-position: 50% 40%; }
+.programa--cde .otro__foto img { object-position: 50% 80%; }
 .otro { grid-template-rows: auto 1fr auto; }
 .otro__visual { display: grid; align-content: center; padding: 20px; background: var(--gris-fondo); }
 .otro__visual .pieza { box-shadow: 0 10px 24px -14px rgba(10, 31, 58, 0.3); }

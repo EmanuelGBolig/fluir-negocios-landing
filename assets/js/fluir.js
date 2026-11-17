@@ -3,7 +3,7 @@
    - Mide: Contact en cualquier clic a WhatsApp; Schedule (content_category = página-botón)
      y solicitar_diagnostico (GA4) en cada botón que pide el diagnóstico.
    - Titular según el anuncio en /diagnostico (?h= o la palabra dentro de utm_content).
-   - Barra inferior de un solo botón, videos de a uno, guía gratis (Lead) y el diagnóstico rápido de 10 preguntas. */
+   - Barra inferior de un solo botón, videos de a uno, guía gratis (Lead) y el diagnóstico rápido (home y /diagnostico-rapido/). */
 (function () {
   'use strict';
 
@@ -187,53 +187,69 @@
   })();
 
   /* =====================================================================
-     Diagnóstico rápido: 10 preguntas de sí, a medias o no, de a una.
-     Dos preguntas por área. Sí = 2, a medias = 1, no = 0: cada área va de 0 a 4 y el total de 0 a 20.
-     El resultado lee el perfil completo (etapa, combinaciones entre áreas, empates y desbalance),
-     con los mismos textos y recomendaciones que el test anterior. El P·A·C ya no existe: lo grupal es M·A·R.
+     Diagnóstico rápido (home #rueda y link directo /diagnostico-rapido/).
+     Embudo: 1) intro con lo que gana la persona, 2) preguntas de un toque, 3) nombre y email
+     justo antes del resultado (explicando para qué), 4) resultado + WhatsApp para agendar la llamada.
+     Preguntas: 3 del negocio y 3 de lo que busca (tomadas del formulario "Punto de Partida")
+     y 10 de sí / a medias / no, dos por área: Finanzas, Equipo, Operaciones, Ventas y Proveedores
+     (cada área de 0 a 4, total de 0 a 20). Todo le llega al equipo por Formspree (el mismo de la guía).
+     No dispara Lead en el píxel: Lead es solo la guía.
      ===================================================================== */
   (function () {
-    var caja = $('rapido-preguntas');
-    if (!caja) return;
-    var res = $('rapido-resultado');
+    var tarjeta = $('rapido');
+    if (!tarjeta) return;
+    var intro = $('rapido-intro'), caja = $('rapido-preguntas'), form = $('rapido-datos'), res = $('rapido-resultado');
 
     var F = 0, O = 1, M = 2, E = 3, A = 4;
     var AREAS = [
-      { corto: 'Finanzas',
+      { corto: 'Finanzas', frena: 'son las finanzas',
         cuello: 'Decidís sin saber cuánto ganás ni dónde se va la plata. Si crecés así, crece el desorden.',
         porque: 'sin números claros, cualquier otra mejora es a ciegas',
         pasos: ['Armá un estado de resultados mensual real, con ingresos, costos y gastos fijos separados.', 'Definí tu sueldo fijo y sacalo de la caja diaria.'] },
-      { corto: 'Operaciones',
+      { corto: 'Operaciones', frena: 'son las operaciones',
         cuello: 'La calidad y los tiempos dependen de que vos estés mirando. Lo que hoy sostiene tu memoria lo tiene que sostener un proceso.',
         porque: 'lo que está escrito se puede delegar',
         pasos: ['Escribí paso a paso los 3 procesos críticos del negocio.', 'Definí un estándar de calidad con un control simple que funcione sin vos.'] },
-      { corto: 'Ventas',
+      { corto: 'Ventas', frena: 'son las ventas',
         cuello: 'Los clientes llegan por boca en boca y por la suerte del mes. La facturación sube y baja sin que la controles.',
         porque: 'sin clientes nuevos no hay crecimiento que ordenar',
         pasos: ['Elegí un solo canal para conseguir clientes y sostenelo hasta poder medirlo.', 'Preguntá y anotá de dónde viene cada cliente nuevo.'] },
-      { corto: 'Equipo',
+      { corto: 'Equipo', frena: 'es el equipo',
         cuello: 'Sos el centro de todas las decisiones. Por eso no podés irte una semana.',
         porque: 'mientras todo pase por vos, no te queda tiempo para lo demás',
         pasos: ['Designá un encargado con autoridad real y una regla: no se trae un problema sin una posible solución.', 'Hacé una reunión semanal corta, con agenda fija.'] },
-      { corto: 'Proveedores',
+      { corto: 'Proveedores', frena: 'son los proveedores',
         cuello: 'Crecés solo, con lo que tu estructura puede. Los acuerdos claros son la palanca más barata que tenés.',
         porque: 'es la mejora más barata de todas',
         pasos: ['Acordá por escrito precios y plazos con tus 3 proveedores críticos.', 'Conseguí un proveedor alternativo ya probado para cada dependencia crítica.'] }
     ];
-    /* Intercaladas, para que no se sientan repetidas */
+    var SINO = ['Sí', 'A medias', 'No'];
+    var VALOR = { 'Sí': 2, 'A medias': 1, 'No': 0 };
+    /* Orden: del negocio (fácil de contestar) → cómo está hoy → lo que busca (más personal, cuando ya hay confianza) */
     var PREGUNTAS = [
-      [F, '¿Sabés cuánto ganó tu negocio el mes pasado, sin estimarlo?'],
-      [E, '¿Alguien resuelve el día a día sin consultarte?'],
-      [O, '¿Los procesos clave están escritos, y no solo en tu cabeza?'],
-      [M, '¿Entran clientes nuevos todos los meses, no solo por boca en boca?'],
-      [A, '¿Tenés acuerdos claros y por escrito con tus proveedores clave?'],
-      [F, '¿Cobrás un sueldo fijo, separado de la caja del negocio?'],
-      [E, '¿Podrías tomarte una semana sin que el negocio se frene?'],
-      [O, '¿El trabajo sale bien aunque no estés mirando?'],
-      [M, '¿Sabés de dónde viene cada cliente nuevo?'],
-      [A, '¿Tenés un proveedor alternativo para lo que no puede faltar?']
+      { parte: 'Tu negocio', clave: 'Rol', q: '¿Qué lugar ocupás en el negocio?',
+        ops: ['Soy dueño y decido solo', 'Soy dueño y tengo socios', 'Es un negocio familiar', 'Soy encargado o gerente'] },
+      { parte: 'Tu negocio', clave: 'Personas', q: '¿Cuántas personas trabajan con vos?',
+        ops: ['Solo yo', '1 a 5', '6 a 15', '16 a 30', 'Más de 30'] },
+      { parte: 'Tu negocio', clave: 'Antigüedad', q: '¿Hace cuánto está en marcha?',
+        ops: ['Menos de 1 año', '1 a 3 años', '3 a 10 años', 'Más de 10 años'] },
+      { area: F, q: '¿Sabés cuánto ganó tu negocio el mes pasado, sin estimarlo?' },
+      { area: E, q: '¿Alguien resuelve el día a día sin consultarte?' },
+      { area: O, q: '¿Los procesos clave están escritos, y no solo en tu cabeza?' },
+      { area: M, q: '¿Entran clientes nuevos todos los meses, no solo por boca en boca?' },
+      { area: A, q: '¿Tenés acuerdos claros y por escrito con tus proveedores clave?' },
+      { area: F, q: '¿Cobrás un sueldo fijo, separado de la caja del negocio?' },
+      { area: E, q: '¿Podrías tomarte una semana sin que el negocio se frene?' },
+      { area: O, q: '¿El trabajo sale bien aunque no estés mirando?' },
+      { area: M, q: '¿Sabés de dónde viene cada cliente nuevo?' },
+      { area: A, q: '¿Tenés un proveedor alternativo para lo que no puede faltar?' },
+      { parte: 'Lo que buscás', clave: 'Quiere lograr primero', q: '¿Qué te gustaría lograr primero?',
+        ops: ['Ganar más con lo que vendo', 'Vender más', 'Tener más tiempo', 'Un equipo que resuelva sin mí', 'Ordenar los números', 'Claridad para decidir'] },
+      { parte: 'Lo que buscás', clave: 'Cómo le afecta hoy', q: '¿Cómo te está afectando hoy?',
+        ops: ['Vivo con estrés o cansado', 'No me queda tiempo para mí ni para mi familia', 'Perdí las ganas de antes', 'Estoy bien, quiero crecer'] },
+      { parte: 'Lo que buscás', clave: 'Si nada cambia en 6 meses pierde', q: 'Si nada cambia en los próximos 6 meses, ¿qué es lo que más perdés?',
+        ops: ['Plata', 'Tiempo', 'Clientes y oportunidades', 'Ganas y energía'] }
     ];
-    var OPCIONES = [['Sí', 2], ['A medias', 1], ['No', 0]];
     /* Si empatan, se empieza por el área de la que dependen las demás */
     var PRIORIDAD = [F, E, O, M, A];
     var ETAPAS = [
@@ -243,12 +259,13 @@
       { max: 20, nombre: 'Empresa autónoma' }
     ];
     var PROGRAMAS = {
-      mar: { texto: 'M·A·R, acompañamiento 1 a 1 o grupal', link: './pages/mar.html' },
-      cde: { texto: 'C·D·E, capacitación para tus encargados', link: './pages/cde.html' },
-      sistemas: { texto: 'Fluir Sistemas: tablero y tareas que se hacen solas', link: './pages/sistemas.html' }
+      mar: { texto: 'M·A·R, acompañamiento 1 a 1 o grupal', link: '/pages/mar.html' },
+      cde: { texto: 'C·D·E, capacitación para tus encargados', link: '/pages/cde.html' },
+      sistemas: { texto: 'Fluir Sistemas: tablero y tareas que se hacen solas', link: '/pages/sistemas.html' }
     };
 
     function lista(nombres) { return nombres.length < 2 ? nombres[0] : nombres.slice(0, -1).join(', ') + ' y ' + nombres[nombres.length - 1]; }
+    function escapar(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
     function diagnosticar(v) {
       var min = Math.min.apply(null, v), max = Math.max.apply(null, v);
@@ -258,31 +275,33 @@
       var primero = flojos[0];
       var segundo = PRIORIDAD.filter(function (i) { return i !== primero; })
         .sort(function (x, y) { return v[x] - v[y] || PRIORIDAD.indexOf(x) - PRIORIDAD.indexOf(y); })[0];
+      var frena = function (i) { return 'lo que más me frena ' + AREAS[i].frena; };
       var d;
       if (min >= 3) {
         d = { titulo: 'Estás para escalar', texto: 'Ninguna área te frena. Lo que sigue no es ordenar: es decidir dónde poner el crecimiento.',
-              pasos: ['Elegí un solo frente de crecimiento para los próximos seis meses.', 'Armá un tablero con los cinco números que el equipo mire cada semana.'], prog: 'sistemas' };
+              pasos: ['Elegí un solo frente de crecimiento para los próximos seis meses.', 'Armá un tablero con los cinco números que el equipo mire cada semana.'], prog: 'sistemas',
+              frase: 'ninguna área me frena: quiero ver dónde poner el crecimiento' };
       } else if (max <= 1) {
         d = { titulo: 'Hoy el negocio sos vos', texto: 'Todo pasa por tu cabeza. Conviene empezar por los números, porque ' + AREAS[F].porque + '.',
-              pasos: [AREAS[F].pasos[0], AREAS[E].pasos[0]], prog: 'mar' };
+              pasos: [AREAS[F].pasos[0], AREAS[E].pasos[0]], prog: 'mar', frase: 'hoy todo el negocio pasa por mí' };
       } else if (v[M] >= 3 && v[F] <= 1) {
         d = { titulo: 'Vendés, pero no sabés si ganás', texto: 'Los clientes entran, pero no sabés cuánto te deja cada uno. Si crecés así, crece el desorden.',
-              pasos: AREAS[F].pasos, prog: 'mar' };
+              pasos: AREAS[F].pasos, prog: 'mar', frase: frena(F) };
       } else if (v[E] <= 1 && v[O] <= 1) {
         d = { titulo: 'Sos el proceso', texto: 'Nada está escrito y nadie decide sin vos. Por eso no podés faltar ni un día.',
-              pasos: [AREAS[O].pasos[0], AREAS[E].pasos[0]], prog: 'mar' };
+              pasos: [AREAS[O].pasos[0], AREAS[E].pasos[0]], prog: 'mar', frase: 'lo que más me frena son las operaciones y el equipo' };
       } else if (v[E] <= 1 && v[O] >= 3) {
         d = { titulo: 'Hay procesos, pero te consultan igual', texto: 'Está escrito cómo se hace, pero nadie tiene autoridad para decidir. Lo que falta es delegar.',
-              pasos: AREAS[E].pasos, prog: 'cde' };
+              pasos: AREAS[E].pasos, prog: 'cde', frase: frena(E) };
       } else if (v[O] <= 1 && v[M] >= 3) {
         d = { titulo: 'Vendés más de lo que podés sostener', texto: 'Entran clientes, pero la calidad depende de que vos estés mirando. Cada venta nueva te suma trabajo.',
-              pasos: AREAS[O].pasos, prog: 'mar' };
+              pasos: AREAS[O].pasos, prog: 'mar', frase: frena(O) };
       } else if (v[F] >= 3 && v[M] <= 1) {
         d = { titulo: 'Números en orden, clientes por suerte', texto: 'Sabés lo que ganás, pero los clientes llegan por boca en boca y la facturación sube y baja.',
-              pasos: AREAS[M].pasos, prog: 'mar' };
+              pasos: AREAS[M].pasos, prog: 'mar', frase: frena(M) };
       } else if (min === max) {
         d = { titulo: 'Todo a medias', texto: 'Ninguna área se cae, pero ninguna se sostiene sola. Empezá por ' + AREAS[F].corto + ', porque ' + AREAS[F].porque + '.',
-              pasos: [AREAS[F].pasos[0], AREAS[E].pasos[0]], prog: 'mar' };
+              pasos: [AREAS[F].pasos[0], AREAS[E].pasos[0]], prog: 'mar', frase: 'tengo todas las áreas a medias' };
       } else {
         var texto = AREAS[primero].cuello;
         if (flojos.length > 1) {
@@ -290,7 +309,7 @@
                   ', porque ' + AREAS[primero].porque + '. ' + texto;
         }
         d = { titulo: 'Lo que más te frena: ' + AREAS[primero].corto, texto: texto,
-              pasos: [AREAS[primero].pasos[0], AREAS[segundo].pasos[0]], prog: primero === E ? 'cde' : 'mar' };
+              pasos: [AREAS[primero].pasos[0], AREAS[segundo].pasos[0]], prog: primero === E ? 'cde' : 'mar', frase: frena(primero) };
       }
       /* Desparejo: lo que rinde el área fuerte se pierde en la floja */
       if (max - min >= 3 && min < 3 && max > 1) {
@@ -301,38 +320,133 @@
       return d;
     }
 
-    var respuestas = [], actual = 0;
+    var respuestas = [], actual = 0, datos = null, enviado = false;
 
+    function valores() {
+      var v = [0, 0, 0, 0, 0];
+      PREGUNTAS.forEach(function (p, i) { if (p.area !== undefined) v[p.area] += VALOR[respuestas[i]] || 0; });
+      return v;
+    }
+    function respuesta(clave) {
+      for (var i = 0; i < PREGUNTAS.length; i++) if (PREGUNTAS[i].clave === clave) return respuestas[i] || '';
+      return '';
+    }
+    function mostrar(el) {
+      [intro, caja, form, res].forEach(function (x) { x.hidden = x !== el; });
+      if (tarjeta.getBoundingClientRect().top < 0) tarjeta.scrollIntoView({ behavior: reducir ? 'auto' : 'smooth', block: 'start' });
+    }
+
+    /* --- 1) Intro --- */
+    $('rapido-empezar').addEventListener('click', function (e) {
+      ga('diagnostico_rapido_inicio', { pagina: PAGINA });
+      actual = 0;
+      mostrar(caja);
+      pintarPregunta(true);
+    });
+
+    /* --- 2) Preguntas, de a una --- */
     function pintarPregunta(conFoco) {
       var p = PREGUNTAS[actual];
+      var ops = p.ops || SINO;
       var segmentos = PREGUNTAS.map(function (x, i) {
         return '<i class="' + (i < actual ? 'hecha' : (i === actual ? 'actual' : '')) + '"></i>';
       }).join('');
+      var aviso = actual === 3 ? '<p class="rapido__animo">Ahora, cómo está hoy. Respondé con lo primero que te salga: no hay respuestas buenas ni malas.</p>' :
+                  (actual === 13 ? '<p class="rapido__animo">Ya casi. Tres preguntas sobre lo que buscás.</p>' : '');
       caja.innerHTML =
         '<div class="rapido__arriba"><p class="rapido__paso">Pregunta <b>' + (actual + 1) + '</b> de ' + PREGUNTAS.length + '</p>' +
-        '<p class="rapido__area">' + AREAS[p[0]].corto + '</p></div>' +
-        '<div class="rapido__progreso" aria-hidden="true">' + segmentos + '</div>' +
-        '<div class="rapido__pregunta' + (conFoco !== null ? ' entra' : '') + '" role="group" aria-labelledby="rapido-q">' +
-          '<p class="rapido__q" id="rapido-q" tabindex="-1">' + p[1] + '</p>' +
-          '<div class="rapido__opciones">' + OPCIONES.map(function (o) {
-            return '<button type="button" data-v="' + o[1] + '"' + (respuestas[actual] === o[1] ? ' aria-pressed="true"' : '') + '>' + o[0] + '</button>';
+        '<p class="rapido__area">' + (p.area !== undefined ? AREAS[p.area].corto : p.parte) + '</p></div>' +
+        '<div class="rapido__progreso" aria-hidden="true">' + segmentos + '</div>' + aviso +
+        '<div class="rapido__pregunta entra" role="group" aria-labelledby="rapido-q">' +
+          '<p class="rapido__q" id="rapido-q" tabindex="-1">' + p.q + '</p>' +
+          '<div class="rapido__opciones' + (p.ops ? ' rapido__opciones--lista' : '') + '">' + ops.map(function (o) {
+            return '<button type="button" data-v="' + escapar(o) + '"' + (respuestas[actual] === o ? ' aria-pressed="true"' : '') + '>' + o + '</button>';
           }).join('') + '</div>' +
         '</div>' +
         (actual > 0 ? '<button class="rapido__volver" type="button" data-volver>Volver a la anterior</button>' : '');
       if (conFoco) $('rapido-q').focus({ preventScroll: true });
     }
 
-    function valores() {
-      var v = [0, 0, 0, 0, 0];
-      PREGUNTAS.forEach(function (p, i) { v[p[0]] += respuestas[i] || 0; });
-      return v;
+    caja.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b || caja.classList.contains('pasando')) return;
+      var conFoco = caja.contains(document.activeElement) || e.detail === 0;
+      if (b.hasAttribute('data-volver')) { actual--; pintarPregunta(conFoco); return; }
+      respuestas[actual] = b.getAttribute('data-v');
+      b.setAttribute('aria-pressed', 'true');
+      caja.classList.add('pasando');
+      setTimeout(function () {
+        caja.classList.remove('pasando');
+        actual++;
+        if (actual < PREGUNTAS.length) { pintarPregunta(conFoco); return; }
+        /* Ya contestó todo: si dejó sus datos en esta visita, va directo al resultado */
+        if (datos) { mostrarResultado(conFoco); return; }
+        ga('diagnostico_rapido_datos', { pagina: PAGINA });
+        mostrar(form);
+        if (conFoco) $('rapido-datos-titulo').focus({ preventScroll: true });
+      }, reducir ? 60 : 240);
+    });
+
+    /* --- 3) Datos: justo antes del resultado, explicando para qué --- */
+    var nombreEl = $('rapido-nombre'), emailEl = $('rapido-email'), telEl = $('rapido-tel'), negocioEl = $('rapido-negocio'), error = $('rapido-error');
+    try {
+      nombreEl.value = sessionStorage.getItem('fn_nombre') || '';
+      emailEl.value = sessionStorage.getItem('fn_email') || '';
+    } catch (e) {}
+    $('rapido-volver-preguntas').addEventListener('click', function () {
+      actual = PREGUNTAS.length - 1;
+      mostrar(caja);
+      pintarPregunta(true);
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nombre = nombreEl.value.trim(), email = emailEl.value.trim(), tel = telEl.value.trim(), negocio = negocioEl.value.trim();
+      [nombreEl, emailEl, telEl].forEach(function (el) { el.removeAttribute('aria-invalid'); });
+      var mal = null, texto = '';
+      if (!nombre) { mal = nombreEl; texto = 'Escribí tu nombre, así sabemos con quién hablamos.'; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mal = emailEl; texto = 'Revisá tu email: le falta algo o tiene un error.'; }
+      else if (tel && tel.replace(/\D/g, '').length < 8) { mal = telEl; texto = 'Revisá tu WhatsApp: escribilo con característica, sin el 0 ni el 15. O dejalo vacío.'; }
+      if (mal) {
+        error.textContent = texto; error.hidden = false;
+        mal.setAttribute('aria-invalid', 'true'); mal.focus();
+        return;
+      }
+      error.hidden = true;
+      datos = { nombre: nombre, email: email, tel: tel, negocio: negocio };
+      try { sessionStorage.setItem('fn_nombre', nombre); sessionStorage.setItem('fn_email', email); } catch (err) {}
+      mostrarResultado(true);
+    });
+
+    /* Al equipo: datos, perfil, respuestas y resultado (mismo formulario de Formspree que la guía) */
+    function paraEquipo(d, v) {
+      var fd = new FormData();
+      var rol = respuesta('Rol'), personas = respuesta('Personas');
+      var encaja = rol.indexOf('Soy dueño') === 0 || rol.indexOf('familiar') > -1;
+      encaja = encaja && ['1 a 5', '6 a 15', '16 a 30'].indexOf(personas) > -1;
+      fd.set('_subject', 'Diagnóstico rápido: ' + datos.nombre + (datos.negocio ? ' (' + datos.negocio + ')' : '') + ' — ' + d.titulo);
+      fd.set('Nombre', datos.nombre);
+      fd.set('email', datos.email);
+      if (datos.tel) fd.set('WhatsApp', datos.tel);
+      if (datos.negocio) fd.set('Negocio', datos.negocio);
+      fd.set('Perfil', encaja ? 'Encaja: dueño de un negocio de 2 a 30 personas' : 'Revisar: ' + rol + ', ' + personas);
+      fd.set('Resultado', d.titulo);
+      fd.set('Etapa', ETAPAS[d.etapa].nombre + ' (' + d.suma + ' de 20)');
+      fd.set('Por área', AREAS.map(function (a, i) { return a.corto + ' ' + v[i] + '/4'; }).join(', '));
+      fd.set('Programa sugerido', PROGRAMAS[d.prog].texto);
+      PREGUNTAS.forEach(function (p, i) { fd.set((i + 1 < 10 ? '0' : '') + (i + 1) + '. ' + (p.clave || p.q), respuestas[i] || ''); });
+      fd.set('Origen', 'Diagnóstico rápido de la web (' + (PAGINA === 'home' ? 'home' : 'link directo') + ')');
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (u) {
+        var x = utm(u); if (x) fd.set(u, x);
+      });
+      return fd;
     }
 
+    /* --- 4) Resultado --- */
     function mostrarResultado(conFoco) {
       var v = valores(), d = diagnosticar(v);
-      caja.hidden = true;
-      res.hidden = false;
-      $('etapa-nombre').innerHTML = 'Tu etapa: <b>' + ETAPAS[d.etapa].nombre + '</b> · ' + d.suma + ' de 20';
+      var nombre = datos.nombre.split(/\s+/)[0];
+      mostrar(res);
+      $('etapa-nombre').innerHTML = 'Listo, ' + escapar(nombre) + '. Tu etapa: <b>' + ETAPAS[d.etapa].nombre + '</b> · ' + d.suma + ' de 20';
       $('diag-titulo').textContent = d.titulo;
       $('diag-texto').textContent = d.texto;
       $('rapido-areas').innerHTML = AREAS.map(function (a, i) {
@@ -345,40 +459,33 @@
       var prog = PROGRAMAS[d.prog];
       $('diag-prog').textContent = prog.texto;
       $('diag-prog').href = prog.link;
-      var msg = 'Hola, quiero mi diagnóstico. Hice el diagnóstico rápido de la web. Etapa: ' + ETAPAS[d.etapa].nombre + ' (' + d.suma + ' de 20). ' +
-        'Resultado: ' + d.titulo + '. ' + AREAS.map(function (a, i) { return a.corto + ' ' + v[i] + '/4'; }).join(', ') + '.';
+      /* El mensaje que manda la persona: corto y en primera persona */
+      var msg = 'Hola, soy ' + datos.nombre + '. Hice el diagnóstico de la web y ' + d.frase + '. Quiero agendar la llamada de asesoría personalizada.';
       $('rueda-wa').href = waUrl(msg);
       $('resumen-vivo').textContent = 'Resultado: ' + d.titulo + '. Etapa: ' + ETAPAS[d.etapa].nombre + '.';
-      ga('diagnostico_rapido', { resultado: d.titulo, etapa: ETAPAS[d.etapa].nombre, puntaje: d.suma });
+      var aviso = $('rapido-aviso');
+      aviso.textContent = 'Sin cargo. Te responde una persona del equipo, no un bot.';
+      if (!enviado) {
+        enviado = true;
+        try {
+          fetch('https://formspree.io/f/mredepgv', { method: 'POST', body: paraEquipo(d, v), headers: { 'Accept': 'application/json' } })
+            .then(function (r) { if (r.ok) aviso.textContent = 'Tu resultado ya le llegó a nuestro equipo: la llamada va directo a lo que hay que hacer. Sin cargo.'; })
+            .catch(function () {});
+        } catch (e) {}
+      }
+      ga('diagnostico_rapido', { pagina: PAGINA, resultado: d.titulo, etapa: ETAPAS[d.etapa].nombre, puntaje: d.suma });
       if (conFoco) $('diag-titulo').focus({ preventScroll: true });
-      var tarjeta = res.closest('.rapido__tarjeta');
-      if (tarjeta && tarjeta.getBoundingClientRect().top < 0) tarjeta.scrollIntoView({ behavior: reducir ? 'auto' : 'smooth', block: 'start' });
     }
 
-    caja.addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b || caja.classList.contains('pasando')) return;
-      var conFoco = caja.contains(document.activeElement) || e.detail === 0;
-      if (b.hasAttribute('data-volver')) { actual--; pintarPregunta(conFoco); return; }
-      respuestas[actual] = +b.getAttribute('data-v');
-      b.setAttribute('aria-pressed', 'true');
-      caja.classList.add('pasando');
-      setTimeout(function () {
-        caja.classList.remove('pasando');
-        actual++;
-        if (actual < PREGUNTAS.length) pintarPregunta(conFoco); else mostrarResultado(conFoco);
-      }, reducir ? 60 : 240);
-    });
-
+    /* Otra vuelta: las preguntas de nuevo, con los mismos datos */
     $('rapido-otra').addEventListener('click', function () {
       respuestas = []; actual = 0;
-      res.hidden = true; caja.hidden = false;
+      mostrar(caja);
       pintarPregunta(true);
     });
 
     /* Antes de terminar, el botón de WhatsApp igual lleva el mensaje base con el código del anuncio */
     $('rueda-wa').href = waUrl(MENSAJE);
-    pintarPregunta(null);
   })();
 
   /* ---------- /diagnostico: la tarjeta de WhatsApp se escribe sola y la página acompaña al bajar ----------
