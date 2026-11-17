@@ -318,6 +318,13 @@ section[id], span[id] { scroll-margin-top: 16px; }
 .rapido__bloque .diagnostico__pasos { gap: 4px; font-size: 0.9375rem; line-height: 1.35; }
 .rapido__ayuda p { font-size: 0.9375rem; line-height: 1.4; }
 .rapido__ayuda a { font-weight: 700; color: var(--navy); white-space: nowrap; }
+.rapido__programas { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.rapido__programa { padding: 8px 12px 10px; border: 1px solid var(--linea); border-radius: 12px; }
+.rapido__programa--recomendado { border: 2px solid var(--navy); }
+.rapido__ayuda .rapido__programa-nombre { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-bottom: 2px; }
+.rapido__programa-nombre b { font: 700 1.0625rem/1.2 var(--ubuntu); color: var(--navy); }
+.rapido__programa-nombre span { font: 600 0.8125rem/1.2 var(--montserrat); color: var(--tinta-2); }
+.rapido__programa--recomendado .rapido__programa-nombre span { padding: 3px 9px; border-radius: 99px; background: var(--navy); color: #fff; }
 .rapido__resultado .nota { text-align: center; font-size: 0.8125rem; }
 
 @media (prefers-reduced-motion: no-preference) {

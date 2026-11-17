@@ -477,6 +477,16 @@ Pedido:
   - si alguien tocaba "Empezar" antes de que cargara el JS, el formulario se mandaba solo y ponía el nombre en la dirección. Ahora los dos formularios tienen `onsubmit="return false"`.
 - **Verificado:** la sección no se mueve en ningún paso, de 320 a 1366 px, en la home y en el link.
 
+## Diagnóstico rápido: M·A·R primero y C·D·E al final (17/11, v=13)
+
+- **Pedido:** recomendar siempre el M·A·R primero y el C·D·E como última opción, y explicar al final qué es cada uno, en pocas palabras.
+- **"Cómo te ayudamos"** ahora son dos tarjetas, en este orden:
+  - **M·A·R, "Recomendado para vos":** "Acompañamiento para dueños, 1 a 1 o en grupo.", más una frase de qué hacemos en su caso ("En tu caso, empezamos por…") y el link al M·A·R.
+  - **C·D·E, "Otra opción":** "Capacitación para los encargados y supervisores de tu negocio: liderazgo, comunicación y gestión con números.", con el link al C·D·E.
+- **Ya no se recomienda Fluir Sistemas ni el C·D·E como primera opción.** Antes salía Sistemas si todas las áreas estaban bien, y C·D·E si el problema era delegar. Esos casos ahora recomiendan el M·A·R, con su propia frase.
+- **El mail al equipo** dice "Programa sugerido: M·A·R (otra opción: C·D·E)".
+- **Verificado:** prueba completa de eventos sin fallas; capturas del resultado en 320, 390 y 1366 px.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.

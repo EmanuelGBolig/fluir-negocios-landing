@@ -190,7 +190,8 @@
      Diagnóstico rápido (home #rueda y link directo /diagnostico-rapido/).
      Embudo: 1) intro con el nombre completo, 2) 13 preguntas de un toque (la última, hasta 3 opciones),
      3) email (WhatsApp y negocio opcionales) antes del resultado, 4) resultado centrado en el problema
-     de la persona y en lo que quiere lograr, con cómo la ayudamos y el WhatsApp para agendar la llamada.
+     de la persona y en lo que quiere lograr, con cómo la ayudamos (siempre el M·A·R primero y el C·D·E al final)
+     y el WhatsApp para agendar la llamada.
      Las 10 preguntas de sí / en parte / no son dos por área: Administración, Equipo, Operaciones, Ventas
      y Proveedores (cada área de 0 a 4, total de 0 a 20). Las otras 3 salen del formulario "Punto de Partida".
      Lenguaje: claro y directo, sin metáforas. Todo le llega al equipo por Formspree (el mismo de la guía).
@@ -200,7 +201,6 @@
     var tarjeta = $('rapido');
     if (!tarjeta) return;
     var intro = $('rapido-intro'), caja = $('rapido-preguntas'), form = $('rapido-datos'), res = $('rapido-resultado');
-    var linkProg = $('diag-prog');
 
     var F = 0, O = 1, M = 2, E = 3, A = 4;
     var AREAS = [
@@ -208,27 +208,27 @@
         titulo: 'No sabés cuánto gana tu negocio',
         dolor: 'Tomás decisiones sin saber cuánto te queda a fin de mes ni en qué se va la plata. Por eso podés vender más y no ver la ganancia.',
         pasos: ['Armá un estado de resultados por mes, con ingresos, costos y gastos fijos por separado.', 'Fijate un sueldo fijo y cobralo aparte de la plata del negocio.'],
-        ayuda: 'En el M·A·R ordenamos con vos los números del negocio: el estado de resultados de cada mes, tu sueldo aparte y cuánto necesitás vender para no perder plata.' },
+        ayuda: 'En tu caso, empezamos por los números: cuánto gana el negocio cada mes y cuánto necesitás vender para no perder plata.' },
       { corto: 'Operaciones', frena: 'son las operaciones', porque: 'lo que está escrito se puede delegar',
         titulo: 'El trabajo sale bien solo si estás vos',
         dolor: 'Las tareas importantes no están escritas, entonces la calidad y los tiempos cambian cuando no estás. Cada error termina en tus manos.',
         pasos: ['Escribí paso a paso los 3 procesos más importantes del negocio.', 'Definí cómo se controla que el trabajo salió bien, sin que lo revises vos.'],
-        ayuda: 'En el M·A·R escribimos con vos los procesos clave y armamos controles simples, para que el trabajo salga bien aunque no estés.' },
+        ayuda: 'En tu caso, empezamos por escribir los procesos clave y armar controles simples, para que el trabajo salga bien aunque no estés.' },
       { corto: 'Ventas', frena: 'son las ventas', porque: 'sin clientes nuevos el negocio no crece',
         titulo: 'No tenés una forma fija de conseguir clientes',
         dolor: 'Los clientes nuevos no llegan todos los meses. Por eso hay meses buenos y meses malos, y no sabés cuánto vas a facturar.',
         pasos: ['Elegí un solo canal para conseguir clientes y mantenelo durante varios meses.', 'Anotá por qué medio llega cada cliente nuevo.'],
-        ayuda: 'En el M·A·R elegimos con vos un canal de ventas, lo ponemos en marcha y medimos sus resultados mes a mes.' },
+        ayuda: 'En tu caso, empezamos por elegir un canal de ventas, ponerlo en marcha y medir sus resultados mes a mes.' },
       { corto: 'Equipo', frena: 'es el equipo', porque: 'si todo pasa por vos, no te queda tiempo para lo demás',
         titulo: 'Todo pasa por vos',
         dolor: 'Tu equipo te consulta antes de decidir. Por eso no podés faltar ni tomarte vacaciones sin que haya problemas.',
         pasos: ['Elegí un encargado y dale autoridad para decidir sobre el día a día.', 'Poné una regla: nadie trae un problema sin una posible solución.'],
-        ayuda: 'En el M·A·R armamos con vos encargados y acuerdos claros, para que el negocio funcione cuando no estás.' },
+        ayuda: 'En tu caso, empezamos por elegir encargados y armar acuerdos claros, para que el negocio funcione cuando no estás.' },
       { corto: 'Proveedores', frena: 'son los proveedores', porque: 'es la mejora más rápida de hacer',
         titulo: 'Dependés de proveedores sin acuerdos claros',
         dolor: 'Sin acuerdos por escrito, los precios y los plazos cambian sin aviso. Si un proveedor falla, te quedás sin lo que necesitás para trabajar.',
         pasos: ['Acordá por escrito precios y plazos con tus 3 proveedores principales.', 'Conseguí un segundo proveedor para lo que no te puede faltar.'],
-        ayuda: 'En el M·A·R revisamos con vos tus proveedores principales y armamos acuerdos por escrito.' }
+        ayuda: 'En tu caso, empezamos por revisar tus proveedores principales y armar acuerdos por escrito.' }
     ];
     var SINO = ['Sí', 'En parte', 'No'];
     var VALOR = { 'Sí': 2, 'En parte': 1, 'No': 0 };
@@ -266,11 +266,8 @@
       { max: 15, nombre: 'Empresa en formación' },
       { max: 20, nombre: 'Empresa autónoma' }
     ];
-    var PROGRAMAS = {
-      mar: { nombre: 'M·A·R', link: '/pages/mar.html' },
-      cde: { nombre: 'C·D·E', link: '/pages/cde.html' },
-      sistemas: { nombre: 'Fluir Sistemas', link: '/pages/sistemas.html' }
-    };
+    /* Siempre se recomienda primero el M·A·R; el C·D·E aparece al final como otra opción (los dos están en el HTML) */
+    var DELEGAR = 'En tu caso, empezamos por darles autoridad a tus encargados y armar acuerdos claros, para que dejen de consultarte todo.';
 
     function lista(nombres) { return nombres.length < 2 ? nombres[0] : nombres.slice(0, -1).join(', ') + ' y ' + nombres[nombres.length - 1]; }
     function escapar(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -284,21 +281,21 @@
       var primero = flojos[0];
       var area = function (i, extra) {
         var a = AREAS[i];
-        return { titulo: a.titulo, dolor: a.dolor, pasos: a.pasos, ayuda: a.ayuda, prog: 'mar', frase: 'lo que más me frena ' + a.frena };
+        return { titulo: a.titulo, dolor: a.dolor, pasos: a.pasos, ayuda: a.ayuda, frase: 'lo que más me frena ' + a.frena };
       };
       var d;
       if (min >= 3) {
         d = { titulo: 'Tu negocio está ordenado: ahora toca crecer',
               dolor: 'Ninguna área está floja. Lo que falta es decidir dónde poner el esfuerzo para crecer sin perder el orden.',
               pasos: ['Elegí un solo objetivo de crecimiento para los próximos 6 meses.', 'Armá un tablero con los 5 números que el equipo revise cada semana.'],
-              ayuda: 'Con Fluir Sistemas armamos tu tablero y automatizamos tareas repetidas, para crecer sin sumarte trabajo.',
-              prog: 'sistemas', frase: 'tengo el negocio ordenado y quiero crecer' };
+              ayuda: 'En tu caso, vamos a la etapa de crecimiento: un tablero con los números clave y la automatización de las tareas que se repiten.',
+              frase: 'tengo el negocio ordenado y quiero crecer' };
       } else if (max <= 1) {
         d = { titulo: 'Todo el negocio depende de vos',
               dolor: 'No hay números claros, procesos escritos ni alguien que decida en tu lugar. Por eso trabajás muchas horas y el negocio no avanza.',
               pasos: [AREAS[F].pasos[0], AREAS[E].pasos[0]],
-              ayuda: 'En el M·A·R empezamos por los números y después armamos los procesos y el equipo, una etapa a la vez.',
-              prog: 'mar', frase: 'hoy todo el negocio depende de mí' };
+              ayuda: 'En tu caso, empezamos por los números y después seguimos con los procesos y el equipo, una etapa a la vez.',
+              frase: 'hoy todo el negocio depende de mí' };
       } else if (v[M] >= 3 && v[F] <= 1) {
         d = area(F); d.titulo = 'Vendés, pero no sabés cuánto ganás';
         d.dolor = 'Entran clientes, pero no sabés cuánto te deja cada venta. Vender más no te asegura ganar más.';
@@ -306,12 +303,12 @@
         d = { titulo: 'Nada está escrito y todo pasa por vos',
               dolor: 'Los procesos no están escritos y nadie decide sin consultarte. Por eso no podés faltar ni un día.',
               pasos: [AREAS[O].pasos[0], AREAS[E].pasos[0]],
-              ayuda: 'En el M·A·R escribimos con vos los procesos y armamos un equipo que decida, para que el negocio funcione sin vos.',
-              prog: 'mar', frase: 'lo que más me frena son las operaciones y el equipo' };
+              ayuda: 'En tu caso, empezamos por escribir los procesos y elegir quién decide en el día a día, para que el negocio funcione sin vos.',
+              frase: 'lo que más me frena son las operaciones y el equipo' };
       } else if (v[E] <= 1 && v[O] >= 3) {
         d = area(E); d.titulo = 'Hay procesos, pero te siguen consultando todo';
         d.dolor = 'Está escrito cómo se hace cada tarea, pero nadie tiene autoridad para decidir. Falta delegar.';
-        d.ayuda = 'En el C·D·E capacitamos a tus encargados para que decidan y resuelvan sin consultarte.'; d.prog = 'cde';
+        d.ayuda = DELEGAR;
       } else if (v[O] <= 1 && v[M] >= 3) {
         d = area(O); d.titulo = 'Vendés más de lo que podés atender bien';
         d.dolor = 'Entran clientes, pero la calidad depende de que estés vos. Cada venta nueva te suma trabajo.';
@@ -322,15 +319,15 @@
         d = { titulo: 'Todas las áreas están a la mitad',
               dolor: 'Ninguna área está mal, pero ninguna funciona sola. Conviene empezar por la administración, porque ' + AREAS[F].porque + '.',
               pasos: [AREAS[F].pasos[0], AREAS[E].pasos[0]],
-              ayuda: 'En el M·A·R trabajamos con vos un área a la vez, empezando por los números del negocio.',
-              prog: 'mar', frase: 'tengo todas las áreas a la mitad' };
+              ayuda: 'En tu caso, trabajamos un área a la vez, empezando por los números del negocio.',
+              frase: 'tengo todas las áreas a la mitad' };
       } else {
         d = area(primero);
         if (flojos.length > 1) {
           d.dolor += ' ' + lista(flojos.map(function (i) { return AREAS[i].corto; })) + ' tienen el mismo puntaje: conviene empezar por ' +
                      minuscula(AREAS[primero].corto) + ', porque ' + AREAS[primero].porque + '.';
         }
-        if (primero === E && v[O] >= 2) { d.ayuda = 'En el C·D·E capacitamos a tus encargados para que decidan y resuelvan sin consultarte.'; d.prog = 'cde'; }
+        if (primero === E && v[O] >= 2) d.ayuda = DELEGAR;
       }
       d.etapa = etapa; d.suma = suma; d.flojos = min >= 3 ? [] : flojos;
       return d;
@@ -487,7 +484,7 @@
       fd.set('Quiere lograr', metas().join(', '));
       fd.set('Etapa', ETAPAS[d.etapa].nombre + ' (' + d.suma + ' de 20)');
       fd.set('Por área', AREAS.map(function (a, i) { return a.corto + ' ' + v[i] + '/4'; }).join(', '));
-      fd.set('Programa sugerido', PROGRAMAS[d.prog].nombre);
+      fd.set('Programa sugerido', 'M·A·R (otra opción: C·D·E)');
       PREGUNTAS.forEach(function (p, i) {
         var r = respuestas[i];
         fd.set((i + 1 < 10 ? '0' : '') + (i + 1) + '. ' + (p.clave || p.q), Array.isArray(r) ? r.join(', ') : (r || ''));
@@ -508,12 +505,8 @@
       $('diag-titulo').textContent = d.titulo;
       $('diag-texto').textContent = d.dolor + (m.length ? ' Querés ' + lista(m.map(function (x) { return META_VOS[x] || minuscula(x); })) + ': para lograrlo, lo primero es resolver esto.' : '');
       $('diag-pasos').innerHTML = d.pasos.map(function (t) { return '<li>' + t + '</li>'; }).join('');
-      var prog = PROGRAMAS[d.prog];
-      /* El texto se reescribe entero: el link al programa se vuelve a sumar al final */
-      $('rapido-ayuda').textContent = d.ayuda + ' ';
-      linkProg.textContent = 'Conocé ' + (d.prog === 'sistemas' ? '' : 'el ') + prog.nombre;
-      linkProg.href = prog.link;
-      $('rapido-ayuda').appendChild(linkProg);
+      /* Lo que hacemos en el M·A·R para su caso (la descripción general y el link están fijos en el HTML) */
+      $('rapido-ayuda').textContent = d.ayuda;
       /* El mensaje que manda la persona: corto y en primera persona */
       var msg = 'Hola, soy ' + datos.nombre + '. Hice el diagnóstico de la web y ' + d.frase + '. Quiero agendar la llamada de asesoría personalizada.';
       $('rueda-wa').href = waUrl(msg);

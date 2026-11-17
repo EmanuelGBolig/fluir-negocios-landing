@@ -76,7 +76,16 @@ def tarjeta(nivel):
           </div>
           <div class="rapido__bloque rapido__ayuda">
             <p class="diagnostico__subtitulo">Cómo te ayudamos</p>
-            <p id="rapido-ayuda"><a id="diag-prog" href="/pages/mar.html">Conocé el M·A·R</a></p>
+            <ol class="rapido__programas">
+              <li class="rapido__programa rapido__programa--recomendado">
+                <p class="rapido__programa-nombre"><b>M·A·R</b><span>Recomendado para vos</span></p>
+                <p>Acompañamiento para dueños, 1 a 1 o en grupo. <span id="rapido-ayuda"></span> <a id="diag-prog" href="/pages/mar.html">Conocé el M·A·R</a></p>
+              </li>
+              <li class="rapido__programa">
+                <p class="rapido__programa-nombre"><b>C·D·E</b><span>Otra opción</span></p>
+                <p>Capacitación para los encargados y supervisores de tu negocio: liderazgo, comunicación y gestión con números. <a href="/pages/cde.html">Conocé el C·D·E</a></p>
+              </li>
+            </ol>
           </div>
           <a class="boton boton--ancho" id="rueda-wa" href="{WA}" data-cta="test" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Agendar mi llamada por WhatsApp</a>
           <p class="nota rapido__aviso" id="rapido-aviso">Sin cargo. Te responde una persona del equipo.</p>
