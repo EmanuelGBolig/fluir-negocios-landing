@@ -376,6 +376,11 @@ Pedido: las herramientas tenían muchos números y eran poco atractivas. El test
   - la landing de Kovu para el Colegio de Veterinarios (Distrito IV).
 
   En la home van dos recortes superpuestos. En `pages/sistemas.html` van en la portada y en una sección nueva, "Algunas cosas que ya hicimos". Las imágenes son `assets/img/sistemas-*.webp`.
+- **Sin pantallas repetidas en Sistemas (pedido del usuario):** la respuesta automática del CRM se cambió por la web de JP Coach de Música, para no mostrar dos pantallas del CRM.
+  - En `pages/sistemas.html`, la portada muestra la web de Fluir Coaching y el inicio del CRM.
+  - "Algunas cosas que ya hicimos" muestra el embudo del CRM, la web de JP y la landing de Kovu.
+  - La tarjeta de la home sigue con Kovu y el inicio del CRM.
+  - Las capturas de JP y Fluir Coaching se sacaron de sus webs publicadas, en su primera pantalla a 1280 px.
 - **Verificado:**
   - 250 comprobaciones de botones y eventos, con el diagnóstico rápido completo;
   - Lighthouse mobile: accesibilidad 100 y CLS 0 en home, Sistemas y M·A·R;
