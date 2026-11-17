@@ -348,6 +348,40 @@ Pedido: más atractiva y dinámica, que invite a deslizar y a pedir el diagnóst
 - **Medidas:** 4,35 pantallas de celular y 3,85 de escritorio.
 - **Versión de CSS y JS:** `?v=8` en todas las páginas.
 
+## Ajustes del 17/11: herramientas, diagnóstico rápido, sin P·A·C y Sistemas con pantallas reales
+
+Pedido: las herramientas tenían muchos números y eran poco atractivas. El test pasa a un diagnóstico de 10 preguntas que ocupe menos lugar. El M·A·R es 1 a 1 o grupal y el P·A·C ya no existe. La "foto" de Sistemas era mala: van recortes reales del CRM y de webs.
+
+- **Herramientas (home):** sin tablas. Son tres dibujos simples, cada uno con una sola idea:
+  - caja: cuatro barras por semana y la tercera en rojo, con "Semana 3: va a faltar plata";
+  - estado de resultados: "De cada $ 100 que vendés, te quedan $ 11", con una barra repartida en mercadería, gastos, tu sueldo y ganancia;
+  - tablero: los cinco números con "En meta", "Superado" o "Mirar", sin cifras.
+
+  Se dibujan al entrar en pantalla. En el celular se deslizan.
+- **Diagnóstico rápido (reemplaza al test de 1 minuto, mismo ancla `#rueda`):**
+  - 10 preguntas, de a una, en una tarjeta. Cada una se contesta con "Sí", "A medias" o "No" y pasa sola a la siguiente; se puede volver a la anterior.
+  - Son dos preguntas por área: Finanzas, Equipo, Operaciones, Ventas y Proveedores. Cada área va de 0 a 4 y el total de 0 a 20.
+  - El resultado usa la misma lógica y los mismos textos que el test anterior: etapa, lo que más frena, dos pasos y programa sugerido. Se suman barras por área.
+  - El programa sugerido es M·A·R, C·D·E si el freno es el equipo con procesos escritos, o Fluir Sistemas si nada frena.
+  - El botón de WhatsApp sigue con `data-cta="test"` (Schedule `home-test`). El mensaje dice "Hice el diagnóstico rápido de la web. Etapa: … (n de 20). Resultado: …" más el código del anuncio.
+  - Al terminar se manda a GA4 el evento `diagnostico_rapido` (resultado, etapa y puntaje). No se agregó nada al píxel.
+  - En el menú pasa a llamarse "Diagnóstico rápido".
+- **M·A·R 1 a 1 o grupal y fuera el P·A·C:**
+  - "Tres formas de trabajar juntos": el M·A·R va a lo ancho con la foto de la mesa de dueños, que antes era del P·A·C, y al lado van el C·D·E y Fluir Sistemas.
+  - `pages/mar.html` dice "1 a 1 o grupal" en el título, la ficha, el schema y una pregunta nueva, "¿Es 1 a 1 o grupal?".
+  - `pages/pac.html` redirige al M·A·R conservando los parámetros. Salió del sitemap, de los pies, del 404, del schema y del CSS crítico.
+  - El titular de `/diagnostico?h=grupo` ahora es "Ordená tu negocio junto a otros dueños", con la bajada "El M·A·R también se hace en grupo…".
+- **Fluir Sistemas con pantallas reales:**
+  - recortes de Mate, el CRM para WhatsApp (inicio, embudo y una respuesta automática), con los datos de demostración de los videos de LinkedIn;
+  - la landing de Kovu para el Colegio de Veterinarios (Distrito IV).
+
+  En la home van dos recortes superpuestos. En `pages/sistemas.html` van en la portada y en una sección nueva, "Algunas cosas que ya hicimos". Las imágenes son `assets/img/sistemas-*.webp`.
+- **Verificado:**
+  - 250 comprobaciones de botones y eventos, con el diagnóstico rápido completo;
+  - Lighthouse mobile: accesibilidad 100 y CLS 0 en home, Sistemas y M·A·R;
+  - la home pasó de 11,7 a 11,4 pantallas de celular.
+- **Versión de CSS y JS:** `?v=9`.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.

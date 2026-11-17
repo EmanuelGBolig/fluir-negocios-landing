@@ -12,7 +12,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 CSS = RAIZ / 'assets' / 'css' / 'fluir.css'
 PAGINAS = ['index.html', 'diagnostico/index.html', 'diagnostico/tu/index.html',
-           'pages/mar.html', 'pages/pac.html', 'pages/cde.html', 'pages/sistemas.html', '404.html']
+           'pages/mar.html', 'pages/cde.html', 'pages/sistemas.html', '404.html']
 
 # Selectores que aparecen en la primera pantalla (celular y escritorio)
 CRITICOS = re.compile(r'''^(
@@ -24,7 +24,7 @@ CRITICOS = re.compile(r'''^(
   | \.portada | \.cifras | \.cifra | \.mosaico
   | \.clientes | \.logos
   | \.barra-inferior | \.con-barra
-  | \.campana | \.dg-cabecera | \.dg-portada | \.dg-texto | \.dg-accion | \.dg-escena | \.dg-chat | \.dg-caras | \.dg-prueba | \.dg-logos | html | \.programa-cabeza | \.ficha | \.portada__foto | \.portada__visual
+  | \.campana | \.dg-cabecera | \.dg-portada | \.dg-texto | \.dg-accion | \.dg-escena | \.dg-chat | \.dg-caras | \.dg-prueba | \.dg-logos | html | \.programa-cabeza | \.ficha | \.portada__foto | \.portada__visual | \.recorte
 )''', re.X)
 
 
