@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-WA = 'https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico.'
+WA = 'https://wa.me/5492235295052?text=Hola%2C%20vengo%20de%20la%20web%20y%20me%20gustar%C3%ADa%20hacer%20el%20diagn%C3%B3stico.'
 FUENTES = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap'
 URL = 'https://fluirnegocios.com/diagnostico-rapido/'
 

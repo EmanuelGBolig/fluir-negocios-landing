@@ -10,7 +10,7 @@
   var WA_NUMERO = '5492235295052';
   var cuerpo = document.body;
   var PAGINA = cuerpo.getAttribute('data-pagina') || 'home';
-  var MENSAJE = cuerpo.getAttribute('data-wa-mensaje') || 'Hola, quiero mi diagnóstico.';
+  var MENSAJE = cuerpo.getAttribute('data-wa-mensaje') || 'Hola, vengo de la web y me gustaría hacer el diagnóstico.';
   var reducir = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   function $(id) { return document.getElementById(id); }
   function todos(sel, raiz) { return [].slice.call((raiz || document).querySelectorAll(sel)); }
@@ -507,8 +507,9 @@
       $('diag-pasos').innerHTML = d.pasos.map(function (t) { return '<li>' + t + '</li>'; }).join('');
       /* Lo que hacemos en el M·A·R para su caso (la descripción general y el link están fijos en el HTML) */
       $('rapido-ayuda').textContent = d.ayuda;
-      /* El mensaje que manda la persona: corto y en primera persona */
-      var msg = 'Hola, soy ' + datos.nombre + '. Hice el diagnóstico de la web y ' + d.frase + '. Quiero agendar la llamada de asesoría personalizada.';
+      /* El mensaje que manda la persona: corto y en primera persona. Empieza con "Hola, vengo de la web", como todos
+         los mensajes de la web, para que el CRM reconozca que el contacto viene de la web */
+      var msg = 'Hola, vengo de la web. Soy ' + datos.nombre + ', hice el diagnóstico online y ' + d.frase + '. Quiero agendar la llamada de asesoría personalizada.';
       $('rueda-wa').href = waUrl(msg);
       $('resumen-vivo').textContent = 'Resultado: ' + d.titulo + '.';
       var aviso = $('rapido-aviso');

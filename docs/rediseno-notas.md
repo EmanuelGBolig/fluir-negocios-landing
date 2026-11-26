@@ -487,6 +487,17 @@ Pedido:
 - **El mail al equipo** dice "Programa sugerido: M·A·R (otra opción: C·D·E)".
 - **Verificado:** prueba completa de eventos sin fallas; capturas del resultado en 320, 390 y 1366 px.
 
+## Mensajes de WhatsApp: "vengo de la web" (26/11, v=14)
+
+- **Pedido:** todos los mensajes de la web empiezan con "Hola, vengo de la web y me gustaría hacer el diagnóstico.", y el del diagnóstico online también dice "web". Así el CRM reconoce que el contacto viene de la web.
+- **Mensaje base**, en las 8 páginas (links fijos del HTML, `data-wa-mensaje`, `fluir.js` y la tarjeta de chat de /diagnostico):
+  - "Hola, vengo de la web y me gustaría hacer el diagnóstico."
+  - Con JS se le suma " (código: utm_content)", igual que antes.
+- **Diagnóstico online:** "Hola, vengo de la web. Soy {nombre}, hice el diagnóstico online y {lo que más lo frena}. Quiero agendar la llamada de asesoría personalizada."
+- **Para el CRM:** los dos mensajes empiezan con "Hola, vengo de la web". Para separar a quien hizo el diagnóstico, buscar "hice el diagnóstico online".
+- **No se tocó** `js/rueda.js`, que es de la web vieja y no lo usa ninguna página.
+- **Verificado:** 32 chequeos. Revisé todos los links de WhatsApp de las 8 páginas, con JS y sin JS; el mensaje del diagnóstico en la home y en el link directo; y la tarjeta de chat en /diagnostico y /diagnostico/tu/.
+
 ## Para confirmar
 
 - **Concesionaria = Checars.** Uní el número "2 semanas de vacaciones" con el testimonio de Facundo Palacios, porque `02-casos-y-prueba-social.md` los conecta.

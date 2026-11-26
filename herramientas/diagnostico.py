@@ -14,7 +14,7 @@ HOME = (RAIZ / 'index.html').read_text(encoding='utf-8')
 MEDICION = re.search(r'<!-- Medición:.*?</noscript>\n', HOME, re.S).group(0)
 ICONOS = re.search(r'<svg width="0" height="0".*?</svg>\n', HOME, re.S).group(0)
 VERSION = re.search(r'fluir\.css\?v=(\d+)', HOME).group(1)
-WA = 'https://wa.me/5492235295052?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico.'
+WA = 'https://wa.me/5492235295052?text=Hola%2C%20vengo%20de%20la%20web%20y%20me%20gustar%C3%ADa%20hacer%20el%20diagn%C3%B3stico.'
 FUENTES = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap'
 
 TEXTOS = {
@@ -34,10 +34,10 @@ TEXTOS = {
                 'equipo': 'Armamos con vos encargados, procesos y acuerdos claros, para que el negocio siga andando cuando no estás.',
                 'grupo': 'El M·A·R también se hace en grupo: dueños que están en lo mismo, con alguien de nuestro equipo que guía cada encuentro.'},
         boton='Quiero mi diagnóstico', nota='Sin cargo. Te responde una persona del equipo, no un bot.',
-        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.',
+        chat_sub='Te responde alguien del equipo', chat_msj='Hola, vengo de la web y me gustaría hacer el diagnóstico.',
         chat_resp='¡Hola! ¿A qué se dedica tu negocio?',
         chat_toca='Tocá y mandá el tuyo', chat_clic='Hacé clic y mandá el tuyo',
-        chat_aria='. Abre WhatsApp con el mensaje “Hola, quiero mi diagnóstico.”',
+        chat_aria='. Abre WhatsApp con el mensaje “Hola, vengo de la web y me gustaría hacer el diagnóstico.”',
         desliza='Deslizá',
         prueba='<b>Más de 100 negocios</b> acompañados en más de 10 años.',
         pasos_titulo='Qué pasa después de tocar el botón',
@@ -75,10 +75,10 @@ TEXTOS = {
                 'equipo': 'Armamos contigo encargados, procesos y acuerdos claros, para que el negocio siga funcionando cuando no estás.',
                 'grupo': 'El M·A·R también se hace en grupo: dueños que están en lo mismo, con alguien de nuestro equipo que guía cada encuentro.'},
         boton='Quiero mi diagnóstico', nota='Sin costo. Te responde una persona del equipo, no un bot.',
-        chat_sub='Te responde alguien del equipo', chat_msj='Hola, quiero mi diagnóstico.',
+        chat_sub='Te responde alguien del equipo', chat_msj='Hola, vengo de la web y me gustaría hacer el diagnóstico.',
         chat_resp='¡Hola! ¿A qué se dedica tu negocio?',
         chat_toca='Toca y envía el tuyo', chat_clic='Haz clic y envía el tuyo',
-        chat_aria='. Abre WhatsApp con el mensaje “Hola, quiero mi diagnóstico.”',
+        chat_aria='. Abre WhatsApp con el mensaje “Hola, vengo de la web y me gustaría hacer el diagnóstico.”',
         desliza='Desliza',
         prueba='<b>Más de 100 negocios</b> acompañados en más de 10 años.',
         pasos_titulo='Qué pasa después de tocar el botón',
@@ -201,7 +201,7 @@ def pagina(t):
 <link rel="preload" href="{pre}assets/css/fluir.css?v={VERSION}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{pre}assets/css/fluir.css?v={VERSION}"></noscript>
 </head>
-<body class="campana dg" data-pagina="{t['pagina']}" data-wa-mensaje="Hola, quiero mi diagnóstico.">
+<body class="campana dg" data-pagina="{t['pagina']}" data-wa-mensaje="Hola, vengo de la web y me gustaría hacer el diagnóstico.">
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9R963MW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 {ICONOS}
